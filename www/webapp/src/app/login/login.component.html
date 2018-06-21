@@ -1,8 +1,7 @@
-
-  <mat-form-field>
-    <input matInput placeholder="Login">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Senha" type="password">
-  </mat-form-field>
-  <button mat-raised-button color="primary">Entrar</button>
+<mat-form-field>
+  <input [(ngModel)]="login.username" matInput placeholder="Login">
+</mat-form-field>
+<mat-form-field>
+  <input [(ngModel)]="login.password" matInput placeholder="Senha" type="password">
+</mat-form-field>
+<button mat-raised-button color="primary">Entrar</button>
