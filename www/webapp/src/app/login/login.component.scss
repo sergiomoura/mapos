@@ -1,0 +1,19 @@
+:host(){
+
+    display: block;
+    width: 300px;
+    padding: 20px 20px 60px 20px;
+    position: relative;
+    background-color: #F0F0F0;
+
+    * {
+        display: inline;
+    }
+
+    button{
+        position: absolute;
+        right: 20px;
+        bottom: 20px;
+    }
+
+}
