@@ -15,4 +15,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  onEntrarClick(){
+    console.log(this.login);
+  }
+
 }
