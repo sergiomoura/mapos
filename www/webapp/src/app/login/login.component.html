@@ -1,8 +1,9 @@
 <img src="../../assets/logo.png" alt="CASAMAX">
 <mat-form-field>
-  <input [(ngModel)]="login.username" matInput placeholder="Login">
+  <input [(ngModel)]="login.u" matInput placeholder="Login">
 </mat-form-field>
 <mat-form-field>
-  <input [(ngModel)]="login.password" matInput placeholder="Senha" type="password">
+  <input [(ngModel)]="login.p" matInput placeholder="Senha" type="password">
 </mat-form-field>
-<button mat-raised-button color="primary" (click)="onEntrarClick()">ENTRAR</button>
+<button class="esqueci" mat-button color="primary" (click)="onEsqueciClick()">Esqueci minha senha</button>
+<button class="entrar" mat-raised-button color="primary" (click)="onEntrarClick()">ENTRAR</button>

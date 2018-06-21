@@ -1,19 +1,32 @@
+@import '~@angular/material/theming';
+
 :host(){
-
+    @include mat-elevation(2);
     display: block;
-    width: 300px;
-    padding: 20px 20px 60px 20px;
-
+    width: 360px;
+    padding: 40px 40px 100px 40px;
+    background-color: #FFF;
     * {
         display: inline;
     }
 
-    button{
+    .entrar{
         position: absolute;
-        right: 20px;
-        bottom: 0px;
-        background-color: #f50f00;
-        width: 50%;
+        right: 40px;
+        bottom: 40px;
+        width: 160px;
+    }
+
+    .esqueci{
+        position: absolute;
+        left: 40px;
+        bottom: 40px;
+        font-size: 12px;
+        width: 160px;
+    }
+
+    img {
+        width: 100%;
     }
 
 }
