@@ -1,7 +1,7 @@
 Fase 1:
 ✔ Desenho da tela de login (prev: 2) @done(18-06-21 18:17)
-☐ Criação de base de dados e tabelas (equipes x usuários) (prev: 1) @started(18-06-21 21:11)
-☐ Criação de API do Sistema com acesso a base de dados (prev: 2)
+✔ Criação de base de dados e tabelas (equipes x usuários) (prev: 1) @started(18-06-21 21:11) @done(18-06-21 21:59) @lasted(48m2s)
+✔ Criação de API do Sistema com acesso a base de dados (prev: 2) @started(18-06-22 02:13) @done(18-06-22 04:55) @lasted(2h42m35s)
 ☐ Criação de função de login (prev: 1)
 ☐ Alteração na view de tela de login para dashboard (prev: 1)
 ☐ Fazer funcionamento de alternância de telas/menu (prev: 2)
