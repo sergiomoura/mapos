@@ -1,73 +1,88 @@
-Fase 0 - Setup do workflow:
-    ☐ Definição de nome
-    ☐ Definição de logo
-    ☐ Tracking da estrutura do Banco de dados pelo git
-    ☐ Criação do repositório remoto
-    ☐ Estabelecimento de rotina de publicação (produção)
+Fase 0 - Setup do workflow [8h]:
+    ✔ Definição de nome @done(18-06-25 08:08)
+    ✔ Definição de logo @done(18-06-25 08:08)
+    ☐ Tracking da estrutura do Banco de dados pelo git @1h
+    ✔ Criação do repositório remoto @done(18-06-25 08:11)
+    ☐ Estabelecimento de rotina de publicação (produção) @2h
     
-Fase 1:
-✔ Desenho da tela de login (prev: 2) @done(18-06-21 18:17)
-✔ Criação de base de dados e tabelas (equipes x usuários) (prev: 1) @started(18-06-21 21:11) @done(18-06-21 21:59) @lasted(48m2s)
-✔ Criação de API do Sistema com acesso a base de dados (prev: 2) @started(18-06-22 02:13) @done(18-06-22 04:55) @lasted(2h42m35s)
-☐ Criação de função de login (prev: 1)
-☐ Alteração na view de tela de login para dashboard (prev: 1)
-☐ Fazer funcionamento de alternância de telas/menu (prev: 2)
-☐ Criação de dashboard vazio (prev: 0,5)
-☐ Desenhar tela quem lista usuários (prev: 1)
-☐ Fazer função que retorne lista de usuários (prev: 1)
-☐ Exibir lista de usuários na tela (prev: 1)
-☐ Desenhar tela de usuário (prev: 2)
-☐ Fazer função que retorne usuários e permissões (prev: 1)
-☐ Exibir informações de um usuário (prev: 1)
-☐ Alterar informações de um usuário (prev: 1)
-☐ Adicionar um usuário (prev: 1)
-☐ Inativar um usuário (prev: 1)
-☐ Desenhar tela quem lista equipes (prev: 1)
-☐ Fazer função que retorne lista de equipes (prev: 1)
-☐ Exibir lista de equipes na tela (prev: 1)
-☐ Desenhar tela de equipes (prev: 2)
-☐ Fazer função que retorne equipe (prev: 1)
-☐ Exibir informações de um usuário (prev: 1)
-☐ Alterar informações de uma (prev: 1)
-☐ Adicionar uma equipe (prev: 1)
-☐ Remover uma equipe (prev: 1)
-☐ Alterar tela de equipes para a adição de usuários a estas (prev: 2)
-☐ Alterar tela de usuários para adiciona-lo a equipes (prev: 2)
-☐ Criar canal de publicação para acompanhamento do trabalho online (prev: 8)
-☐ Testes e melhorias da fase 1 (prev: 16)
+Fase 1 - Webapp v-0.1 [34h]:
+    ✔ Desenho da tela de login @2h @done(18-06-21 18:17)
+    ✔ Criação de base de dados e tabelas (equipes x usuários) @1h @started(18-06-21 21:11) @done(18-06-21 21:59) @lasted(48m2s)
+    ✔ Criação de API do Sistema com acesso a base de dados @2h @started(18-06-22 02:13) @done(18-06-22 04:55) @lasted(2h42m35s)
+    ☐ Criação de função de login @1h
+    ☐ Alteração na view de tela de login para dashboard @1h
+    ☐ Fazer funcionamento de alternância de telas/menu @2h
+    ☐ Criação de dashboard vazio @30m
+    ☐ Desenhar tela quem lista usuários @1h
+    ☐ Fazer função que retorne lista de usuários @1h
+    ☐ Exibir lista de usuários na tela @1h
+    ☐ Desenhar tela de usuário @2h
+    ☐ Fazer função que retorne usuários e permissões @1h
+    ☐ Exibir informações de um usuário @1h
+    ☐ Alterar informações de um usuário @1h
+    ☐ Adicionar um usuário @1h
+    ☐ Inativar um usuário @1h
+    ☐ Desenhar tela quem lista equipes @1h
+    ☐ Fazer função que retorne lista de equipes @1h
+    ☐ Exibir lista de equipes na tela @1h
+    ☐ Desenhar tela de equipes @2h
+    ☐ Fazer função que retorne equipe @1h
+    ☐ Exibir informações de um usuário @1h
+    ☐ Alterar informações de uma @1h
+    ☐ Adicionar uma equipe @1h
+    ☐ Remover uma equipe @1h
+    ☐ Alterar tela de equipes para a adição de usuários a estas @2h
+    ☐ Alterar tela de usuários para adiciona-lo a equipes @2h
+    ☐ Criar canal de publicação para acompanhamento do trabalho online @8h
+    ☐ Testes e melhorias da fase 1 @16h
 
-Fase 2:
-☐ Criar e preencher tabelas com tipos de serviços (prev: 2h)
-☐ Desenhar tela de login do aplicativo (prev: 2h)
-☐ Fazer login usando api (prev: 2h)
-☐ Alterar para tela interna do app (prev: 4h)
-☐ Fazer aplicativo guardar login e senha de acesso (prev: 4h)
-☐ Criar tabela de SSE's (prev: 2h)
-☐ Criar tabela de Tipos de Serviços (prev: 1h)
-☐ Desenhar tela que lista SSEs (prev: 2h)
-☐ Fazer função que carrega SSEs (prev: 1h)
-☐ Exibir lista de SSEs (prev: 1h)
-☐ Desenhar tela de registro de SSEs (prev: 4h)
-☐ Inserir dados de uma SSE diretamente na base 0,(prev: 5h)
-☐ Carregar dados de uma SSE (prev: 2h)
-☐ Exibir uma SSE (prev: 2h)
-☐ Alterar dados de uma SSE (prev: 2h)
-☐ Criar uma nova SSE (prev: 2h)
-☐ Fazer aplicativo acessar a câmera do celular (prev: 4h)
-☐ Fazer câmera do celular reconhecer retirar texto de imagem (prev: 24h)
-☐ Preencher tela de registro de SSE no aplicativo com dados da imagem (prev: 4h)
-☐ Criar canal de publicação para acompanhamento do app online (prev: 8h)
-☐ Testes e melhorias da fase 2 (prev: 16h)
+Fase 2 - Mobapp v-0.1 [90h]:
+    ☐ Criar e preencher tabelas com tipos de serviços @2h
+    ☐ Desenhar tela de login do aplicativo @2h
+    ☐ Fazer login usando api @2h
+    ☐ Alterar para tela interna do app @4h
+    ☐ Fazer aplicativo guardar login e senha de acesso @4h
+    ☐ Criar tabela de SSE's @2h
+    ☐ Criar tabela de Tipos de Serviços @1h
+    ☐ Desenhar tela que lista SSEs @2h
+    ☐ Fazer função que carrega SSEs @1h
+    ☐ Exibir lista de SSEs @1h
+    ☐ Desenhar tela de registro de SSEs @4h
+    ☐ Inserir dados de uma SSE diretamente na base @30m
+    ☐ Carregar dados de uma SSE @2h
+    ☐ Exibir uma SSE @2h
+    ☐ Alterar dados de uma SSE @2h
+    ☐ Criar uma nova SSE @2h
+    ☐ Fazer aplicativo acessar a câmera do celular @4h
+    ☐ Fazer câmera do celular reconhecer retirar texto de imagem @24h
+    ☐ Preencher tela de registro de SSE no aplicativo com dados da imagem @4h
+    ☐ Criar canal de publicação para acompanhamento do app online @8h
+    ☐ Testes e melhorias da fase 2 @16h
 
-Fase 3:
-☐ Criar e preencher tabela de tipos de tarefa (prev: 1h)
-☐ Desenhar telas que lista SSEs (WEB) (prev: 2h)
-☐ Carregar SSEs  (prev: 1h)
-☐ Exibir SSEs (prev: 1h)
-☐ Buscar e exibir SSEs com paginação (prev: 8h)
-☐ Desenhar tela de SSE (prev: 4h)
-☐ Carregar dados de uma SSE (prev: 1h)
-☐ Exibir dados de uma SSE (prev: 1h)
-☐ Alterar uma SSE (prev: 2h)
-☐ Delegar uma tarefa de SSE a uma equipe (prev: 4h)
-☐ Testes e Melhorias da fase 3 (prev: 16h)
+Fase 3 - Webapp v-0.5 [41h]:
+    ☐ Criar e preencher tabela de tipos de tarefa @1h
+    ☐ Desenhar telas que lista SSEs (WEB) @2h
+    ☐ Carregar SSEs  @1h
+    ☐ Exibir SSEs @1h
+    ☐ Buscar e exibir SSEs com paginação @8h
+    ☐ Desenhar tela de SSE @4h
+    ☐ Carregar dados de uma SSE @1h
+    ☐ Exibir dados de uma SSE @1h
+    ☐ Alterar uma SSE @2h
+    ☐ Delegar uma tarefa de SSE a uma equipe @4h
+    ☐ Testes e Melhorias da fase 3 @16h
+
+Fase 4 - Mobapp v1.0 [46h]:
+    ☐ Alternar para tela que lista tarefas delegadas para equipe @2h
+    ☐ Marcar tarefa como inconsistente (fotos + observação) @16h
+    ☐ Registrar fotos da tarefa @8h
+    ☐ Marcar tarefa como concluída @4h
+    ☐ Testes e melhorias da fase 4 @16h
+
+Fase 5 - Webapp v1.0 [29h]:
+    ☐ Desenhar tela de busca de SSE @4h
+    ☐ Realizar busca paginada de SSE @2h
+    ☐ Guardar última busca no cookie @1h
+    ☐ Exibir as fotos de uma tarefa realizada em uma SSE @4h
+    ☐ Dar SSE como concluída @2h
+    ☐ Testes e melhorias da fase 5 @16h
