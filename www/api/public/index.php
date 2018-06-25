@@ -13,8 +13,10 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-// Instantiate the app
+// Carregando configurações
 $settings = require __DIR__ . '/../src/settings.php';
+
+// Instanciando app
 $app = new \Slim\App($settings);
 
 // Set up dependencies
@@ -24,7 +26,13 @@ require __DIR__ . '/../src/dependencies.php';
 require __DIR__ . '/../src/middleware.php';
 
 // Register routes
-require __DIR__ . '/../src/routes.php';
+$routes_forlder = __DIR__ . '/../src/routes';
+$routes = array_values(array_filter(scandir($routes_forlder),function($a){
+                                                                return $a!='.' && $a!= '..';
+                                                            }));
+foreach ($routes as  $route) {
+  require $routes_forlder . '/' . $route;
+}
 
 // Run app
 $app->run();
