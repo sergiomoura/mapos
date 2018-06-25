@@ -19,4 +19,8 @@ export class LoginComponent implements OnInit {
     console.log(this.login);
   }
 
+  onEsqueciClick(){
+    console.log(this.login);
+  }
+
 }
