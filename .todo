@@ -1,3 +1,10 @@
+Fase 0 - Setup do workflow:
+    ☐ Definição de nome
+    ☐ Definição de logo
+    ☐ Tracking da estrutura do Banco de dados pelo git
+    ☐ Criação do repositório remoto
+    ☐ Estabelecimento de rotina de publicação (produção)
+    
 Fase 1:
 ✔ Desenho da tela de login (prev: 2) @done(18-06-21 18:17)
 ✔ Criação de base de dados e tabelas (equipes x usuários) (prev: 1) @started(18-06-21 21:11) @done(18-06-21 21:59) @lasted(48m2s)
