@@ -6,7 +6,7 @@ return [
 
         // Monolog settings
         'logger' => [
-            'name' => 'slim-app',
+            'name' => 'MAXSe-API',
             'path' => isset($_ENV['docker']) ? 'php://stdout' : __DIR__ . '/../logs/app.log',
             'level' => \Monolog\Logger::DEBUG,
         ],
@@ -14,7 +14,7 @@ return [
         'db' => [
             'host' => 'localhost',
             'user' => 'root',
-            'dbname' => 'cmax',
+            'dbname' => 'maxse000',
             'pass' => 'vaiplaneta'
         ]
     ],
