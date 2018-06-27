@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginService } from "../../services/login.service";
 
 @Component({
   selector: 'app-login',
@@ -10,13 +11,13 @@ export class LoginComponent implements OnInit {
 
   login: {u:string, p:string} = {u:'',p:''};  
 
-  constructor() { }
+  constructor(private loginService:LoginService) { }
 
   ngOnInit() {
   }
 
   onEntrarClick(){
-    console.log(this.login);
+    this.loginService.login(this.login.u,this.login.p);
   }
 
   onEsqueciClick(){
