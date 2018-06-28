@@ -12,12 +12,16 @@ import { HomeComponent } from './home/home.component';
 
 import { ErrorInterceptor } from "./_helpers/error.interceptor";
 import { JwtInterceptor } from "./_helpers/jwt.interceptor";
+import { DashComponent } from './dash/dash.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    DashComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,
