@@ -13,11 +13,12 @@ export class AuthService {
   ) { }
 
   login(u:string,p:string) {
-    console.log(u,p);
     this.http.post(this.loginUrl,{u,p}).subscribe(
-      data => {
-        console.log(data,"from server");
-      }
-    )
+      data => {}
+    );
+  }
+
+  logout() {
+	  localStorage.removeItem('currentUser');
   }
 }

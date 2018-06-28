@@ -10,6 +10,9 @@ import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
+import { ErrorInterceptor } from "./_helpers/error.interceptor";
+import { JwtInterceptor } from "./_helpers/jwt.interceptor";
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,7 +27,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    ErrorInterceptor,
+    JwtInterceptor
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
