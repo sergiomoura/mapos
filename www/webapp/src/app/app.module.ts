@@ -8,7 +8,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing/app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './home/home.component';
 
 import { ErrorInterceptor } from "./_helpers/error.interceptor";
 import { JwtInterceptor } from "./_helpers/jwt.interceptor";
@@ -17,7 +17,7 @@ import { JwtInterceptor } from "./_helpers/jwt.interceptor";
   declarations: [
     AppComponent,
     LoginComponent,
-    DashboardComponent
+    HomeComponent
   ],
   imports: [
     BrowserModule,

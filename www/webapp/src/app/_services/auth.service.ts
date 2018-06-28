@@ -9,13 +9,8 @@ export class AuthService {
 	private loginUrl:string = 'http://localhost:8000/login';
 
 	constructor(private http:HttpClient) { }
-
-	// login(u:number,p:number) {
-	// 	this.http.post(this.loginUrl,{u,p}).subscribe(
-	// 		data => {}
-	// 	);
-	// }
-
+	
+	// Método que realiza o login
 	login(username: string, password: string) {
 		return this.http.post<any>(this.loginUrl, { username: username, password: password })
 		.subscribe(response => {
@@ -27,7 +22,17 @@ export class AuthService {
 		});
 	}
 
+	// Método que realiza o logout
 	logout() {
 		localStorage.removeItem('currentUser');
+	}
+
+	// Método que verifica se está logado
+	isLogged():boolean{
+		if(localStorage.getItem('currentUser')){
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
