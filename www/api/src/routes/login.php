@@ -17,7 +17,7 @@ $app->post('/login', function (Request $req,  Response $res, $args = []) {
 	// Tentando carregar usuário da base
 	$sql = 'SELECT id,nome,email,password FROM maxse_usuarios WHERE username=:u';
 	$stmt = $this->db->prepare($sql);
-	$stmt->execute(array(':u' => $login->u));
+	$stmt->execute(array(':u' => $login->username));
 	$user = $stmt->fetch();
 
 	// Se usuário inexistente
@@ -26,7 +26,7 @@ $app->post('/login', function (Request $req,  Response $res, $args = []) {
 	}
 
 	// Verificando a senha do usuário
-	if(password_verify($login->p,$user->password)){
+	if(password_verify($login->password,$user->password)){
 		// Senha ok
 
 		// Criando o novo token
