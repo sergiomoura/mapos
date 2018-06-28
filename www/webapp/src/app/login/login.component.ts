@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from "../_services/auth.service";
+import { Router, ActivatedRoute } from "@angular/router";
+
 
 @Component({
   selector: 'app-login',
@@ -9,15 +11,28 @@ import { AuthService } from "../_services/auth.service";
 
 export class LoginComponent implements OnInit {
 
-  login: {u:string, p:string} = {u:'',p:''};  
+  login: {u:string, p:string} = {u:'',p:''};
+  returnUrl: string; 
 
-  constructor(private authService:AuthService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+    // reset login status
+    this.authService.logout();
+ 
+    // get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
+
   }
 
   onEntrarClick(){
-    this.authService.login(this.login.u,this.login.p);
+    this.authService.login(this.login.u,this.login.p)
+    .add(data => {this.router.navigate([this.returnUrl]);})
+    
   }
 
   onEsqueciClick(){
