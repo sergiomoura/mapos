@@ -19,3 +19,7 @@ $container['db'] = function ($c) {
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
     return $pdo;
 };
+
+$container['maxse'] = function ($c) {
+    return $c['settings']['maxse'];
+};
