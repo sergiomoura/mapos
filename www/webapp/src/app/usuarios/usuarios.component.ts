@@ -8,31 +8,7 @@ import { UsuariosService } from "../_services/usuarios.service";
 })
 export class UsuariosComponent implements OnInit {
 
-  usuarios:Usuario[] = [
-    {
-        id: 1,
-        nome: 'Ataúlfo Bezerra',
-        email: 'ataulfo@acasamax.com.br',
-        acessoApp: true,
-        acessoWeb: false,
-        ativo: true,
-    },
-    {
-      id: 2,
-      nome: 'Luiz Brasão',
-      email: 'luiz@acasamax.com.br',
-      acessoApp: true,
-      acessoWeb: true,
-      ativo: false,
-    },{
-      id: 4,
-      nome: 'Último Augusto de Holanda',
-      email: 'ataulfo@acasamax.com.br',
-      acessoApp: true,
-      acessoWeb: false,
-      ativo: true,
-    }
-  ];
+  usuarios:Usuario[];
 
   constructor(private usuariosService:UsuariosService) { }
 
