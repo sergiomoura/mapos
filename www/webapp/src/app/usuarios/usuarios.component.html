@@ -5,7 +5,7 @@
       <button mat-raised-button color="primary">
         Cadastrar Novo Usuário
       </button>
-  </div>  
+  </div>
   <mat-list>
     <mat-list-item *ngFor="let u of usuarios" [ngClass]="{'inativo': !u.ativo}">
       <mat-icon matListIcon>person</mat-icon>

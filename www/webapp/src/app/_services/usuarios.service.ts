@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
+import { Usuario } from "../_models/usuario";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,17 +16,7 @@ export class UsuariosService {
   
 
   // Método que lista todos os usuários
-  getUsuarios() {
-    return this.http.get<any>(this.url_getUsuarios)
-		.subscribe(
-      response => {
-			  // carregou usuários com sucesso
-			  console.log(response);
-      },
-      error => {
-        // falhou ao carregar usuários
-        console.log(error);
-      }
-    );
+  getUsuarios():Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.url_getUsuarios);
   }
 }

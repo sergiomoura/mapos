@@ -34,12 +34,15 @@ export class UsuariosComponent implements OnInit {
     }
   ];
 
-  constructor(private uService:UsuariosService) { }
+  constructor(private usuariosService:UsuariosService) { }
 
   ngOnInit() {
-    this.uService.getUsuarios()
-    .add(response=>{console.log(response)})
-    .add(error=>{console.log('falhou!')});
+    this.getUsuarios();
+  }
+
+  getUsuarios():void{
+    this.usuariosService.getUsuarios()
+    .subscribe(usuarios => this.usuarios = usuarios);
   }
 
 }
