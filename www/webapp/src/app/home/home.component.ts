@@ -15,13 +15,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Definição de timerId
   private timerId:number;
+  private IRDT:number = 1 * 60 * 1000; // Intervalo de Renovação Do Token (1 MINUTO)
 
   constructor(private authService:AuthService) { }
 
 
   ngOnInit() {
     // Iniciando o timer que atualiza o token
-    this.timerId = window.setInterval(()=>{this.authService.refresh();},1000);
+    this.timerId = window.setInterval(()=>{this.authService.refresh();},this.IRDT);
   }
 
   ngOnDestroy(): void {

@@ -42,6 +42,7 @@ export class AuthService {
 	refresh() {
 		this.http.get<any>(this.refreshUrl)
 		.subscribe(response => {
+			
 			// login successful if there's a jwt token in the response
 			if (response && response.novoToken) {
 				// Recupera currentUser da localstorage
@@ -53,6 +54,7 @@ export class AuthService {
 				// Guarda currentUser com novo token na localStorage
 				localStorage.setItem('currentUser', JSON.stringify(currentUser));
 			}
+			
 		});
 	}
 }

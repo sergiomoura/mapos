@@ -27,7 +27,7 @@ class CheckAuthMiddleware
         if(array_key_exists('HTTP_ACCESS_CONTROL_REQUEST_METHOD',$headers) && $request->getMethod() == 'OPTIONS'){
         
             $response = $next($request, $response);
-            return $response->withStatus(201);
+            return $response->withStatus(200);
         }
         
         if (array_key_exists('HTTP_AUTHORIZATION', $headers)){

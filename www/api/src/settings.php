@@ -19,7 +19,7 @@ return [
         ],
 
         'maxse' => [
-            'token_duracao' => 5 // minutos
+            'token_duracao' => 60 // minutos
         ]
     ],
 ];
