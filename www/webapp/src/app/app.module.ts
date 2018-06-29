@@ -15,6 +15,7 @@ import { JwtInterceptor } from "./_helpers/jwt.interceptor";
 import { DashComponent } from './dash/dash.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { UsuariosService } from './_services/usuarios.service';
+import { UsuarioComponent } from './usuario/usuario.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { UsuariosService } from './_services/usuarios.service';
     LoginComponent,
     HomeComponent,
     DashComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    UsuarioComponent
   ],
   imports: [
     BrowserModule,
