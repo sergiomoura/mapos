@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./_modules/material/material.module";
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -14,6 +14,7 @@ import { ErrorInterceptor } from "./_helpers/error.interceptor";
 import { JwtInterceptor } from "./_helpers/jwt.interceptor";
 import { DashComponent } from './dash/dash.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
+import { UsuariosService } from './_services/usuarios.service';
 
 @NgModule({
   declarations: [
@@ -32,8 +33,8 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
     AppRoutingModule
   ],
   providers: [
-    ErrorInterceptor,
-    JwtInterceptor
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
