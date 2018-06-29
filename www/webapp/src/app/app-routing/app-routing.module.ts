@@ -3,6 +3,8 @@ import { RouterModule, Routes } from "@angular/router";
 import { LoginComponent } from "../login/login.component";
 import { HomeComponent } from "../home/home.component";
 import { AuthGuard } from "../_guards/auth.guard";
+import { DashComponent } from '../dash/dash.component';
+import { UsuariosComponent } from '../usuarios/usuarios.component';
 
 const routes:Routes = [
   {
@@ -12,7 +14,21 @@ const routes:Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    children:[
+      {
+        path: 'dash',
+        component: DashComponent,
+      },
+      {
+        path: 'usuarios',
+        component: UsuariosComponent,
+      },
+      {
+        path: '**',
+        redirectTo: 'dash'
+      }
+    ]
   },
   {
     path: '**',

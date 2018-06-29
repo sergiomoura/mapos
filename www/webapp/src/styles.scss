@@ -1,6 +1,21 @@
 * {font-family: 'Poppins', sans-serif;}
+
 body{
     background-color: #F0F0F0;
     margin:0;
     padding: 0;
+}
+
+.container-80{
+    width:80%;
+    margin-left: 10%;
+    padding-bottom: 10px;
+}
+
+.top-gap{
+    margin-top: 45px;
+}
+
+.spacer{
+    flex: 1 1 auto; 
 }

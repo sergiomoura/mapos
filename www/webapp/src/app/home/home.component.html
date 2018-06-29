@@ -1,6 +1,29 @@
 <mat-toolbar color="primary">
+  <mat-toolbar-row>
     <button mat-icon-button (click)="toggleSideNav()"><mat-icon>menu</mat-icon></button>
-    <a [routerLink]="['/login']">Logout</a>
+    
+    <span class="spacer"></span>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon>
+        <span>Configurações Pessoais</span>
+      </button>
+      <button mat-menu-item>
+        <mat-icon>help</mat-icon>
+        <span>Ajuda</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/login']">
+        <mat-icon>power_settings_new</mat-icon>
+        <span>Sair</span>
+      </button>
+    </mat-menu>
+    
+  </mat-toolbar-row>
 </mat-toolbar>
 
 <mat-sidenav-container (backdropClick)="closeSideNav()">
@@ -11,8 +34,8 @@
     [fixedBottomGap]="0"
     >
     <mat-nav-list>
-        <a mat-list-item routerLink="." (click)="closeSideNav()">Item 1</a>
-        <a mat-list-item routerLink="." (click)="closeSideNav()">Item 2</a>
+        <a mat-list-item routerLink="/home/dash" (click)="closeSideNav()">Dashboard</a>
+        <a mat-list-item routerLink="/home/usuarios" (click)="closeSideNav()">Usuarios</a>
         <a mat-list-item routerLink="." (click)="closeSideNav()">Item 3</a>
         <a mat-list-item routerLink="." (click)="closeSideNav()">Item 4</a>
         <a mat-list-item routerLink="." (click)="closeSideNav()">Item 5</a>
@@ -24,17 +47,8 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio ipsam et deserunt similique ut? Reiciendis laboriosam optio odio necessitatibus ipsum nostrum expedita nihil sapiente et distinctio, voluptates at dolorum vel.</p>
+      <router-outlet></router-outlet>
   </mat-sidenav-content>
+
 </mat-sidenav-container>
 
