@@ -5,6 +5,7 @@ import { HomeComponent } from "../home/home.component";
 import { AuthGuard } from "../_guards/auth.guard";
 import { DashComponent } from '../dash/dash.component';
 import { UsuariosComponent } from '../usuarios/usuarios.component';
+import { UsuarioComponent } from '../usuario/usuario.component';
 
 const routes:Routes = [
   {
@@ -23,6 +24,10 @@ const routes:Routes = [
       {
         path: 'usuarios',
         component: UsuariosComponent,
+      },
+      {
+        path: 'usuarios/:idu',
+        component: UsuarioComponent,
       },
       {
         path: '**',
