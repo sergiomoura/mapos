@@ -19,7 +19,7 @@ return [
         ],
 
         'maxse' => [
-            'token_duracao' => 500 // 500 = 5min; 3000 = 30min; 5 = 5s
+            'token_duracao' => 5 // minutos
         ]
     ],
 ];

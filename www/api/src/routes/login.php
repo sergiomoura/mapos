@@ -28,14 +28,17 @@ $app->post('/login', function (Request $req,  Response $res, $args = []) {
 	// Verificando a senha do usuário
 	if(password_verify($login->password,$user->password)){
 		// Senha ok
-
+		
 		// Criando o novo token
 		$token = uniqid('',true);
 
+		// Setando validade do token
+		$valido_ate = (new DateTime())->add(new DateInterval('PT' . $this->maxse['token_duracao'] . 'M'));
+
 		// Atualizando o token do usuário na base
-		$sql = 'UPDATE maxse_usuarios SET token=:token, validade_do_token=now()+:duracao';
+		$sql = 'UPDATE maxse_usuarios SET token=:token, validade_do_token=:valido_ate';
 		$stmt = $this->db->prepare($sql);
-		$stmt->execute(array(':token' => $token, ':duracao' => $this->maxse->token_duracao));
+		$stmt->execute(array(':token' => $token, ':valido_ate' => $valido_ate->format('Y-m-d H:i:s')));
 
 		// Atribuindo token ao objeto usuário
 		$user->token = $token;
