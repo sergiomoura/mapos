@@ -41,6 +41,6 @@ export class EquipesService {
 
 	// Método que atualiza uma equipe existente
 	update(equipe:Equipe){
-		return this.http.put<any>(this.url_update,equipe);
+		return this.http.put<any>(this.url_update+equipe.id,equipe);
 	}
 }

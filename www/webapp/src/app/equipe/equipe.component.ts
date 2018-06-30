@@ -183,4 +183,40 @@ export class EquipeComponent implements OnInit {
 		this.router.navigateByUrl('/home/equipes');
 	}
 
+	onSalvarClick(){
+		if(this.equipe.id == 0){
+
+		} else {
+			this.equipesService.update(this.equipe).subscribe(
+				res => {
+					
+					// Exibindo snackbar de sucesso
+					this.snackBar.open('Equipe alterada com sucesso!');
+
+					// Navegando para tela de equipes
+					this.router.navigateByUrl('/home/equipes');
+
+				},
+				err => {
+					
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao tentar alterar equipe',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom'
+						}
+					);
+
+					// Imprimindo erro no console
+					console.warn(err);
+					
+				}
+			)
+		}
+	}
+
 }

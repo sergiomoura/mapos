@@ -69,3 +69,74 @@
 		->write(json_encode($equipe));
 		
 	});
+
+	$app->put('/equipes/{id}',function(Request $req, Response $res, $args=[]){
+		
+		// Lendo requisição
+		$equipe = json_decode($req->getBody()->getContents());
+
+		// Atualizando dados da equipe
+		$sql = 'UPDATE
+					maxse_equipes
+				SET nome=:nome,
+					sigla=:sigla,
+					id_lider=:id_lider,
+					id_tipo=:id_tipo,
+					ativa=:ativa
+				WHERE
+					id=:id';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(
+				array(
+					':nome' => $equipe->nome,
+					':sigla' => $equipe->sigla,
+					':id_lider' => $equipe->lider->id,
+					':id_tipo' => $equipe->tipo->id,
+					':ativa' => $equipe->ativa,
+					':id' => $equipe->id
+				)
+			);
+		} catch (Exception $e) {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao salvar dados da equipe');
+		}
+
+		// Removendo antigos membros da equipe
+		$sql = 'DELETE FROM maxse_equipes_x_usuarios WHERE id_equipe=:id';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(
+			':id' => $equipe->id
+		));
+		
+		// Inserindo novos membros
+		$sql = 'INSERT INTO
+					maxse_equipes_x_usuarios
+					(
+						id_equipe,
+						id_usuario
+					)
+					VALUES
+					(
+						:id_equipe,
+						:id_usuario
+					)
+					';
+		$stmt = $this->db->prepare($sql);
+		for ($i=0; $i < sizeof($equipe->membros); $i++) { 
+			$stmt->execute(
+				array(
+					':id_equipe' => $equipe->id,
+					':id_usuario' => $equipe->membros[$i]->id
+				)
+			);
+		}
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json');
+		
+	});
