@@ -1,3 +1,18 @@
-<p>
-  equipes works!
-</p>
+<div class="container-80 top-gap padding">
+	<div class="controles">
+			<span class="spacer"></span>
+			<button mat-raised-button color="primary" (click)="onNovaEquipeClick()">
+				Cadastrar Nova Equipe
+			</button>
+	</div>
+	<mat-list>
+		<mat-list-item *ngFor="let equipe of equipes" [ngClass]="{'inativo': !equipe.ativa}" (click)="onEquipeClick(e.id)">
+			<mat-icon matListIcon>group</mat-icon>
+			<h2 matLine>[{{equipe.sigla}}] {{equipe.nome}}</h2>
+			<p matLine>
+				<span>{{equipe.tipo?equipe.tipo.nome:''}}</span>
+			</p>
+			<mat-icon>keyboard_arrow_right</mat-icon>
+		</mat-list-item>
+	</mat-list>
+</div>

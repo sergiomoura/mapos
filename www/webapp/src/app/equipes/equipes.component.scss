@@ -1,0 +1,37 @@
+@import '~@angular/material/theming';
+:host(){
+    &>div {
+        .controles{
+            margin-bottom: 40px;
+            display: flex;
+
+            mat-checkbox{
+                position: relative;
+                top: 9px;
+            }
+        }
+        mat-list{
+            @include mat-elevation(2);
+            padding-top: 0;
+            
+            mat-list-item {
+                background-color: #FFF;
+                border-bottom: 1px solid #CCC;
+                cursor: pointer;
+                &:last-child{
+                    border-bottom:none;
+                }
+                &:hover{
+                    background-color: #F0F0F0;
+                }
+
+            }
+            .inativo{
+                color:#CCC;
+                h2 span {
+                    color:#600;
+                }
+            }
+        }
+    }
+}

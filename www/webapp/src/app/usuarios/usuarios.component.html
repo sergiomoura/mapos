@@ -1,20 +1,20 @@
 <div class="container-80 top-gap padding">
-  <div class="controles">
-      <span class="spacer"></span>
-      <button mat-raised-button color="primary" (click)="onNovoUsuarioClick()">
-        Cadastrar Novo Usuário
-      </button>
-  </div>
-  <mat-list>
-    <mat-list-item *ngFor="let u of usuarios" [ngClass]="{'inativo': !u.ativo}" (click)="onUsuarioClick(u.id)">
-      <mat-icon matListIcon>person</mat-icon>
-      <h2 matLine> {{u.nome}}</h2>
-      <p matLine>
-        <span> {{u.email}}</span>
-      </p>
-      <button mat-icon-button>
-        <mat-icon>keyboard_arrow_right</mat-icon>
-      </button>
-    </mat-list-item>
-  </mat-list>
+	<div class="controles">
+			<span class="spacer"></span>
+			<button mat-raised-button color="primary" (click)="onNovoUsuarioClick()">
+				Cadastrar Novo Usuário
+			</button>
+	</div>
+	<mat-list>
+		<mat-list-item *ngFor="let u of usuarios" [ngClass]="{'inativo': !u.ativo}" (click)="onUsuarioClick(u.id)">
+			<mat-icon matListIcon>person</mat-icon>
+			<h2 matLine> {{u.nome}}</h2>
+			<p matLine>
+				<span> {{u.email}}</span>
+			</p>
+			<button mat-icon-button>
+				<mat-icon>keyboard_arrow_right</mat-icon>
+			</button>
+		</mat-list-item>
+	</mat-list>
 </div>
