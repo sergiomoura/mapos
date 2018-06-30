@@ -53,6 +53,7 @@ export class EquipeComponent implements OnInit {
 			// Chamando serviço para carregar a equipe
 			this.equipesService.getEquipeById(id).subscribe(
 				res=>{
+
 					// Verificando se carregou tipos de equipe e usuarios
 					if(this.tiposDeEquipe != undefined && this.usuarios != undefined){
 						
@@ -175,6 +176,13 @@ export class EquipeComponent implements OnInit {
 		}
 		delete tmp_equipe.ids_membros;
 
+		// Parsing campos não homogêneos
+		if(tmp_equipe.ativa == "0"){
+			tmp_equipe.ativa = false;
+		} else {
+			tmp_equipe.ativa = true;
+		}
+
 		// Retornando a equipe
 		return <Equipe>tmp_equipe;
 	}
@@ -185,7 +193,31 @@ export class EquipeComponent implements OnInit {
 
 	onSalvarClick(){
 		if(this.equipe.id == 0){
+			this.equipesService.create(this.equipe).subscribe(
+				res => {
+					// Exibindo snackbar de sucesso
+					this.snackBar.open('Equipe adicionada com sucesso!');
 
+					// navegando para a tela de equipes
+					this.router.navigateByUrl('/home/equipes');
+				},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao tentar adicionar equipe.',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom'
+						}
+					);
+
+					// Imprimindo erro no console
+					console.warn(err);
+				}
+			)
 		} else {
 			this.equipesService.update(this.equipe).subscribe(
 				res => {
@@ -213,7 +245,7 @@ export class EquipeComponent implements OnInit {
 
 					// Imprimindo erro no console
 					console.warn(err);
-					
+
 				}
 			)
 		}

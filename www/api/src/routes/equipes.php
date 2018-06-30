@@ -93,7 +93,7 @@
 					':sigla' => $equipe->sigla,
 					':id_lider' => $equipe->lider->id,
 					':id_tipo' => $equipe->tipo->id,
-					':ativa' => $equipe->ativa,
+					':ativa' => ($equipe->ativa ? 1 : 0),
 					':id' => $equipe->id
 				)
 			);
@@ -139,4 +139,83 @@
 		->withStatus(200)
 		->withHeader('Content-Type','application/json');
 		
+	});
+
+	$app->post('/equipes',function(Request $req, Response $res, $args=[]){
+		
+		// Lendo corpo da requisição
+		$equipe = json_decode($req->getBody()->getContents());
+
+		// Verificando integridade do body
+		if(json_last_error() != JSON_ERROR_NONE){
+			
+			// Retornando erro para usuário
+			return $res
+			->withStatus(400)
+			->write();
+
+		}
+		
+		// Inserindo dados da equipe
+		$sql = 'INSERT INTO maxse_equipes
+				(
+					nome,
+					sigla,
+					id_lider,
+					id_tipo,
+					ativa
+				) VALUES (
+					:nome,
+					:sigla,
+					:id_lider,
+					:id_tipo,
+					:ativa
+				)';
+		$stmt = $this->db->prepare($sql);
+		try {
+			
+			$stmt->execute(
+				array(
+					':nome'=>$equipe->nome,
+					':sigla'=>$equipe->sigla,
+					':id_lider'=>($equipe->lider ? $equipe->lider->id : 0),
+					':id_tipo'=>$equipe->tipo->id,
+					':ativa'=> ($equipe->ativa ? 1 : 0)
+				)
+			);
+			
+		} catch (Exception $e) {
+			
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar inserir nova equipe no banco de dados');
+
+		}
+
+		// Levantando o id da equipe inserida
+		$equipe->id = $this->db->lastInsertId();
+
+		// Inserindo membros da equipe
+		$sql = 'INSERT INTO
+					maxse_equipes_x_usuarios
+					(id_equipe,id_usuario)
+					VALUES
+					(:id_equipe,:id_usuario);
+				';
+		$stmt = $this->db->prepare($sql);
+		for ($i=0; $i < sizeof($equipe->membros); $i++) { 
+			$stmt->execute(
+				array(
+					':id_equipe' => $equipe->id,
+					':id_usuario' => $equipe->membros[$i]->id
+				)
+			);
+		}
+		
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json')
+		->write('{"novoId":'.$equipe->id.'}');
 	});
