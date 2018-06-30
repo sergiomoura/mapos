@@ -16,6 +16,7 @@ import { DashComponent } from './dash/dash.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
 import { UsuariosService } from './_services/usuarios.service';
 import { UsuarioComponent } from './usuario/usuario.component';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,15 @@ import { UsuarioComponent } from './usuario/usuario.component';
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: {
+        duration: 4000,
+        horizontalPosition:'right',
+        verticalPosition:'bottom'
+      }
+    }
   ],
   bootstrap: [AppComponent]
 })

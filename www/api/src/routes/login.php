@@ -13,7 +13,7 @@ $app->post('/login', function (Request $req,  Response $res, $args = []) {
 	if(json_last_error() !== JSON_ERROR_NONE){
 		return $res->withStatus(400);
 	}
-
+	
 	// Tentando carregar usuário da base
 	$sql = 'SELECT id,nome,email,password FROM maxse_usuarios WHERE username=:u';
 	$stmt = $this->db->prepare($sql);
@@ -24,7 +24,7 @@ $app->post('/login', function (Request $req,  Response $res, $args = []) {
 	if($user === false) {
 		return $res->withStatus(401);
 	}
-
+	
 	// Verificando a senha do usuário
 	if(password_verify($login->password,$user->password)){
 		// Senha ok

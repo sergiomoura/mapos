@@ -1,0 +1,32 @@
+@import '~@angular/material/theming';
+:host(){
+    &>div{
+        @include mat-elevation(2);
+        background-color: #FFF;
+        padding: 40px;
+        position: relative;
+        left: -40px;
+
+        mat-form-field {
+            width:100%;
+            margin-bottom: 10px;
+        }
+
+        mat-checkbox {
+            width: 100%;
+        }
+
+        .checkbox-container{
+            display: flex;
+        }
+
+        .controles{
+            margin-top: 30px;
+            display: flex;
+
+            .salvar{
+                width:300px;
+            }
+        }
+    }
+}
