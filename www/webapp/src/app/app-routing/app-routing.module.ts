@@ -28,7 +28,7 @@ const routes:Routes = [
         component: UsuariosComponent,
       },
       {
-        path: 'usuarios/:idu',
+        path: 'usuarios/:id',
         component: UsuarioComponent,
       },
       {
@@ -36,7 +36,7 @@ const routes:Routes = [
         component: EquipesComponent,
       },
       {
-        path: 'equipes/:ide',
+        path: 'equipes/:id',
         component: EquipeComponent,
       },
       {

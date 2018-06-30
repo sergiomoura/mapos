@@ -11,7 +11,11 @@ import { MatSnackBar } from "@angular/material";
 })
 export class UsuarioComponent implements OnInit {
 
-	constructor(public snackBar: MatSnackBar, private router:Router, private route:ActivatedRoute, private usuariosService:UsuariosService) { }
+	constructor(
+		public snackBar: MatSnackBar,
+		private router:Router,
+		private route:ActivatedRoute,
+		private usuariosService:UsuariosService) { }
 	
 	usuario:Usuario = <Usuario>{
 		id:0,
@@ -33,13 +37,26 @@ export class UsuarioComponent implements OnInit {
 	getUsuario(){
 		
 		// Capturando idu da url
-		let idu = this.route.snapshot.paramMap.get('idu');
+		let idu = this.route.snapshot.paramMap.get('id');
 
-		if(idu != "0"){
+		if(idu != '0'){
 			
 			// Chamando o serviço para carregar o usuário
 			this.usuariosService.getById(idu).subscribe(
-				usuario => {this.usuario = usuario}
+				usuario => {this.usuario = usuario},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao carregar o usuário.',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom'
+						}
+					);
+				}
 			)
 		}
 

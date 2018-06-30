@@ -1,3 +1,45 @@
-<p>
-  equipe works!
-</p>
+<div class="container-50 top-gap padding">
+	<mat-form-field>
+		<input [(ngModel)]="equipe.nome" matInput placeholder="Nome" required>
+	</mat-form-field>
+	<mat-form-field>
+		<input [(ngModel)]="equipe.sigla" matInput placeholder="Sigla" required>
+	</mat-form-field>
+	<mat-form-field>
+		<mat-select [(ngModel)]="equipe.tipo" placeholder="Tipo de Equipe">
+			<mat-option *ngFor="let tipo of tiposDeEquipe" [value]="tipo">
+				{{tipo.nome}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<mat-form-field>
+		<mat-select [(ngModel)]="equipe.lider" placeholder="Líder">
+			<mat-option [value]="null">
+				Nenhum líder...
+			</mat-option>
+			<mat-option *ngFor="let usuario of usuarios" [value]="usuario">
+				{{usuario.nome}}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field>
+		<mat-select [(ngModel)]="equipe.membros" placeholder="Membros" multiple>
+			<mat-select-trigger>
+				{{equipe.membros.length>0 ? equipe.membros[0].nome : ''}}
+				<span *ngIf="equipe.membros.length > 1">
+					(+{{equipe.membros.length - 1}} outros)
+				</span>
+			</mat-select-trigger>
+			<mat-option *ngFor="let user of usuarios" [value]="user">{{user.nome}}</mat-option>
+		</mat-select>
+	</mat-form-field>
+	
+	<mat-checkbox [(ngModel)]="equipe.ativa" color="primary">Ativa</mat-checkbox>
+		
+	<div class="controles">
+		<button mat-raised-button (click)="onCancelarClick()" color="accent">Cancelar</button>
+		<span class="spacer"></span>
+		<button mat-raised-button (click)="onSalvar()" color="primary" class="salvar">Salvar</button>
+	</div>
+</div>

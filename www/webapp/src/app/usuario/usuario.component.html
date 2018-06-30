@@ -1,32 +1,33 @@
 <div class="container-50 top-gap padding">
-    <mat-form-field>
-      <input [(ngModel)]="usuario.nome" matInput placeholder="Nome" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input [(ngModel)]="usuario.email" matInput placeholder="E-mail" type="email" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input [(ngModel)]="usuario.username" matInput placeholder="Login" required>
-    </mat-form-field>
-    <mat-form-field>
-      <input [(ngModel)]="senha1" matInput placeholder="Senha" type="password">
-    </mat-form-field>
-    <mat-form-field>
-      <input [(ngModel)]="senha2" matInput placeholder="Confirmação de Senha" type="password">
-    </mat-form-field>
-    
-    <div class="checkbox-container">
-      <mat-checkbox [(ngModel)]="usuario.ativo" color="primary">Ativo</mat-checkbox>
-      <span class="spacer"></span>
-      <mat-checkbox [(ngModel)]="usuario.acessoApp" color="primary" [disabled]="!usuario.ativo">Acesso ao App</mat-checkbox>
-      <span class="spacer"></span>
-      <mat-checkbox [(ngModel)]="usuario.acessoWeb" color="primary" [disabled]="!usuario.ativo">Acesso WEB</mat-checkbox>
-    </div>
-    
-    <div class="controles">
-      <button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
-      <span class="spacer"></span>
-      <button mat-raised-button color="primary" class="salvar" (click)="onSalvarClick()">Salvar</button>
-    </div>
-    
+		
+	<mat-form-field>
+		<input [(ngModel)]="usuario.nome" matInput placeholder="Nome" required>
+	</mat-form-field>
+	<mat-form-field>
+		<input [(ngModel)]="usuario.email" matInput placeholder="E-mail" type="email" required>
+	</mat-form-field>
+	<mat-form-field>
+		<input [(ngModel)]="usuario.username" matInput placeholder="Login" required>
+	</mat-form-field>
+	<mat-form-field>
+		<input [(ngModel)]="senha1" matInput placeholder="Senha" type="password">
+	</mat-form-field>
+	<mat-form-field>
+		<input [(ngModel)]="senha2" matInput placeholder="Confirmação de Senha" type="password">
+	</mat-form-field>
+	
+	<div class="checkbox-container">
+		<mat-checkbox [(ngModel)]="usuario.ativo" color="primary">Ativo</mat-checkbox>
+		<span class="spacer"></span>
+		<mat-checkbox [(ngModel)]="usuario.acessoApp" color="primary" [disabled]="!usuario.ativo">Acesso ao App</mat-checkbox>
+		<span class="spacer"></span>
+		<mat-checkbox [(ngModel)]="usuario.acessoWeb" color="primary" [disabled]="!usuario.ativo">Acesso WEB</mat-checkbox>
+	</div>
+	
+	<div class="controles">
+		<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
+		<span class="spacer"></span>
+		<button mat-raised-button color="primary" class="salvar" (click)="onSalvarClick()">Salvar</button>
+	</div>
+		
 </div>
