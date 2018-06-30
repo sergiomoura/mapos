@@ -3,6 +3,7 @@ import { Equipe } from '../_models/equipe';
 import { TipoDeEquipe } from "../_models/tipoDeEquipe";
 import { EquipesService } from "../_services/equipes.service";
 import { MatSnackBar } from "@angular/material";
+import { Router } from '@angular/router';
 @Component({
 	selector: 'app-equipes',
 	templateUrl: './equipes.component.html',
@@ -17,7 +18,8 @@ export class EquipesComponent implements OnInit {
 
 	constructor(
 		private snackBar:MatSnackBar,
-		private equipesService:EquipesService
+		private equipesService:EquipesService,
+		private router:Router
 	) { }
 
 	ngOnInit() {
@@ -108,6 +110,14 @@ export class EquipesComponent implements OnInit {
 		}
 
 		return <Equipe[]>equipes;
+	}
+
+	onEquipeClick(id){
+		this.router.navigateByUrl('/home/equipes/'+id);
+	}
+
+	onNovaEquipeClick(){
+		this.router.navigateByUrl('/home/equipes/0');
 	}
 
 }

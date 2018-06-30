@@ -7,6 +7,7 @@ import { DashComponent } from '../dash/dash.component';
 import { UsuariosComponent } from '../usuarios/usuarios.component';
 import { UsuarioComponent } from '../usuario/usuario.component';
 import { EquipesComponent } from "../equipes/equipes.component";
+import { EquipeComponent } from "../equipe/equipe.component";
 
 const routes:Routes = [
   {
@@ -33,6 +34,10 @@ const routes:Routes = [
       {
         path: 'equipes',
         component: EquipesComponent,
+      },
+      {
+        path: 'equipes/:ide',
+        component: EquipeComponent,
       },
       {
         path: '**',
