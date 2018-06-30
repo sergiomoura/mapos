@@ -19,6 +19,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
 import { EquipesComponent } from './equipes/equipes.component';
 import { CircleComponent } from './_componentes/circle/circle.component';
+import { EquipeComponent } from './equipe/equipe.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CircleComponent } from './_componentes/circle/circle.component';
     UsuariosComponent,
     UsuarioComponent,
     EquipesComponent,
-    CircleComponent
+    CircleComponent,
+    EquipeComponent
   ],
   imports: [
     BrowserModule,
