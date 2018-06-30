@@ -17,6 +17,7 @@ import { UsuariosComponent } from './usuarios/usuarios.component';
 import { UsuariosService } from './_services/usuarios.service';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
+import { EquipesComponent } from './equipes/equipes.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/mater
     HomeComponent,
     DashComponent,
     UsuariosComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    EquipesComponent
   ],
   imports: [
     BrowserModule,
