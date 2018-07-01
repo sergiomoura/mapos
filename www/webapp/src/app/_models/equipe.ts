@@ -6,5 +6,6 @@ export class Equipe {
     sigla:string;
     tipo:TipoDeEquipe;
     ativa:boolean;
-    membros:Usuario[]
+    membros:Usuario[];
+    lider:Usuario;
 }
