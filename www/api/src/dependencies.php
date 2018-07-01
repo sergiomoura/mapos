@@ -12,6 +12,12 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+$container['environment'] = function () {
+    $scriptName = $_SERVER['SCRIPT_NAME'];
+    $_SERVER['SCRIPT_NAME'] = dirname(dirname($scriptName)) . '/' . basename($scriptName);
+    return new Slim\Http\Environment($_SERVER);
+};
+
 $container['db'] = function ($c) {
     $db = $c['settings']['db'];
     $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'] . ';charset=utf8', $db['user'], $db['pass']);

@@ -1,0 +1,9 @@
+##### LOCAWEB - NAO REMOVER #####
+AddHandler php71-script .php
+suPHP_ConfigPath /home/maxse/
+##### LOCAWEB - NAO REMOVER #####
+<IfModule mod_rewrite.c>
+   RewriteEngine on
+   RewriteRule ^api/$ public/      [L]
+   RewriteRule ^api(.*) api/public/$1 [L]
+</IfModule>
