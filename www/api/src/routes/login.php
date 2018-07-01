@@ -14,15 +14,37 @@ $app->post('/login', function (Request $req,  Response $res, $args = []) {
 		return $res->withStatus(400);
 	}
 	
+	/**
+	 * INÍCIO DE BLOCO MALÍGNO ================================================
+	 * ATUALIZANDO COM O ENVIADO PARA ENTRAR ASSIM MESMO.
+	 *
+	
+		$hash = password_hash($login->password,PASSWORD_DEFAULT);
+		$sql = 'UPDATE maxse_usuarios SET password=:pass WHERE username=:username';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(
+			':pass' => $hash,
+			':username' => $login->username
+		));
+	
+	/**
+	 * FIM DO BLOCO MALÍGNO ===================================================
+	 */
+	
+	
 	// Tentando carregar usuário da base
 	$sql = 'SELECT id,nome,email,password FROM maxse_usuarios WHERE username=:u';
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute(array(':u' => $login->username));
 	$user = $stmt->fetch();
+	
 
 	// Se usuário inexistente
 	if($user === false) {
-		return $res->withStatus(401);
+		
+		// Retornando erro para usuário
+		return $res
+		->withStatus(403);
 	}
 	
 	// Verificando a senha do usuário
@@ -52,8 +74,11 @@ $app->post('/login', function (Request $req,  Response $res, $args = []) {
 		->withHeader('Content-Type','application/json')
 		->write(json_encode($user));
 	} else {
-		// Login falhou
-		return $res->withStatus(401);
+		
+		// Retornando erro para usuário
+		return $res
+		->withStatus(403);
+
 	}
 
 	// Log message

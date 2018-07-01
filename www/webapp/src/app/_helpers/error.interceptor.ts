@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
- 
+
 import { AuthService } from "../_services/auth.service";
  
 @Injectable()
@@ -15,7 +15,12 @@ export class ErrorInterceptor implements HttpInterceptor {
             if (err.status === 401) {
                 // auto logout if 401 response returned from api
                 this.authService.logout();
-                location.reload(true);
+                
+                // location.reload(true);
+
+                // Imprimindo erro no console
+                console.error('FALHOU COM 401!');
+                console.error(err.error.message || err.statusText);
             }
                      
             const error = err.error.message || err.statusText;

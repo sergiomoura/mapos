@@ -13,11 +13,11 @@ export class EquipesService {
 	constructor(private http:HttpClient) { }
 
 	// Definição de urls
-	private url_getTipos:string = 'http://localhost:8000/tdes';
-	private url_getEquipes:string = 'http://localhost:8000/equipes';
-	private url_getEquipeById:string = 'http://localhost:8000/equipes/';
-	private url_create:string = 'http://localhost:8000/equipes';
-	private url_update:string = 'http://localhost:8000/equipes/';
+	private url_getTipos:string = '/api/tdes';
+	private url_getEquipes:string = '/api/equipes';
+	private url_getEquipeById:string = '/api/equipes/';
+	private url_create:string = '/api/equipes';
+	private url_update:string = '/api/equipes/';
 
 	// Métoto que carrega todos os tipos de equipe
 	getTiposDeEquipe():Observable<TipoDeEquipe[]> {

@@ -7,21 +7,14 @@ import { HttpClient } from "@angular/common/http";
 
 export class AuthService {
 
-	private loginUrl:string = 'http://localhost:8000/login';
-	private refreshUrl:string = 'http://localhost:8000/refresh';
+	private loginUrl:string = '/api/login';
+	private refreshUrl:string = '/api/refresh';
 
 	constructor(private http:HttpClient) { }
 	
 	// Método que realiza o login
 	login(username: string, password: string) {
-		return this.http.post<any>(this.loginUrl, { username: username, password: password })
-		.subscribe(response => {
-			// login successful if there's a jwt token in the response
-			if (response && response.token) {
-				// store username and jwt token in local storage to keep user logged in between page refreshes
-				localStorage.setItem('currentUser', JSON.stringify(response));
-			}
-		});
+		return this.http.post<any>(this.loginUrl, { username: username, password: password });
 	}
 
 	// Método que realiza o logout

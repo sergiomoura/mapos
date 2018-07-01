@@ -1,4 +1,7 @@
 @import '~@angular/material/theming';
+@import '../../custom.scss';
+
+$warn: map-get($maxse-theme, warn);
 
 :host(){
 
@@ -34,6 +37,15 @@
 
     img {
         width: 100%;
+    }
+
+    .erro {
+        text-align: center;
+        font-size: 12px;
+        display: block;
+        position: relative;
+        top: -10px;
+        color: mat-color($warn);
     }
 
 }

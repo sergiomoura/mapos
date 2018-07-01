@@ -5,5 +5,6 @@
 <mat-form-field>
   <input [(ngModel)]="login.p" matInput placeholder="Senha" type="password">
 </mat-form-field>
+<div class="erro" *ngIf="loginFalhou">Login ou senha incorretos</div>
 <button class="esqueci" mat-button color="primary" (click)="onEsqueciClick()">Esqueci minha senha</button>
 <button class="entrar" mat-raised-button color="primary" (click)="onEntrarClick()">ENTRAR</button>

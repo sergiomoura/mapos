@@ -96,7 +96,7 @@ export class UsuarioComponent implements OnInit {
 				if(this.tmp_usuario != undefined){
 					
 					// Carregou tiposDeEquipe e usuarios. Parsing
-					this.usuario = this.parseUsuario(<any>res);
+					this.usuario = this.parseUsuario(<any>this.tmp_usuario);
 
 				}
 			},
