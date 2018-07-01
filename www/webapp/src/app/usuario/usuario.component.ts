@@ -1,22 +1,32 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Usuario } from "../_models/usuario";
-import { UsuariosService } from "../_services/usuarios.service";
 import { MatSnackBar } from "@angular/material";
+import { Usuario } from "../_models/usuario";
+import { Equipe } from "../_models/equipe";
+import { UsuariosService } from "../_services/usuarios.service";
+import { EquipesService } from "../_services/equipes.service";
 
 @Component({
 	selector: 'app-usuario',
 	templateUrl: './usuario.component.html',
 	styleUrls: ['./usuario.component.scss']
 })
+
 export class UsuarioComponent implements OnInit {
 
 	constructor(
 		public snackBar: MatSnackBar,
 		private router:Router,
 		private route:ActivatedRoute,
-		private usuariosService:UsuariosService) { }
+		private usuariosService:UsuariosService,
+		private equipesService:EquipesService
+	) { }
 	
+	// Atributos Privadas
+	equipes:Equipe[];
+	senha1:string;
+	senha2:string;
+	tmp_usuario:any;
 	usuario:Usuario = <Usuario>{
 		id:0,
 		nome:'',
@@ -24,13 +34,13 @@ export class UsuarioComponent implements OnInit {
 		username:'',
 		ativo:true,
 		acessoApp:false,
-		acessoWeb:false
+		acessoWeb:false,
+		equipes:[]
 	};
-
-	senha1:string;
-	senha2:string;
+	
 
 	ngOnInit() {
+		this.getEquipes();
 		this.getUsuario();
 	}
 
@@ -43,7 +53,20 @@ export class UsuarioComponent implements OnInit {
 			
 			// Chamando o serviço para carregar o usuário
 			this.usuariosService.getById(idu).subscribe(
-				usuario => {this.usuario = usuario},
+				res => {
+					// Verificando se já baixou equipes
+					if(this.equipes != undefined) {
+
+						// Sim! Executando o parse
+						this.usuario = this.parseUsuario(res);
+
+					} else {
+
+						// Não baixou equipe. Guardando resposta para parse futuro
+						this.tmp_usuario = res;
+
+					}
+				},
 				err => {
 					// Exibindo snackbar de erro
 					this.snackBar
@@ -59,7 +82,56 @@ export class UsuarioComponent implements OnInit {
 				}
 			)
 		}
+	}
 
+	getEquipes():void{
+
+		// Chamando serviço para carregar a equipes
+		this.equipesService.getEquipes().subscribe(
+			res=>{
+
+				this.equipes = res;
+
+				// Verificando se carregou usuario
+				if(this.tmp_usuario != undefined){
+					
+					// Carregou tiposDeEquipe e usuarios. Parsing
+					this.usuario = this.parseUsuario(<any>res);
+
+				}
+			},
+			err => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar carregar equipes.',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom'
+					}
+				);
+
+				// Imprimindo erro no console
+				console.warn(err);
+			}
+		);		
+	}
+
+	parseUsuario(tmp_usuario:any):Usuario{
+
+		// Definindo campo de equipes
+		tmp_usuario.equipes = [];
+
+		// Parsing ids_equipes
+		for (let i = 0; i < tmp_usuario.ids_equipes.length; i++) {
+			const ide = tmp_usuario.ids_equipes[i];
+			tmp_usuario.equipes.push(this.equipes.find( e => {return e.id == ide}));
+		}
+		delete tmp_usuario.ids_equipes;
+
+		return <Usuario>tmp_usuario;
 	}
 
 	onSalvarClick(){

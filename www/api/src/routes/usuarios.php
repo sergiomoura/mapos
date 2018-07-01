@@ -49,6 +49,14 @@ $app->get('/usuarios/{idu}', function (Request $req,  Response $res, $args = [])
 	$user->acessoApp = ($user->acessoApp == 1);
 	$user->id *= 1;
 
+	// Carregando ids das equipes das quais este usuário participa
+	$sql = 'SELECT id_equipe FROM maxse_equipes_x_usuarios WHERE id_usuario=:id_usuario';
+	$stmt = $this->db->prepare($sql);
+	$stmt->execute(array(
+		':id_usuario' => $user->id
+	));
+	$user->ids_equipes = array_map(function($a){return 1*$a->id_equipe;},$stmt->fetchAll());
+
 	// Enviando resposta para cliente
 	return $res
 	->withStatus(200)
@@ -129,8 +137,31 @@ $app->put('/usuarios/{idu}', function (Request $req, Response $res, $args =[]){
 				':id'       => $usuario->id
 			)
 		);
-
 	}
+
+	// Removendo registro das equipes que usuário participa
+	$sql = 'DELETE FROM maxse_equipes_x_usuarios WHERE id_usuario=:id_usuario';
+	$stmt = $this->db->prepare($sql);
+	$stmt->execute(array(':id_usuario'=>$usuario->id));
+	
+	// Registrando as equipes das quais usuário faz parte
+	$sql = 'INSERT INTO maxse_equipes_x_usuarios
+			(
+				id_usuario,
+				id_equipe
+			) VALUES (
+				:id_usuario,
+				:id_equipe
+			)';
+	$stmt = $this->db->prepare($sql);
+	for ($i=0; $i < sizeof($usuario->equipes); $i++) { 
+		$stmt->execute(
+			array(
+				':id_usuario' => $usuario->id,
+				':id_equipe' => $usuario->equipes[$i]->id
+			)
+		);
+	}	
 	
 	// Registrando no Log
 	$this->logger->info('Alterado usuário '.$usuario->id);
@@ -183,6 +214,25 @@ $app->post('/usuarios', function (Request $req, Response $res, $args =[]){
 
 	// Salvando o id do usuário inserido
 	$novoId = $this->db->lastInsertId();
+
+	// Registrando as equipes das quais usuário faz parte
+	$sql = 'INSERT INTO maxse_equipes_x_usuarios
+			(
+				id_usuario,
+				id_equipe
+			) VALUES (
+				:id_usuario,
+				:id_equipe
+			)';
+	$stmt = $this->db->prepare($sql);
+	for ($i=0; $i < sizeof($usuario->equipes); $i++) { 
+		$stmt->execute(
+			array(
+				':id_usuario' => $novoId,
+				':id_equipe' => $usuario->equipes[$i]->id
+			)
+		);
+	}
 	
 	// Registrando no Log
 	$this->logger->info('Criado usuário '.$novoId);

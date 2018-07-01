@@ -1,3 +1,5 @@
+import { Equipe } from "./equipe";
+
 export class Usuario {
     id: number;
     nome: string;
@@ -6,4 +8,5 @@ export class Usuario {
     acessoApp: boolean;
     acessoWeb: boolean;
     ativo:boolean;
+    equipes:Equipe[];
 }
