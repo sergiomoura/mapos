@@ -18,6 +18,7 @@ import { UsuarioComponent } from './usuario/usuario.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
 import { EquipesComponent } from './equipes/equipes.component';
 import { EquipeComponent } from './equipe/equipe.component';
+import { AutofocusDirective } from './_directives/autofocus.directive';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { EquipeComponent } from './equipe/equipe.component';
     UsuariosComponent,
     UsuarioComponent,
     EquipesComponent,
-    EquipeComponent
+    EquipeComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule,
