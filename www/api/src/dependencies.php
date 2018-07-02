@@ -12,12 +12,6 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
-//$container['environment'] = function () {
-//    $scriptName = $_SERVER['SCRIPT_NAME'];
-//    $_SERVER['SCRIPT_NAME'] = dirname(dirname($scriptName)) . '/' . basename($scriptName);
-//    return new Slim\Http\Environment($_SERVER);
-//};
-
 $container['db'] = function ($c) {
     
     if($_SERVER['SERVER_NAME'] == 'localhost'){
