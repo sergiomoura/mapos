@@ -14,7 +14,6 @@ import { ErrorInterceptor } from "./_helpers/error.interceptor";
 import { JwtInterceptor } from "./_helpers/jwt.interceptor";
 import { DashComponent } from './dash/dash.component';
 import { UsuariosComponent } from './usuarios/usuarios.component';
-import { UsuariosService } from './_services/usuarios.service';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
 import { EquipesComponent } from './equipes/equipes.component';

@@ -12,14 +12,20 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
-$container['environment'] = function () {
-    $scriptName = $_SERVER['SCRIPT_NAME'];
-    $_SERVER['SCRIPT_NAME'] = dirname(dirname($scriptName)) . '/' . basename($scriptName);
-    return new Slim\Http\Environment($_SERVER);
-};
+//$container['environment'] = function () {
+//    $scriptName = $_SERVER['SCRIPT_NAME'];
+//    $_SERVER['SCRIPT_NAME'] = dirname(dirname($scriptName)) . '/' . basename($scriptName);
+//    return new Slim\Http\Environment($_SERVER);
+//};
 
 $container['db'] = function ($c) {
-    $db = $c['settings']['db'];
+    
+    if($_SERVER['SERVER_NAME'] == 'localhost'){
+        $db = $c['settings']['db-local'];
+    } else {
+        $db = $c['settings']['db-remote'];
+    }
+    
     $pdo = new PDO('mysql:host=' . $db['host'] . ';dbname=' . $db['dbname'] . ';charset=utf8', $db['user'], $db['pass']);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);

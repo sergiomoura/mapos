@@ -25,7 +25,6 @@ class CheckAuthMiddleware
         
         // Se for requisição OPTIONS com Access-Control-Request-Method no header, deixa passar
         if(array_key_exists('HTTP_ACCESS_CONTROL_REQUEST_METHOD',$headers) && $request->getMethod() == 'OPTIONS'){
-        
             $response = $next($request, $response);
             return $response->withStatus(200);
         }
@@ -33,7 +32,7 @@ class CheckAuthMiddleware
         if (array_key_exists('HTTP_AUTHORIZATION', $headers)){
             
             // Capturando o token do header HTTP_AUTHORIZATION;
-            $token = str_replace('Bearer ','',$request->getHeaders()['HTTP_AUTHORIZATION'][0]);
+            $token = str_replace('Bearer ','',$headers['HTTP_AUTHORIZATION'][0]);
 
             // Consultando validade do token
             $sql = 'SELECT id FROM maxse_usuarios WHERE token=:token AND validade_do_token>NOW()';
@@ -42,6 +41,7 @@ class CheckAuthMiddleware
             $id = $stmt->fetch();
 
             if($id === false) {
+                echo('aqui');
                 return $response->withStatus(401);
             } else {
                 $response = $next($request, $response);
@@ -52,10 +52,10 @@ class CheckAuthMiddleware
             
             // Checando se é uma tentativa de login
             $path = $request->getUri()->getPath();
-            if($path != '/login' && $path != 'login'){
+            if($path != '/login' && $path != 'login' && $path != '/api/login'){
 
                 // Não é login. Retornando com status 401
-                $response = $next($request, $response);
+                echo('acolá');
                 return $response->withStatus(401);
 
             } else {

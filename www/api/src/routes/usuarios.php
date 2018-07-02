@@ -3,7 +3,7 @@
 use Slim\Http\Request;
 use Slim\Http\Response;
 
-$app->get('/usuarios', function (Request $req,  Response $res, $args = []) {
+$app->get($api_root.'/usuarios', function (Request $req,  Response $res, $args = []) {
 	
 	// Carregando usuários da base
 	$sql = 'SELECT
@@ -32,7 +32,7 @@ $app->get('/usuarios', function (Request $req,  Response $res, $args = []) {
 	
 });
 
-$app->get('/usuarios/{idu}', function (Request $req,  Response $res, $args = []){
+$app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $args = []){
 
 	// Lendo o idu a partir dos argumentos da rota
 	$idu = 1*$args['idu'];
@@ -64,7 +64,7 @@ $app->get('/usuarios/{idu}', function (Request $req,  Response $res, $args = [])
 	->write(json_encode($user));
 });
 
-$app->put('/usuarios/{idu}', function (Request $req, Response $res, $args =[]){
+$app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $args =[]){
 	
 	// Lendo o conteúdo da requisição
 	$data = json_decode($req->getBody()->getContents());
@@ -170,7 +170,7 @@ $app->put('/usuarios/{idu}', function (Request $req, Response $res, $args =[]){
 	return $res->withStatus(200);
 });
 
-$app->post('/usuarios', function (Request $req, Response $res, $args =[]){
+$app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =[]){
 	
 	// Lendo o conteúdo da requisição
 	$data = json_decode($req->getBody()->getContents());

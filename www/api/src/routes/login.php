@@ -4,7 +4,7 @@ use Slim\Http\Request;
 use Slim\Http\Response;
 
 // Rota de Login
-$app->post('/login', function (Request $req,  Response $res, $args = []) {
+$app->post($api_root.'/login', function (Request $req,  Response $res, $args = []) {
 	
 	// Lendo dados da requisição
 	$login = json_decode($req->getBody()->getContents());
@@ -85,7 +85,7 @@ $app->post('/login', function (Request $req,  Response $res, $args = []) {
 	$this->logger->info("Login '/' route");
 });
 
-$app->get('/refresh', function (Request $req,  Response $res, $args = []) {
+$app->get($api_root.'/refresh', function (Request $req,  Response $res, $args = []) {
 
 	// lendo o token do request
 	$token = str_replace('Bearer ','',$req->getHeader('Authorization')[0]);

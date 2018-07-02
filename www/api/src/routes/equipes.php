@@ -3,7 +3,7 @@
 	use \Slim\Http\Request;
 	use \Slim\Http\Response;
 
-	$app->get('/equipes',function(Request $req, Response $res, $args=[]){
+	$app->get($api_root.'/equipes',function(Request $req, Response $res, $args=[]){
 
 		// Levantando equipes da base
 		$sql = 'SELECT id,nome,sigla,id_tipo,ativa FROM maxse_equipes ORDER BY id';
@@ -18,7 +18,7 @@
 		->write(json_encode($equipes));
 	});
 
-	$app->get('/equipes/{id}',function(Request $req, Response $res, $args=[]){
+	$app->get($api_root.'/equipes/{id}',function(Request $req, Response $res, $args=[]){
 		
 		// Verificando se o id passado é numérico
 		if(!is_numeric($args['id'])){
@@ -70,7 +70,7 @@
 		
 	});
 
-	$app->put('/equipes/{id}',function(Request $req, Response $res, $args=[]){
+	$app->put($api_root.'/equipes/{id}',function(Request $req, Response $res, $args=[]){
 		
 		// Lendo requisição
 		$equipe = json_decode($req->getBody()->getContents());
@@ -141,7 +141,7 @@
 		
 	});
 
-	$app->post('/equipes',function(Request $req, Response $res, $args=[]){
+	$app->post($api_root.'/equipes',function(Request $req, Response $res, $args=[]){
 		
 		// Lendo corpo da requisição
 		$equipe = json_decode($req->getBody()->getContents());

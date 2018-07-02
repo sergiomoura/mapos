@@ -11,9 +11,16 @@ return [
             'level' => \Monolog\Logger::DEBUG,
         ],
 
-        'db' => [
+        'db-local' => [
             'host' => 'localhost',
             'user' => 'root',
+            'dbname' => 'maxse000',
+            'pass' => 'vaiplaneta'
+        ],
+
+        'db-remote' => [
+            'host' => 'maxse000.mysql.dbaas.com.br',
+            'user' => 'maxse000',
             'dbname' => 'maxse000',
             'pass' => 'vaiplaneta'
         ],
