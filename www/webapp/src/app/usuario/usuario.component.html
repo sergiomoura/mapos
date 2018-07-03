@@ -1,45 +1,53 @@
 <div class="container-50 top-gap padding">
+	<form #form="ngForm" name="form">
+		<mat-form-field>
+			<input name="nome" [(ngModel)]="usuario.nome" matInput placeholder="Nome" required>
+		</mat-form-field>
+		<mat-form-field>
+			<input name="email" [(ngModel)]="usuario.email" matInput placeholder="E-mail" type="email" #email="ngModel" email required>
+			<mat-error *ngIf="email.invalid">E-mail inválido</mat-error>
+		</mat-form-field>
+		<mat-form-field>
+			<input name="username" [(ngModel)]="usuario.username" matInput placeholder="Login" required>
+		</mat-form-field>
+		<mat-form-field>
+			<input name="senha1" [(ngModel)]="senha1" matInput type="password" placeholder="Senha">
+		</mat-form-field>
+		<mat-form-field>
+			<input name="senha2" [(ngModel)]="senha2" matInput type="password"  placeholder="Confirmação de Senha">
+		</mat-form-field>
 		
-	<mat-form-field>
-		<input [(ngModel)]="usuario.nome" matInput placeholder="Nome" required>
-	</mat-form-field>
-	<mat-form-field>
-		<input [(ngModel)]="usuario.email" matInput placeholder="E-mail" type="email" required>
-	</mat-form-field>
-	<mat-form-field>
-		<input [(ngModel)]="usuario.username" matInput placeholder="Login" required>
-	</mat-form-field>
-	<mat-form-field>
-		<input [(ngModel)]="senha1" matInput placeholder="Senha" type="password">
-	</mat-form-field>
-	<mat-form-field>
-		<input [(ngModel)]="senha2" matInput placeholder="Confirmação de Senha" type="password">
-	</mat-form-field>
-	
-	<mat-form-field>
-		<mat-select [(ngModel)]="usuario.equipes" placeholder="Equipes das quais faz parte" multiple>
-			<mat-select-trigger>
-				{{usuario.equipes.length>0 ? usuario.equipes[0].nome : ''}}
-				<span *ngIf="usuario.equipes.length > 1">
-					(+{{usuario.equipes.length - 1}} outras)
-				</span>
-			</mat-select-trigger>
-			<mat-option *ngFor="let equipe of equipes" [value]="equipe">{{equipe.nome}}</mat-option>
-		</mat-select>
-	</mat-form-field>
+		<mat-form-field>
+			<mat-select name="equipes" [(ngModel)]="usuario.equipes" placeholder="Equipes das quais faz parte" multiple>
+				<mat-select-trigger>
+					{{usuario.equipes.length>0 ? usuario.equipes[0].nome : ''}}
+					<span *ngIf="usuario.equipes.length > 1">
+						(+{{usuario.equipes.length - 1}} outras)
+					</span>
+				</mat-select-trigger>
+				<mat-option *ngFor="let equipe of equipes" [value]="equipe">{{equipe.nome}}</mat-option>
+			</mat-select>
+		</mat-form-field>
 
-	<div class="checkbox-container">
-		<mat-checkbox [(ngModel)]="usuario.ativo" color="primary">Ativo</mat-checkbox>
-		<span class="spacer"></span>
-		<mat-checkbox [(ngModel)]="usuario.acessoApp" color="primary" [disabled]="!usuario.ativo">Acesso ao App</mat-checkbox>
-		<span class="spacer"></span>
-		<mat-checkbox [(ngModel)]="usuario.acessoWeb" color="primary" [disabled]="!usuario.ativo">Acesso WEB</mat-checkbox>
-	</div>
-	
-	<div class="controles">
-		<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
-		<span class="spacer"></span>
-		<button mat-raised-button color="primary" class="salvar" (click)="onSalvarClick()">Salvar</button>
-	</div>
+		<div class="checkbox-container">
+			<mat-checkbox name="ativo" [(ngModel)]="usuario.ativo" color="primary">Ativo</mat-checkbox>
+			<span class="spacer"></span>
+			<mat-checkbox name="acessoApp" [(ngModel)]="usuario.acessoApp" color="primary" [disabled]="!usuario.ativo">Acesso ao App</mat-checkbox>
+			<span class="spacer"></span>
+			<mat-checkbox name="acessoWeb" [(ngModel)]="usuario.acessoWeb" color="primary" [disabled]="!usuario.ativo">Acesso WEB</mat-checkbox>
+		</div>
+		
+		<div class="controles">
+			<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
+			<span class="spacer"></span>
+			<button
+				[disabled]="(senha1 != senha2) || !email.valid"
+				mat-raised-button
+				color="primary"
+				class="salvar"
+				(click)="onSalvarClick()">Salvar</button>
+		</div>
+
+	</form>
 		
 </div>
