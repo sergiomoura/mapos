@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 
 export class LoginComponent implements OnInit {
 
-	login: {u:string, p:string} = {u:'',p:''};
+	loginData: {u:string, p:string} = {u:'',p:''};
 	returnUrl: string;
 	loginFalhou: boolean = false;
 
@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
+
 		// reset login status
 		this.authService.logout();
  
@@ -30,8 +31,8 @@ export class LoginComponent implements OnInit {
 
 	}
 
-	onEntrarClick(){
-		this.authService.login(this.login.u,this.login.p)
+	private login() {
+		this.authService.login(this.loginData.u,this.loginData.p)
 		.subscribe(
 			res => {
 				// login successful if there's a jwt token in the response
@@ -50,11 +51,18 @@ export class LoginComponent implements OnInit {
 				this.loginFalhou = true;
 			}
 		);
-		
+	}
+
+	onEntrarClick(){
+		this.login();		
+	}
+
+	onEnterKeyUp() {
+		this.login();
 	}
 
 	onEsqueciClick(){
-		console.log(this.login);
+		console.log(this.loginData);
 	}
 
 }

@@ -44,7 +44,9 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 		
 		// Retornando erro para usuário
 		return $res
-		->withStatus(403);
+		->withStatus(403)
+		->write('Usuário inexistente');
+		;
 	}
 	
 	// Verificando a senha do usuário
@@ -77,7 +79,9 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 		
 		// Retornando erro para usuário
 		return $res
-		->withStatus(403);
+		->withStatus(403)
+		->write('Senha inválida');
+		;
 
 	}
 

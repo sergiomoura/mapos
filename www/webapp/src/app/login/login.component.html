@@ -1,9 +1,9 @@
 <img src="../../assets/logo.svg" alt="CASAMAX">
 <mat-form-field>
-  <input [(ngModel)]="login.u" matInput placeholder="Login" focus>
+  <input [(ngModel)]="loginData.u" matInput placeholder="Login" focus (keyup.enter)="onEnterKeyUp()">
 </mat-form-field>
 <mat-form-field>
-  <input [(ngModel)]="login.p" matInput placeholder="Senha" type="password">
+  <input [(ngModel)]="loginData.p" matInput placeholder="Senha" type="password" (keyup.enter)="onEnterKeyUp()">
 </mat-form-field>
 <div class="erro" *ngIf="loginFalhou">Login ou senha incorretos</div>
 <button class="esqueci" mat-button color="primary" (click)="onEsqueciClick()">Esqueci minha senha</button>
