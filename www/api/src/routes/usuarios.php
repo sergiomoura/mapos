@@ -12,7 +12,8 @@ $app->get($api_root.'/usuarios', function (Request $req,  Response $res, $args =
 				email,
 				acessoApp,
 				acessoWeb,
-				ativo FROM maxse_usuarios';
+				ativo FROM maxse_usuarios
+			ORDER BY nome';
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute();
 	$usuarios = $stmt->fetchAll();
