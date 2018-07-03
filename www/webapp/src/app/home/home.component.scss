@@ -8,14 +8,32 @@ mat-toolbar {
 
 mat-sidenav-container {
     margin-top: 56px;
+    mat-sidenav {
+        mat-nav-list {
+            a {
+                display: block;
+                color:#666;
+                padding-left:0px;
+                padding-right:20px;
+                &:hover{
+                    background-color: #E0E0E0;
+                    color: #000;
+                }
+                mat-icon {
+                    margin-right:10px;
+                }
+            }
+        }
+    }
+    mat-sidenav-content {
+        background-color:inherit;
+        overflow-y: hidden;
+        padding-bottom: 160px;
+    }
 }
 
-mat-sidenav-content {
-    background-color:inherit;
-    overflow-y: hidden;
-    padding-bottom: 160px;
-}
 
 .mat-drawer-container {
     background-color: inherit;
 }
+
