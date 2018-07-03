@@ -1,6 +1,6 @@
 <img src="../../assets/logo.svg" alt="CASAMAX">
 <mat-form-field>
-  <input [(ngModel)]="loginData.u" matInput placeholder="Login" (keyup.enter)="onEnterKeyUp()">
+  <input [(ngModel)]="loginData.u" matInput placeholder="Login" (keyup.enter)="onEnterKeyUp()" focus>
 </mat-form-field>
 <mat-form-field>
   <input [(ngModel)]="loginData.p" matInput placeholder="Senha" type="password" (keyup.enter)="onEnterKeyUp()">
