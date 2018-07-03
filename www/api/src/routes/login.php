@@ -17,7 +17,7 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 	/**
 	 * INÍCIO DE BLOCO MALÍGNO ================================================
 	 * ATUALIZANDO COM O ENVIADO PARA ENTRAR ASSIM MESMO.
-	 *
+	 */
 	
 		$hash = password_hash($login->password,PASSWORD_DEFAULT);
 		$sql = 'UPDATE maxse_usuarios SET password=:pass WHERE username=:username';
@@ -33,7 +33,7 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 	
 	
 	// Tentando carregar usuário da base
-	$sql = 'SELECT id,nome,email,password FROM maxse_usuarios WHERE username=:u';
+	$sql = 'SELECT id,nome,email,password FROM maxse_usuarios WHERE username=:u and ativo=1';
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute(array(':u' => $login->username));
 	$user = $stmt->fetch();
