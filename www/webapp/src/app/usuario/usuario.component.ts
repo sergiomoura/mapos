@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, Event } from '@angular/router';
 import { MatSnackBar } from "@angular/material";
 import { Usuario } from "../_models/usuario";
 import { Equipe } from "../_models/equipe";
@@ -135,6 +135,7 @@ export class UsuarioComponent implements OnInit {
 	}
 
 	onSalvarClick(){
+		
 		if(this.usuario.id == 0){
 			this.usuariosService.create(this.usuario,this.senha1)
 			.subscribe(
@@ -190,6 +191,7 @@ export class UsuarioComponent implements OnInit {
 				}
 			)
 		}
+
 	}
 
 	onCancelarClick(){

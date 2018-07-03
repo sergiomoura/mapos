@@ -1,20 +1,20 @@
 <div class="container-50 top-gap padding">
-	<form #form="ngForm" name="form">
+	<form #usuarioForm="ngForm">
 		<mat-form-field>
 			<input name="nome" [(ngModel)]="usuario.nome" matInput placeholder="Nome" required>
 		</mat-form-field>
 		<mat-form-field>
-			<input name="email" [(ngModel)]="usuario.email" matInput placeholder="E-mail" type="email" #email="ngModel" email required>
+			<input name="email" [(ngModel)]="usuario.email" matInput placeholder="E-mail" type="email" email #email="ngModel" required>
 			<mat-error *ngIf="email.invalid">E-mail inválido</mat-error>
 		</mat-form-field>
 		<mat-form-field>
 			<input name="username" [(ngModel)]="usuario.username" matInput placeholder="Login" required>
 		</mat-form-field>
 		<mat-form-field>
-			<input name="senha1" [(ngModel)]="senha1" matInput type="password" placeholder="Senha">
+			<input name="senha1" [(ngModel)]="senha1" matInput type="password" placeholder="Senha" [required]="usuario.id==0">
 		</mat-form-field>
 		<mat-form-field>
-			<input name="senha2" [(ngModel)]="senha2" matInput type="password"  placeholder="Confirmação de Senha">
+			<input name="senha2" [(ngModel)]="senha2" matInput type="password" placeholder="Confirmação de Senha" [required]="usuario.id==0">
 		</mat-form-field>
 		
 		<mat-form-field>
@@ -41,13 +41,12 @@
 			<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
 			<span class="spacer"></span>
 			<button
-				[disabled]="(senha1 != senha2) || !email.valid"
+				[disabled]="usuarioForm.invalid || senha1 != senha2"
 				mat-raised-button
 				color="primary"
 				class="salvar"
-				(click)="onSalvarClick()">Salvar</button>
+				type="button"
+				(click)="onSalvarClick()">{{(senha1 != senha2) ? "Confirmação de senha inválida" : "Salvar"}}</button>
 		</div>
-
 	</form>
-		
 </div>
