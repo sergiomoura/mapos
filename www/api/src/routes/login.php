@@ -19,7 +19,7 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 	 * ATUALIZANDO COM O ENVIADO PARA ENTRAR ASSIM MESMO.
 	 *
 	
-		$hash = password_hash($login->password,PASSWORD_DEFAULT);
+		$hash = crypt($login->password);
 		$sql = 'UPDATE maxse_usuarios SET password=:pass WHERE username=:username';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(
@@ -48,7 +48,7 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 	}
 	
 	// Verificando a senha do usuário
-	if(password_verify($login->password,$user->password)){
+	if(crypt($login->password,$user->password) == $user->password){
 		// Senha ok
 		
 		// Criando o novo token
