@@ -5,15 +5,19 @@
 	
 		<ion-item>
 			<ion-label inline>Login</ion-label>
-			<ion-input type="text"></ion-input>
+			<ion-input [(ngModel)]="data.u" type="text"></ion-input>
 		</ion-item>
 	
 		<ion-item>
 			<ion-label inline>Senha</ion-label>
-			<ion-input type="password"></ion-input>
+			<ion-input [(ngModel)]="data.p" type="password"></ion-input>
 		</ion-item>	
 		
-		<button ion-button color="light">Entrar</button>
+		<button
+			(click) = "onEntrarClick()"
+			ion-button
+			color="light"
+			>Entrar</button>
 	</div>
 
 </ion-content>

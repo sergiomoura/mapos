@@ -8,13 +8,22 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LoginPage {
 
+	private data:{u:string,p:string} = {"u":'',"p":''};
+
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams
 	) {}
 
 	ionViewDidLoad() {
-		console.log('ionViewDidLoad LoginPage');
+		
 	}
 
+	onEntrarClick(){
+		this.login();
+	}
+
+	private login(){
+		console.log("tentando fazer login!");
+	}
 }
