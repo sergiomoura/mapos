@@ -1,21 +1,17 @@
 page-login {
 	ion-content{
 		background-color: color($colors,primary) !important;
-		
-		img {
-			width: 100%;
-			position: relative;
-			top:10px;
-		}
-
 		.login-container{
-						
-		}
-		
-		button {
-			width:100%;
-			position: absolute;
-			bottom: 20px;
+			width: calc(100% - 36px);
+			position: fixed;
+			top: 20px;
+			img {
+				position: relative;
+				top:10px;
+			}
+			button {
+				width:100%;
+			}
 		}
 	}
 
