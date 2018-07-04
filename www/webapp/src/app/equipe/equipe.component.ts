@@ -76,7 +76,8 @@ export class EquipeComponent implements OnInit {
 						{
 							duration:0,
 							horizontalPosition:'left',
-							verticalPosition:'bottom'
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
 						}
 					);
 
@@ -112,7 +113,8 @@ export class EquipeComponent implements OnInit {
 					{
 						duration:0,
 						horizontalPosition:'left',
-						verticalPosition:'bottom'
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
 					}
 				);
 			}
@@ -143,7 +145,8 @@ export class EquipeComponent implements OnInit {
 					{
 						duration:0,
 						horizontalPosition:'left',
-						verticalPosition:'bottom'
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
 					}
 				);
 
@@ -196,7 +199,12 @@ export class EquipeComponent implements OnInit {
 			this.equipesService.create(this.equipe).subscribe(
 				res => {
 					// Exibindo snackbar de sucesso
-					this.snackBar.open('Equipe adicionada com sucesso!');
+					this.snackBar.open(
+						'Equipe adicionada com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
 
 					// navegando para a tela de equipes
 					this.router.navigateByUrl('/home/equipes');
@@ -205,12 +213,13 @@ export class EquipeComponent implements OnInit {
 					// Exibindo snackbar de erro
 					this.snackBar
 					.open(
-						'Falha ao tentar adicionar equipe.',
+						'Falha ao adicionar equipe',
 						'Fechar',
 						{
 							duration:0,
 							horizontalPosition:'left',
-							verticalPosition:'bottom'
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
 						}
 					);
 
@@ -223,7 +232,12 @@ export class EquipeComponent implements OnInit {
 				res => {
 					
 					// Exibindo snackbar de sucesso
-					this.snackBar.open('Equipe alterada com sucesso!');
+					this.snackBar.open(
+						'Equipe alterada com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
 
 					// Navegando para tela de equipes
 					this.router.navigateByUrl('/home/equipes');
@@ -239,13 +253,14 @@ export class EquipeComponent implements OnInit {
 						{
 							duration:0,
 							horizontalPosition:'left',
-							verticalPosition:'bottom'
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error']							
 						}
 					);
 
 					// Imprimindo erro no console
 					console.warn(err);
-
+					
 				}
 			)
 		}

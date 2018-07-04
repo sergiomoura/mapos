@@ -71,12 +71,13 @@ export class UsuarioComponent implements OnInit {
 					// Exibindo snackbar de erro
 					this.snackBar
 					.open(
-						'Falha ao carregar o usuário.',
+						'Falha ao tentar carregar usuário',
 						'Fechar',
 						{
 							duration:0,
 							horizontalPosition:'left',
-							verticalPosition:'bottom'
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
 						}
 					);
 				}
@@ -109,7 +110,8 @@ export class UsuarioComponent implements OnInit {
 					{
 						duration:0,
 						horizontalPosition:'left',
-						verticalPosition:'bottom'
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
 					}
 				);
 
@@ -141,7 +143,12 @@ export class UsuarioComponent implements OnInit {
 			.subscribe(
 				res => {
 					// Exibindo snackbar de sucesso
-					this.snackBar.open('Usuário criado com sucesso!');
+					this.snackBar.open(
+						'Usuário criado com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
 
 					// Navegando para página de usuários
 					this.router.navigateByUrl('/home/usuarios');
@@ -155,7 +162,8 @@ export class UsuarioComponent implements OnInit {
 						{
 							duration:0,
 							horizontalPosition:'left',
-							verticalPosition:'bottom'
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
 						}
 					);
 
@@ -167,8 +175,13 @@ export class UsuarioComponent implements OnInit {
 			this.usuariosService.update(this.usuario,this.senha1)
 			.subscribe(
 				res => {
-					// Exibindo snack de sucesso
-					this.snackBar.open('Usuário atualizado com sucesso!');
+					// Exibindo snackbar de sucesso
+					this.snackBar.open(
+						'Usuário atualizado com sucesso',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
 
 					// Redirecionando para página de usuários
 					this.router.navigateByUrl('/home/usuarios');
@@ -182,7 +195,8 @@ export class UsuarioComponent implements OnInit {
 						{
 							duration:0,
 							horizontalPosition:'left',
-							verticalPosition:'bottom'
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
 						}
 					);
 

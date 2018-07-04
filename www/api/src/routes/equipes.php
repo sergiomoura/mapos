@@ -189,7 +189,7 @@
 			// Retornando erro para usuário
 			return $res
 			->withStatus(500)
-			->write('Falha ao tentar inserir nova equipe no banco de dados');
+			->write('Falha ao tentar inserir nova equipe no banco de dados: '.$e->getMessage());
 
 		}
 

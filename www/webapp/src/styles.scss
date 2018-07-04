@@ -1,4 +1,11 @@
-* {font-family: 'Poppins', sans-serif;}
+@import '~@angular/material/theming';
+@import './custom.scss';
+
+$warn: map-get($maxse-theme, warn);
+$primary: map-get($maxse-theme, primary);
+$accent: map-get($maxse-theme, accent);
+
+* {font-family: 'Poppins', sans-serif}
 
 body{
     background-color: #F0F0F0;
@@ -24,4 +31,21 @@ body{
 
 .spacer{
     flex: 1 1 auto; 
+}
+
+.snackbar-error{
+    background-color: mat-color($warn) !important;
+    color:#FFF !important;
+    .mat-simple-snackbar{
+        font-family: 'Poppins', sans-serif !important;
+        text-align: center;
+    }
+}
+
+.snackbar-ok{
+    background-color: mat-color($accent) !important;
+    color:#000 !important;
+    .mat-simple-snackbar{
+        font-family: 'Poppins', sans-serif !important;
+    }
 }
