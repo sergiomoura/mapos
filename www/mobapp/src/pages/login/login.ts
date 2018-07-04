@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Storage } from "@ionic/storage";
 import { HomePage } from '../home/home';
+import { ToastController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,8 @@ export class LoginPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private authProvider:AuthProvider,
-		private storage:Storage
+		private storage:Storage,
+		private toastController:ToastController
 	) {}
 
 	ionViewDidLoad() {
@@ -36,7 +38,14 @@ export class LoginPage {
 				this.navCtrl.push(HomePage);
 			},
 			err => {
-				console.warn(err);
+				// Apresentando toast de erro
+				const toast = this.toastController.create({
+					message: 'Login/Senha inválidos',
+					duration: 0,
+					showCloseButton: true,
+      				closeButtonText: 'X'
+				});
+				toast.present();
 			}
 		)
 	}
