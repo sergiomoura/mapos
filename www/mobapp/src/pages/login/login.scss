@@ -1,0 +1,32 @@
+page-login {
+	ion-content{
+		background-color: color($colors,primary) !important;
+		.login-container{
+			position: relative;
+			top: 50%;
+			margin-top: -160px;
+			img {
+				width: 100%;
+			}
+			button {
+				width:100%;
+			}
+		}
+	}
+	.item-md {
+		background-color:transparent;
+		margin-bottom: 20px;
+		padding-left: 0;
+	}
+	.input-cover{
+		background-color:transparent;
+	}
+	input {
+		color:#FFF;
+	}
+
+	.label-md {
+		color:#FFF !important;
+	}
+	
+}
