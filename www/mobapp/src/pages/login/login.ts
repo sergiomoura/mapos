@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { AuthProvider } from '../../providers/auth/auth';
 
 @IonicPage()
 @Component({
@@ -12,7 +13,8 @@ export class LoginPage {
 
 	constructor(
 		public navCtrl: NavController,
-		public navParams: NavParams
+		public navParams: NavParams,
+		private authProvider:AuthProvider
 	) {}
 
 	ionViewDidLoad() {
@@ -24,6 +26,14 @@ export class LoginPage {
 	}
 
 	private login(){
-		console.log("tentando fazer login!");
+		this.authProvider.login(this.data.u,this.data.p)
+		.subscribe(
+			res => {
+				console.log(res);
+			},
+			err => {
+				console.warn(err);
+			}
+		)
 	}
 }
