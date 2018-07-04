@@ -1,18 +1,24 @@
 page-login {
 	ion-content{
 		background-color: color($colors,primary) !important;
-		.login-container{
+		
+		img {
+			width: 100%;
 			position: relative;
-			top: 50%;
-			margin-top: -160px;
-			img {
-				width: 100%;
-			}
-			button {
-				width:100%;
-			}
+			top:10px;
+		}
+
+		.login-container{
+						
+		}
+		
+		button {
+			width:100%;
+			position: absolute;
+			bottom: 20px;
 		}
 	}
+
 	.item-md {
 		background-color:transparent;
 		margin-bottom: 20px;
