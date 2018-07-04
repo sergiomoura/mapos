@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
+import { Storage } from "@ionic/storage";
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -14,7 +16,8 @@ export class LoginPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		private authProvider:AuthProvider
+		private authProvider:AuthProvider,
+		private storage:Storage
 	) {}
 
 	ionViewDidLoad() {
@@ -29,7 +32,8 @@ export class LoginPage {
 		this.authProvider.login(this.data.u,this.data.p)
 		.subscribe(
 			res => {
-				console.log(res);
+				this.storage.set('currentUser',res);
+				this.navCtrl.push(HomePage);
 			},
 			err => {
 				console.warn(err);
