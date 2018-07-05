@@ -31,20 +31,24 @@ export class LoginPage {
 	}
 
 	private login(){
+		
+		const toast = this.toastController.create({
+			message: 'Login/Senha inválidos',
+			duration: 0,
+			showCloseButton: true,
+			closeButtonText: 'X',
+			dismissOnPageChange: true
+		});
+
 		this.authProvider.login(this.data.u,this.data.p)
 		.subscribe(
 			res => {
 				this.storage.set('currentUser',res);
 				this.navCtrl.push(HomePage);
+				toast.
 			},
 			err => {
 				// Apresentando toast de erro
-				const toast = this.toastController.create({
-					message: 'Login/Senha inválidos',
-					duration: 0,
-					showCloseButton: true,
-      				closeButtonText: 'X'
-				});
 				toast.present();
 			}
 		)
