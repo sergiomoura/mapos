@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { FormsModule } from '@angular/forms';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { Keyboard } from "@ionic-native/keyboard";
 import { HttpClientModule } from "@angular/common/http";
 import { IonicStorageModule } from "@ionic/storage";
 import { MyApp } from './app.component';
@@ -34,7 +33,6 @@ import { AuthProvider } from '../providers/auth/auth';
   providers: [
     StatusBar,
     SplashScreen,
-    Keyboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider
   ]
