@@ -45,7 +45,6 @@ export class LoginPage {
 			res => {
 				this.storage.set('currentUser',res);
 				this.navCtrl.push(HomePage);
-				toast.
 			},
 			err => {
 				// Apresentando toast de erro
