@@ -4,7 +4,8 @@
 			<input [(ngModel)]="equipe.nome" matInput placeholder="Nome" name="nome" required>
 		</mat-form-field>
 		<mat-form-field>
-			<input [(ngModel)]="equipe.sigla" matInput placeholder="Sigla" name="sigla" required>
+			<input [(ngModel)]="equipe.sigla" maxlength="4" matInput placeholder="Sigla" name="sigla" required>
+			<mat-hint align="end">{{equipe.sigla.length}} / 4</mat-hint>
 		</mat-form-field>
 		<mat-form-field>
 			<mat-select [(ngModel)]="equipe.tipo" placeholder="Tipo de Equipe" name="tipo">
