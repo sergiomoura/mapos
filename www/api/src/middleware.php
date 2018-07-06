@@ -42,7 +42,9 @@ class CheckAuthMiddleware
 
             if($id === false) {
                 echo('aqui');
-                return $response->withStatus(401);
+                return $response
+                        ->withStatus(401)
+                        ->write("Token inválido");
             } else {
                 $response = $next($request, $response);
                 return $response;
@@ -55,8 +57,9 @@ class CheckAuthMiddleware
             if($path != '/login' && $path != 'login' && $path != '/api/login'){
 
                 // Não é login. Retornando com status 401
-                echo('acolá');
-                return $response->withStatus(401);
+                return $response
+                        ->withStatus(401)
+                        ->write('Acesso não autorizado a '.$path);
 
             } else {
 
