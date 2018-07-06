@@ -5,15 +5,39 @@ use Slim\Http\Response;
 
 $app->get($api_root.'/usuarios', function (Request $req,  Response $res, $args = []) {
 	
-	// Carregando usuários da base
-	$sql = 'SELECT
-				id,
-				nome,
-				email,
-				acessoApp,
-				acessoWeb,
-				ativo FROM maxse_usuarios
-			ORDER BY nome';
+	// Capturando o id do solicitante
+	$token = getTokenFrom($req);
+	
+	// Levantando o id do usuário
+	$sql = 'SELECT id FROM maxse_usuarios WHERE token=:token';
+	$stmt = $this->db->prepare($sql);
+	$stmt->execute(array(
+		':token' => $token
+	));
+	$idu = ($stmt->fetch())->id;
+
+	// Carregando usuários da base. Excluir o root caso o usuário não seja o próprio
+	if($idu == 1){
+		$sql = 'SELECT
+					id,
+					nome,
+					email,
+					acessoApp,
+					acessoWeb,
+					ativo FROM maxse_usuarios
+				ORDER BY nome';
+	} else {
+		$sql = 'SELECT
+					id,
+					nome,
+					email,
+					acessoApp,
+					acessoWeb,
+					ativo FROM maxse_usuarios
+				WHERE id != 1
+				ORDER BY nome';
+	}
+
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute();
 	$usuarios = $stmt->fetchAll();

@@ -20,6 +20,10 @@ $api_root = $_SERVER['SERVER_NAME'] == 'localhost' ? '' : '/api';
 // Carregando configurações
 $settings = require __DIR__ . '/../src/settings.php';
 
+// Carregando Helpers
+require __DIR__ . '/../src/helpers.php';
+
+
 // Instanciando app
 $app = new \Slim\App($settings);
 
