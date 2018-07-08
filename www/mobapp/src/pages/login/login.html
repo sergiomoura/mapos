@@ -1,33 +1,18 @@
 <ion-content padding>
-
 	<div class="login-container">
-		<pre>{{dInfo.cordova}}</pre>
-		<pre>{{dInfo.id}}</pre>
-		<pre>{{dInfo.isVirtual}}</pre>
-		<pre>{{dInfo.manufacturer}}</pre>
-		<pre>{{dInfo.model}}</pre>
-		<pre>{{dInfo.platform}}</pre>
-		<pre>{{dInfo.serial}}</pre>
-		<pre>{{dInfo.version}}</pre>
-
 		<img src="../../assets/imgs/logo.png" alt="MAXSe">
-				
 		<ion-item>
 			<ion-label floating>Login</ion-label>
 			<ion-input [(ngModel)]="data.u" type="text"></ion-input>
 		</ion-item>
-	
 		<ion-item>
 			<ion-label floating>Senha</ion-label>
 			<ion-input [(ngModel)]="data.p" type="password"></ion-input>
 		</ion-item>	
-		
 		<button
 			(click) = "onEntrarClick()"
 			ion-button
 			color="light"
 			>Entrar</button>
 	</div>
-
-</ion-content>
-	
+</ion-content>	

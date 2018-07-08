@@ -1,19 +1,19 @@
 import { HttpClient } from '@angular/common/http';
+import { Urls } from "../../helpers/urls";
 import { Injectable } from '@angular/core';
 
 @Injectable()
 
 export class AuthProvider {
 
-  private login_url:string = 'http://localhost:8000/api/login';
+	constructor(
+		public http: HttpClient,
+		private urls: Urls
+	) {}
 
-  constructor(
-    public http: HttpClient
-  ) {}
-
-  login(username:string,password:string) {
-    let data:{username:string,password:string} = {username:username,password:password}
-    return this.http.post(this.login_url,data);
-  }
+	login(username:string,password:string,from:string) {
+		let data:{username:string,password:string,from:string} = {username:username,password:password,from:from}
+		return this.http.post(this.urls.login,data);
+	}
 
 }

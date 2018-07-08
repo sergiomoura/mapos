@@ -11,6 +11,7 @@ import { HomePage } from '../pages/home/home';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { Device } from '@ionic-native/device';
+import { Urls } from "../helpers/urls";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { Device } from '@ionic-native/device';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
-    Device
+    Device,
+    Urls
   ]
 })
 export class AppModule {}

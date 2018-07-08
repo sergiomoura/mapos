@@ -33,4 +33,10 @@ page-login {
 		color:#FFF !important;
 	}
 	
+	.console {
+		position: absolute;
+		top:310px;
+		width: calc(100% - 30px);
+		background: #FFF;
+	}
 }

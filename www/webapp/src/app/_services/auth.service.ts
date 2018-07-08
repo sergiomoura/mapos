@@ -13,8 +13,8 @@ export class AuthService {
 	constructor(private http:HttpClient) { }
 	
 	// Método que realiza o login
-	login(username: string, password: string) {
-		return this.http.post<any>(this.loginUrl, { username: username, password: password });
+	login(username: string, password: string, from: string) {
+		return this.http.post<any>(this.loginUrl, { username: username, password: password, from: from});
 	}
 
 	// Método que realiza o logout

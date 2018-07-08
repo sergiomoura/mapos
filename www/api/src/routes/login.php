@@ -33,13 +33,12 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 	
 	
 	// Tentando carregar usuário da base
-	$sql = 'SELECT id,nome,email,password FROM maxse_usuarios WHERE username=:u and ativo=1';
+	$sql = 'SELECT id,nome,email,acessoApp,acessoWeb,password FROM maxse_usuarios WHERE username=:u and ativo=1';
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute(array(':u' => $login->username));
 	$user = $stmt->fetch();
-	
 
-	// Se usuário inexistente
+	// Se usuário existe
 	if($user === false) {
 		
 		// Retornando erro para usuário
@@ -47,6 +46,22 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 		->withStatus(403)
 		->write('Usuário inexistente');
 		;
+	}
+
+	// Se ele está tentando acessar a partir de app sem permissão
+	if($login->from === 'app' && $user->acessoApp !== '1'){
+		// Retornando erro para usuário
+		return $res
+		->withStatus(403)
+		->write('Acesso via app bloqueado');
+	}
+
+	// Se ele está tentando acessar a partir da web sem permissão
+	if($login->from === 'web' && $user->acessoWeb !== '1'){
+		// Retornando erro para usuário
+		return $res
+		->withStatus(403)
+		->write('Acesso via web bloqueado');
 	}
 	
 	// Verificando a senha do usuário

@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from "@angular/router";
 
 export class LoginComponent implements OnInit {
 
-	loginData: {u:string, p:string} = {u:'',p:''};
+	loginData: {u:string, p:string,f:string} = {u:'',p:'',f:'web'};
 	returnUrl: string;
 	loginFalhou: boolean = false;
 
@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
 	}
 
 	private login() {
-		this.authService.login(this.loginData.u,this.loginData.p)
+		this.authService.login(this.loginData.u,this.loginData.p,this.loginData.f)
 		.subscribe(
 			res => {
 				// login successful if there's a jwt token in the response
