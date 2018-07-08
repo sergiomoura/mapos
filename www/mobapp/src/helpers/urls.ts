@@ -9,19 +9,20 @@ export class Urls {
 	private REMOTE_SERVER:string = "http://maxse.servicos.ws/api";
 
 	private _login:string;
-	
+	private _sses:string;
+
 	// Definindo todas as urls no constructor
 	constructor(
 		private device:Device
 	){
 		this._login = this.apiRoot() + '/login';
+		this._sses =  this.apiRoot() + '/sses';
 	}
 
 
 	// Definindo os GETTERS
-	public get login() : string {
-		return this._login;
-	}
+	public get login() : string {return this._login;}
+	public get sses() : string {return this._sses;}
 	
 
 	apiRoot():string{

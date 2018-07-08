@@ -12,25 +12,30 @@ import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
 import { Device } from '@ionic-native/device';
 import { Urls } from "../helpers/urls";
+import { SsesPage } from '../pages/sses/sses';
+import { SsesProvider } from '../providers/sses/sses';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    SsesPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     FormsModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    SsesPage
   ],
   providers: [
     StatusBar,
@@ -38,7 +43,8 @@ import { Urls } from "../helpers/urls";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     Device,
-    Urls
+    Urls,
+    SsesProvider
   ]
 })
 export class AppModule {}

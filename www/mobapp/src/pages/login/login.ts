@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Storage } from "@ionic/storage";
-import { HomePage } from '../home/home';
+import { SsesPage } from '../sses/sses';
 import { ToastController } from 'ionic-angular';
 
 @Component({
@@ -24,6 +24,11 @@ export class LoginPage {
 	) {}
 
 	ionViewDidLoad() {
+		
+	}
+
+	ionViewCanEnter(){
+		
 	}
 
 	onEntrarClick(){
@@ -36,7 +41,7 @@ export class LoginPage {
 		.subscribe(
 			res => {
 				this.storage.set('currentUser',res);
-				this.navCtrl.push(HomePage);
+				this.navCtrl.push(SsesPage);
 			},
 			err => {
 
