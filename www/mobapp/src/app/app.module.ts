@@ -4,7 +4,7 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { FormsModule } from '@angular/forms';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { IonicStorageModule } from "@ionic/storage";
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -14,6 +14,7 @@ import { Device } from '@ionic-native/device';
 import { Urls } from "../helpers/urls";
 import { SsesPage } from '../pages/sses/sses';
 import { SsesProvider } from '../providers/sses/sses';
+import { JwtInterceptor } from "../helpers/jwt.interceptor";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,6 @@ import { SsesProvider } from '../providers/sses/sses';
     FormsModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -40,6 +40,7 @@ import { SsesProvider } from '../providers/sses/sses';
   providers: [
     StatusBar,
     SplashScreen,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     Device,
