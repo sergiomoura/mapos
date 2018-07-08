@@ -13,7 +13,6 @@ import { ToastController } from 'ionic-angular';
 export class LoginPage {
 
 	private data:{u:string,p:string,f:string} = {"u":'',"p":'',"f":'app'};
-	private erro:object;
 
 	constructor(
 		public navCtrl: NavController,
@@ -24,11 +23,7 @@ export class LoginPage {
 	) {}
 
 	ionViewDidLoad() {
-		
-	}
-
-	ionViewCanEnter(){
-		
+		this.storage.remove('currentUser');
 	}
 
 	onEntrarClick(){
@@ -40,8 +35,9 @@ export class LoginPage {
 		this.authProvider.login(this.data.u,this.data.p,this.data.f)
 		.subscribe(
 			res => {
-				this.storage.set('currentUser',res);
-				this.navCtrl.push(SsesPage);
+				this.storage.set('currentUser',res).then(
+					() => { this.navCtrl.push(SsesPage);}
+				)
 			},
 			err => {
 
@@ -56,7 +52,6 @@ export class LoginPage {
 
 				// Apresentando toast de erro
 				toast.present();
-				this.erro = err;
 			}
 		)
 	}

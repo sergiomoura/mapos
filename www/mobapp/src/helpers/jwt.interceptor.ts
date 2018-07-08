@@ -20,12 +20,14 @@ export class JwtInterceptor implements HttpInterceptor {
 		.pipe(
 			mergeMap(
 				currentUser => {
-					// Use the token in the request
-					request = request.clone(
-						{
-							setHeaders: {Authorization: 'Bearer ' + currentUser.token}
-						}
-					);
+					if(currentUser && currentUser.token){
+						// Use the token in the request
+						request = request.clone(
+							{
+								setHeaders: {Authorization: 'Bearer ' + currentUser.token}
+							}
+						);
+					}
 	
 					// Handle the request
 					return next.handle(request);

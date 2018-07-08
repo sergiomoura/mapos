@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { SsesProvider } from "../../providers/sses/sses";
+import { ToastController } from 'ionic-angular';
+import { SSE } from "../../_models/sse";
 
 @Component({
 	selector: 'page-sses',
@@ -9,10 +11,14 @@ import { SsesProvider } from "../../providers/sses/sses";
 })
 export class SsesPage {
 
+	// Privadas
+	sses:SSE[] = <SSE[]>[];
+
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private loadingConttroller: LoadingController,
+		private toastController:ToastController,
 		private ssesProvider: SsesProvider
 	) {}
 
@@ -20,8 +26,8 @@ export class SsesPage {
 		this.getSSEs();
 	}
 
-	onItemClick(){
-		console.log("aasdasd");
+	onSSEClick(id){
+		console.log('Clicou na SSE ' + id);
 	}
 
 	getSSEs(){
@@ -34,11 +40,23 @@ export class SsesPage {
 
 		this.ssesProvider.getVisibles().subscribe(
 			res => {
-				console.log(res);
+				this.sses = <SSE[]>res;
 				loader.dismiss();
 			},
 			err => {
-				console.log(err);
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+					message: 'Falha ao tentar carregar SSEs',
+					duration: 0,
+					showCloseButton: true,
+					closeButtonText: 'X'
+				});
+				toast.present();
+
+				// Imprimindo erro no console
+				console.warn(err);
+
+				// Esconde carregando
 				loader.dismiss();
 			}
 		)
