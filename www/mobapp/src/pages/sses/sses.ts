@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { SsesProvider } from "../../providers/sses/sses";
 import { ToastController } from 'ionic-angular';
+import { SsePage } from "../sse/sse";
 import { SSE } from "../../_models/sse";
 
 @Component({
@@ -27,7 +28,7 @@ export class SsesPage {
 	}
 
 	onSSEClick(id){
-		console.log('Clicou na SSE ' + id);
+		this.navCtrl.push(SsePage);	
 	}
 
 	getSSEs(){

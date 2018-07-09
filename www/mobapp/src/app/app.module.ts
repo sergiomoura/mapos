@@ -15,6 +15,8 @@ import { Urls } from "../helpers/urls";
 import { SsesPage } from '../pages/sses/sses';
 import { SsesProvider } from '../providers/sses/sses';
 import { JwtInterceptor } from "../helpers/jwt.interceptor";
+import { SsePage } from "../pages/sse/sse";
+import { SsePageModule } from "../pages/sse/sse.module";
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { JwtInterceptor } from "../helpers/jwt.interceptor";
     IonicModule.forRoot(MyApp),
     FormsModule,
     HttpClientModule,
+    SsePageModule,
     IonicStorageModule.forRoot(),
   ],
   bootstrap: [IonicApp],
@@ -35,7 +38,8 @@ import { JwtInterceptor } from "../helpers/jwt.interceptor";
     MyApp,
     HomePage,
     LoginPage,
-    SsesPage
+    SsesPage,
+    SsePage
   ],
   providers: [
     StatusBar,
