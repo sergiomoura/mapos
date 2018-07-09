@@ -8,7 +8,7 @@
 			<mat-hint align="end">{{equipe.sigla.length}} / 4</mat-hint>
 		</mat-form-field>
 		<mat-form-field>
-			<mat-select [(ngModel)]="equipe.tipo" placeholder="Tipo de Equipe" name="tipo">
+			<mat-select [(ngModel)]="equipe.tipo" placeholder="Tipo de Equipe" name="tipo" required>
 				<mat-option *ngFor="let tipo of tiposDeEquipe" [value]="tipo">
 					{{tipo.nome}}
 				</mat-option>
@@ -26,7 +26,7 @@
 		</mat-form-field>
 
 		<mat-form-field>
-			<mat-select [(ngModel)]="equipe.membros" placeholder="Membros" multiple name="membros">
+			<mat-select [(ngModel)]="equipe.membros" placeholder="Membros" multiple name="membros" required>
 				<mat-select-trigger>
 					{{equipe.membros.length>0 ? equipe.membros[0].nome : ''}}
 					<span *ngIf="equipe.membros.length > 1">
