@@ -12,4 +12,5 @@ export class SSE{
 	dh_ini_exec:Date;
 	dh_fim_exec:Date;
 	urgente:boolean;
+	
 }
