@@ -178,7 +178,7 @@
 				array(
 					':nome'=>$equipe->nome,
 					':sigla'=>$equipe->sigla,
-					':id_lider'=>($equipe->lider ? $equipe->lider->id : 0),
+					':id_lider'=>($equipe->lider ? $equipe->lider->id : NULL),
 					':id_tipo'=>$equipe->tipo->id,
 					':ativa'=> ($equipe->ativa ? 1 : 0)
 				)
