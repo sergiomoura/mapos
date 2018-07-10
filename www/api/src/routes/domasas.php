@@ -26,7 +26,6 @@
 			$i = 0;
 			while(!$achou && $i < sizeof($domasas)){
 				if($domasas[$i]->id == $bairro->domasa){
-					unset($bairro->domasa);
 					array_push($domasas[$i]->bairros,$bairro);
 					$achou = true;
 				}

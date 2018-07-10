@@ -18,11 +18,11 @@
 	</ion-item>
 	<ion-item>
 		<ion-label floating>Número</ion-label>
-		<ion-input type="text"></ion-input>
+		<ion-input type="text" [(ngModel)]="sse.numero"></ion-input>
 	</ion-item>
 	<ion-item>
 		<ion-label floating>Data do Recebimento</ion-label>
-		<ion-datetime displayFormat="DD MMM YYYY"></ion-datetime>
+		<ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="sse.dh_recebido"></ion-datetime>
 	</ion-item>
 	<ion-item>
 		<ion-label floating>Hora do Recebimento</ion-label>

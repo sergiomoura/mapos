@@ -34,6 +34,16 @@ CREATE TABLE `maxse_bairros` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `maxse_bairros`
+--
+
+LOCK TABLES `maxse_bairros` WRITE;
+/*!40000 ALTER TABLE `maxse_bairros` DISABLE KEYS */;
+INSERT INTO `maxse_bairros` VALUES (1,'413','AEROPORTO VIRACOPOS',5),(2,'946','ALTO DO JD IPAUSSURAMA',6),(3,'940','ALTO JD IPAUSSURAMA',1),(4,'344','BACURI',5),(5,'155','BOSQUE',3),(6,'831','BUENO DE MIRANDA',3),(7,'788','CAMBO BELO',5),(8,'764','CAMPINAS',1),(9,'877','CAMPO REDONDO',5),(10,'359','CAMPOS ELISEOS',1),(11,'164','CENTRO',3),(12,'498','CH ARVORE GRANDE',1),(13,'474','CH BURITI',3),(14,'16','CH CAMPOS ELISEOS',1),(15,'66','CH CRUZEIRO DO SUL',6),(16,'454','CH DA REPUBLICA',1),(17,'988','CH FLORIANO C. PENTEADO',3),(18,'416','CH FORMOSA',5),(19,'948','CH LULU PONTES',1),(20,'149','CH MARISA',1),(21,'140','CH MORUMBI',6),(22,'560','CH OLIMPIA',3),(23,'976','CH PRADO',3),(24,'95','CH RECANTO DA COLINA',6),(25,'613','CH RECREIO',3),(26,'976','CH SAMAMBAIA',3),(27,'220','CH SAO DOMINGOS',3),(28,'528','CH SAO FRANCISCO',5),(29,'294','CH SAO JOSE',5),(30,'934','CH SAO JUDAS TADEU',6),(31,'795','CH SAO MARTINHO',3),(32,'337','CH STA LETICIA',5),(33,'693','CH STO ANTONIO',1),(34,'2','CH STO ANTONIO DA SAUDADE',3),(35,'502','CH STO ANTONIO SAUDADE',3),(36,'334','CH STOS DUMONT',5),(37,'989','CH VIEIRA',3),(38,'24','CID JARDIM',1),(39,'420','CID SATELITE IRIS',6);
+/*!40000 ALTER TABLE `maxse_bairros` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maxse_domasas`
 --
 
@@ -45,6 +55,16 @@ CREATE TABLE `maxse_domasas` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_domasas`
+--
+
+LOCK TABLES `maxse_domasas` WRITE;
+/*!40000 ALTER TABLE `maxse_domasas` DISABLE KEYS */;
+INSERT INTO `maxse_domasas` VALUES (1),(3),(5),(6);
+/*!40000 ALTER TABLE `maxse_domasas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `maxse_equipes`
@@ -69,6 +89,16 @@ CREATE TABLE `maxse_equipes` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `maxse_equipes`
+--
+
+LOCK TABLES `maxse_equipes` WRITE;
+/*!40000 ALTER TABLE `maxse_equipes` DISABLE KEYS */;
+INSERT INTO `maxse_equipes` VALUES (2,'Tapa Buraco A1','TBR4',2,1,1),(3,'Base 1','B1',3,2,1),(4,'Tapa Buraco 5','TBR5',2,1,1),(5,'Mecanizada 1','MEC1',4,4,1),(6,'Mecanizada 2','MEC2',1,4,1),(7,'Guias e Sarjetas 1','GS1',1,3,0),(9,'Equipe teste','test',10,3,1),(10,'Equipe Teste 2','TT2',9,4,1),(11,'asdasdasd','aaa',10,3,0),(13,'Equipe Teste 3','ett4',NULL,3,1),(14,'Equipe Teste 5','ET5',NULL,2,1),(15,'Equipe Teste 6','ETT6',NULL,2,1);
+/*!40000 ALTER TABLE `maxse_equipes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maxse_equipes_x_usuarios`
 --
 
@@ -84,6 +114,16 @@ CREATE TABLE `maxse_equipes_x_usuarios` (
   CONSTRAINT `fk_maxse_equipes_x_usuarios_2` FOREIGN KEY (`id_usuario`) REFERENCES `maxse_usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_equipes_x_usuarios`
+--
+
+LOCK TABLES `maxse_equipes_x_usuarios` WRITE;
+/*!40000 ALTER TABLE `maxse_equipes_x_usuarios` DISABLE KEYS */;
+INSERT INTO `maxse_equipes_x_usuarios` VALUES (2,1),(2,2),(2,3),(2,4),(3,1),(3,9),(4,1),(4,2),(4,4),(4,5),(5,1),(5,2),(5,3),(5,5),(6,1),(6,2),(6,3),(6,9),(7,4),(7,5),(7,6),(9,1),(9,6),(9,10),(10,3),(10,6),(10,10),(11,1),(11,6),(13,3),(13,6),(13,9),(14,1),(14,6),(15,1),(15,6),(15,10);
+/*!40000 ALTER TABLE `maxse_equipes_x_usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `maxse_medidas_area`
@@ -105,6 +145,16 @@ CREATE TABLE `maxse_medidas_area` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `maxse_medidas_area`
+--
+
+LOCK TABLES `maxse_medidas_area` WRITE;
+/*!40000 ALTER TABLE `maxse_medidas_area` DISABLE KEYS */;
+INSERT INTO `maxse_medidas_area` VALUES (1,11.00,2.00,1,'p'),(2,2.50,3.00,1,'p'),(3,2.80,2.11,2,'p'),(4,2.20,1.20,2,'p');
+/*!40000 ALTER TABLE `maxse_medidas_area` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maxse_medidas_linear`
 --
 
@@ -123,6 +173,15 @@ CREATE TABLE `maxse_medidas_linear` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `maxse_medidas_linear`
+--
+
+LOCK TABLES `maxse_medidas_linear` WRITE;
+/*!40000 ALTER TABLE `maxse_medidas_linear` DISABLE KEYS */;
+/*!40000 ALTER TABLE `maxse_medidas_linear` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maxse_medidas_unidades`
 --
 
@@ -139,6 +198,15 @@ CREATE TABLE `maxse_medidas_unidades` (
   CONSTRAINT `fk_maxse_medidas_unidades_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_medidas_unidades`
+--
+
+LOCK TABLES `maxse_medidas_unidades` WRITE;
+/*!40000 ALTER TABLE `maxse_medidas_unidades` DISABLE KEYS */;
+/*!40000 ALTER TABLE `maxse_medidas_unidades` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `maxse_sses`
@@ -165,6 +233,16 @@ CREATE TABLE `maxse_sses` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `maxse_sses`
+--
+
+LOCK TABLES `maxse_sses` WRITE;
+/*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
+INSERT INTO `maxse_sses` VALUES (1,'Rua Frederico Campos, nº 1231',3,'65554',1,'2018-07-08 09:51:22','2018-07-06 08:00:00',NULL,NULL,0),(2,'Rua Antônio Almeida Paiva, nº 121',2,'65555',2,'2018-07-08 09:54:10','2018-07-06 08:00:00',NULL,NULL,1);
+/*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maxse_tipos_de_equipe`
 --
 
@@ -178,6 +256,16 @@ CREATE TABLE `maxse_tipos_de_equipe` (
   UNIQUE KEY `nome_UNIQUE` (`nome`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_tipos_de_equipe`
+--
+
+LOCK TABLES `maxse_tipos_de_equipe` WRITE;
+/*!40000 ALTER TABLE `maxse_tipos_de_equipe` DISABLE KEYS */;
+INSERT INTO `maxse_tipos_de_equipe` VALUES (2,'Base'),(3,'Guias e Sarjetas'),(4,'Mecanizada'),(1,'Tapa Buraco');
+/*!40000 ALTER TABLE `maxse_tipos_de_equipe` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `maxse_tipos_de_servico`
@@ -196,6 +284,16 @@ CREATE TABLE `maxse_tipos_de_servico` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_tipos_de_servico`
+--
+
+LOCK TABLES `maxse_tipos_de_servico` WRITE;
+/*!40000 ALTER TABLE `maxse_tipos_de_servico` DISABLE KEYS */;
+INSERT INTO `maxse_tipos_de_servico` VALUES (1,'37','A',3.5,'Construção e/ou recuperação de pavimento asfáltico espessura 20cm','a'),(2,'4B','B',3.5,'Construção e/ou recuperação de pavimento asfáltico espessura 28 cm','a'),(3,'52','C',3.5,'Recapeamento de pavimento','a'),(4,'54','D',3.5,'Construção de pavimento em paralelepípedo','a'),(7,'56','G',2.5,'Construção e/ou recuperação de guias','l'),(8,'58','H',2.5,'Construção e/ou recuperação de sarjetas','l'),(9,'88','E',3.5,'Recuperação (nivelamento) de pavimento em paralelepípedo','a'),(10,'FR','I',7.0,'Fresagem contínua de pavimento a frio','a'),(11,'NV','F',3.5,'Fresagem contínua de pavimento a frio','u');
+/*!40000 ALTER TABLE `maxse_tipos_de_servico` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `maxse_usuarios`
@@ -219,6 +317,16 @@ CREATE TABLE `maxse_usuarios` (
   UNIQUE KEY `username_UNIQUE` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_usuarios`
+--
+
+LOCK TABLES `maxse_usuarios` WRITE;
+/*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$DdYkspTp$.j41PpGF//3O0gCO0.o3E.','Root Sérgio Moura','smouracalmon@gmail.com','5b448ac9d97bd1.83069324','2018-07-10 08:30:33',1,1,1),(2,'teste1','$2y$10$GHI.FKQs95iMPE/wkcQDxe7rJbbHpKLyrWQldkNQl8VV35nAu2hMe','Teste Um da Silva','teste1@teste.com','5b37062648caf8.80791613','2018-06-30 02:25:10',1,0,0),(3,'teste2',NULL,'Teste Dois de Sanches Almeida','teste2@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,1,1),(4,'teste3',NULL,'Teste Três Ruttember Steeper','teste3@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,0,0),(5,'teste4',NULL,'Teste Quatro de Araújo Pinho','teste4@teste.com',NULL,NULL,0,1,1),(6,'teste5',NULL,'Teste Cinco Pereita','teste5@teste.com',NULL,NULL,1,0,1),(8,'teste6',NULL,'Teste Seis','teste6@teste.com',NULL,NULL,0,0,1),(9,'teste10','$2y$10$8jG7GdKl4hISqWp8LKak0uvtIeqegUl1Pq0BHi5/ZWsoPLsLbr4Fy','Ataúlfo Rodrigues Filho','ataulfo@teste.com',NULL,NULL,1,0,1),(10,'rogerio','$1$Eund7yHt$gQWV1mj1yqzpzM/0IPxox1','Rogério Ceni','rc@teste.com','5b3f924e00fad0.05066281','2018-07-06 14:01:18',0,0,1);
+/*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -229,4 +337,4 @@ CREATE TABLE `maxse_usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-10  6:31:09
+-- Dump completed on 2018-07-10  7:41:39

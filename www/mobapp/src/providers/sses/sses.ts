@@ -13,4 +13,8 @@ export class SsesProvider {
 	getVisibles(){
 		return this.http.get(this.urls.sses);
 	}
+
+	getById(id:number){
+		return this.http.get(this.urls.sses+'/'+id);
+	}
 }
