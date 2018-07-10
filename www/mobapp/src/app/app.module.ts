@@ -17,6 +17,7 @@ import { SsesProvider } from '../providers/sses/sses';
 import { JwtInterceptor } from "../helpers/jwt.interceptor";
 import { SsePage } from "../pages/sse/sse";
 import { SsePageModule } from "../pages/sse/sse.module";
+import { GeralProvider } from '../providers/geral/geral';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SsePageModule } from "../pages/sse/sse.module";
     AuthProvider,
     Device,
     Urls,
-    SsesProvider
+    SsesProvider,
+    GeralProvider
   ]
 })
 export class AppModule {}

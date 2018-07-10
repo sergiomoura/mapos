@@ -191,7 +191,7 @@ CREATE TABLE `maxse_tipos_de_servico` (
   `codigo` varchar(4) DEFAULT NULL,
   `letra` varchar(1) DEFAULT NULL,
   `prazo` decimal(4,1) DEFAULT NULL,
-  `desc_longa` varchar(256) DEFAULT NULL,
+  `descricao` varchar(256) DEFAULT NULL,
   `medida` enum('a','l','u') NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
@@ -229,4 +229,4 @@ CREATE TABLE `maxse_usuarios` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-09 15:19:02
+-- Dump completed on 2018-07-10  6:31:09

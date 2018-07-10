@@ -6,11 +6,16 @@
 		</ion-buttons>
 	</ion-navbar>
 </ion-header>
-
 <ion-content padding>
 	<div id="image-container">
 		<img src="../../assets/imgs/dumb-sse.jpeg">
 	</div>
+	<ion-item>
+		<ion-label floating>DOMASA</ion-label>
+		<ion-select>
+			<ion-option *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</ion-option>
+		</ion-select>
+	</ion-item>
 	<ion-item>
 		<ion-label floating>Número</ion-label>
 		<ion-input type="text"></ion-input>
@@ -26,12 +31,7 @@
 	<ion-item>
 		<ion-label floating>Tipo de Serviço</ion-label>
 		<ion-select>
-			<ion-option value="nes">NES</ion-option>
-			<ion-option value="n64">Nintendo64</ion-option>
-			<ion-option value="ps">PlayStation</ion-option>
-			<ion-option value="genesis">Sega Genesis</ion-option>
-			<ion-option value="saturn">Sega Saturn</ion-option>
-			<ion-option value="snes">SNES</ion-option>
+			<ion-option *ngFor="let tds of tiposDeServico">RG{{tds.codigo}}</ion-option>
 		</ion-select>
 	</ion-item>
 	<ion-item>
