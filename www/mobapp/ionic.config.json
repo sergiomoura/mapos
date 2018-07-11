@@ -7,8 +7,12 @@
   },
   "proxies": [
     {
-      "path": "/api",
+      "path": "/dev/api",
       "proxyUrl": "http://localhost:8000/api"
+    },
+    {
+      "path": "/prod/api",
+      "proxyUrl": "https://maxse.websiteseguro.com/api"
     }
   ]
 }
