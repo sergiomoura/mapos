@@ -7,6 +7,7 @@ import { Storage } from "@ionic/storage";
 import { SsesProvider } from '../../providers/sses/sses';
 import { SSE } from '../../_models/sse';
 import { LoadingController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -26,10 +27,10 @@ export class SsePage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		private provedorGeral: GeralProvider,
 		private storage: Storage,
 		private sseProvider: SsesProvider,
-		private loadingConttroller: LoadingController
+		private loadingConttroller: LoadingController,
+		private toastController: ToastController
 	) {}
 
 	ionViewDidLoad() {
@@ -121,29 +122,44 @@ export class SsePage {
 	}
 
 	onSalvarClick(){
-		
-		// Criando e mostrando loading
-		let loading = this.loadingConttroller.create();
-		loading.setContent('Aguarde...').present();
+		this.salvar();
+	}
+
+	salvar(){
 		
 		if(this.sse.id == 0){
 			// Fazendo requisição para inserir sse
 		} else {
-			// Fazendo requisição para atualizar sse
-			this.sseProvider.update(this.sse)
-			.subscribe(
-				res => {
-					loading.dismiss();
-					console.dir(res);
-				},
-				err => {
-					loading.dismiss();
-					console.dir(err);
-				}
-			)
+			this.atualizar();	
 		}
-		
+	}
 
+	atualizar(){
+		
+		// Criando e mostrando loading
+		let loading = this.loadingConttroller.create();
+		loading.setContent('Aguarde...').present();
+
+		// Fazendo requisição para atualizar sse
+		this.sseProvider.update(this.sse)
+		.subscribe(
+			res => {
+				loading.dismiss();
+				this.navCtrl.pop();
+
+				// Exibindo toast de sucesso
+				const toast = this.toastController.create(
+					{
+						message: 'Alteração realizada com sucesso',
+						duration: 3000
+					});
+				toast.present();
+			},
+			err => {
+				loading.dismiss();
+				console.dir(err);
+			}
+		)
 	}
 
 	sseVazia():SSE{

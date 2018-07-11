@@ -28,9 +28,12 @@ export class SsesPage {
 	) {}
 
 	ionViewDidLoad() {
-		this.getSSEs();
 		this.getDomasas();
 		this.getTiposDeServico();
+	}
+
+	ionViewWillEnter() {
+		this.getSSEs();
 	}
 
 	onSSEClick(id){
