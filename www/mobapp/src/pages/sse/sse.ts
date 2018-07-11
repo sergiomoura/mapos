@@ -50,7 +50,6 @@ export class SsePage {
 
 		// Carregando a Sse da base
 		this.getSse(this.navParams.get('idSse'));
-
 		
 	}
 
@@ -168,18 +167,18 @@ export class SsePage {
 		
 		if(sse.tipoDeServico.medida == 'a'){
 			// Medidas de área: somando
-			for (let i = 0; i < sse.medidas.length; i++) {
-				total += ((1*sse.medidas[i].l) * (1*sse.medidas[i].c));
+			for (let i = 0; i < sse.medidas_area.length; i++) {
+				total += ((1*sse.medidas_area[i].l) * (1*sse.medidas_area[i].c));
 			}
 		} else if(sse.tipoDeServico.medida == 'l'){
 			// Medidas de comprimento: somando
-			for (let i = 0; i < sse.medidas.length; i++) {
-				total += 1*sse.medidas[i].v;
+			for (let i = 0; i < sse.medidas_linear.length; i++) {
+				total += 1*sse.medidas_linear[i].v;
 			}
 		} else {
 			// Medidas de unidade: somando
-			for (let i = 0; i < sse.medidas.length; i++) {
-				total += 1*sse.medidas[i].n;
+			for (let i = 0; i < sse.medidas_unidades.length; i++) {
+				total += 1*sse.medidas_unidades[i].n;
 			}
 		}
 
@@ -199,15 +198,15 @@ export class SsePage {
 	addMedida(){
 		switch (this.sse.tipoDeServico.medida) {
 			case 'a':
-				this.sse.medidas.push({'l':0,'c':0});
+				this.sse.medidas_area.push({'l':0,'c':0});
 				break;
 			
 			case 'l':
-				this.sse.medidas.push({'v':0});
+				this.sse.medidas_linear.push({'v':0});
 				break;
 			
 			case 'u':
-				this.sse.medidas.push({'n':0});
+				this.sse.medidas_unidades.push({'n':0});
 				break;
 
 			default:
@@ -216,6 +215,18 @@ export class SsePage {
 	}
 
 	rmMedida(i:number){
-		this.sse.medidas.splice(i,1);
+		switch (this.sse.tipoDeServico.medida) {
+			case 'a':
+				this.sse.medidas_area.splice(i,1);
+				break;
+			
+			case 'l':
+				this.sse.medidas_linear.splice(i,1);
+				break;
+			
+			case 'u':
+				this.sse.medidas_unidades.splice(i,1);
+				break;
+		}
 	}
 }

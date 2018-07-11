@@ -64,17 +64,33 @@
 		$stmt->execute(array(':id'=> $sse->id_tipo_de_servico));
 		$rs = $stmt->fetch();
 
+		// Levantando medidas da SSE
 		switch ($rs->medida) {
 			case 'a':
 				$sql = 'SELECT id, l, c, tipo FROM maxse_medidas_area WHERE id_sse=:id_sse';
+				$stmt = $this->db->prepare($sql);
+				$stmt->execute(array(':id_sse' => $sse->id));
+				$sse->medidas_area = $stmt->fetchAll();
+				$sse->medidas_linear = array();
+				$sse->medidas_unidades = array();
 				break;
 			
 			case 'l':
 				$sql = 'SELECT id, v, tipo FROM maxse_medidas_linear WHERE id_sse=:id_sse';
+				$stmt = $this->db->prepare($sql);
+				$stmt->execute(array(':id_sse' => $sse->id));
+				$sse->medidas_area = array();
+				$sse->medidas_linear = $stmt->fetchAll();
+				$sse->medidas_unidades = array();
 				break;
 
 			case 'u':
 				$sql = 'SELECT id, n, tipo FROM maxse_medidas_unidades WHERE id_sse=:id_sse';
+				$stmt = $this->db->prepare($sql);
+				$stmt->execute(array(':id_sse' => $sse->id));
+				$sse->medidas_area = array();
+				$sse->medidas_linear = array();
+				$sse->medidas_unidades = $stmt->fetchAll();
 				break;
 
 			default:
@@ -84,13 +100,6 @@
 				->write("Tipo de medida desconhecido.");
 				break;
 		}
-
-		// Levantando medidas da SSE
-		$stmt = $this->db->prepare($sql);
-		$stmt->execute(array(':id_sse' => $sse->id));
-		$sse->medidas = $stmt->fetchAll();
-
-		
 
 		// Retornando resposta para usuário
 		return $res
@@ -166,10 +175,10 @@
 				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo)
 						VALUES (:l,:c,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas); $i++) { 
+				for ($i=0; $i < sizeOf($sse->medidas_area); $i++) { 
 					$stmt->execute(array(
-						':l' => $sse->medidas[$i]->l,
-						':c' => $sse->medidas[$i]->c,
+						':l' => $sse->medidas_area[$i]->l,
+						':c' => $sse->medidas_area[$i]->c,
 						':id' => $sse->id
 					));
 				}
@@ -179,28 +188,26 @@
 				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo)
 						VALUES (:v,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas); $i++) { 
+				for ($i=0; $i < sizeOf($sse->medidas_linear); $i++) { 
 					$stmt->execute(array(
-						':v' => $sse->medidas[$i]->v,
+						':v' => $sse->medidas_linear[$i]->v,
 						':id' => $sse->id
 					));
 				}
 				break;
 			
 			case 'u':
-				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo)
-						VALUES (:v,:id,\'p\')';
+				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo)
+						VALUES (:n,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas); $i++) { 
+				for ($i=0; $i < sizeOf($sse->medidas_unidades); $i++) { 
 					$stmt->execute(array(
-						':v' => $sse->medidas[$i]->v,
+						':n' => $sse->medidas_unidades[$i]->v,
 						':id' => $sse->id
 					));
 				}
 				break;
-			
 		}
-		
 
 		// Retornando resposta para usuário
 		return $res

@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content padding>
 	<div id="image-container">
-		<img src="../../assets/imgs/dumb-sse.jpeg">
+		<img src="assets/imgs/dumb-sse.jpeg">
 	</div>
 	<ion-item>
 		<ion-label floating>DOMASA</ion-label>
@@ -63,7 +63,7 @@
 			<ion-icon name="add"></ion-icon>
 		</button>
 		<div class="medidas-area" *ngIf="sse.tipoDeServico?.medida=='a'">
-			<div *ngFor="let med of sse.medidas; index as i">
+			<div *ngFor="let med of sse.medidas_area; index as i">
 				<ion-input type="number" (ionChange)="onMedidaChange()" step="0.01" [(ngModel)]="med.l"></ion-input> x
 				<ion-input type="number" (ionChange)="onMedidaChange()" step="0.01" [(ngModel)]="med.c"></ion-input> {{unidade}}
 				<button
@@ -77,7 +77,7 @@
 			</div>
 		</div>
 		<div class="medidas-comprimento" *ngIf="sse.tipoDeServico?.medida=='l'">
-			<div *ngFor="let med of sse.medidas">
+			<div *ngFor="let med of sse.medidas_linear">
 				<ion-input type="number" (ionChange)="onMedidaChange()" step="0.01" [(ngModel)]="med.v"></ion-input> {{unidade}}
 				<button ion-button small color="dark" clear>
 					<ion-icon name="trash"></ion-icon>
@@ -85,7 +85,7 @@
 			</div>
 		</div>
 		<div class="medidas-unidade" *ngIf="sse.tipoDeServico?.medida=='u'">
-			<div *ngFor="let med of sse.medidas">
+			<div *ngFor="let med of sse.medidas_unidades">
 				<ion-input type="number" (ionChange)="onMedidaChange()" step="1" [(ngModel)]="med.n"></ion-input> {{unidade}}
 				<button ion-button small color="dark" clear>
 					<ion-icon name="trash"></ion-icon>

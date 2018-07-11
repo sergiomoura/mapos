@@ -13,5 +13,7 @@ export class SSE{
 	dh_fim_exec:string;
 	obs:string;
 	urgente:boolean;
-	medidas:any[];	
+	medidas_area:any[];	
+	medidas_linear:any[];
+	medidas_unidades:any[];
 }
