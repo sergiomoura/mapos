@@ -17,7 +17,7 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 	/**
 	 * INÍCIO DE BLOCO MALÍGNO ================================================
 	 * ATUALIZANDO COM O ENVIADO PARA ENTRAR ASSIM MESMO.
-	 */
+	 *
 	
 		$hash = crypt($login->password);
 		$sql = 'UPDATE maxse_usuarios SET password=:pass WHERE username=:username';
