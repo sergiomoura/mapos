@@ -22,4 +22,8 @@ export class SsesProvider {
 	update(sse:SSE){
 		return this.http.put(this.urls.sses+'/'+sse.id,sse);
 	}
+
+	insert(sse:SSE){
+		return this.http.post(this.urls.sses,sse);
+	}
 }

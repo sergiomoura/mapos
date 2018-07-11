@@ -55,22 +55,37 @@ export class SsePage {
 	}
 
 	getSse(id) {
+		if (id == 0) {
+			this.sse = this.sseVazia();
+		} else {
+			// Criando e mostrando loading
+			let loading = this.loadingConttroller.create();
+			loading.setContent('Aguarde').present();
 
-		// Criando e mostrando loading
-		let loading = this.loadingConttroller.create();
-		loading.setContent('Aguarde').present();
 
+			this.sseProvider.getById(id).subscribe(
+				res => {
+					// Esconde carregando
+					loading.dismiss();
 
-		this.sseProvider.getById(id).subscribe(
-			res => {
-				loading.dismiss();
-				this.sse = this.parseSseResponse(res);
-			},
-			err => {
-				loading.dismiss();
-				console.log(err.message);
-			}
-		)
+					// Parsing response
+					this.sse = this.parseSseResponse(res);
+				},
+				err => {
+					// Esconde carregandop
+					loading.dismiss();
+
+					// Exibindo toast de erro
+					const toast = this.toastController.create({
+						message: 'Falha ao tentar carregar SSE',
+						duration: 0,
+						showCloseButton: true,
+						closeButtonText: 'X'
+					});
+					toast.present();
+				}
+			)
+		}
 	}
 
 	parseSseResponse(res:any):SSE{
@@ -128,7 +143,7 @@ export class SsePage {
 	salvar(){
 		
 		if(this.sse.id == 0){
-			// Fazendo requisição para inserir sse
+			this.inserir();
 		} else {
 			this.atualizar();	
 		}
@@ -156,7 +171,63 @@ export class SsePage {
 				toast.present();
 			},
 			err => {
+				// Escondendo carregando
 				loading.dismiss();
+
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+					message: 'Falha ao alterar SSE',
+					duration: 0,
+					showCloseButton: true,
+					closeButtonText: 'X'
+				});
+				toast.present();
+
+				// Imprimindo erro no console
+				console.dir(err);
+				
+			}
+		)
+	}
+
+	inserir(){
+		// Criando e mostrando loading
+		let loading = this.loadingConttroller.create();
+		loading.setContent('Aguarde...').present();
+
+		// Fazendo requisição para atualizar sse
+		this.sseProvider.insert(this.sse)
+		.subscribe(
+			res => {
+				// Escondendo o carregando
+				loading.dismiss();
+
+				// Navegando para página anterior
+				this.navCtrl.pop();
+
+				// Exibindo toast de sucesso
+				const toast = this.toastController.create(
+					{
+						message: 'SSE criada com sucesso',
+						duration: 3000
+					});
+				toast.present();
+			},
+			err => {
+
+				// Escondendo carregando
+				loading.dismiss();
+
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+					message: 'Falha ao salvar SSE',
+					duration: 0,
+					showCloseButton: true,
+					closeButtonText: 'X'
+				});
+				toast.present();
+
+				// Imprimindo erro no console
 				console.dir(err);
 			}
 		)
@@ -174,6 +245,9 @@ export class SsePage {
 			dh_ini_exec:'',
 			dh_fim_exec:'',
 			urgente:false,
+			medidas_area:<any[]>[],
+			medidas_linear:<any[]>[],
+			medidas_unidades:<any[]>[]
 		}
 	}
 
@@ -198,7 +272,8 @@ export class SsePage {
 			}
 		}
 
-		return total;
+		// Retornando valor arredondado com 2 casas decimais
+		return Math.round(total*100)/100;
 	}
 
 	getUnidade(sse):string{

@@ -1,4 +1,11 @@
 page-sses {
+	
+	.bt-add {
+		position: fixed;
+		bottom:16px;
+		right: 16px;
+	}
+
 	button{
 		border-bottom: 1px solid #dedede !important;
 		.item-inner{
@@ -6,7 +13,6 @@ page-sses {
 		}
 	}
 	.item-md{
-		h2 {}
 		h3 {
 			font-size: 1.2rem;
 			color:#666;

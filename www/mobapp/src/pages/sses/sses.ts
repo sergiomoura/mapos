@@ -37,7 +37,11 @@ export class SsesPage {
 	}
 
 	onSSEClick(id){
-		this.navCtrl.push(SsePage,{idSse:id});	
+		this.navCtrl.push(SsePage,{idSse:id});
+	}
+
+	onAddClick(){
+		this.navCtrl.push(SsePage,{idSse:0});
 	}
 
 	getSSEs(){
