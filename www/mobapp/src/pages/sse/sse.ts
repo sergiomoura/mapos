@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Loading } from 'ionic-angular';
 import { Domasa } from "../../_models/domasa";
 import { TipoDeServico } from "../../_models/tipoDeServico";
 import { GeralProvider } from "../../providers/geral/geral";
@@ -33,6 +33,7 @@ export class SsePage {
 	) {}
 
 	ionViewDidLoad() {
+
 		// Carregando DOMASAS
 		this.storage.get('domasas').then(
 			domasas => {
@@ -49,24 +50,25 @@ export class SsePage {
 
 		// Carregando a Sse da base
 		this.getSse(this.navParams.get('idSse'));
+
+		
 	}
 
 	getSse(id) {
 
-		// Mostra carregando
-		const loader = this.loadingConttroller.create({
-			content: "Aguarde..."
-		});
-		loader.present();
+		// Criando e mostrando loading
+		let loading = this.loadingConttroller.create();
+		loading.setContent('Aguarde').present();
+
 
 		this.sseProvider.getById(id).subscribe(
 			res => {
-				loader.dismiss();
+				loading.dismiss();
 				this.sse = this.parseSseResponse(res);
 			},
 			err => {
-				loader.dismiss();
-				console.log(err);
+				loading.dismiss();
+				console.log(err.message);
 			}
 		)
 	}
@@ -117,6 +119,32 @@ export class SsePage {
 
 	onMedidaChange(){
 		this.medidaTotal = this.calculaTotal(this.sse);
+	}
+
+	onSalvarClick(){
+		
+		// Criando e mostrando loading
+		let loading = this.loadingConttroller.create();
+		loading.setContent('Aguarde...').present();
+		
+		if(this.sse.id == 0){
+			// Fazendo requisição para inserir sse
+		} else {
+			// Fazendo requisição para atualizar sse
+			this.sseProvider.update(this.sse)
+			.subscribe(
+				res => {
+					loading.dismiss();
+					console.dir(res);
+				},
+				err => {
+					loading.dismiss();
+					console.dir(err);
+				}
+			)
+		}
+		
+
 	}
 
 	sseVazia():SSE{

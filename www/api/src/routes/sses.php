@@ -99,3 +99,111 @@
 		->write(json_encode($sse));
 
 	});
+
+	$app->put($api_root.'/sses/{id}', function(Request $req, Response $res, $args = []){
+		
+		// Lendo corpo da requisição
+		$sse = json_decode($req->getBody()->getContents());
+
+		if(json_last_error() !== JSON_ERROR_NONE){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(400)
+			->write('Requisição mal formada');
+		}
+
+		// Atualizando dados báscos
+		try {
+			$sql = 'UPDATE
+						maxse_sses
+					SET
+						endereco = :endereco,
+						id_bairro = :id_bairro,
+						numero = :numero,
+						id_tipo_de_servico = :id_tipo_de_servico,
+						dh_registrado = now(),
+						dh_recebido = :dh_recebido,
+						urgente = :urgente,
+						obs= :obs
+						WHERE id=:id
+					';
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute(array(
+				':endereco'				=> $sse->endereco,
+				':id_bairro'			=> $sse->bairro->id,
+				':numero'				=> $sse->numero	,
+				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
+				':dh_recebido'			=> str_replace('.000Z','',$sse->dh_recebido),
+				':urgente'				=> ($sse->urgente?1:0),
+				':obs'					=> $sse->obs,
+				':id'					=> $sse->id
+			));
+		} catch (Exception $e) {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar atualizar SSE: '.$e->getMessage());
+		}
+		
+		// Removendo medidas de area da sse
+		$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse=:id';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id' => $sse->id));
+		
+		// Removendo medidas de comprimento da sse
+		$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse=:id';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id' => $sse->id));
+		
+		// Removendo medidas de area da sse
+		$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse=:id';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id' => $sse->id));
+		
+		// Determinando tabela na qual as medidas serão inseridas
+		switch ($sse->tipoDeServico->medida) {
+			case 'a':
+				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo)
+						VALUES (:l,:c,:id,\'p\')';
+				$stmt = $this->db->prepare($sql);
+				for ($i=0; $i < sizeOf($sse->medidas); $i++) { 
+					$stmt->execute(array(
+						':l' => $sse->medidas[$i]->l,
+						':c' => $sse->medidas[$i]->c,
+						':id' => $sse->id
+					));
+				}
+				break;
+			
+			case 'l':
+				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo)
+						VALUES (:v,:id,\'p\')';
+				$stmt = $this->db->prepare($sql);
+				for ($i=0; $i < sizeOf($sse->medidas); $i++) { 
+					$stmt->execute(array(
+						':v' => $sse->medidas[$i]->v,
+						':id' => $sse->id
+					));
+				}
+				break;
+			
+			case 'u':
+				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo)
+						VALUES (:v,:id,\'p\')';
+				$stmt = $this->db->prepare($sql);
+				for ($i=0; $i < sizeOf($sse->medidas); $i++) { 
+					$stmt->execute(array(
+						':v' => $sse->medidas[$i]->v,
+						':id' => $sse->id
+					));
+				}
+				break;
+			
+		}
+		
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json');
+	});

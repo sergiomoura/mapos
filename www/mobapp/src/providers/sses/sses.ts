@@ -1,12 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { Urls } from "../../helpers/urls";
 import { Injectable } from '@angular/core';
+import { SSE } from '../../_models/sse';
 
 @Injectable()
 export class SsesProvider {
 
 	constructor(
-		public http: HttpClient,
+		private http: HttpClient,
 		private urls: Urls
 	) {}
 
@@ -16,5 +17,9 @@ export class SsesProvider {
 
 	getById(id:number){
 		return this.http.get(this.urls.sses+'/'+id);
+	}
+
+	update(sse:SSE){
+		return this.http.put(this.urls.sses+'/'+sse.id,sse);
 	}
 }
