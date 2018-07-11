@@ -41,7 +41,6 @@ class CheckAuthMiddleware
             $id = $stmt->fetch();
 
             if($id === false) {
-                echo('aqui');
                 return $response
                         ->withStatus(401)
                         ->write("Token inválido");
