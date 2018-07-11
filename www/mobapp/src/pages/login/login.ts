@@ -31,7 +31,7 @@ export class LoginPage {
 	}
 
 	private login(){
-
+		console.log('Tentando realizar login...')
 		this.authProvider.login(this.data.u,this.data.p,this.data.f)
 		.subscribe(
 			res => {
@@ -52,6 +52,9 @@ export class LoginPage {
 
 				// Apresentando toast de erro
 				toast.present();
+
+				// Imprimindo mensagem de erro
+				console.warn(err.message);
 			}
 		)
 	}

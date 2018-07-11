@@ -19,6 +19,9 @@ export class SsePage {
 	public domasas:Domasa[] = <Domasa[]>[];
 	public tiposDeServico:TipoDeServico[] = <TipoDeServico[]>[];
 	public sse:SSE = this.sseVazia();
+	public domasaSelecionada:Domasa = null;
+	public medidaTotal: number = 0;
+	public unidade: string = 'm²';
 
 	constructor(
 		public navCtrl: NavController,
@@ -26,7 +29,7 @@ export class SsePage {
 		private provedorGeral: GeralProvider,
 		private storage: Storage,
 		private sseProvider: SsesProvider,
-		private loadingConttroller: LoadingController,
+		private loadingConttroller: LoadingController
 	) {}
 
 	ionViewDidLoad() {
@@ -71,16 +74,17 @@ export class SsePage {
 	parseSseResponse(res:any):SSE{
 
 		// Parsing escalares
-		res.dh_recebido = new Date(res.dh_recebido);
-		res.dh_registrado = new Date(res.dh_registrado);
+		res.dh_recebido = (new Date(res.dh_recebido)).toISOString();
+		res.dh_registrado = (new Date(res.dh_registrado)).toISOString();
 		res.id *= 1;
 		res.urgente = (res.urgente == "1");
 		
-		res.tipoDeServico = this.tiposDeServico.find(
+		let tds = this.tiposDeServico.find(
 			(a) => {
 				return res.id_tipo_de_servico == a.id;
 			}
-		)
+		);
+		res.tipoDeServico = tds;
 
 		// Procurando a domasa do bairro
 		let i:number = 0;
@@ -91,12 +95,28 @@ export class SsePage {
 					return bairro.id == res.id_bairro;
 				}
 			)
-			if(res.bairro){achou = true}
+			if(res.bairro){
+				achou = true;
+				this.domasaSelecionada = this.domasas[i];
+			}
 			i++
 		}
 
+		// Determinando medida total para exibição na tela
+		this.medidaTotal = this.calculaTotal(<SSE>res);
+		this.unidade = this.getUnidade(<SSE>res);
+
 		return <SSE>res;
 
+	}
+
+	onTipoDeSevicoChange(){
+		this.unidade = this.getUnidade(this.sse);
+		this.medidaTotal = this.calculaTotal(this.sse);
+	}
+
+	onMedidaChange(){
+		this.medidaTotal = this.calculaTotal(this.sse);
 	}
 
 	sseVazia():SSE{
@@ -106,12 +126,68 @@ export class SsePage {
 			numero:'',
 			bairro:null,
 			tipoDeServico:null,
-			dh_registrado:null,
-			dh_recebido:new Date(),
-			dh_ini_exec:null,
-			dh_fim_exec:null,
+			dh_registrado:'',
+			dh_recebido:'',
+			dh_ini_exec:'',
+			dh_fim_exec:'',
 			urgente:false,
 		}
 	}
 
+	calculaTotal(sse:SSE):number{
+		
+		let total = 0;
+		
+		if(sse.tipoDeServico.medida == 'a'){
+			// Medidas de área: somando
+			for (let i = 0; i < sse.medidas.length; i++) {
+				total += ((1*sse.medidas[i].l) * (1*sse.medidas[i].c));
+			}
+		} else if(sse.tipoDeServico.medida == 'l'){
+			// Medidas de comprimento: somando
+			for (let i = 0; i < sse.medidas.length; i++) {
+				total += 1*sse.medidas[i].v;
+			}
+		} else {
+			// Medidas de unidade: somando
+			for (let i = 0; i < sse.medidas.length; i++) {
+				total += 1*sse.medidas[i].n;
+			}
+		}
+
+		return total;
+	}
+
+	getUnidade(sse):string{
+		if(sse.tipoDeServico.medida == 'a'){
+			return 'm²';
+		} else if(sse.tipoDeServico.medida == 'l'){
+			return 'm';
+		} else {
+			return 'unid';
+		}
+	}
+
+	addMedida(){
+		switch (this.sse.tipoDeServico.medida) {
+			case 'a':
+				this.sse.medidas.push({'l':0,'c':0});
+				break;
+			
+			case 'l':
+				this.sse.medidas.push({'v':0});
+				break;
+			
+			case 'u':
+				this.sse.medidas.push({'n':0});
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	rmMedida(i:number){
+		this.sse.medidas.splice(i,1);
+	}
 }

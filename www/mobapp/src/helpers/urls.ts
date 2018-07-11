@@ -6,7 +6,8 @@ import { Device } from '@ionic-native/device';
 export class Urls {
 
 	private LOCAL_SERVER:string = "/api"; // Vai usar o proxy para redirecionar para localhost:8000
-	private REMOTE_SERVER:string = "http://maxse.servicos.ws/api";
+	// private REMOTE_SERVER:string = "http://maxse.servicos.ws/api";
+	private REMOTE_SERVER:string = "/api";
 
 	// Definindo todas as urls no constructor
 	constructor(
@@ -22,9 +23,12 @@ export class Urls {
 	
 
 	apiRoot():string{
+		console.log('Device UUID:' + this.device.uuid);
 		if(this.device.uuid == null){
+			console.log('Em servidor local ' + this.LOCAL_SERVER);
 			return this.LOCAL_SERVER;
 		} else {
+			console.log('Em servidor remoto ' + this.REMOTE_SERVER);
 			return this.REMOTE_SERVER;
 		}
 	}
