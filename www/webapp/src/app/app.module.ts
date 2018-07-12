@@ -22,6 +22,7 @@ import { EquipeComponent } from './equipe/equipe.component';
 import { FocusDirective } from './_directives/focus.directive';
 
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
+import { SsesComponent } from './sses/sses.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,7 +33,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/mater
     UsuarioComponent,
     EquipesComponent,
     EquipeComponent,
-    FocusDirective
+    FocusDirective,
+    SsesComponent
   ],
   imports: [
     BrowserModule,
