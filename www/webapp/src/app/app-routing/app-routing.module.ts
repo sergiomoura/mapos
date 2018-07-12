@@ -9,6 +9,7 @@ import { UsuarioComponent } from '../usuario/usuario.component';
 import { EquipesComponent } from "../equipes/equipes.component";
 import { EquipeComponent } from "../equipe/equipe.component";
 import { SsesComponent } from '../sses/sses.component';
+import { SseComponent } from "../sse/sse.component";
 
 const routes:Routes = [
   {
@@ -39,6 +40,10 @@ const routes:Routes = [
       {
         path: 'sses',
         component: SsesComponent,
+      },
+      {
+        path: 'sses/:id',
+        component: SseComponent,
       },
       {
         path: 'equipes/:id',

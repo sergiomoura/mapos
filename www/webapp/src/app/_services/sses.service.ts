@@ -19,4 +19,9 @@ export class SsesService {
 	getAll():Observable<SSE[]>{
 		return this.http.get<SSE[]>(this.url_getSses);
 	}
+
+	// Método que carrega sse
+	getById(id):Observable<SSE>{
+		return this.http.get<SSE>(this.url_getSses+'/'+id);
+	}
 }
