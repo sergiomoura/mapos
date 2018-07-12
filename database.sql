@@ -141,7 +141,7 @@ CREATE TABLE `maxse_medidas_area` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_area_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_area_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -150,7 +150,7 @@ CREATE TABLE `maxse_medidas_area` (
 
 LOCK TABLES `maxse_medidas_area` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_area` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_area` VALUES (16,0.10,2.00,2,'p'),(23,20.00,2.00,6,'p'),(24,1.00,2.00,6,'p'),(25,10.00,2.00,8,'p'),(31,5.00,5.00,13,'p');
+INSERT INTO `maxse_medidas_area` VALUES (16,0.10,2.00,2,'p'),(23,20.00,2.00,6,'p'),(24,1.00,2.00,6,'p'),(25,10.00,2.00,8,'p'),(33,5.00,5.00,13,'p');
 /*!40000 ALTER TABLE `maxse_medidas_area` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,7 +169,7 @@ CREATE TABLE `maxse_medidas_linear` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_linear_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_linear_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,7 +178,7 @@ CREATE TABLE `maxse_medidas_linear` (
 
 LOCK TABLES `maxse_medidas_linear` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_linear` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_linear` VALUES (1,10.00,1,'p'),(4,2.30,3,'p'),(5,2.00,3,'p'),(7,12.00,7,'p'),(8,5.00,10,'p'),(9,55.00,11,'p'),(10,5.00,12,'p'),(11,5.00,14,'p'),(12,6.00,15,'p');
+INSERT INTO `maxse_medidas_linear` VALUES (1,10.00,1,'p'),(4,2.30,3,'p'),(5,2.00,3,'p'),(7,12.00,7,'p'),(8,5.00,10,'p'),(9,55.00,11,'p'),(10,5.00,12,'p'),(11,5.00,14,'p'),(13,6.00,15,'p');
 /*!40000 ALTER TABLE `maxse_medidas_linear` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -242,7 +242,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (1,'Rua Frederico Campos, nº 1231',17,'65555',7,'2018-07-11 14:28:14','2018-07-07 08:00:00',NULL,NULL,0,'Ação: Um texto com alguma observação sobre a SSE'),(2,'Rua Antônio Almeida Paiva, nº 121',2,'67788',2,'2018-07-11 16:03:21','2018-07-07 02:00:00',NULL,NULL,1,'URGÊNCIA DEVIDA À LOCALIZAÇÃO PERIGOSA DO BURACO'),(3,'Av Francisco Rodrigues Filho, nº 2002',2,'77777',7,'2018-07-11 16:29:47','2018-07-11 14:00:00',NULL,NULL,1,'Uma observação qualquer'),(4,'Rua Teste',21,'11111',11,'2018-07-11 16:02:18','2018-07-10 17:00:00',NULL,NULL,0,NULL),(5,'Rua da Vida, nº44',5,'22222',11,'2018-07-11 16:28:37','2018-07-11 13:00:00',NULL,NULL,1,NULL),(6,'Rua da Viola, nº 50',10,'654444',1,'2018-07-11 16:28:05','2018-07-14 13:04:00',NULL,NULL,1,'Teste'),(7,'Rua azambuja, n 45',1,'333333',7,'2018-07-11 16:31:29','2018-07-11 12:01:00',NULL,NULL,0,NULL),(8,'asfsdafffsdadf',12,'88797',2,'2018-07-11 23:58:23','2018-07-12 09:00:00',NULL,NULL,0,'eee'),(9,'eeeeeeeee',30,'99978',11,'2018-07-12 00:25:12','2018-07-12 15:00:00',NULL,NULL,1,'asadasa das'),(10,'lllll',6,'54555',7,'2018-07-12 00:34:56','2018-07-12 04:06:00',NULL,NULL,0,NULL),(11,'Ffghh',18,'222',7,'2018-07-12 01:01:00','2018-07-12 09:00:00',NULL,NULL,0,'Obs'),(12,'Fghhj',12,'9954',7,'2018-07-12 01:12:30','2018-07-12 00:23:00',NULL,NULL,0,'Tffd'),(13,'Ffd ducha jj',6,'3636',4,'2018-07-12 02:48:16','2018-07-12 15:05:00',NULL,NULL,0,NULL),(14,'Ghhgfdd',13,'Hhh',7,'2018-07-12 01:46:58','2018-07-12 00:00:00',NULL,NULL,0,NULL),(15,'Ggg',13,'5588',7,'2018-07-12 02:54:21','2018-07-12 00:00:00',NULL,NULL,1,'Ddf');
+INSERT INTO `maxse_sses` VALUES (1,'Rua Frederico Campos, nº 1231',17,'65555',7,'2018-07-11 14:28:14','2018-07-07 08:00:00',NULL,NULL,0,'Ação: Um texto com alguma observação sobre a SSE'),(2,'Rua Antônio Almeida Paiva, nº 121',2,'67788',2,'2018-07-11 16:03:21','2018-07-07 02:00:00',NULL,NULL,1,'URGÊNCIA DEVIDA À LOCALIZAÇÃO PERIGOSA DO BURACO'),(3,'Av Francisco Rodrigues Filho, nº 2002',2,'77777',7,'2018-07-11 16:29:47','2018-07-11 14:00:00',NULL,NULL,1,'Uma observação qualquer'),(4,'Rua Teste',21,'11111',11,'2018-07-11 16:02:18','2018-07-10 17:00:00',NULL,NULL,0,NULL),(5,'Rua da Vida, nº44',5,'22222',11,'2018-07-11 16:28:37','2018-07-11 13:00:00',NULL,NULL,1,NULL),(6,'Rua da Viola, nº 50',10,'654444',1,'2018-07-11 16:28:05','2018-07-14 13:04:00',NULL,NULL,1,'Teste'),(7,'Rua azambuja, n 45',1,'333333',7,'2018-07-11 16:31:29','2018-07-11 12:01:00',NULL,NULL,0,NULL),(8,'asfsdafffsdadf',12,'88797',2,'2018-07-11 23:58:23','2018-07-12 09:00:00',NULL,NULL,0,'eee'),(9,'eeeeeeeee',30,'99978',11,'2018-07-12 00:25:12','2018-07-12 15:00:00',NULL,NULL,1,'asadasa das'),(10,'lllll',6,'54555',7,'2018-07-12 00:34:56','2018-07-12 04:06:00',NULL,NULL,0,NULL),(11,'Ffghh',18,'222',7,'2018-07-12 01:01:00','2018-07-12 09:00:00',NULL,NULL,0,'Obs'),(12,'Fghhj',12,'9954',7,'2018-07-12 01:12:30','2018-07-12 00:23:00',NULL,NULL,0,'Tffd'),(13,'Ffd ducha jj',6,'3636',4,'2018-07-12 09:48:27','2018-07-12 21:05:00',NULL,NULL,0,NULL),(14,'Ghhgfdd',13,'Hhh',7,'2018-07-12 01:46:58','2018-07-12 00:00:00',NULL,NULL,0,NULL),(15,'Ggg',13,'5588',7,'2018-07-12 09:43:13','2018-07-12 03:00:00',NULL,NULL,1,'Ddf');
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +328,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'Root','$1$a3WRsNEw$3sfx0L/.ZBK.KhawVuJi7/','Root Sérgio Moura','smouracalmon@gmail.com','5b46caa7ac3b09.60691220','2018-07-12 05:27:35',1,1,1),(2,'teste1','$2y$10$GHI.FKQs95iMPE/wkcQDxe7rJbbHpKLyrWQldkNQl8VV35nAu2hMe','Teste Um da Silva','teste1@teste.com','5b37062648caf8.80791613','2018-06-30 02:25:10',1,0,0),(3,'teste2',NULL,'Teste Dois de Sanches Almeida','teste2@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,1,1),(4,'teste3',NULL,'Teste Três Ruttember Steeper','teste3@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,0,0),(5,'teste4',NULL,'Teste Quatro de Araújo Pinho','teste4@teste.com',NULL,NULL,0,1,1),(6,'teste5',NULL,'Teste Cinco Pereita','teste5@teste.com',NULL,NULL,1,0,1),(8,'teste6',NULL,'Teste Seis','teste6@teste.com',NULL,NULL,0,0,1),(9,'teste10','$2y$10$8jG7GdKl4hISqWp8LKak0uvtIeqegUl1Pq0BHi5/ZWsoPLsLbr4Fy','Ataúlfo Rodrigues Filho','ataulfo@teste.com',NULL,NULL,1,0,1),(10,'rogerio','$1$Eund7yHt$gQWV1mj1yqzpzM/0IPxox1','Rogério Ceni','rc@teste.com','5b3f924e00fad0.05066281','2018-07-06 14:01:18',0,0,1);
+INSERT INTO `maxse_usuarios` VALUES (1,'Root','$1$a3WRsNEw$3sfx0L/.ZBK.KhawVuJi7/','Root Sérgio Moura','smouracalmon@gmail.com','5b474dd0d0c464.36466351','2018-07-12 10:47:12',1,1,1),(2,'teste1','$2y$10$GHI.FKQs95iMPE/wkcQDxe7rJbbHpKLyrWQldkNQl8VV35nAu2hMe','Teste Um da Silva','teste1@teste.com','5b37062648caf8.80791613','2018-06-30 02:25:10',1,0,0),(3,'teste2',NULL,'Teste Dois de Sanches Almeida','teste2@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,1,1),(4,'teste3',NULL,'Teste Três Ruttember Steeper','teste3@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,0,0),(5,'teste4',NULL,'Teste Quatro de Araújo Pinho','teste4@teste.com',NULL,NULL,0,1,1),(6,'teste5',NULL,'Teste Cinco Pereita','teste5@teste.com',NULL,NULL,1,0,1),(8,'teste6',NULL,'Teste Seis','teste6@teste.com',NULL,NULL,0,0,1),(9,'teste10','$2y$10$8jG7GdKl4hISqWp8LKak0uvtIeqegUl1Pq0BHi5/ZWsoPLsLbr4Fy','Ataúlfo Rodrigues Filho','ataulfo@teste.com',NULL,NULL,1,0,1),(10,'rogerio','$1$Eund7yHt$gQWV1mj1yqzpzM/0IPxox1','Rogério Ceni','rc@teste.com','5b3f924e00fad0.05066281','2018-07-06 14:01:18',0,0,1);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -341,4 +341,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-12  3:02:46
+-- Dump completed on 2018-07-12 10:12:09

@@ -9,7 +9,7 @@ export class Urls {
 	// private REMOTE_SERVER:string = "https://maxse.websiteseguro.com/api";
 	// private REMOTE_SERVER:string = "/prod/api"; // Vai usar o proxy para redirecionar para https://maxse.websiteseguro.com/api
 	private REMOTE_SERVER:string = "/dev/api"; // enganando o celular para ele acessar a base local.
-	// Definindo todas as urls no constructor
+
 	constructor(
 		private device:Device
 	){}

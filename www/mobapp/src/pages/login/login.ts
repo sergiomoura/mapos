@@ -4,6 +4,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { Storage } from "@ionic/storage";
 import { SsesPage } from '../sses/sses';
 import { ToastController } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
 
 @Component({
 	selector: 'page-login',
@@ -19,7 +20,8 @@ export class LoginPage {
 		public navParams: NavParams,
 		private authProvider:AuthProvider,
 		private storage:Storage,
-		private toastController:ToastController
+		private toastController:ToastController,
+		private loadingConttroller:LoadingController
 	) {}
 
 	ionViewDidLoad() {
@@ -31,15 +33,26 @@ export class LoginPage {
 	}
 
 	private login(){
-		console.log('Tentando realizar login...')
+		
+		// Criando e mostrando loading
+		let loading = this.loadingConttroller.create();
+		loading.setContent('').present();
+
 		this.authProvider.login(this.data.u,this.data.p,this.data.f)
 		.subscribe(
 			res => {
+				// Esconde o loading
+				loading.dismiss();
+
+				// Guardando o current user no localStorage
 				this.storage.set('currentUser',res).then(
 					() => { this.navCtrl.push(SsesPage);}
 				)
 			},
 			err => {
+
+				// Esconde o loading
+				loading.dismiss();
 
 				// Criando o toast
 				const toast = this.toastController.create({
