@@ -8,6 +8,7 @@ import { UsuariosComponent } from '../usuarios/usuarios.component';
 import { UsuarioComponent } from '../usuario/usuario.component';
 import { EquipesComponent } from "../equipes/equipes.component";
 import { EquipeComponent } from "../equipe/equipe.component";
+import { SsesComponent } from '../sses/sses.component';
 
 const routes:Routes = [
   {
@@ -36,12 +37,16 @@ const routes:Routes = [
         component: EquipesComponent,
       },
       {
+        path: 'sses',
+        component: SsesComponent,
+      },
+      {
         path: 'equipes/:id',
         component: EquipeComponent,
       },
       {
         path: '**',
-        redirectTo: 'dash'
+        redirectTo: 'sses'
       }
     ]
   },

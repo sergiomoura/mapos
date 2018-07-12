@@ -1,3 +1,16 @@
-<p>
-  sses works!
-</p>
+<table>
+  <thead>
+    <tr>
+      <td>#</td>
+      <td>Data de Registro</td>
+      <td></td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let sse of sses">
+      <td>{{sse.numero}}</td>
+      <td>{{sse.dh_registrado|date:'dd/MM/yyyy - hh:mm:ss'}}</td>
+      <td><button (click)="onSseClick(sse.id)">Abrir</button></td>
+    </tr>
+  </tbody>
+</table>

@@ -328,7 +328,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'Root','$1$a3WRsNEw$3sfx0L/.ZBK.KhawVuJi7/','Root Sérgio Moura','smouracalmon@gmail.com','5b474dd0d0c464.36466351','2018-07-12 10:47:12',1,1,1),(2,'teste1','$2y$10$GHI.FKQs95iMPE/wkcQDxe7rJbbHpKLyrWQldkNQl8VV35nAu2hMe','Teste Um da Silva','teste1@teste.com','5b37062648caf8.80791613','2018-06-30 02:25:10',1,0,0),(3,'teste2',NULL,'Teste Dois de Sanches Almeida','teste2@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,1,1),(4,'teste3',NULL,'Teste Três Ruttember Steeper','teste3@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,0,0),(5,'teste4',NULL,'Teste Quatro de Araújo Pinho','teste4@teste.com',NULL,NULL,0,1,1),(6,'teste5',NULL,'Teste Cinco Pereita','teste5@teste.com',NULL,NULL,1,0,1),(8,'teste6',NULL,'Teste Seis','teste6@teste.com',NULL,NULL,0,0,1),(9,'teste10','$2y$10$8jG7GdKl4hISqWp8LKak0uvtIeqegUl1Pq0BHi5/ZWsoPLsLbr4Fy','Ataúlfo Rodrigues Filho','ataulfo@teste.com',NULL,NULL,1,0,1),(10,'rogerio','$1$Eund7yHt$gQWV1mj1yqzpzM/0IPxox1','Rogério Ceni','rc@teste.com','5b3f924e00fad0.05066281','2018-07-06 14:01:18',0,0,1);
+INSERT INTO `maxse_usuarios` VALUES (1,'Root','$1$a3WRsNEw$3sfx0L/.ZBK.KhawVuJi7/','Root Sérgio Moura','smouracalmon@gmail.com','5b476085512fa6.90723234','2018-07-12 12:07:01',1,1,1),(2,'teste1','$2y$10$GHI.FKQs95iMPE/wkcQDxe7rJbbHpKLyrWQldkNQl8VV35nAu2hMe','Teste Um da Silva','teste1@teste.com','5b37062648caf8.80791613','2018-06-30 02:25:10',1,0,0),(3,'teste2',NULL,'Teste Dois de Sanches Almeida','teste2@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,1,1),(4,'teste3',NULL,'Teste Três Ruttember Steeper','teste3@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,0,0),(5,'teste4',NULL,'Teste Quatro de Araújo Pinho','teste4@teste.com',NULL,NULL,0,1,1),(6,'teste5',NULL,'Teste Cinco Pereita','teste5@teste.com',NULL,NULL,1,0,1),(8,'teste6',NULL,'Teste Seis','teste6@teste.com',NULL,NULL,0,0,1),(9,'teste10','$2y$10$8jG7GdKl4hISqWp8LKak0uvtIeqegUl1Pq0BHi5/ZWsoPLsLbr4Fy','Ataúlfo Rodrigues Filho','ataulfo@teste.com',NULL,NULL,1,0,1),(10,'rogerio','$1$Eund7yHt$gQWV1mj1yqzpzM/0IPxox1','Rogério Ceni','rc@teste.com','5b3f924e00fad0.05066281','2018-07-06 14:01:18',0,0,1);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -341,4 +341,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-12 10:21:09
+-- Dump completed on 2018-07-12 11:07:06
