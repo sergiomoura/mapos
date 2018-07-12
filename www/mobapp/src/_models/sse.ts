@@ -1,5 +1,6 @@
 import { Bairro } from "./bairro";
 import { TipoDeServico } from "./tipoDeServico";
+import { SafeUrl } from "@angular/platform-browser";
 
 export class SSE{
 	id:number;
@@ -16,4 +17,5 @@ export class SSE{
 	medidas_area:any[];	
 	medidas_linear:any[];
 	medidas_unidades:any[];
+	foto:SafeUrl;
 }

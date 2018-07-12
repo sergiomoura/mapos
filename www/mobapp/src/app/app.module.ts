@@ -18,6 +18,7 @@ import { JwtInterceptor } from "../helpers/jwt.interceptor";
 import { SsePage } from "../pages/sse/sse";
 import { SsePageModule } from "../pages/sse/sse.module";
 import { GeralProvider } from '../providers/geral/geral';
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { GeralProvider } from '../providers/geral/geral';
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,

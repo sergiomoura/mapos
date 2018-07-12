@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Loading } from 'ionic-angular';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Domasa } from "../../_models/domasa";
 import { TipoDeServico } from "../../_models/tipoDeServico";
-import { GeralProvider } from "../../providers/geral/geral";
 import { Storage } from "@ionic/storage";
 import { SsesProvider } from '../../providers/sses/sses';
 import { SSE } from '../../_models/sse';
 import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @IonicPage()
 @Component({
@@ -30,7 +31,9 @@ export class SsePage {
 		private storage: Storage,
 		private sseProvider: SsesProvider,
 		private loadingConttroller: LoadingController,
-		private toastController: ToastController
+		private toastController: ToastController,
+		private camera:Camera,
+		private sanitizer:DomSanitizer
 	) {}
 
 	ionViewDidLoad() {
@@ -138,6 +141,33 @@ export class SsePage {
 
 	onSalvarClick(){
 		this.salvar();
+	}
+
+	onCameraClick(){
+		const options: CameraOptions = {
+			quality: 100,
+			destinationType: this.camera.DestinationType.DATA_URL,
+			encodingType: this.camera.EncodingType.JPEG,
+			mediaType: this.camera.MediaType.PICTURE
+		}
+		  
+		this.camera.getPicture(options).then(
+		(imageData) => {
+			this.sse.foto = this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + imageData);
+		},
+		(err) => {
+			// Exibindo toast de erro
+			const toast = this.toastController.create({
+				message: 'Falha ao tirar foto.',
+				duration: 0,
+				showCloseButton: true,
+				closeButtonText: 'X'
+			});
+			toast.present();
+
+			// Imprimindo erro no console
+			console.log(err);
+		});
 	}
 
 	salvar(){
@@ -319,5 +349,9 @@ export class SsePage {
 				this.sse.medidas_unidades.splice(i,1);
 				break;
 		}
+	}
+
+	rmFoto(){
+		this.sse.foto = undefined;
 	}
 }

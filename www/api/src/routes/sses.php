@@ -58,6 +58,23 @@
 			->write('SSE não encontrada.');
 		}
 
+		// Verificando se possui foto
+		$caminho = $this->maxse['caminho_para_fotos_sse'].$sse->id.'.jpg';
+		if(file_exists($caminho)){
+
+			// lendo conteúdo de arquivo
+			$data = file_get_contents($caminho);
+			
+			// encodando para base64
+			$data = base64_encode($data);
+
+			// adicionando cabeçalho base64
+			$data = 'data:image/jpeg;base64,'.$data;
+
+			// Pondo dentro do parâmetro seguro para angular
+			$sse->foto = $data;
+		}
+
 		// Levantando o tipo de medidas com base no tipo do servico
 		$sql = 'SELECT medida FROM maxse_tipos_de_servico WHERE id=:id';
 		$stmt = $this->db->prepare($sql);
@@ -119,6 +136,28 @@
 			return $res
 			->withStatus(400)
 			->write('Requisição mal formada');
+		}
+
+		// Verificando se veio foto
+		if (!isset($sse->foto)) {
+			$caminho = null;
+		} else {
+			// Definindo o caminho do arquivo que guardará a imagem
+			$caminho = $this->maxse['caminho_para_fotos_sse'].$sse->id.'.jpg';
+
+			// Separando os dados relevantes
+			$data = $sse->foto->changingThisBreaksApplicationSecurity;
+			$data = str_replace('data:image/jpeg;base64,','',$data);
+			$data = base64_decode($data);
+
+			// Abrindo arquivo para escrita
+			$ifp = fopen( $caminho, 'wb' ); 
+
+			// Escrevendo dados no arquivo
+			fwrite( $ifp, $data);
+
+			// clean up the file resource
+			fclose( $ifp ); 
 		}
 
 		// Atualizando dados báscos
@@ -260,7 +299,7 @@
 				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
 				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
 				':urgente'				=> ($sse->urgente?1:0),
-				':obs'					=> $sse->obs,
+				':obs'					=> $sse->obs
 			));
 		} catch (Exception $e) {
 			// Retornando erro para usuário
@@ -271,6 +310,27 @@
 		
 		// Recuperando id da SSE recém inserida
 		$idNovo = $this->db->lastInsertId();
+
+		// Salvando foto caso ela tenha vindo
+		if (isset($sse->foto)) {
+
+			// Determinando o caminho do arquivo
+			$caminho = $this->maxse['caminho_para_fotos_sse'].$idNovo.'.jpg';
+		
+			// Separando os dados relevantes
+			$data = $sse->foto->changingThisBreaksApplicationSecurity;
+			$data = str_replace('data:image/jpeg;base64,','',$data);
+			$data = base64_decode($data);
+
+			// Abrindo arquivo para escrita
+			$ifp = fopen( $caminho, 'wb' ); 
+
+			// Escrevendo dados no arquivo
+			fwrite( $ifp, $data);
+
+			// clean up the file resource
+			fclose( $ifp ); 
+		}
 		
 		// Determinando tabela na qual as medidas serão inseridas
 		switch ($sse->tipoDeServico->medida) {
