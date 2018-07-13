@@ -16,18 +16,6 @@
 		<mat-form-field>
 			<input name="senha2" [(ngModel)]="senha2" matInput type="password" placeholder="Confirmação de Senha" [required]="usuario.id==0">
 		</mat-form-field>
-		
-		<mat-form-field>
-			<mat-select name="equipes" [(ngModel)]="usuario.equipes" placeholder="Equipes das quais faz parte" multiple>
-				<mat-select-trigger>
-					{{usuario.equipes.length>0 ? usuario.equipes[0].nome : ''}}
-					<span *ngIf="usuario.equipes.length > 1">
-						(+{{usuario.equipes.length - 1}} outras)
-					</span>
-				</mat-select-trigger>
-				<mat-option *ngFor="let equipe of equipes" [value]="equipe">{{equipe.nome}}</mat-option>
-			</mat-select>
-		</mat-form-field>
 
 		<div class="checkbox-container">
 			<mat-checkbox name="ativo" [(ngModel)]="usuario.ativo" color="primary">Ativo</mat-checkbox>

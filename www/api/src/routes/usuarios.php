@@ -59,8 +59,26 @@ $app->get($api_root.'/usuarios', function (Request $req,  Response $res, $args =
 
 $app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $args = []){
 
+	// Capturando o id do solicitante
+	$token = getTokenFrom($req);
+	
+	// Levantando o id do usuário
+	$sql = 'SELECT id FROM maxse_usuarios WHERE token=:token';
+	$stmt = $this->db->prepare($sql);
+	$stmt->execute(array(
+		':token' => $token
+	));
+	$id_logado = ($stmt->fetch())->id;
+
 	// Lendo o idu a partir dos argumentos da rota
 	$idu = 1*$args['idu'];
+
+	if($idu == 1 && $id_logado != 1){
+		// Retornando erro para usuário
+		return $res
+		->withStatus(404)
+		->write('Usuário inexistente');
+	}
 
 	// Carregando informações da base
 	$sql = 'SELECT id,nome,email,username,acessoApp,acessoWeb,ativo FROM maxse_usuarios WHERE id=:idu';
@@ -73,14 +91,6 @@ $app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $
 	$user->acessoWeb = ($user->acessoWeb == 1);
 	$user->acessoApp = ($user->acessoApp == 1);
 	$user->id *= 1;
-
-	// Carregando ids das equipes das quais este usuário participa
-	$sql = 'SELECT id_equipe FROM maxse_equipes_x_usuarios WHERE id_usuario=:id_usuario';
-	$stmt = $this->db->prepare($sql);
-	$stmt->execute(array(
-		':id_usuario' => $user->id
-	));
-	$user->ids_equipes = array_map(function($a){return 1*$a->id_equipe;},$stmt->fetchAll());
 
 	// Enviando resposta para cliente
 	return $res
@@ -163,30 +173,6 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 			)
 		);
 	}
-
-	// Removendo registro das equipes que usuário participa
-	$sql = 'DELETE FROM maxse_equipes_x_usuarios WHERE id_usuario=:id_usuario';
-	$stmt = $this->db->prepare($sql);
-	$stmt->execute(array(':id_usuario'=>$usuario->id));
-	
-	// Registrando as equipes das quais usuário faz parte
-	$sql = 'INSERT INTO maxse_equipes_x_usuarios
-			(
-				id_usuario,
-				id_equipe
-			) VALUES (
-				:id_usuario,
-				:id_equipe
-			)';
-	$stmt = $this->db->prepare($sql);
-	for ($i=0; $i < sizeof($usuario->equipes); $i++) { 
-		$stmt->execute(
-			array(
-				':id_usuario' => $usuario->id,
-				':id_equipe' => $usuario->equipes[$i]->id
-			)
-		);
-	}	
 	
 	// Registrando no Log
 	$this->logger->info('Alterado usuário '.$usuario->id);
@@ -208,7 +194,7 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 	$usuario = $data->usuario;
 	$senha = $data->senha;
 	
-	// Não é para atualizar a senha
+	// Inserindo novo usuário
 	$sql = 'INSERT INTO maxse_usuarios (
 				nome,
 				email,
@@ -237,35 +223,12 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 		)
 	);
 
-	// Salvando o id do usuário inserido
-	$novoId = $this->db->lastInsertId();
-
-	// Registrando as equipes das quais usuário faz parte
-	$sql = 'INSERT INTO maxse_equipes_x_usuarios
-			(
-				id_usuario,
-				id_equipe
-			) VALUES (
-				:id_usuario,
-				:id_equipe
-			)';
-	$stmt = $this->db->prepare($sql);
-	for ($i=0; $i < sizeof($usuario->equipes); $i++) { 
-		$stmt->execute(
-			array(
-				':id_usuario' => $novoId,
-				':id_equipe' => $usuario->equipes[$i]->id
-			)
-		);
-	}
-	
 	// Registrando no Log
 	$this->logger->info('Criado usuário '.$novoId);
 
 	// Retornando resposta para usuário
 	return $res
 	->withStatus(200)
-	->withHeader('Content-Type','application/json')
-	->write('{"novoId":'.$novoId.'}');
+	->withHeader('Content-Type','application/json');
 
 });

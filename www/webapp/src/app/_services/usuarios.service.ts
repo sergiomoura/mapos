@@ -28,14 +28,14 @@ export class UsuariosService {
 	}
 
 	// Cria um novo usuário
-	create(usuario:Usuario,senha:string):Observable<any>{
-		let data:{usuario:Usuario,senha:string} = {usuario,senha};
-		return this.http.post<any>(this.url_create,data);
+	create(usuario:Usuario,senha:string){
+		let data:{usuario:Usuario,senha:string} = {'usuario':usuario,'senha':senha};
+		return this.http.post(this.url_create,data);
 	}
 
 	// Atualiza um usuário existente
-	update(usuario:Usuario,senha:string):Observable<any>{
-		let data:{usuario:Usuario,senha:string} = {usuario:usuario,senha:senha};
-		return this.http.put<any>(this.url_update+usuario.id,data);
+	update(usuario:Usuario,senha:string){
+		let data:{usuario:Usuario,senha:string} = {'usuario':usuario,'senha':senha};
+		return this.http.put(this.url_update+usuario.id,data);
 	}
 }

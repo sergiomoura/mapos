@@ -8,5 +8,4 @@ export class Usuario {
     acessoApp: boolean;
     acessoWeb: boolean;
     ativo:boolean;
-    equipes:Equipe[];
 }
