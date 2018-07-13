@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatSidenav } from "@angular/material";
-import { AuthService } from "../_services/auth.service";
+import { AuthService } from "../../_services/auth.service";
 
 @Component({
   selector: 'app-home',

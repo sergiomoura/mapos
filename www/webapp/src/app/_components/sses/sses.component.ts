@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SsesService } from '../_services/sses.service';
-import { SSE } from '../_models/sse';
+import { SsesService } from '../../_services/sses.service';
+import { SSE } from '../../_models/sse';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 

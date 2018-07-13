@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from "@angular/router";
-import { SSE } from '../_models/sse';
-import { SsesService } from '../_services/sses.service';
+import { SSE } from '../../_models/sse';
+import { SsesService } from '../../_services/sses.service';
 
 @Component({
 	selector: 'app-sse',

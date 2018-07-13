@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Equipe } from '../_models/equipe';
-import { TipoDeEquipe } from "../_models/tipoDeEquipe";
-import { EquipesService } from "../_services/equipes.service";
+import { Equipe } from '../../_models/equipe';
+import { TipoDeEquipe } from "../../_models/tipoDeEquipe";
+import { EquipesService } from "../../_services/equipes.service";
 import { MatSnackBar } from "@angular/material";
 import { Router } from '@angular/router';
 @Component({

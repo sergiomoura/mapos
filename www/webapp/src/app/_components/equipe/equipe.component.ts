@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { TipoDeEquipe } from "../_models/tipoDeEquipe";
-import { Equipe } from "../_models/equipe";
-import { Usuario } from "../_models/usuario";
-import { EquipesService } from "../_services/equipes.service";
-import { UsuariosService } from "../_services/usuarios.service";
+import { TipoDeEquipe } from "../../_models/tipoDeEquipe";
+import { Equipe } from "../../_models/equipe";
+import { Usuario } from "../../_models/usuario";
+import { EquipesService } from "../../_services/equipes.service";
+import { UsuariosService } from "../../_services/usuarios.service";
 import { MatSnackBar } from "@angular/material";
 
 @Component({

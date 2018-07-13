@@ -11,19 +11,19 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { ErrorInterceptor } from "./_helpers/error.interceptor";
 import { JwtInterceptor } from "./_helpers/jwt.interceptor";
 
-import { HomeComponent } from './home/home.component';
-import { DashComponent } from './dash/dash.component';
-import { UsuariosComponent } from './usuarios/usuarios.component';
-import { LoginComponent } from './login/login.component';
-import { UsuarioComponent } from './usuario/usuario.component';
-import { EquipesComponent } from './equipes/equipes.component';
-import { EquipeComponent } from './equipe/equipe.component';
+import { HomeComponent } from './_components/home/home.component';
+import { DashComponent } from './_components/dash/dash.component';
+import { UsuariosComponent } from './_components/usuarios/usuarios.component';
+import { LoginComponent } from './_components/login/login.component';
+import { UsuarioComponent } from './_components/usuario/usuario.component';
+import { EquipesComponent } from './_components/equipes/equipes.component';
+import { EquipeComponent } from './_components/equipe/equipe.component';
+import { SsesComponent } from './_components/sses/sses.component';
+import { SseComponent } from './_components/sse/sse.component';
 
 import { FocusDirective } from './_directives/focus.directive';
 
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
-import { SsesComponent } from './sses/sses.component';
-import { SseComponent } from './sse/sse.component';
 @NgModule({
   declarations: [
     AppComponent,

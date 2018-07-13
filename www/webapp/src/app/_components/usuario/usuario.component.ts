@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, Event } from '@angular/router';
 import { MatSnackBar } from "@angular/material";
-import { Usuario } from "../_models/usuario";
-import { Equipe } from "../_models/equipe";
-import { UsuariosService } from "../_services/usuarios.service";
-import { EquipesService } from "../_services/equipes.service";
+import { Usuario } from "../../_models/usuario";
+import { Equipe } from "../../_models/equipe";
+import { UsuariosService } from "../../_services/usuarios.service";
+import { EquipesService } from "../../_services/equipes.service";
 
 @Component({
 	selector: 'app-usuario',

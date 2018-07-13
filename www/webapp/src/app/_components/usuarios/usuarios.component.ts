@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from "../_models/usuario";
-import { UsuariosService } from "../_services/usuarios.service";
+import { Usuario } from "../../_models/usuario";
+import { UsuariosService } from "../../_services/usuarios.service";
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 @Component({
