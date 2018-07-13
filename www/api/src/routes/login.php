@@ -33,7 +33,17 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 	
 	
 	// Tentando carregar usuário da base
-	$sql = 'SELECT id,nome,email,acessoApp,acessoWeb,password FROM maxse_usuarios WHERE username=:u and ativo=1';
+	$sql = 'SELECT
+				a.id,
+				b.nome,
+				b.email,
+				a.acessoApp,
+				a.acessoWeb,
+				a.password
+			FROM
+				maxse_usuarios a
+				LEFT JOIN maxse_pessoas b on a.id_pessoa=b.id
+			WHERE a.username=:u and a.ativo=1';
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute(array(':u' => $login->username));
 	$user = $stmt->fetch();

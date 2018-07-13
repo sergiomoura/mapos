@@ -19,22 +19,28 @@ $app->get($api_root.'/usuarios', function (Request $req,  Response $res, $args =
 	// Carregando usuários da base. Excluir o root caso o usuário não seja o próprio
 	if($idu == 1){
 		$sql = 'SELECT
-					id,
-					nome,
-					email,
-					acessoApp,
-					acessoWeb,
-					ativo FROM maxse_usuarios
+					a.id,
+					ifnull(b.nome,"ROOT") as nome,
+					ifnull(b.email,"root@maxse.servicos.ws") as email,
+					a.acessoApp,
+					a.acessoWeb,
+					a.ativo
+				FROM
+					maxse_usuarios a
+					LEFT JOIN maxse_pessoas b on a.id_pessoa=b.id
 				ORDER BY nome';
 	} else {
 		$sql = 'SELECT
-					id,
-					nome,
-					email,
-					acessoApp,
-					acessoWeb,
-					ativo FROM maxse_usuarios
-				WHERE id != 1
+					a.id,
+					b.nome,
+					b.email,
+					a.acessoApp,
+					a.acessoWeb,
+					a.ativo
+				FROM
+					maxse_usuarios a
+					LEFT JOIN maxse_pessoas b on a.id_pessoa=b.id
+				WHERE a.id != 1
 				ORDER BY nome';
 	}
 
@@ -81,7 +87,18 @@ $app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $
 	}
 
 	// Carregando informações da base
-	$sql = 'SELECT id,nome,email,username,acessoApp,acessoWeb,ativo FROM maxse_usuarios WHERE id=:idu';
+	$sql = 'SELECT
+				a.id,
+				ifnull(b.nome,"ROOT") as nome,
+				ifnull(b.email,"root@maxse.servicos.ws") as email,
+				a.username,
+				a.acessoApp,
+				a.acessoWeb,
+				a.ativo
+			FROM
+				maxse_usuarios a
+				LEFT JOIN maxse_pessoas b ON a.id_pessoa = b.id
+			WHERE a.id=:idu';
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute(array(':idu'=>$idu));
 	$user = $stmt->fetch();
@@ -119,14 +136,36 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 	if($usuario->id != $args['idu']){
 		return $res->withStatus(400)->write('Dados inconsistentes');
 	}
-	
+
+	// Levantando o id da pessoa que o usuário representa
+	$sql = 'SELECT id_pessoa FROM maxse_usuarios WHERE id=:id';
+	$stmt = $this->db->prepare($sql);
+	$stmt->execute(array(
+		':id' => $usuario->id
+	));
+	$id_pessoa = ($stmt->fetch())->id_pessoa;
+
+	// Atualizando tabela de pessoas
+	$sql = 'UPDATE maxse_pessoas SET
+				nome=:nome,
+				email=:email
+			WHERE
+				id=:id';
+	$stmt = $this->db->prepare($sql);
+	$stmt->execute(array(
+		':nome'     =>$usuario->nome,
+		':email'    =>$usuario->email,
+		':id'       =>$id_pessoa
+	));
+
+
 	// Verificando se é para atualizar o password
 	if($senha === ''){
 		
 		// Não é para atualizar a senha
+
+		// Atualizando tabela de usuários
 		$sql = 'UPDATE maxse_usuarios SET
-					nome=:nome,
-					email=:email,
 					username=:username,
 					ativo=:ativo,
 					acessoApp=:acessoApp,
@@ -136,8 +175,6 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(
 			array(
-				':nome'     =>$usuario->nome,
-				':email'    =>$usuario->email,
 				':username' =>$usuario->username,
 				':ativo'    =>($usuario->ativo ? 1 : 0),
 				':acessoApp'=>($usuario->acessoApp ? 1 : 0),
@@ -150,8 +187,6 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 		
 		// É para atualizar senha
 		$sql = 'UPDATE maxse_usuarios SET
-					nome=:nome,
-					email=:email,
 					username=:username,
 					password=:pass,
 					ativo=:ativo,
@@ -162,10 +197,8 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(
 			array(
-				':nome'     => $usuario->nome,
-				':email'    => $usuario->email,
 				':username' => $usuario->username,
-				':pass'     => password_hash($senha,PASSWORD_DEFAULT),
+				':pass'     => crypt($senha),
 				':ativo'    => ($usuario->ativo ? 1 : 0),
 				':acessoApp'=> ($usuario->acessoApp ? 1 : 0),
 				':acessoWeb'=> ($usuario->acessoWeb ? 1 : 0),
@@ -193,38 +226,49 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 
 	$usuario = $data->usuario;
 	$senha = $data->senha;
+
+	// Inserindo na tabela de pessoas
+	$sql = 'INSERT INTO maxse_pessoas (
+				nome,
+				email
+			) VALUES (
+				:nome,
+				:email
+			)';
+	$stmt = $this->db->prepare($sql);
+	$stmt->execute(array(
+		':nome'  => $usuario->nome,
+		':email' => $usuario->email
+	));
+
+	// Recuperando o id da pessoa inserida
+	$id_pessoa = $this->db->lastInsertId();
 	
 	// Inserindo novo usuário
 	$sql = 'INSERT INTO maxse_usuarios (
-				nome,
-				email,
 				username,
 				ativo,
 				acessoApp,
-				acessoWeb
+				acessoWeb,
+				id_pessoa
 			) VALUES (
-				:nome,
-				:email,
 				:username,
 				:ativo,
 				:acessoApp,
-				:acessoWeb
+				:acessoWeb,
+				:id_pessoa
 			)';
 			
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute(
 		array(
-			':nome'     =>$usuario->nome,
-			':email'    =>$usuario->email,
 			':username' =>$usuario->username,
 			':ativo'    =>($usuario->ativo ? 1 : 0),
 			':acessoApp'=>($usuario->acessoApp ? 1 : 0),
-			':acessoWeb'=>($usuario->acessoWeb ? 1 : 0)
+			':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
+			':id_pessoa'=>$id_pessoa
 		)
 	);
-
-	// Registrando no Log
-	$this->logger->info('Criado usuário '.$novoId);
 
 	// Retornando resposta para usuário
 	return $res

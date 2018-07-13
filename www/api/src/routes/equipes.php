@@ -39,7 +39,6 @@
 					nome,
 					sigla,
 					id_tipo,
-					id_lider,
 					ativa
 				FROM maxse_equipes
 				WHERE

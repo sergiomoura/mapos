@@ -189,16 +189,15 @@ DROP TABLE IF EXISTS `maxse_membros`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `maxse_membros` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) DEFAULT NULL,
   `salario` decimal(8,2) DEFAULT NULL,
   `id_equipe` int(11) DEFAULT NULL,
-  `id_usuario` int(11) DEFAULT NULL,
+  `id_pessoa` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_maxse_membros_1_idx` (`id_usuario`),
   KEY `fk_maxse_membros_2_idx` (`id_equipe`),
-  CONSTRAINT `fk_maxse_membros_1` FOREIGN KEY (`id_usuario`) REFERENCES `maxse_usuarios` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `fk_maxse_membros_1_idx` (`id_pessoa`),
+  CONSTRAINT `fk_maxse_membros_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_membros_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,7 +206,33 @@ CREATE TABLE `maxse_membros` (
 
 LOCK TABLES `maxse_membros` WRITE;
 /*!40000 ALTER TABLE `maxse_membros` DISABLE KEYS */;
+INSERT INTO `maxse_membros` VALUES (3,12000.00,3,NULL),(4,1000.00,3,NULL),(5,1200.00,3,NULL);
 /*!40000 ALTER TABLE `maxse_membros` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `maxse_pessoas`
+--
+
+DROP TABLE IF EXISTS `maxse_pessoas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `maxse_pessoas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(60) NOT NULL,
+  `email` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_pessoas`
+--
+
+LOCK TABLES `maxse_pessoas` WRITE;
+/*!40000 ALTER TABLE `maxse_pessoas` DISABLE KEYS */;
+INSERT INTO `maxse_pessoas` VALUES (1,'TESTE UM RIBEIRO DANTAS','teste1@teste.com'),(2,'TESTE DOIS GÓES COELHO','teste2@teste.com');
+/*!40000 ALTER TABLE `maxse_pessoas` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -310,16 +335,17 @@ CREATE TABLE `maxse_usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(20) COLLATE utf8_unicode_ci DEFAULT NULL,
   `password` varchar(256) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nome` varchar(60) COLLATE utf8_unicode_ci NOT NULL,
-  `email` varchar(40) COLLATE utf8_unicode_ci NOT NULL,
   `token` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `validade_do_token` datetime DEFAULT NULL,
   `acessoApp` tinyint(1) NOT NULL DEFAULT '0',
   `acessoWeb` tinyint(1) NOT NULL DEFAULT '0',
   `ativo` tinyint(1) NOT NULL DEFAULT '1',
+  `id_pessoa` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `username_UNIQUE` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  UNIQUE KEY `username_UNIQUE` (`username`),
+  KEY `fk_maxse_usuarios_1_idx` (`id_pessoa`),
+  CONSTRAINT `fk_maxse_usuarios_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -328,7 +354,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'Root','$1$a3WRsNEw$3sfx0L/.ZBK.KhawVuJi7/','Root Sérgio Moura','smouracalmon@gmail.com','5b48bd715f0906.98273137','2018-07-13 12:55:45',1,1,1),(2,'teste1','$2y$10$GHI.FKQs95iMPE/wkcQDxe7rJbbHpKLyrWQldkNQl8VV35nAu2hMe','Teste Um da Silva','teste1@teste.com','5b37062648caf8.80791613','2018-06-30 02:25:10',1,0,0),(3,'teste','$2y$10$hnSK1vSJmvHwFhieQ15/0ezCqroPzQSmy9cz/WJZJFC6l21vVZtnm','Teste Dois de Sanches Almeida','teste2@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,1,1),(4,'teste3',NULL,'Teste Três Ruttember Steeper','teste3@teste.com','5b365e81433059.70203088','2018-06-29 13:34:53',0,0,0),(5,'teste4',NULL,'Teste Quatro de Araújo Pinho','teste4@teste.com',NULL,NULL,0,1,1),(6,'teste5',NULL,'Teste Cinco Pereita','teste5@teste.com',NULL,NULL,1,0,1),(8,'teste6',NULL,'Teste Seis','teste6@teste.com',NULL,NULL,0,0,1),(9,'luiz','$2y$10$ajvo7vYzNkrEEoZjZL84ZeWMj1npSzBf/J6Oxjq.EOuIT40fnf2Eq','Luiz Brasão','luiz@teste.com','5b48b89c7685a7.51400481','2018-07-13 12:35:08',0,1,1),(10,'rogerio','$2y$10$z18h5tUauW43yhRo89hVPuo5Mw54qRpAQFifRqVi2Cv0y76AlbqLO','Rogério Ceni','rc@teste.com','5b3f924e00fad0.05066281','2018-07-06 14:01:18',0,0,1),(11,'thiago',NULL,'Thiago Cruz','thiago@teste.com',NULL,NULL,0,1,1),(13,'mauro',NULL,'Mauro Magalhães Telles','mauro@teste.com',NULL,NULL,0,1,1),(15,'alcione',NULL,'Alcione Góes Coelho','alcione@teste.com',NULL,NULL,0,1,1),(16,'lucas',NULL,'Lucas Ribeiro','lucasribeiro@teste.com',NULL,NULL,0,1,1),(17,'dante',NULL,'Dante Ribeiro','dante@teste.com',NULL,NULL,1,0,1);
+INSERT INTO `maxse_usuarios` VALUES (1,'Root','$1$a3WRsNEw$3sfx0L/.ZBK.KhawVuJi7/','5b48d6cedb5a95.22545965','2018-07-13 14:43:58',1,1,1,NULL),(2,'teste1','$1$HOtFg2vQ$XUEBmX6cyPxEvjwMWlCne/','5b48ce51b34fe2.44922427','2018-07-13 14:07:45',1,1,1,1),(18,'teste2',NULL,NULL,NULL,0,1,1,2);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -341,4 +367,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-13 11:56:02
+-- Dump completed on 2018-07-13 13:44:21
