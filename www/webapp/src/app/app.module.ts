@@ -18,12 +18,13 @@ import { LoginComponent } from './_components/login/login.component';
 import { UsuarioComponent } from './_components/usuario/usuario.component';
 import { EquipesComponent } from './_components/equipes/equipes.component';
 import { EquipeComponent } from './_components/equipe/equipe.component';
-import { SsesComponent } from './_components/sses/sses.component';
+import { SsesGridComponent } from './_components/sses-grid/sses-grid.component';
 import { SseComponent } from './_components/sse/sse.component';
 
 import { FocusDirective } from './_directives/focus.directive';
 
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
+import { SsesMapComponent } from './_components/sses-map/sses-map.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,8 +36,9 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/mater
     EquipesComponent,
     EquipeComponent,
     FocusDirective,
-    SsesComponent,
-    SseComponent
+    SsesGridComponent,
+    SseComponent,
+    SsesMapComponent
   ],
   imports: [
     BrowserModule,

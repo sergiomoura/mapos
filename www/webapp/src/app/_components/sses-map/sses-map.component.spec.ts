@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SsesComponent } from './sses.component';
+import { SsesMapComponent } from './sses-map.component';
 
-describe('SsesComponent', () => {
-  let component: SsesComponent;
-  let fixture: ComponentFixture<SsesComponent>;
+describe('SsesMapComponent', () => {
+  let component: SsesMapComponent;
+  let fixture: ComponentFixture<SsesMapComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SsesComponent ]
+      declarations: [ SsesMapComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SsesComponent);
+    fixture = TestBed.createComponent(SsesMapComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

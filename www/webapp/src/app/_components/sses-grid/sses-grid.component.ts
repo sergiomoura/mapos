@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
 
 @Component({
 	selector: 'app-sses',
-	templateUrl: './sses.component.html',
-	styleUrls: ['./sses.component.scss']
+	templateUrl: './sses-grid.component.html',
+	styleUrls: ['./sses-grid.component.scss']
 })
-export class SsesComponent implements OnInit {
+export class SsesGridComponent implements OnInit {
 
 	constructor(
 		private ssesService:SsesService,

@@ -357,7 +357,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4b56be6ecb59.63133589','2018-07-15 12:14:22',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$9FGlpJua$uasH6R5l488WcFRl00DpI0',NULL,NULL,1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4b589a702f84.74914702','2018-07-15 12:22:18',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$9FGlpJua$uasH6R5l488WcFRl00DpI0',NULL,NULL,1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -443,4 +443,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-15 11:15:39
+-- Dump completed on 2018-07-15 11:23:02
