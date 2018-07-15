@@ -30,8 +30,8 @@ export class EquipesService {
 	}
 
 	// Método que carrega uma equipe pelo id
-	getEquipeById(id):Observable<Equipe>{
-		return this.http.get<Equipe>(this.url_getEquipeById+id);
+	getEquipeById(id):Observable<any>{
+		return this.http.get<any>(this.url_getEquipeById+id);
 	}
 
 	// Método que cria uma nova equipe
@@ -40,7 +40,7 @@ export class EquipesService {
 	}
 
 	// Método que atualiza uma equipe existente
-	update(equipe:Equipe){
-		return this.http.put<any>(this.url_update+equipe.id,equipe);
+	update(data:any){
+		return this.http.put<any>(this.url_update+data.equipe.id,data);
 	}
 }

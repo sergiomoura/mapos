@@ -79,10 +79,13 @@ CREATE TABLE `maxse_equipes` (
   `sigla` varchar(4) COLLATE utf8_unicode_ci DEFAULT NULL,
   `id_tipo` int(11) DEFAULT NULL,
   `ativa` tinyint(1) DEFAULT '1',
+  `id_membro_lider` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_maxse_equipes_1_idx` (`id_tipo`),
-  CONSTRAINT `fk_maxse_equipes_1` FOREIGN KEY (`id_tipo`) REFERENCES `maxse_tipos_de_equipe` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  KEY `fk_maxse_equipes_2_idx` (`id_membro_lider`),
+  CONSTRAINT `fk_maxse_equipes_1` FOREIGN KEY (`id_tipo`) REFERENCES `maxse_tipos_de_equipe` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_maxse_equipes_2` FOREIGN KEY (`id_membro_lider`) REFERENCES `maxse_membros` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +94,7 @@ CREATE TABLE `maxse_equipes` (
 
 LOCK TABLES `maxse_equipes` WRITE;
 /*!40000 ALTER TABLE `maxse_equipes` DISABLE KEYS */;
-INSERT INTO `maxse_equipes` VALUES (2,'Tapa Buraco A1','TBR4',1,1),(3,'Base 1','B1',2,1),(4,'Tapa Buraco 5','TBR5',1,1),(5,'Mecanizada 1','MEC1',4,1),(6,'Mecanizada 2','MEC2',4,1),(7,'Guias e Sarjetas 1','GS1',3,0),(9,'Equipe teste','test',3,1),(10,'Equipe Teste 2','TT2',4,1),(11,'asdasdasd','aaa',3,0),(13,'Equipe Teste 3','ett4',3,1),(14,'Equipe Teste 5','ET5',2,1),(15,'Equipe Teste 6','ETT6',2,1);
+INSERT INTO `maxse_equipes` VALUES (3,'Base 1','B12',2,1,118);
 /*!40000 ALTER TABLE `maxse_equipes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -191,13 +194,13 @@ CREATE TABLE `maxse_membros` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `salario` decimal(8,2) DEFAULT NULL,
   `id_equipe` int(11) DEFAULT NULL,
-  `id_pessoa` int(11) DEFAULT NULL,
+  `id_pessoa` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_maxse_membros_2_idx` (`id_equipe`),
   KEY `fk_maxse_membros_1_idx` (`id_pessoa`),
-  CONSTRAINT `fk_maxse_membros_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_maxse_membros_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_maxse_membros_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +209,7 @@ CREATE TABLE `maxse_membros` (
 
 LOCK TABLES `maxse_membros` WRITE;
 /*!40000 ALTER TABLE `maxse_membros` DISABLE KEYS */;
-INSERT INTO `maxse_membros` VALUES (3,12000.00,3,NULL),(4,1000.00,3,NULL),(5,1200.00,3,NULL);
+INSERT INTO `maxse_membros` VALUES (118,1000.00,3,119),(119,1200.00,3,120),(120,10.03,3,121),(121,2000.00,3,122);
 /*!40000 ALTER TABLE `maxse_membros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -222,7 +225,7 @@ CREATE TABLE `maxse_pessoas` (
   `nome` varchar(60) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -231,7 +234,7 @@ CREATE TABLE `maxse_pessoas` (
 
 LOCK TABLES `maxse_pessoas` WRITE;
 /*!40000 ALTER TABLE `maxse_pessoas` DISABLE KEYS */;
-INSERT INTO `maxse_pessoas` VALUES (1,'TESTE UM RIBEIRO DANTAS','teste1@teste.com'),(2,'TESTE DOIS GÓES COELHO','teste2@teste.com');
+INSERT INTO `maxse_pessoas` VALUES (1,'Sérgio Moura','smouracalmon@gmail.com'),(119,'MEMBRO BOULOS','membro_b@teste.com'),(120,'MEMBRO_COSTA','membro_c@teste.com'),(121,'MEMBRO_DAMACENO','MEMBRO_D@TESTE.COM'),(122,'MEMBRO_ERNESTO','membro_e@teste.com');
 /*!40000 ALTER TABLE `maxse_pessoas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -340,12 +343,12 @@ CREATE TABLE `maxse_usuarios` (
   `acessoApp` tinyint(1) NOT NULL DEFAULT '0',
   `acessoWeb` tinyint(1) NOT NULL DEFAULT '0',
   `ativo` tinyint(1) NOT NULL DEFAULT '1',
-  `id_pessoa` int(11) DEFAULT NULL,
+  `id_pessoa` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_maxse_usuarios_1_idx` (`id_pessoa`),
-  CONSTRAINT `fk_maxse_usuarios_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  CONSTRAINT `fk_maxse_usuarios_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -354,9 +357,82 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'Root','$1$a3WRsNEw$3sfx0L/.ZBK.KhawVuJi7/','5b48d6cedb5a95.22545965','2018-07-13 14:43:58',1,1,1,NULL),(2,'teste1','$1$HOtFg2vQ$XUEBmX6cyPxEvjwMWlCne/','5b48ce51b34fe2.44922427','2018-07-13 14:07:45',1,1,1,1),(18,'teste2',NULL,NULL,NULL,0,1,1,2);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4add0ca37937.71973315','2018-07-15 03:35:08',1,1,1,1),(44,'','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `maxse_v_membros`
+--
+
+DROP TABLE IF EXISTS `maxse_v_membros`;
+/*!50001 DROP VIEW IF EXISTS `maxse_v_membros`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `maxse_v_membros` AS SELECT 
+ 1 AS `id_pessoa`,
+ 1 AS `nome`,
+ 1 AS `email`,
+ 1 AS `id_membro`,
+ 1 AS `salario`,
+ 1 AS `id_equipe`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `maxse_v_usuarios`
+--
+
+DROP TABLE IF EXISTS `maxse_v_usuarios`;
+/*!50001 DROP VIEW IF EXISTS `maxse_v_usuarios`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `maxse_v_usuarios` AS SELECT 
+ 1 AS `id_pessoa`,
+ 1 AS `nome`,
+ 1 AS `email`,
+ 1 AS `id_usuario`,
+ 1 AS `username`,
+ 1 AS `ativo`,
+ 1 AS `acessoApp`,
+ 1 AS `acessoWeb`,
+ 1 AS `password`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `maxse_v_membros`
+--
+
+/*!50001 DROP VIEW IF EXISTS `maxse_v_membros`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `maxse_v_membros` AS select `a`.`id_pessoa` AS `id_pessoa`,`b`.`nome` AS `nome`,`b`.`email` AS `email`,`a`.`id` AS `id_membro`,`a`.`salario` AS `salario`,`a`.`id_equipe` AS `id_equipe` from (`maxse_membros` `a` join `maxse_pessoas` `b` on((`a`.`id_pessoa` = `b`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `maxse_v_usuarios`
+--
+
+/*!50001 DROP VIEW IF EXISTS `maxse_v_usuarios`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `maxse_v_usuarios` AS select `b`.`id` AS `id_pessoa`,`b`.`nome` AS `nome`,`b`.`email` AS `email`,`a`.`id` AS `id_usuario`,`a`.`username` AS `username`,`a`.`ativo` AS `ativo`,`a`.`acessoApp` AS `acessoApp`,`a`.`acessoWeb` AS `acessoWeb`,`a`.`password` AS `password` from (`maxse_usuarios` `a` join `maxse_pessoas` `b` on((`a`.`id_pessoa` = `b`.`id`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -367,4 +443,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-13 13:44:21
+-- Dump completed on 2018-07-15  2:36:04

@@ -6,6 +6,7 @@ import { Usuario } from "../../_models/usuario";
 import { EquipesService } from "../../_services/equipes.service";
 import { UsuariosService } from "../../_services/usuarios.service";
 import { MatSnackBar } from "@angular/material";
+import { MembroDeEquipe } from '../../_models/membroDeEquipe';
 
 @Component({
 	selector: 'app-equipe',
@@ -19,12 +20,10 @@ export class EquipeComponent implements OnInit {
 		public snackBar: MatSnackBar,
 		private router:Router,
 		private route:ActivatedRoute,
-		private equipesService:EquipesService,
-		private usuariosService:UsuariosService
+		private equipesService:EquipesService
 	) { }
 
 	// Atributos privados
-	usuarios:Usuario[];
 	tiposDeEquipe:TipoDeEquipe[];
 	equipe:Equipe = <Equipe>{
 		id:0,
@@ -35,9 +34,9 @@ export class EquipeComponent implements OnInit {
 		membros:[]
 	}
 	tmp_equipe:any;
+	private id_lider_atual;
 
 	ngOnInit() {
-		this.getUsuarios();
 		this.getTiposDeEquipe();
 		this.getEquipe();
 	}
@@ -54,8 +53,11 @@ export class EquipeComponent implements OnInit {
 			this.equipesService.getEquipeById(id).subscribe(
 				res=>{
 
+					// Salvando o id do membro lider atual
+					this.id_lider_atual = res.id_membro_lider;
+
 					// Verificando se carregou tipos de equipe e usuarios
-					if(this.tiposDeEquipe != undefined && this.usuarios != undefined){
+					if(this.tiposDeEquipe != undefined){
 						
 						// Carregou tiposDeEquipe e usuarios. Parsing
 						this.equipe = this.parseEquipe(<any>res);
@@ -89,38 +91,6 @@ export class EquipeComponent implements OnInit {
 		
 	}
 
-	getUsuarios():void{
-		this.usuariosService.getUsuarios()
-		.subscribe(
-			res => {
-				this.usuarios = res;
-
-				// Verificando se já carregou tiposDeEquipe e equipe
-				if(this.tiposDeEquipe != undefined && this.tmp_equipe != undefined){
-
-					// Tudo carregado. Parsin
-					this.equipe = this.parseEquipe(this.tmp_equipe);
-
-				}
-
-			},
-			err => {
-				// Exibindo snackbar de erro
-				this.snackBar
-				.open(
-					'Falha ao carregar usuários',
-					'Fechar',
-					{
-						duration:0,
-						horizontalPosition:'left',
-						verticalPosition:'bottom',
-						panelClass: ['snackbar-error'],
-					}
-				);
-			}
-		);
-	}
-
 	getTiposDeEquipe():void{
 		this.equipesService.getTiposDeEquipe().subscribe(
 			res=>{
@@ -128,7 +98,7 @@ export class EquipeComponent implements OnInit {
 				this.tiposDeEquipe = res;
 
 				// Verificando se equipe e usuarios já foram carregados
-				if(this.tmp_equipe != undefined && this.usuarios != undefined){
+				if(this.tmp_equipe != undefined){
 
 					// Tudo carregado. Parsing
 					this.equipe = this.parseEquipe(this.tmp_equipe);
@@ -157,37 +127,58 @@ export class EquipeComponent implements OnInit {
 	}
 
 	parseEquipe(tmp_equipe:any):Equipe{
-
+		
 		// Atribuindo tipo de equipe à equipe
 		tmp_equipe.tipo = this.tiposDeEquipe.find( e => {return e.id == tmp_equipe.id_tipo} );
 		delete tmp_equipe.id_tipo;
 
-		// Atribuindo usuário ao id líder
-		let lider =  this.usuarios.find( u => {return u.id == tmp_equipe.id_lider;});
-		if(lider){
-			tmp_equipe.lider = lider;
-		} else {
-			tmp_equipe.lider = null;
+		// Parsing membros das equipes
+		for (let i = 0; i < tmp_equipe.membros.length; i++) {
+			let membro = tmp_equipe.membros[i];
+			if(membro.id == tmp_equipe.id_membro_lider){
+				membro.lider = true;
+				membro.username = tmp_equipe.usuario_lider.username;
+				membro.acessoWeb = tmp_equipe.usuario_lider.acessoWeb == '1';
+				membro.acessoApp = tmp_equipe.usuario_lider.acessoApp == '1';
+			} else {
+				membro.lider = false;
+				membro.username = null;
+				membro.acessoWeb = false;
+				membro.acessoApp = false;
+			}
 		}
-		delete tmp_equipe.id_lider;
+		delete tmp_equipe.username_lider;
+		delete tmp_equipe.id_membro_lider;
 
-		// Atribuindo usuários a cada elemento do vetor de membros
-		tmp_equipe.membros = [];
-		for (let i = 0; i < tmp_equipe.ids_membros.length; i++) {
-			const id_membro = tmp_equipe.ids_membros[i];
-			tmp_equipe.membros.push(this.usuarios.find( u => {return u.id == id_membro} ));
-		}
-		delete tmp_equipe.ids_membros;
-
-		// Parsing campos não homogêneos
-		if(tmp_equipe.ativa == "0"){
-			tmp_equipe.ativa = false;
-		} else {
-			tmp_equipe.ativa = true;
-		}
-
-		// Retornando a equipe
+		tmp_equipe.ativa = tmp_equipe.ativa == '1';
 		return <Equipe>tmp_equipe;
+	}
+
+	onLiderClick(id){
+		for (let i = 0; i < this.equipe.membros.length; i++) {
+			const m = this.equipe.membros[i];
+			m.lider = false;
+			m.username = '';
+			m.senha = ''
+		}
+	}
+
+	onAddMemberClick(){
+		this.equipe.membros.push(
+			<MembroDeEquipe>{
+				nome:'',
+				email:'',
+				salario:0.00,
+				lider:false,
+				username:'',
+				senha:'',
+			}
+		)
+	}
+
+	onRemoveButtonClick(i){
+		console.log(">> " + i);
+		this.equipe.membros.splice(i,1);
 	}
 
 	onCancelarClick(){
@@ -228,7 +219,15 @@ export class EquipeComponent implements OnInit {
 				}
 			)
 		} else {
-			this.equipesService.update(this.equipe).subscribe(
+
+			// recuperando o id do líder marcado
+			let id_lider_marcado = this.equipe.membros.find(
+				(m) => {return m.lider}
+			).id;
+			
+			let data:{equipe:Equipe,liderMudou:boolean} = {'equipe':this.equipe,'liderMudou':(this.id_lider_atual != id_lider_marcado)}
+
+			this.equipesService.update(data).subscribe(
 				res => {
 					
 					// Exibindo snackbar de sucesso

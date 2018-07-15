@@ -20,14 +20,14 @@ $app->get($api_root.'/usuarios', function (Request $req,  Response $res, $args =
 	if($idu == 1){
 		$sql = 'SELECT
 					a.id,
-					ifnull(b.nome,"ROOT") as nome,
-					ifnull(b.email,"root@maxse.servicos.ws") as email,
+					b.nome,
+					b.email,
 					a.acessoApp,
 					a.acessoWeb,
 					a.ativo
 				FROM
 					maxse_usuarios a
-					LEFT JOIN maxse_pessoas b on a.id_pessoa=b.id
+					INNER JOIN maxse_pessoas b on a.id_pessoa=b.id
 				ORDER BY nome';
 	} else {
 		$sql = 'SELECT
@@ -39,7 +39,7 @@ $app->get($api_root.'/usuarios', function (Request $req,  Response $res, $args =
 					a.ativo
 				FROM
 					maxse_usuarios a
-					LEFT JOIN maxse_pessoas b on a.id_pessoa=b.id
+					INNER JOIN maxse_pessoas b on a.id_pessoa=b.id
 				WHERE a.id != 1
 				ORDER BY nome';
 	}
