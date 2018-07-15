@@ -274,6 +274,22 @@
 			->write('Requisição mal formada');
 		}
 
+		// Determinando longitude e latitude do endereço
+        $prepAddr = str_replace(' ','+',($sse->endereco.',Campinas,SP'));
+        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+		$output = json_decode($geocode);
+		
+		// Verificando se as coordenadas voltaram ok
+		if($output->status != 'OK'){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(400)
+			->write('Falha ao recuperar coordenadas do endereço: '.$output->status);
+		}
+
+        $sse->lat = $output->results[0]->geometry->location->lat;
+        $sse->lng = $output->results[0]->geometry->location->lng;
+
 		// Definindo string de consulta
 		$sql = 'INSERT INTO maxse_sses
 				(
@@ -284,7 +300,9 @@
 					dh_registrado,
 					dh_recebido,
 					urgente,
-					obs
+					obs,
+					lat,
+					lng
 				) VALUES (
 					:endereco,
 					:id_bairro,
@@ -293,7 +311,9 @@
 					NOW(),
 					:dh_recebido,
 					:urgente,
-					:obs
+					:obs,
+					:lat,
+					:lng
 				)';
 		
 		// Inserindo dados báscos
@@ -306,7 +326,9 @@
 				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
 				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
 				':urgente'				=> ($sse->urgente?1:0),
-				':obs'					=> $sse->obs
+				':obs'					=> $sse->obs,
+				':lat'					=> $sse->lat,
+				':lng'					=> $sse->lng
 			));
 		} catch (Exception $e) {
 			// Retornando erro para usuário
