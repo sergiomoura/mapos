@@ -190,7 +190,6 @@ export class EquipeComponent implements OnInit {
 	}
 
 	onRemoveButtonClick(i){
-		console.log(">> " + i);
 		this.equipe.membros.splice(i,1);
 	}
 
