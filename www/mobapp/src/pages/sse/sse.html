@@ -41,9 +41,19 @@
 	</ion-item>
 	<ion-item>
 		<ion-label floating>Bairro</ion-label>
-		<ion-select [(ngModel)]="sse.bairro">
-			<ion-option *ngFor="let bairro of domasaSelecionada?.bairros" [value]="bairro">[{{bairro.codigo}}] - {{bairro.nome}}</ion-option>
-		</ion-select>
+		<select-searchable
+			item-content
+			[(ngModel)]="sse.bairro"
+			[items]="domasaSelecionada?.bairros"
+			itemValueField="id"
+			itemTextField="nome"
+			[canSearch]="true"
+			(onChange)="onBairroChange($event)"
+			style="margin-bottom:36px"
+			[focusSearchbar]="true"
+			searchPlaceholder="Buscar bairro"
+			[noItemsFoundText]="'Nenhum bairro carregado. Selecione uma DOMASA primeiro'">
+		</select-searchable>
 	</ion-item>
 	<ion-item>
 		<ion-label>Urgência? {{sse.urgente?'SIM':'NÃO'}}</ion-label>

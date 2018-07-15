@@ -16,24 +16,25 @@ import { SsesPage } from '../pages/sses/sses';
 import { SsesProvider } from '../providers/sses/sses';
 import { JwtInterceptor } from "../helpers/jwt.interceptor";
 import { SsePage } from "../pages/sse/sse";
-import { SsePageModule } from "../pages/sse/sse.module";
 import { GeralProvider } from '../providers/geral/geral';
 import { Camera } from '@ionic-native/camera';
+import { SelectSearchableModule } from 'ionic-select-searchable'
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     LoginPage,
-    SsesPage
+    SsesPage,
+    SsePage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     FormsModule,
     HttpClientModule,
-    SsePageModule,
     IonicStorageModule.forRoot(),
+    SelectSearchableModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

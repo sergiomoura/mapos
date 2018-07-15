@@ -9,11 +9,11 @@ import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
+import { SelectSearchableComponent } from 'ionic-select-searchable';
 
-@IonicPage()
 @Component({
 	selector: 'page-sse',
-	templateUrl: 'sse.html',
+	templateUrl: 'sse.html'
 })
 export class SsePage {
 
@@ -353,5 +353,12 @@ export class SsePage {
 
 	rmFoto(){
 		this.sse.foto = undefined;
+	}
+
+	onBairroChange(event: {
+        component: SelectSearchableComponent,
+        value: any 
+    }){
+		console.log(this.sse.bairro)
 	}
 }
