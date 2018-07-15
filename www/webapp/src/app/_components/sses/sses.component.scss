@@ -1,5 +1,7 @@
 mat-toolbar {
 	background-color: transparent;
+	position: absolute;
+	z-index: 1;
 	button {
 		position: relative;
 		top: 3px;
