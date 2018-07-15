@@ -220,62 +220,142 @@
 			->write();
 
 		}
+
+		// Descobrindo o lider
+		$achou = false;
+		$i = 0;
+		$lider = null;
+		while (!$achou && $i<sizeof($equipe->membros)) {
+			$achou = $equipe->membros[$i]->lider;
+			if($achou){
+				$lider = $equipe->membros[$i];
+			}
+			$i++;
+		}
+
+		// Retornando erro caso equipe não tenha lider
+		if(is_null($lider)){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(400)
+			->write('Impossível criar equipe sem líder');
+		}
 		
-		// Inserindo dados da equipe
+		// Salvando o lídero como pessoa
+		$sql = 'INSERT INTO maxse_pessoas (nome,email) VALUES (:n,:e)';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(
+			':n' => $lider->nome,
+			':e' => $lider->email
+		));
+		$lider->id_pessoa = $this->db->lastInsertId();
+
+		// Salvando líder como usuário
+		$sql = 'INSERT INTO maxse_usuarios 
+					(
+						id_pessoa,
+						username,
+						password,
+						acessoApp,
+						acessoWeb
+					) VALUES (
+						:id_pessoa,
+						:username,
+						:password,
+						:acessoApp,
+						:acessoWeb
+					)';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(
+			':id_pessoa'	=> $lider->id_pessoa,
+			':username'		=> $lider->username,
+			':password'		=> crypt($lider->password),
+			':acessoApp'	=> ($lider->acessoApp ? 1 : 0),
+			':acessoWeb'	=> ($lider->acessoWeb ? 1 : 0),
+		));
+		
+		// Criando equipe
 		$sql = 'INSERT INTO maxse_equipes
 				(
 					nome,
 					sigla,
-					id_lider,
+					id_membro_lider,
 					id_tipo,
 					ativa
 				) VALUES (
 					:nome,
 					:sigla,
-					:id_lider,
+					NULL,
 					:id_tipo,
 					:ativa
 				)';
 		$stmt = $this->db->prepare($sql);
-		try {
-			
-			$stmt->execute(
-				array(
-					':nome'=>$equipe->nome,
-					':sigla'=>$equipe->sigla,
-					':id_lider'=>($equipe->lider ? $equipe->lider->id : NULL),
-					':id_tipo'=>$equipe->tipo->id,
-					':ativa'=> ($equipe->ativa ? 1 : 0)
-				)
-			);
-			
-		} catch (Exception $e) {
-			
-			// Retornando erro para usuário
-			return $res
-			->withStatus(500)
-			->write('Falha ao tentar inserir nova equipe no banco de dados: '.$e->getMessage());
+		$stmt->execute(
+			array(
+				':nome'=>$equipe->nome,
+				':sigla'=>$equipe->sigla,
+				':id_tipo'=>$equipe->tipo->id,
+				':ativa'=> ($equipe->ativa ? 1 : 0)
+			)
+		);
 
-		}
-
-		// Levantando o id da equipe inserida
+		// Capturando o id da equipe recém criada
 		$equipe->id = $this->db->lastInsertId();
 
-		// Inserindo membros da equipe
-		$sql = 'INSERT INTO
-					maxse_equipes_x_usuarios
-					(id_equipe,id_usuario)
-					VALUES
-					(:id_equipe,:id_usuario);
-				';
+		// Salvando o líder como membro de equipe
+		$sql = 'INSERT INTO maxse_membros (
+					salario,
+					id_equipe,
+					id_pessoa
+				) VALUES (
+					:salario,
+					:id_equipe,
+					:id_pessoa
+				)';
 		$stmt = $this->db->prepare($sql);
-		for ($i=0; $i < sizeof($equipe->membros); $i++) { 
-			$stmt->execute(
-				array(
-					':id_equipe' => $equipe->id,
-					':id_usuario' => $equipe->membros[$i]->id
-				)
-			);
+		$stmt->execute(array(
+			':salario'	=> $lider->salario,
+			':id_equipe'	=> $equipe->id,
+			':id_pessoa'	=> $lider->id_pessoa
+		));
+
+		// Escrevendo statement de que salva membro como pessoa
+		$sql_pessoas = 'INSERT INTO maxse_pessoas (nome,email) VALUES (:nome, :email)';
+		$stmt_pessoas = $this->db->prepare($sql_pessoas);
+
+		// Escrevendo o statement que salva membro como membro
+		$sql_membros = 'INSERT INTO maxse_membros (
+			salario,
+			id_equipe,
+			id_pessoa
+		) VALUES (
+			:salario,
+			:id_equipe,
+			:id_pessoa
+		)';
+		$stmt_membros = $this->db->prepare($sql_membros);
+
+		// Salvando membros
+		foreach($equipe->membros as $membro){
+			
+			if(!$membro->lider){
+				
+				// Inserindo membro como pessoa
+				$stmt_pessoas->execute(array(
+					':nome' => $membro->nome,
+					':email' => $membro->email
+				));
+				
+				// Recuperando o id da pessoa recém inserida
+				$membro->id_pessoa = $this->db->lastInsertId();
+				
+				// Inserindo membro na equipe
+				$stmt_membros->execute(array(
+					':salario'		=> $lider->salario,
+					':id_equipe'	=> $equipe->id,
+					':id_pessoa'	=> $membro->id_pessoa
+				));
+			}
 		}
 		
 		// Retornando resposta para usuário

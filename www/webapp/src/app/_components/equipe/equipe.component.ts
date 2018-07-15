@@ -87,6 +87,19 @@ export class EquipeComponent implements OnInit {
 					console.warn(err);
 				}
 			);
+		} else {
+			
+			// Inserindo membro vazio na equipe
+			this.equipe.membros.push(
+				<MembroDeEquipe>{
+					nome:'',
+					email:'',
+					salario:0,
+					lider:true,
+					username:'',
+					senha:''
+				}
+			)
 		}
 		
 	}
