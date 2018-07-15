@@ -253,10 +253,9 @@ CREATE TABLE `maxse_sses` (
   `id_tipo_de_servico` int(11) DEFAULT NULL,
   `dh_registrado` datetime DEFAULT CURRENT_TIMESTAMP,
   `dh_recebido` datetime DEFAULT NULL,
-  `dh_ini_exec` datetime DEFAULT NULL,
-  `dh_fim_exec` datetime DEFAULT NULL,
   `urgente` tinyint(4) DEFAULT NULL,
   `obs` varchar(256) DEFAULT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `numero_UNIQUE` (`numero`),
   KEY `fk_maxse_sses_1_idx` (`id_bairro`),
@@ -270,7 +269,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',NULL,NULL,0,NULL),(17,'Rua Antônio Texeira, 70',256,'3652552',7,'2018-07-15 10:18:40','2018-06-01 09:01:00',NULL,NULL,0,NULL),(18,'Rua Ananias Holanda de Oliveira, 0',74,'3652530',11,'2018-07-15 10:24:16','2018-06-01 08:34:00',NULL,NULL,0,'Nivelar unidade e trocar tampão 030 na via');
+INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',0,NULL,0),(17,'Rua Antônio Texeira, 70',256,'3652552',7,'2018-07-15 10:18:40','2018-06-01 09:01:00',0,NULL,0),(18,'Rua Ananias Holanda de Oliveira, 0',74,'3652530',11,'2018-07-15 10:24:16','2018-06-01 08:34:00',0,'Nivelar unidade e trocar tampão 030 na via',0);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,82 +356,9 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4b74b069fb93.69747637','2018-07-15 14:22:08',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$9FGlpJua$uasH6R5l488WcFRl00DpI0',NULL,NULL,1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4b7cd854df02.90420045','2018-07-15 14:56:56',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$9FGlpJua$uasH6R5l488WcFRl00DpI0',NULL,NULL,1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Temporary table structure for view `maxse_v_membros`
---
-
-DROP TABLE IF EXISTS `maxse_v_membros`;
-/*!50001 DROP VIEW IF EXISTS `maxse_v_membros`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE VIEW `maxse_v_membros` AS SELECT 
- 1 AS `id_pessoa`,
- 1 AS `nome`,
- 1 AS `email`,
- 1 AS `id_membro`,
- 1 AS `salario`,
- 1 AS `id_equipe`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Temporary table structure for view `maxse_v_usuarios`
---
-
-DROP TABLE IF EXISTS `maxse_v_usuarios`;
-/*!50001 DROP VIEW IF EXISTS `maxse_v_usuarios`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE VIEW `maxse_v_usuarios` AS SELECT 
- 1 AS `id_pessoa`,
- 1 AS `nome`,
- 1 AS `email`,
- 1 AS `id_usuario`,
- 1 AS `username`,
- 1 AS `ativo`,
- 1 AS `acessoApp`,
- 1 AS `acessoWeb`,
- 1 AS `password`*/;
-SET character_set_client = @saved_cs_client;
-
---
--- Final view structure for view `maxse_v_membros`
---
-
-/*!50001 DROP VIEW IF EXISTS `maxse_v_membros`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `maxse_v_membros` AS select `a`.`id_pessoa` AS `id_pessoa`,`b`.`nome` AS `nome`,`b`.`email` AS `email`,`a`.`id` AS `id_membro`,`a`.`salario` AS `salario`,`a`.`id_equipe` AS `id_equipe` from (`maxse_membros` `a` join `maxse_pessoas` `b` on((`a`.`id_pessoa` = `b`.`id`))) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `maxse_v_usuarios`
---
-
-/*!50001 DROP VIEW IF EXISTS `maxse_v_usuarios`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
-/*!50001 VIEW `maxse_v_usuarios` AS select `b`.`id` AS `id_pessoa`,`b`.`nome` AS `nome`,`b`.`email` AS `email`,`a`.`id` AS `id_usuario`,`a`.`username` AS `username`,`a`.`ativo` AS `ativo`,`a`.`acessoApp` AS `acessoApp`,`a`.`acessoWeb` AS `acessoWeb`,`a`.`password` AS `password` from (`maxse_usuarios` `a` join `maxse_pessoas` `b` on((`a`.`id_pessoa` = `b`.`id`))) */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -443,4 +369,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-15 13:22:28
+-- Dump completed on 2018-07-15 13:56:59

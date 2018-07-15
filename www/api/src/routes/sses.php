@@ -8,8 +8,15 @@
 		// Levantando tipos de equipe na base
 		$sql = 'SELECT
 					id,
+					endereco,
+					id_bairro,
 					numero,
-					dh_registrado
+					id_tipo_de_servico,
+					dh_registrado,
+					dh_recebido,
+					urgente,
+					obs,
+					status
 				FROM
 					maxse_sses
 				ORDER BY
