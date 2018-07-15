@@ -10,58 +10,75 @@ import { EquipesComponent } from "../_components/equipes/equipes.component";
 import { EquipeComponent } from "../_components/equipe/equipe.component";
 import { SsesComponent } from '../_components/sses/sses.component';
 import { SseComponent } from "../_components/sse/sse.component";
+import { SsesGridComponent } from '../_components/sses-grid/sses-grid.component';
+import { SsesMapComponent } from '../_components/sses-map/sses-map.component';
 
 const routes:Routes = [
-  {
-    path: 'login',
-    component: LoginComponent
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    canActivate: [AuthGuard],
-    children:[
-      {
-        path: 'dash',
-        component: DashComponent,
-      },
-      {
-        path: 'usuarios',
-        component: UsuariosComponent,
-      },
-      {
-        path: 'usuarios/:id',
-        component: UsuarioComponent,
-      },
-      {
-        path: 'equipes',
-        component: EquipesComponent,
-      },
-      {
-        path: 'sses',
-        component: SsesComponent,
-      },
-      {
-        path: 'sses/:id',
-        component: SseComponent,
-      },
-      {
-        path: 'equipes/:id',
-        component: EquipeComponent,
-      },
-      {
-        path: '**',
-        redirectTo: 'sses'
-      }
-    ]
-  },
-  {
-    path: '**',
-    redirectTo: 'home'
-  }
+	{
+		path: 'login',
+		component: LoginComponent
+	},
+	{
+		path: 'home',
+		component: HomeComponent,
+		canActivate: [AuthGuard],
+		children:[
+			{
+				path: 'dash',
+				component: DashComponent,
+			},
+			{
+				path: 'usuarios',
+				component: UsuariosComponent,
+			},
+			{
+				path: 'usuarios/:id',
+				component: UsuarioComponent,
+			},
+			{
+				path: 'equipes',
+				component: EquipesComponent,
+			},
+			{
+				path: 'sse/:id',
+				component: SseComponent,
+			},
+			{
+				path: 'sses',
+				component: SsesComponent,
+				children:[
+					
+					{
+						path:'grid',
+						component:SsesGridComponent
+					},
+					{
+						path:'map',
+						component:SsesMapComponent
+					},
+					{
+						path: '**',
+						redirectTo: 'map'
+					}					
+				]
+			},
+			{
+				path: 'equipes/:id',
+				component: EquipeComponent,
+			},
+			{
+				path: '**',
+				redirectTo: 'sses'
+			}
+		]
+	},
+	{
+		path: '**',
+		redirectTo: 'home'
+	}
 ]
 @NgModule({
-  imports:[RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+	imports:[RouterModule.forRoot(routes)],
+	exports: [RouterModule]
 })
 export class AppRoutingModule { }

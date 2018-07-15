@@ -46,8 +46,8 @@ export class SsesGridComponent implements OnInit {
 		)
 	}
 	
-	onSseClick(id){
-		this.router.navigateByUrl('/home/sses/' + id);
+	onSseButtonClick(id){
+		this.router.navigateByUrl('/home/sse/' + id);
 	}	
 
 	private parseSsesResponse(res):SSE[]{
