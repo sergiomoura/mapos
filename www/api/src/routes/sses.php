@@ -16,6 +16,8 @@
 					dh_recebido,
 					urgente,
 					obs,
+					lat,
+					lng
 					status
 				FROM
 					maxse_sses
@@ -47,10 +49,10 @@
 					id_tipo_de_servico,
 					dh_registrado,
 					dh_recebido,
-					dh_ini_exec,
-					dh_fim_exec,
 					urgente,
-					obs
+					obs,
+					lat,
+					lng
 				FROM
 					maxse_sses
 				WHERE 
@@ -145,6 +147,22 @@
 			->write('Requisição mal formada');
 		}
 
+		// Determinando longitude e latitude do endereço
+        $prepAddr = str_replace(' ','+',($sse->endereco.',Campinas,SP'));
+        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+		$output = json_decode($geocode);
+
+		// Verificando se as coordenadas voltaram ok
+		if($output->status != 'OK'){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(400)
+			->write('Falha ao recuperar coordenadas do endereço: '.$output->status);
+		}
+
+        $sse->lat = $output->results[0]->geometry->location->lat;
+        $sse->lng = $output->results[0]->geometry->location->lng;
+
 		// Verificando se veio foto
 		if (!isset($sse->foto)) {
 			$caminho = null;
@@ -179,7 +197,9 @@
 						dh_registrado = now(),
 						dh_recebido = :dh_recebido,
 						urgente = :urgente,
-						obs= :obs
+						obs = :obs,
+						lat = :lat,
+						lng = :lng
 						WHERE id=:id
 					';
 			$stmt = $this->db->prepare($sql);
@@ -191,6 +211,8 @@
 				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
 				':urgente'				=> ($sse->urgente?1:0),
 				':obs'					=> $sse->obs,
+				':lat'					=> $sse->lat,
+				':lng'					=> $sse->lng,
 				':id'					=> $sse->id
 			));
 		} catch (Exception $e) {
