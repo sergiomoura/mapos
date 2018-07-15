@@ -319,6 +319,17 @@
 			':id_pessoa'	=> $lider->id_pessoa
 		));
 
+		// Recuperando o id do membro inserido
+		$lider->id = $this->db->lastInsertId();
+
+		// Atualizando a equipe para por o $lider com lider
+		$sql = 'UPDATE maxse_equipes SET id_membro_lider=:id_membro WHERE id=:id';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(
+			':id_membro' => $lider->id,
+			':id' => $equipe->id
+		));
+
 		// Escrevendo statement de que salva membro como pessoa
 		$sql_pessoas = 'INSERT INTO maxse_pessoas (nome,email) VALUES (:nome, :email)';
 		$stmt_pessoas = $this->db->prepare($sql_pessoas);
