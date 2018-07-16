@@ -13,14 +13,10 @@ export class ErrorInterceptor implements HttpInterceptor {
         
         return next.handle(request).pipe(catchError(err => {
             if (err.status === 401) {
-                // auto logout if 401 response returned from api
+                // Auto logout if 401 response returned from api
                 this.authService.logout();
                 
-                // location.reload(true);
-
-                // Imprimindo erro no console
-                console.error('FALHOU COM 401!');
-                console.error(err.error.message || err.statusText);
+                location.reload(true);
             }
                      
             const error = err.error.message || err.statusText;
