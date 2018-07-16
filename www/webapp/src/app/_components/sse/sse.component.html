@@ -1,5 +1,56 @@
-<h1>SSE {{sse?.numero}}</h1>
-<h2>Foto</h2>
-<img *ngIf="sse?.foto" [src]="sse?.foto" alt="" style="width:50%;float: left;">
-<span *ngIf="sse?.foto == undefined">sem foto</span>
-<pre>{{sse | json}}</pre>
+<div class="container-80 top-gap">
+	<img *ngIf="sse?.foto" [src]="sse?.foto" alt="SSE {{sse?.numero}}" class="imgSse">
+	<form>
+
+		<mat-form-field>
+			<mat-select name="domasa" placeholder="DOMASA" [(ngModel)]="domasaSelecionada">
+				<mat-option value="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field>
+			<input matInput placeholder="SSE Número">
+		</mat-form-field>
+
+		<mat-form-field>
+			<input matInput [matDatepicker]="dpRecebimento">
+			<mat-datepicker-toggle matSuffix [for]="dpRecebimento"></mat-datepicker-toggle>
+			<mat-datepicker #dpRecebimento></mat-datepicker>
+		</mat-form-field>
+
+		<mat-form-field>
+			<input matInput placeholder="Hora">
+		</mat-form-field>
+
+		<mat-form-field>
+			<mat-select placeholder="Solicitação">
+				<mat-option value="option">Tipo de servico</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field>
+			<input matInput placeholder="Local">
+		</mat-form-field>
+
+		<mat-form-field>
+			<mat-select placeholder="Bairro">
+				<mat-option value="option">Bairro</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-checkbox color="warn">Urgência</mat-checkbox>
+
+		<mat-form-field>
+			<textarea matInput placeholder="Observações"></textarea>
+		</mat-form-field>
+
+		<div class="medidas">
+			medidas...
+		</div>
+		
+		<mat-form-field>
+			<input matInput placeholder="Total" value="0">
+		</mat-form-field>
+
+	</form>
+</div>

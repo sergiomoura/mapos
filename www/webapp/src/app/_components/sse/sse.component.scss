@@ -1,0 +1,20 @@
+@import '~@angular/material/theming';
+:host(){
+	&>div{
+		@include mat-elevation(2);
+		padding-bottom: 0px;
+		.imgSse {
+			width: 50%;
+			display: inline-block;
+			vertical-align: top;
+		}
+		form {
+			display: inline-block;
+			padding: 20px;
+			width: calc(50% - 40px);
+			mat-form-field {
+				display: block;
+			}
+		}
+	}
+}
