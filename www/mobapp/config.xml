@@ -3,7 +3,7 @@
     <name>MAXSe</name>
     <description>Aplicativo de gestão e execução de ordens de serviço da CASAMAX.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.1.6:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -86,8 +86,8 @@
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <allow-navigation href="http://192.168.1.2:8101" />
-    <allow-navigation href="http://192.168.1.6:8101" />
-    <allow-navigation href="http://192.168.1.6:8100" />
     <engine name="android" spec="7.0.0" />
     <engine name="browser" spec="5.0.3" />
+    <allow-navigation href="http://192.168.1.6:8101" />
+    <allow-navigation href="http://192.168.1.6:8100" />
 </widget>

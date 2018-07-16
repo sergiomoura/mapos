@@ -18,4 +18,6 @@ export class SSE{
 	medidas_linear:any[];
 	medidas_unidades:any[];
 	foto:SafeUrl;
+	lat:number;
+	lng:number;
 }

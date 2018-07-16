@@ -3,5 +3,15 @@
 	[longitude]="initial_lng"
 	[zoom]="12"
 	(mapClick)="onMapClick($event)">
-	
+	<agm-marker
+		*ngFor="let sse of sses"
+		[latitude]="sse.lat"
+		[longitude]="sse.lng"
+		(markerClick)="onMarkerClick($event,sse.id)">
+		<agm-info-window [disableAutoPan]="true">
+			<div class="numero">SSE: {{sse.numero}}</div>
+			<div class="endereco">{{sse.endereco}}</div>
+			<a class="link" (click)="goToSse(sse.id)">Ver SSE</a>				
+	   	</agm-info-window>
+	</agm-marker>
 </agm-map>

@@ -1,5 +1,18 @@
 :host(){
 	agm-map {
 		height: calc(100vh - 56px);
+
+		agm-info-window {
+		}
+		.numero {
+			font-weight: bold;
+		}
+		.link {
+			display: block;
+			text-align: right;
+			text-decoration: underline;
+			color: blue;
+			cursor: pointer;
+		}
 	}
 }

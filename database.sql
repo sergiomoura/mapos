@@ -170,7 +170,7 @@ CREATE TABLE `maxse_medidas_unidades` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_unidades_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_unidades_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -179,7 +179,7 @@ CREATE TABLE `maxse_medidas_unidades` (
 
 LOCK TABLES `maxse_medidas_unidades` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_unidades` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_unidades` VALUES (10,1,18,'p'),(12,2,19,'p');
+INSERT INTO `maxse_medidas_unidades` VALUES (14,1,18,'p'),(15,2,19,'p'),(16,5,20,'p');
 /*!40000 ALTER TABLE `maxse_medidas_unidades` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -262,7 +262,7 @@ CREATE TABLE `maxse_sses` (
   UNIQUE KEY `numero_UNIQUE` (`numero`),
   KEY `fk_maxse_sses_1_idx` (`id_bairro`),
   CONSTRAINT `fk_maxse_sses_1` FOREIGN KEY (`id_bairro`) REFERENCES `maxse_bairros` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,7 +271,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',0,NULL,0,-22.9533354,-47.1839279),(17,'Rua Antônio Texeira, 70',256,'3652552',7,'2018-07-15 10:18:40','2018-06-01 09:01:00',0,NULL,0,-22.9387992,-47.0315675),(18,'Rua Ananias Holanda de Oliveira, 10',74,'3652530',11,'2018-07-15 10:24:16','2018-06-01 08:34:00',0,'Nivelar unidade e trocar tampão 030 na via',0,-22.9487008,-47.1045349),(19,'Rua Maria Monteiro, 10',582,'222222',11,'2018-07-15 17:35:03','2018-07-15 13:00:00',0,NULL,0,-22.9026956,-47.0498096);
+INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',0,NULL,0,-22.9533354,-47.1839279),(17,'Rua Antônio Texeira, 70',256,'3652552',7,'2018-07-15 10:18:40','2018-06-01 09:01:00',0,NULL,0,-22.9387992,-47.0315675),(18,'Rua Ananias Holanda de Oliveira, 10',74,'3652530',11,'2018-07-15 18:35:47','2018-06-01 14:34:00',0,'Nivelar unidade e trocar tampão 030 na via',0,-22.9487008,-47.1045349),(19,'Rua Maria Monteiro, 10',582,'222222',11,'2018-07-15 18:37:04','2018-07-15 16:00:00',0,NULL,0,-22.9026956,-47.0498096),(20,'Rua Barreto Leme, 1010',582,'55555',11,'2018-07-15 19:03:57','2018-07-15 05:09:00',0,NULL,0,-22.9019069,-47.0615965);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -358,7 +358,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4bb03f84bc06.36409694','2018-07-15 18:36:15',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4bafb31b20e9.20795053','2018-07-15 18:33:55',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4bd4666f23b8.72913160','2018-07-15 21:10:30',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4bbdccc6c592.71379369','2018-07-15 19:34:04',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -371,4 +371,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-15 17:36:39
+-- Dump completed on 2018-07-16  4:48:36

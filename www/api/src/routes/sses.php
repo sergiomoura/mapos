@@ -17,7 +17,7 @@
 					urgente,
 					obs,
 					lat,
-					lng
+					lng,
 					status
 				FROM
 					maxse_sses
