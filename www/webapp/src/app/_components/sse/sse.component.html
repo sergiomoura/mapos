@@ -62,7 +62,7 @@
 						[ngModelOptions]="{standalone: true}"
 						step="0.01"
 						[(ngModel)]="m.c"> m²
-					<button *ngIf="sse.medidas_area.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove</mat-icon></button>
+					<button color="warn" *ngIf="sse.medidas_area.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove_circle</mat-icon></button>
 				</div>
 			</div>
 			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='l'">
@@ -74,7 +74,7 @@
 						[ngModelOptions]="{standalone: true}"
 						step="0.01"
 						[(ngModel)]="m.v"> m
-					<button *ngIf="sse.medidas_linear.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove</mat-icon></button>
+					<button color="warn" *ngIf="sse.medidas_linear.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove_circle</mat-icon></button>
 				</div>
 			</div>
 			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='u'">
@@ -86,7 +86,7 @@
 						[ngModelOptions]="{standalone: true}"
 						step="1"
 						[(ngModel)]="m.n"> unid
-					<button *ngIf="sse.medidas_unidades.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove</mat-icon></button>
+					<button color="warn" *ngIf="sse.medidas_unidades.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove_circle</mat-icon></button>
 				</div>
 			</div>
 			
@@ -95,7 +95,9 @@
 		<mat-form-field>
 			<input type="text" matInput [ngModelOptions]="{standalone: true}" disabled placeholder="Total" [(ngModel)]="medidaTotal">
 		</mat-form-field>
-
+		
+		<button mat-raised-button color="primary" (click)="onSalvarClick()">Salvar Alterações</button>
+		
 	</form>
 </div>
 <span>&nbsp;</span>

@@ -13,6 +13,7 @@ import { TipoDeServico } from '../../_models/tipoDeServico';
 	templateUrl: './sse.component.html',
 	styleUrls: ['./sse.component.scss']
 })
+
 export class SseComponent implements OnInit {
 
 	constructor(
@@ -126,6 +127,32 @@ export class SseComponent implements OnInit {
 		console.log(1);
 	}
 
+	onSalvarClick(){
+		this.sse.dh_recebido.setHours(this.timestring.substr(0,2));
+		this.sse.dh_recebido.setMinutes(this.timestring.substr(3,2));
+		if(this.sse.id*1 != 0){
+			this.updateSse();
+		} else {
+			this.createSse();
+		}
+	}
+
+	private updateSse(){
+		return this.ssesService.update(this.sse).subscribe(
+			res => {
+				console.log(res);
+			},
+			err => {
+				console.warn(err);
+			}
+			
+		)
+	}
+
+	private createSse(){
+
+	}
+
 	parseSse(){
 		
 		if(this.sseResponse && this.domasas && this.tdss){
@@ -178,6 +205,7 @@ export class SseComponent implements OnInit {
 			}
 		}
 	}
+
 	onInputMedidaChange(){
 		this.calculaMedidaTotal();
 	}

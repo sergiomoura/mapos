@@ -14,6 +14,7 @@ export class SsesService {
 	
 	// Definições de urls
 	private url_getSses:string = 'api/sses';
+	private url_updateSses:string = 'api/sses'
 
 	// Método que carrega todas as SSEs
 	getAll():Observable<SSE[]>{
@@ -23,5 +24,10 @@ export class SsesService {
 	// Método que carrega sse
 	getById(id):Observable<SSE>{
 		return this.http.get<SSE>(this.url_getSses+'/'+id);
+	}
+
+	// Método que atualiza uma sse
+	update(sse:SSE){
+		return this.http.put(this.url_updateSses + '/' + sse.id,sse);
 	}
 }
