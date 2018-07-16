@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 
-
 @Injectable({
-	providedIn: 'root'
+  providedIn: 'root'
 })
-export class DomasasService {
+export class TiposDeServicoService {
 
-	private getUrl:string = '/api/domasas';
+  private getUrl:string = '/api/tdss';
 
 	constructor(
 		private http:HttpClient

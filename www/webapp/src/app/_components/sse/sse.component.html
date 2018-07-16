@@ -9,48 +9,89 @@
 		</mat-form-field>
 
 		<mat-form-field>
-			<input matInput placeholder="SSE Número">
+			<input name="numero" [(ngModel)]="sse.numero" matInput placeholder="SSE Número">
 		</mat-form-field>
 
 		<mat-form-field>
-			<input matInput [matDatepicker]="dpRecebimento">
+			<input name="dh_recebido_dia" [(ngModel)]="sse.dh_recebido" matInput [matDatepicker]="dpRecebimento">
 			<mat-datepicker-toggle matSuffix [for]="dpRecebimento"></mat-datepicker-toggle>
 			<mat-datepicker #dpRecebimento></mat-datepicker>
 		</mat-form-field>
 
 		<mat-form-field>
-			<input matInput placeholder="Hora">
+			<input name="dh_recebido_hora" matInput placeholder="Hora" type="time" [(ngModel)]="timestring">
 		</mat-form-field>
-
+		
 		<mat-form-field>
-			<mat-select placeholder="Solicitação">
-				<mat-option value="option">Tipo de servico</mat-option>
+			<mat-select (selectionChange)="onTipoDeServicoChange()" name="tds" [(ngModel)]="sse.tipoDeServico" placeholder="Solicitação">
+				<mat-option [value]="tds" *ngFor="let tds of tdss">RG{{tds.codigo}} - {{tds.descricao}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 
 		<mat-form-field>
-			<input matInput placeholder="Local">
+			<input name="endereco" [(ngModel)]="sse.endereco" matInput placeholder="Local">
 		</mat-form-field>
 
 		<mat-form-field>
-			<mat-select placeholder="Bairro">
-				<mat-option value="option">Bairro</mat-option>
+			<mat-select placeholder="Bairro" name="bairro" [(ngModel)]="sse.bairro">
+				<mat-option [value]="bairro" *ngFor="let bairro of domasaSelecionada?.bairros" >{{bairro.nome}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 
-		<mat-checkbox color="warn">Urgência</mat-checkbox>
+		<mat-checkbox name="urgente" color="warn" [(ngModel)]="sse.urgente">Urgência</mat-checkbox>
 
 		<mat-form-field>
-			<textarea matInput placeholder="Observações"></textarea>
+			<textarea name="obs" [(ngModel)]="sse.obs" matInput placeholder="Observações"></textarea>
 		</mat-form-field>
 
 		<div class="medidas">
-			medidas...
+			<div class="label">Medidas<button mat-icon-button (click)="onAddMedidaClick()"><mat-icon>add</mat-icon></button></div>
+			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='a'">
+				<div class="medida" *ngFor="let m of sse.medidas_area;let i=index">
+					<input
+						(keyup)="onInputMedidaChange()"
+						type="number"
+						[ngModelOptions]="{standalone: true}"
+						step="0.01"
+						[(ngModel)]="m.l"> x 
+					<input
+						(keyup)="onInputMedidaChange()"
+						type="number"
+						[ngModelOptions]="{standalone: true}"
+						step="0.01"
+						[(ngModel)]="m.c"> m²
+					<button *ngIf="sse.medidas_area.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove</mat-icon></button>
+				</div>
+			</div>
+			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='l'">
+				<div class="medida" *ngFor="let m of sse.medidas_linear;let i=index">
+					<input
+						(keyup)="onInputMedidaChange()"
+						type="number"
+						[ngModelOptions]="{standalone: true}"
+						step="0.01"
+						[(ngModel)]="m.v"> m
+					<button *ngIf="sse.medidas_linear.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove</mat-icon></button>
+				</div>
+			</div>
+			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='u'">
+				<div class="medida" *ngFor="let m of sse.medidas_unidades;let i=index">
+					<input
+						(keyup)="onInputMedidaChange()"
+						type="number"
+						[ngModelOptions]="{standalone: true}"
+						step="1"
+						[(ngModel)]="m.n"> unid
+					<button *ngIf="sse.medidas_unidades.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove</mat-icon></button>
+				</div>
+			</div>
+			
 		</div>
 		
 		<mat-form-field>
-			<input matInput placeholder="Total" value="0">
+			<input type="text" matInput [ngModelOptions]="{standalone: true}" disabled placeholder="Total" [(ngModel)]="medidaTotal">
 		</mat-form-field>
 
 	</form>
 </div>
+<span>&nbsp;</span>

@@ -50,13 +50,9 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	onMarkerClick(evt,sse){
-		this.viewInfo(evt,sse);
+		
 	}
 
-	viewInfo(evt,sse:SSE){
-		console.log(evt);
-		console.log(sse);
-	}
 
 	private parseSsesResponse(res):SSE[]{
 		for (let i = 0; i < res.length; i++) {
