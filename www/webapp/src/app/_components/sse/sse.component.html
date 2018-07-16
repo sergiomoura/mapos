@@ -50,12 +50,14 @@
 				<div class="medida" *ngFor="let m of sse.medidas_area;let i=index">
 					<input
 						(keyup)="onInputMedidaChange()"
+						(click)="onInputMedidaChange()"
 						type="number"
 						[ngModelOptions]="{standalone: true}"
 						step="0.01"
 						[(ngModel)]="m.l"> x 
 					<input
 						(keyup)="onInputMedidaChange()"
+						(click)="onInputMedidaChange()"
 						type="number"
 						[ngModelOptions]="{standalone: true}"
 						step="0.01"
@@ -67,6 +69,7 @@
 				<div class="medida" *ngFor="let m of sse.medidas_linear;let i=index">
 					<input
 						(keyup)="onInputMedidaChange()"
+						(click)="onInputMedidaChange()"
 						type="number"
 						[ngModelOptions]="{standalone: true}"
 						step="0.01"
@@ -78,6 +81,7 @@
 				<div class="medida" *ngFor="let m of sse.medidas_unidades;let i=index">
 					<input
 						(keyup)="onInputMedidaChange()"
+						(click)="onInputMedidaChange()"
 						type="number"
 						[ngModelOptions]="{standalone: true}"
 						step="1"

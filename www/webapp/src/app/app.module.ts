@@ -8,6 +8,7 @@ import { MaterialModule } from "./_modules/material/material.module";
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { ErrorInterceptor } from "./_helpers/error.interceptor";
 import { JwtInterceptor } from "./_helpers/jwt.interceptor";
@@ -64,7 +65,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/mater
 				horizontalPosition:'right',
 				verticalPosition:'bottom'
 			}
-		}
+		},
+		{provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}
 	],
 	bootstrap: [AppComponent]
 })
