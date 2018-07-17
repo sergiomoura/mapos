@@ -8,10 +8,8 @@ export class SSE{
 	numero:string;
 	bairro:Bairro;
 	tipoDeServico:TipoDeServico;
-	dh_registrado:string;
-	dh_recebido:string;
-	dh_ini_exec:string;
-	dh_fim_exec:string;
+	dh_registrado:Date;
+	dh_recebido:Date;
 	obs:string;
 	urgente:boolean;
 	medidas_area:any[];	

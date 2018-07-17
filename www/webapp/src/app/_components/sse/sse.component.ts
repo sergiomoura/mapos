@@ -3,7 +3,7 @@ import { ActivatedRoute } from "@angular/router";
 import { SSE } from '../../_models/sse';
 import { Domasa } from "../../_models/domasa";
 import { SsesService } from '../../_services/sses.service';
-import { DomasasService } from "../../_service/domasas.service";
+import { DomasasService } from "../../_services/domasas.service";
 import { TiposDeServicoService } from "../../_services/tipos-de-servico.service";
 import { MatSnackBar } from '@angular/material';
 import { TipoDeServico } from '../../_models/tipoDeServico';
@@ -130,8 +130,8 @@ export class SseComponent implements OnInit {
 	}
 
 	onSalvarClick(){
-		this.sse.dh_recebido.setHours(this.timestring.substr(0,2));
-		this.sse.dh_recebido.setMinutes(this.timestring.substr(3,2));
+		this.sse.dh_recebido.setHours(+this.timestring.substr(0,2));
+		this.sse.dh_recebido.setMinutes(+this.timestring.substr(3,2));
 		if(this.sse.id*1 != 0){
 			this.updateSse();
 		} else {
