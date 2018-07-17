@@ -7,6 +7,7 @@ import { DomasasService } from "../../_service/domasas.service";
 import { TiposDeServicoService } from "../../_services/tipos-de-servico.service";
 import { MatSnackBar } from '@angular/material';
 import { TipoDeServico } from '../../_models/tipoDeServico';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-sse',
@@ -21,7 +22,8 @@ export class SseComponent implements OnInit {
 		private ssesService:SsesService,
 		private domasaService:DomasasService,
 		private tdsService:TiposDeServicoService,
-		private snackBar:MatSnackBar
+		private snackBar:MatSnackBar,
+		private sanitizer:DomSanitizer
 	) { }
 
 	sse:SSE = <SSE>{
@@ -161,6 +163,7 @@ export class SseComponent implements OnInit {
 			this.sseResponse.dh_recebido = new Date(this.sseResponse.dh_recebido);
 			this.sseResponse.dh_registrado = new Date(this.sseResponse.dh_registrado);
 			this.sseResponse.id *= 1;
+			this.sseResponse.foto = this.sanitizer.bypassSecurityTrustResourceUrl(this.sseResponse.foto);
 			this.sseResponse.urgente = (this.sseResponse.urgente == "1");
 			this.timestring = this.sseResponse.dh_recebido.toTimeString().substr(0,2)
 							  + ':' +

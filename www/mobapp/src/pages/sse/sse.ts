@@ -21,7 +21,7 @@ export class SsePage {
 	public domasas:Domasa[] = <Domasa[]>[];
 	public tiposDeServico:TipoDeServico[] = <TipoDeServico[]>[];
 	public sse:SSE = this.sseVazia();
-	public domasaSelecionada:Domasa = null;
+	public domasaSelecionada:Domasa;
 	public medidaTotal: number = 0;
 	public unidade: string = 'm²';
 
@@ -270,10 +270,8 @@ export class SsePage {
 			numero:'',
 			bairro:null,
 			tipoDeServico:null,
-			dh_registrado:'',
-			dh_recebido:'',
-			dh_ini_exec:'',
-			dh_fim_exec:'',
+			dh_registrado:null,
+			dh_recebido:null,
 			urgente:false,
 			medidas_area:<any[]>[],
 			medidas_linear:<any[]>[],

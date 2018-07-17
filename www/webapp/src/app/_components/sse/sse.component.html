@@ -1,25 +1,25 @@
 <div class="container-80 top-gap">
 	<img *ngIf="sse?.foto" [src]="sse?.foto" alt="SSE {{sse?.numero}}" class="imgSse">
-	<form>
+	<form #sseForm="ngForm">
 
 		<mat-form-field>
-			<mat-select name="domasa" placeholder="DOMASA" [(ngModel)]="domasaSelecionada">
-				<mat-option value="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</mat-option>
+			<mat-select required name="domasa" placeholder="DOMASA" [(ngModel)]="domasaSelecionada">
+				<mat-option [value]="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</mat-option>
 			</mat-select>
 		</mat-form-field>
-
+		
 		<mat-form-field>
-			<input name="numero" [(ngModel)]="sse.numero" matInput placeholder="SSE Número">
+			<input required name="numero" [(ngModel)]="sse.numero" matInput placeholder="SSE Número">
 		</mat-form-field>
 
 		<mat-form-field>
-			<input name="dh_recebido_dia" [(ngModel)]="sse.dh_recebido" matInput [matDatepicker]="dpRecebimento">
+			<input required name="dh_recebido_dia" [(ngModel)]="sse.dh_recebido" matInput [matDatepicker]="dpRecebimento">
 			<mat-datepicker-toggle matSuffix [for]="dpRecebimento"></mat-datepicker-toggle>
 			<mat-datepicker #dpRecebimento></mat-datepicker>
 		</mat-form-field>
 
 		<mat-form-field>
-			<input name="dh_recebido_hora" matInput placeholder="Hora" type="time" [(ngModel)]="timestring">
+			<input required name="dh_recebido_hora" matInput placeholder="Hora" type="time" [(ngModel)]="timestring">
 		</mat-form-field>
 		
 		<mat-form-field>
@@ -29,11 +29,11 @@
 		</mat-form-field>
 
 		<mat-form-field>
-			<input name="endereco" [(ngModel)]="sse.endereco" matInput placeholder="Local">
+			<input required name="endereco" [(ngModel)]="sse.endereco" matInput placeholder="Local">
 		</mat-form-field>
 
 		<mat-form-field>
-			<mat-select placeholder="Bairro" name="bairro" [(ngModel)]="sse.bairro">
+			<mat-select required placeholder="Bairro" name="bairro" [(ngModel)]="sse.bairro">
 				<mat-option [value]="bairro" *ngFor="let bairro of domasaSelecionada?.bairros" >{{bairro.nome}}</mat-option>
 			</mat-select>
 		</mat-form-field>
@@ -52,14 +52,14 @@
 						(keyup)="onInputMedidaChange()"
 						(click)="onInputMedidaChange()"
 						type="number"
-						[ngModelOptions]="{standalone: true}"
+						name="medida_al_{{i}}"
 						step="0.01"
 						[(ngModel)]="m.l"> x 
 					<input
 						(keyup)="onInputMedidaChange()"
 						(click)="onInputMedidaChange()"
 						type="number"
-						[ngModelOptions]="{standalone: true}"
+						name="medida_ac_{{i}}"
 						step="0.01"
 						[(ngModel)]="m.c"> m²
 					<button color="warn" *ngIf="sse.medidas_area.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove_circle</mat-icon></button>
@@ -71,7 +71,7 @@
 						(keyup)="onInputMedidaChange()"
 						(click)="onInputMedidaChange()"
 						type="number"
-						[ngModelOptions]="{standalone: true}"
+						name="medida_l_{{i}}"
 						step="0.01"
 						[(ngModel)]="m.v"> m
 					<button color="warn" *ngIf="sse.medidas_linear.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove_circle</mat-icon></button>
@@ -80,10 +80,11 @@
 			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='u'">
 				<div class="medida" *ngFor="let m of sse.medidas_unidades;let i=index">
 					<input
+						required
 						(keyup)="onInputMedidaChange()"
 						(click)="onInputMedidaChange()"
 						type="number"
-						[ngModelOptions]="{standalone: true}"
+						name="medida_u_{{i}}"
 						step="1"
 						[(ngModel)]="m.n"> unid
 					<button color="warn" *ngIf="sse.medidas_unidades.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)"><mat-icon>remove_circle</mat-icon></button>
@@ -93,10 +94,10 @@
 		</div>
 		
 		<mat-form-field>
-			<input type="text" matInput [ngModelOptions]="{standalone: true}" disabled placeholder="Total" [(ngModel)]="medidaTotal">
+			<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total" [(ngModel)]="medidaTotal">
 		</mat-form-field>
 		
-		<button mat-raised-button color="primary" (click)="onSalvarClick()">Salvar Alterações</button>
+		<button mat-raised-button color="primary" [disabled]="!sseForm.valid" (click)="onSalvarClick()">Salvar Alterações</button>
 		
 	</form>
 </div>
