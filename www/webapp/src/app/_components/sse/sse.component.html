@@ -97,6 +97,7 @@
 			<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total" [(ngModel)]="medidaTotal">
 		</mat-form-field>
 		
+		<button mat-raised-button color="accent" (click)="onCriarTarefaClick()">Criar Tarefa para esta SSE</button>
 		<button mat-raised-button color="primary" [disabled]="!sseForm.valid" (click)="onSalvarClick()">Salvar Alterações</button>
 		
 	</form>

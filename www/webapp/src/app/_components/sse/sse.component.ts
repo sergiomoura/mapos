@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { SSE } from '../../_models/sse';
 import { Domasa } from "../../_models/domasa";
 import { SsesService } from '../../_services/sses.service';
@@ -23,7 +23,8 @@ export class SseComponent implements OnInit {
 		private domasaService:DomasasService,
 		private tdsService:TiposDeServicoService,
 		private snackBar:MatSnackBar,
-		private sanitizer:DomSanitizer
+		private sanitizer:DomSanitizer,
+		private router:Router
 	) { }
 
 	sse:SSE = <SSE>{
@@ -125,8 +126,8 @@ export class SseComponent implements OnInit {
 		)
 	}
 
-	onDhRecebidoChange(){
-		console.log(1);
+	onCriarTarefaClick(){
+		this.router.navigateByUrl('home/tarefas/0?idsse='+this.sse.id);
 	}
 
 	onSalvarClick(){

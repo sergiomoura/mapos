@@ -28,6 +28,7 @@ import { SseComponent } from './_components/sse/sse.component';
 import { FocusDirective } from './_directives/focus.directive';
 
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
+import { TarefaComponent } from './_components/tarefa/tarefa.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -42,7 +43,8 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/mater
 		SsesComponent,
 		SsesGridComponent,
 		SsesMapComponent,
-		SseComponent
+		SseComponent,
+		TarefaComponent
 	],
 	imports: [
 		BrowserModule,

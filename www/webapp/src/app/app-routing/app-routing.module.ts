@@ -12,6 +12,7 @@ import { SsesComponent } from '../_components/sses/sses.component';
 import { SseComponent } from "../_components/sse/sse.component";
 import { SsesGridComponent } from '../_components/sses-grid/sses-grid.component';
 import { SsesMapComponent } from '../_components/sses-map/sses-map.component';
+import { TarefaComponent } from '../_components/tarefa/tarefa.component';
 
 const routes:Routes = [
 	{
@@ -38,6 +39,10 @@ const routes:Routes = [
 			{
 				path: 'equipes',
 				component: EquipesComponent,
+			},
+			{
+				path:'tarefas/:id',
+				component: TarefaComponent
 			},
 			{
 				path: 'sse/:id',
