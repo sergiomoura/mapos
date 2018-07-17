@@ -1,3 +1,86 @@
-<p>
-  tarefa works!
-</p>
+<div class="container container-80 top-gap">
+	
+	<div class="container-sse">
+		<div class="controles-sse">
+			<mat-form-field>
+				<mat-select name="sse" placeholder="SSE">
+					
+				</mat-select>
+			</mat-form-field>
+			<button mat-icon-button><mat-icon>edit</mat-icon></button>
+		</div>
+		<agm-map
+			[latitude]="-22"
+			[longitude]="-40"
+			[zoom]="12">
+		</agm-map>
+
+		<mat-form-field>
+			<input matInput type="text" readonly placeholder="Endereço">
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput type="text" readonly placeholder="Solicitação">
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput type="datetime-local" readonly placeholder="Recebida em">
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput type="datetime-local" readonly placeholder="Prazo de Entrega">
+		</mat-form-field>
+	</div>
+
+	<div class="container-tarefa">
+
+		<div class="tempo-restante">
+			<div>01<span> dia</span> : 04<span> h</span> : 35<span> min</span></div>
+			<div>restantes</div>
+		</div>
+
+		<form #tarefaForm="ngForm">
+			<mat-form-field>
+				<mat-select required placeholder="Tipo" name="tipo">
+					<!-- <mat-option [value]="tipo" *ngFor="let tipo of tiposDeTarefa" >{{tipo.nome}}</mat-option> -->
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-select required placeholder="Equipe" name="equipe">
+					<mat-option [value]="equipe" *ngFor="let equipe of equipes" >[equipe.sigla] - {{equipe.nome}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-select required placeholder="Equipe de Apoio" name="apoio">
+					<mat-option [value]="apoio" *ngFor="let apoio of equipes" >[apoio.sigla] - {{apoio.nome}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field>
+				<input
+					matInput
+					required
+					type="datetime-local"
+					name="inicio_p"
+					[(ngModel)]="stringtime_inicio_p"
+					placeholder="Início Previsto">
+			</mat-form-field>
+
+			<mat-form-field>
+				<input
+					matInput
+					required
+					type="datetime-local"
+					name="final_p"
+					[(ngModel)]="stringtime_final_p"
+					placeholder="Final Previsto">
+			</mat-form-field>
+
+			<div class="controles">
+				<button mat-raised-button color="accent">Cancelar</button>
+				<button mat-raised-button color="primary">Salvar</button>
+			</div>
+
+		</form>
+	</div>
+
+</div>

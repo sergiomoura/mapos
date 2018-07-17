@@ -276,6 +276,66 @@ INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359
 UNLOCK TABLES;
 
 --
+-- Table structure for table `maxse_tarefas`
+--
+
+DROP TABLE IF EXISTS `maxse_tarefas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `maxse_tarefas` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_sse` int(11) NOT NULL,
+  `id_equipe` int(11) NOT NULL,
+  `id_apoio` int(11) DEFAULT NULL,
+  `id_tipo` int(11) DEFAULT NULL,
+  `inicio_p` datetime NOT NULL,
+  `final_p` datetime NOT NULL,
+  `inicio_r` datetime DEFAULT NULL,
+  `final_r` datetime DEFAULT NULL,
+  `divergente` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_maxse_tarefas_1_idx` (`id_sse`),
+  KEY `fk_maxse_tarefas_2_idx` (`id_equipe`),
+  KEY `fk_maxse_tarefas_3_idx` (`id_apoio`),
+  CONSTRAINT `fk_maxse_tarefas_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_maxse_tarefas_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_maxse_tarefas_3` FOREIGN KEY (`id_apoio`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_tarefas`
+--
+
+LOCK TABLES `maxse_tarefas` WRITE;
+/*!40000 ALTER TABLE `maxse_tarefas` DISABLE KEYS */;
+INSERT INTO `maxse_tarefas` VALUES (3,20,3,6,1,'2018-07-16 08:00:00','2018-07-16 12:00:00','2018-07-16 08:15:00','2018-07-16 12:42:30',0),(4,19,3,NULL,1,'2018-07-17 08:00:00','2018-07-16 12:00:00','2018-07-16 08:05:00',NULL,0),(5,20,4,NULL,2,'2018-07-17 08:00:00','2018-07-16 16:00:00',NULL,NULL,0);
+/*!40000 ALTER TABLE `maxse_tarefas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `maxse_tarefas_v`
+--
+
+DROP TABLE IF EXISTS `maxse_tarefas_v`;
+/*!50001 DROP VIEW IF EXISTS `maxse_tarefas_v`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `maxse_tarefas_v` AS SELECT 
+ 1 AS `id`,
+ 1 AS `id_sse`,
+ 1 AS `id_equipe`,
+ 1 AS `id_apoio`,
+ 1 AS `id_tipo`,
+ 1 AS `inicio_p`,
+ 1 AS `final_p`,
+ 1 AS `inicio_r`,
+ 1 AS `final_r`,
+ 1 AS `divergente`,
+ 1 AS `status`*/;
+SET character_set_client = @saved_cs_client;
+
+--
 -- Table structure for table `maxse_tipos_de_equipe`
 --
 
@@ -329,6 +389,31 @@ INSERT INTO `maxse_tipos_de_servico` VALUES (1,'37','A',3.5,'Construção e/ou r
 UNLOCK TABLES;
 
 --
+-- Table structure for table `maxse_tipos_de_tarefa`
+--
+
+DROP TABLE IF EXISTS `maxse_tipos_de_tarefa`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `maxse_tipos_de_tarefa` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nome` varchar(45) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `nome_UNIQUE` (`nome`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_tipos_de_tarefa`
+--
+
+LOCK TABLES `maxse_tipos_de_tarefa` WRITE;
+/*!40000 ALTER TABLE `maxse_tipos_de_tarefa` DISABLE KEYS */;
+INSERT INTO `maxse_tipos_de_tarefa` VALUES (1,'TIPO A'),(2,'TIPO B'),(3,'TIPO C'),(4,'TIPO D');
+/*!40000 ALTER TABLE `maxse_tipos_de_tarefa` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maxse_usuarios`
 --
 
@@ -358,9 +443,27 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4d5eec966093.20910033','2018-07-17 01:13:48',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b4dd7fd0bf667.44008311','2018-07-17 09:50:21',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Final view structure for view `maxse_tarefas_v`
+--
+
+/*!50001 DROP VIEW IF EXISTS `maxse_tarefas_v`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `maxse_tarefas_v` AS select `maxse_tarefas`.`id` AS `id`,`maxse_tarefas`.`id_sse` AS `id_sse`,`maxse_tarefas`.`id_equipe` AS `id_equipe`,`maxse_tarefas`.`id_apoio` AS `id_apoio`,`maxse_tarefas`.`id_tipo` AS `id_tipo`,`maxse_tarefas`.`inicio_p` AS `inicio_p`,`maxse_tarefas`.`final_p` AS `final_p`,`maxse_tarefas`.`inicio_r` AS `inicio_r`,`maxse_tarefas`.`final_r` AS `final_r`,`maxse_tarefas`.`divergente` AS `divergente`,if(`maxse_tarefas`.`divergente`,5,if(isnull(`maxse_tarefas`.`inicio_r`),1,if(isnull(`maxse_tarefas`.`final_r`),2,3))) AS `status` from `maxse_tarefas` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -371,4 +474,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-17  0:14:20
+-- Dump completed on 2018-07-17  8:51:10

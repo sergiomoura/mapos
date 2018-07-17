@@ -1,0 +1,69 @@
+@import '~@angular/material/theming';
+.container{
+	
+	@include mat-elevation(2);
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	margin-bottom: 10px;
+
+	.container-tarefa{
+		
+		width: calc(50% - 40px);
+		padding: 20px;
+
+		.tempo-restante{
+			div{
+				text-align: center;
+			}
+			div:nth-child(1){
+				font-size: 48px;
+				span {
+					font-size: 20px;
+				}
+			}
+			div:nth-child(2){
+				font-size: 20px;
+				text-transform: uppercase;
+			}
+		}
+
+		mat-form-field {
+			width: 100%;
+		}
+
+		.controles{
+			display: flex;
+			justify-content: space-between;
+		}
+
+	}
+
+	.container-sse{
+		
+		width: calc(50% - 41px);
+		padding: 20px;
+		border-right: 1px solid #CCC;
+		
+		.controles-sse{
+			display: flex;
+			mat-form-field {
+				flex-grow: 1;
+			}
+			button {
+				margin-left: 10px;
+				position: relative;
+				top: 5px;
+			}
+		}
+
+		agm-map {
+			height: 400px;
+			margin: 0 0 15px 0;
+		}
+
+		&>mat-form-field {
+			width: 100%;
+		}
+	}
+}
