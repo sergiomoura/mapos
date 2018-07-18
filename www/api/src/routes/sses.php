@@ -37,6 +37,9 @@
 
 	$app->get($api_root.'/sses/{id}',function(Request $req, Response $res, $args = []){
 		
+		// Determina a condição comFoto: por padrão manda com foto.
+		$comFoto = !(array_key_exists('comFoto',$_GET) && $_GET['comFoto'] == '0');
+
 		// Lendo os argumentos
 		$idSse = $args['id'];
 
@@ -67,21 +70,29 @@
 			->write('SSE não encontrada.');
 		}
 
-		// Verificando se possui foto
-		$caminho = $this->maxse['caminho_para_fotos_sse'].$sse->id.'.jpg';
-		if(file_exists($caminho)){
+		// Verificando se está pedindo a SSE com a foto
+		if($comFoto) {
 
-			// lendo conteúdo de arquivo
-			$data = file_get_contents($caminho);
-			
-			// encodando para base64
-			$data = base64_encode($data);
+			// Verificando se possui foto
+			$caminho = $this->maxse['caminho_para_fotos_sse'].$sse->id.'.jpg';
+			if(file_exists($caminho)){
 
-			// adicionando cabeçalho base64
-			$data = 'data:image/jpeg;base64,'.$data;
+				// lendo conteúdo de arquivo
+				$data = file_get_contents($caminho);
+				
+				// encodando para base64
+				$data = base64_encode($data);
 
-			// Pondo dentro do parâmetro seguro para angular
-			$sse->foto = $data;
+				// adicionando cabeçalho base64
+				$data = 'data:image/jpeg;base64,'.$data;
+
+				// Pondo dentro do parâmetro seguro para angular
+				$sse->foto = $data;
+			} else {
+				$sse->foto = null;
+			}
+		} else {
+			$sse->foto = null;
 		}
 
 		// Levantando o tipo de medidas com base no tipo do servico

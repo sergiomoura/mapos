@@ -22,8 +22,12 @@ export class SsesService {
 	}
 
 	// Método que carrega sse
-	getById(id):Observable<SSE>{
-		return this.http.get<SSE>(this.url_getSses+'/'+id);
+	getById(id,comFoto:boolean=true):Observable<SSE>{
+		if(comFoto){
+			return this.http.get<SSE>(this.url_getSses+'/'+id);
+		} else {
+			return this.http.get<SSE>(this.url_getSses+'/'+id+'?comFoto=0')
+		}
 	}
 
 	// Método que atualiza uma sse
