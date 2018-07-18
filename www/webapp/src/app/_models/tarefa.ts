@@ -1,11 +1,9 @@
-import { TipoDeTarefa } from "./tipo-de-tarefa";
 import { Equipe } from "./equipe";
 import { SSE } from "./sse";
 
 export class Tarefa{
 
 	// Publicas
-	public tipo:TipoDeTarefa;
 	public sse:SSE;
 	public equipe:Equipe;
 	public apoio:Equipe;
