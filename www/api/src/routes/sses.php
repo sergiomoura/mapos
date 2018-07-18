@@ -35,6 +35,45 @@
 
 	});
 
+	$app->get($api_root.'/sses/pendentes',function(Request $req, Response $res, $args = []){
+		
+		// Levantando tipos de equipe na base
+		$sql = 'SELECT
+					id,
+					endereco,
+					id_bairro,
+					numero,
+					id_tipo_de_servico,
+					dh_registrado,
+					dh_recebido,
+					urgente,
+					obs,
+					lat,
+					lng,
+					status
+				FROM
+					maxse_sses
+				WHERE status <> :status_acabada
+				ORDER BY
+					dh_registrado DESC';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(
+			'status_acabada' => $this->maxse['status_acabada']
+		));
+		$sses = array_map(function($sse){
+			$sse->lat *= 1;
+			$sse->lng *= 1;
+			return $sse;
+		},$stmt->fetchAll());
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json')
+		->write(json_encode($sses));
+
+	});
+
 	$app->get($api_root.'/sses/{id}',function(Request $req, Response $res, $args = []){
 		
 		// Determina a condição comFoto: por padrão manda com foto.

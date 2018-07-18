@@ -14,11 +14,17 @@ export class SsesService {
 	
 	// Definições de urls
 	private url_getSses:string = 'api/sses';
+	private url_getSsesPendentes:string = 'api/sses/pendentes';
 	private url_updateSses:string = 'api/sses'
 
 	// Método que carrega todas as SSEs
 	getAll():Observable<SSE[]>{
 		return this.http.get<SSE[]>(this.url_getSses);
+	}
+
+	// Retorna SSEs pendentes
+	getPendentes():Observable<SSE[]>{
+		return this.http.get<SSE[]>(this.url_getSsesPendentes);
 	}
 
 	// Método que carrega sse

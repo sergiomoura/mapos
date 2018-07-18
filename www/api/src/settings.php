@@ -27,7 +27,8 @@ return [
 
         'maxse' => [
             'token_duracao' => 60, // minutos,
-            'caminho_para_fotos_sse' => "../photos/sses/"
+            'caminho_para_fotos_sse' => "../photos/sses/",
+            'status_acabada' => 4
         ]
     ],
 ];

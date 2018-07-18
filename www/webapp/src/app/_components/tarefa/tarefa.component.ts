@@ -36,6 +36,9 @@ export class TarefaComponent implements OnInit {
 	nDias:number;
 	nHoras:number;
 	nMinutos:number;
+	inicioPrev_timestring:string;
+	finalPrev_timestring:string;
+	ssesPendentes:SSE[] = [];
 	
 	constructor(
 		private equipesService:EquipesService,
@@ -49,6 +52,7 @@ export class TarefaComponent implements OnInit {
 	ngOnInit() {
 		this.getEquipes();
 		this.getTarefa();
+		this.getSSEsPendentes();
 	}
 
 	private getEquipes(){
@@ -131,6 +135,15 @@ export class TarefaComponent implements OnInit {
 				this.nHoras = Math.round(timediff / (60*60));
 				timediff -= this.nHoras*(60*60);
 				this.nMinutos = Math.round(timediff / 60);
+
+				// Removendo a sse do vetor de ssesPendentes
+				if(this.ssesPendentes){
+					this.ssesPendentes = this.ssesPendentes.filter(
+						(sse) => {
+							return sse.id != this.sse.id;
+						}
+					)
+				}
 			},
 			err => {
 				// Exibindo snackbar de erro
@@ -148,6 +161,39 @@ export class TarefaComponent implements OnInit {
 
 				// Imprimindo erro no console
 				console.warn(err);
+			}
+		)
+	}
+
+	private getSSEsPendentes(){
+		this.ssesService.getPendentes().subscribe(
+			res => {
+				this.ssesPendentes = <SSE[]>res;
+				if(this.sse.id) {
+					this.ssesPendentes.filter(
+						(s) => {
+							return s.id != this.sse.id;
+						}
+					);
+				}
+			},
+			err => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao carregar SSEs',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+
+				// Imprimindo erro no console
+				console.warn(err);
+				
 			}
 		)
 	}
@@ -180,6 +226,9 @@ export class TarefaComponent implements OnInit {
 			// Parsing Dates previstas
 			this.reqTarefaResp.inicio_p = new Date(this.reqTarefaResp.inicio_p);
 			this.reqTarefaResp.final_p = new Date(this.reqTarefaResp.final_p);
+
+			this.inicioPrev_timestring = this.reqTarefaResp.inicio_p.toISOString().substr(0,16);
+			this.finalPrev_timestring = this.reqTarefaResp.final_p.toISOString().substr(0,16);
 
 			// Parsing dates realizadas
 			this.reqTarefaResp.inicio_r = (this.reqTarefaResp.inicio_r == null ? null : new Date(this.reqTarefaResp.inicio_r));

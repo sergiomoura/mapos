@@ -11,6 +11,18 @@
 			[latitude]="sse?.lat"
 			[longitude]="sse?.lng"
 			[zoom]="12">
+
+			<agm-marker
+				[latitude]="sse?.lat"
+				[longitude]="sse?.lng">
+			</agm-marker>
+
+			<agm-marker
+				*ngFor="let s of ssesPendentes"
+				iconUrl="assets/at_work_icon.svg"
+				[latitude]="s?.lat"
+				[longitude]="s?.lng">
+			</agm-marker>
 		</agm-map>
 		
 		<mat-form-field>
@@ -54,7 +66,7 @@
 					required
 					type="datetime-local"
 					name="inicio_p"
-					[(ngModel)]="stringtime_inicio_p"
+					[(ngModel)]="inicioPrev_timestring"
 					placeholder="Início Previsto">
 			</mat-form-field>
 
@@ -64,7 +76,7 @@
 					required
 					type="datetime-local"
 					name="final_p"
-					[(ngModel)]="stringtime_final_p"
+					[(ngModel)]="finalPrev_timestring"
 					placeholder="Final Previsto">
 			</mat-form-field>
 
@@ -74,6 +86,5 @@
 			</div>
 
 		</form>
-		{{sse | json}}
 	</div>
 </div>
