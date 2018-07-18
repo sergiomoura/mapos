@@ -17,8 +17,20 @@ export class TarefaComponent implements OnInit {
 	
 	equipes:Equipe[] = [];
 	tarefa:Tarefa;
-	sse:SSE;
+	sse:SSE = <SSE>{
+		id:0,
+		endereco:'',
+		dh_recebido:new Date(),
+		dh_registrado:new Date(),
+		tipoDeServico: {
+			codigo:'',
+			descricao:''
+		}
+	};
 	reqTarefaResp:any;
+	recebido_timestring:string;
+	registrado_timestring:string;
+	prazoentrega_timestring:string;
 	
 	constructor(
 		private equipesService:EquipesService,
@@ -96,7 +108,12 @@ export class TarefaComponent implements OnInit {
 	private getSSE(id:number){
 		this.ssesService.getById(id,false).subscribe(
 			res => {
+				// Parsing SSE dates
+				res.dh_recebido = new Date(res.dh_recebido);
+				res.dh_registrado = new Date(res.dh_registrado);
+				
 				this.sse = <SSE>res;
+				this.recebido_timestring = this.sse.dh_recebido.toISOString();
 			},
 			err => {
 				// Exibindo snackbar de erro
@@ -153,8 +170,6 @@ export class TarefaComponent implements OnInit {
 
 			// atribuindo a requisição a tarefa
 			this.tarefa = <Tarefa>this.reqTarefaResp;
-
-			console.log(this.reqTarefaResp);
 
 		}
 

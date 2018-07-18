@@ -63,6 +63,8 @@
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(':id'=>$idSse));
 		$sse = $stmt->fetch();
+		$sse->lat *= 1;
+		$sse->lng *= 1;
 
 		if($sse === false){
 			return $res
@@ -137,6 +139,23 @@
 				->write("Tipo de medida desconhecido.");
 				break;
 		}
+
+		// Levantando tipo de serviço
+		$sql = 'SELECT
+					id,
+					codigo,
+					prazo,
+					descricao,
+					medida
+				FROM 
+					maxse_tipos_de_servico
+				WHERE id=:id';
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(
+			':id' => $sse->id_tipo_de_servico
+		));
+		$sse->tipoDeServico = $stmt->fetch();
 
 		// Retornando resposta para usuário
 		return $res
@@ -213,7 +232,8 @@
 						lng = :lng
 						WHERE id=:id
 					';
-			$stmt = $this->db->prepare($sql);
+			$stmt = $thidescricao
+			->db->prepare($sql);
 			$stmt->execute(array(
 				':endereco'				=> $sse->endereco,
 				':id_bairro'			=> $sse->bairro->id,

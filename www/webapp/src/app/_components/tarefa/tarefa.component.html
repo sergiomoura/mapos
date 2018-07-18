@@ -3,29 +3,27 @@
 	<div class="container-sse">
 		<div class="controles-sse">
 			<mat-form-field>
-				<mat-select name="sse" placeholder="SSE">
-					
-				</mat-select>
+				<input matInput type="text" readonly placeholder="SSE Número" value="{{sse.numero}}">
 			</mat-form-field>
 			<button mat-icon-button><mat-icon>edit</mat-icon></button>
 		</div>
 		<agm-map
-			[latitude]="-22"
-			[longitude]="-40"
+			[latitude]="sse?.lat"
+			[longitude]="sse?.lng"
 			[zoom]="12">
 		</agm-map>
-
+		
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="Endereço">
+			<input matInput type="text" readonly placeholder="Endereço" [(ngModel)]="sse.endereco">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="Solicitação">
+			<input matInput type="text" readonly placeholder="Solicitação" value="RG{{sse.tipoDeServico?.codigo}} - {{sse.tipoDeServico.descricao}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="datetime-local" readonly placeholder="Recebida em">
+			<input matInput type="text" readonly placeholder="Recebida em" value="{{sse.dh_recebido.toLocaleString()}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="datetime-local" readonly placeholder="Prazo de Entrega">
+			<input matInput type="text" readonly placeholder="Prazo de Entrega">
 		</mat-form-field>
 	</div>
 
@@ -83,4 +81,3 @@
 		</form>
 	</div>
 </div>
-<pre>{{tarefa | json}}</pre>

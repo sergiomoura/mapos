@@ -3,6 +3,6 @@ export class TipoDeServico {
 	codigo:string;
 	letra:string;
 	prazo:number;
-	desc_longa:string;
+	descricao:string;
 	medida:string;	
 }
