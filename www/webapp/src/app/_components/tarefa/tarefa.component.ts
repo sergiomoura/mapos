@@ -16,7 +16,10 @@ import { SsesService } from '../../_services/sses.service';
 export class TarefaComponent implements OnInit {
 	
 	equipes:Equipe[] = [];
-	tarefa:Tarefa;
+	tarefa:Tarefa = <Tarefa>{
+		equipe:null,
+		apoio:null
+	};
 	sse:SSE = <SSE>{
 		id:0,
 		endereco:'',
@@ -28,9 +31,11 @@ export class TarefaComponent implements OnInit {
 		}
 	};
 	reqTarefaResp:any;
-	recebido_timestring:string;
-	registrado_timestring:string;
-	prazoentrega_timestring:string;
+	prazoDeEntrega:Date = new Date();
+	atrasado:boolean = false;
+	nDias:number;
+	nHoras:number;
+	nMinutos:number;
 	
 	constructor(
 		private equipesService:EquipesService,
@@ -113,7 +118,19 @@ export class TarefaComponent implements OnInit {
 				res.dh_registrado = new Date(res.dh_registrado);
 				
 				this.sse = <SSE>res;
-				this.recebido_timestring = this.sse.dh_recebido.toISOString();
+
+				// Calculando prazo de entrega
+				this.prazoDeEntrega = new Date(this.sse.dh_recebido.getTime());
+				this.prazoDeEntrega.setDate(this.prazoDeEntrega.getDate()+this.sse.tipoDeServico.prazo);
+
+				// Calculando o tempo restante
+				let timediff = (this.prazoDeEntrega.getTime() - (new Date()).getTime())/1000;
+				this.atrasado = timediff < 0;
+				this.nDias = Math.round(timediff / (60*60*24));
+				timediff -= this.nDias*(60*60*24);
+				this.nHoras = Math.round(timediff / (60*60));
+				timediff -= this.nHoras*(60*60);
+				this.nMinutos = Math.round(timediff / 60);
 			},
 			err => {
 				// Exibindo snackbar de erro

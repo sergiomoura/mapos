@@ -23,33 +23,28 @@
 			<input matInput type="text" readonly placeholder="Recebida em" value="{{sse.dh_recebido.toLocaleString()}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="Prazo de Entrega">
+			<input matInput type="text" readonly placeholder="Prazo de Entrega" value="{{prazoDeEntrega.toLocaleString()}}">
 		</mat-form-field>
 	</div>
 
 	<div class="container-tarefa">
 
 		<div class="tempo-restante">
-			<div>01<span> dia</span> : 04<span> h</span> : 35<span> min</span></div>
+			<div>{{nDias}}<span> dia</span> : {{nHoras}}<span> h</span> : {{nMinutos}}<span> min</span></div>
 			<div>restantes</div>
 		</div>
 
 		<form #tarefaForm="ngForm">
+			
 			<mat-form-field>
-				<mat-select required placeholder="Tipo" name="tipo">
-					<!-- <mat-option [value]="tipo" *ngFor="let tipo of tiposDeTarefa" >{{tipo.nome}}</mat-option> -->
+				<mat-select required placeholder="Equipe" name="equipe" [(ngModel)]="tarefa.equipe" >
+					<mat-option [value]="equipe" *ngFor="let equipe of equipes" >[{{equipe?.sigla}}] - {{equipe?.nome}}</mat-option>
 				</mat-select>
 			</mat-form-field>
 
 			<mat-form-field>
-				<mat-select required placeholder="Equipe" name="equipe">
-					<mat-option [value]="equipe" *ngFor="let equipe of equipes" >[equipe.sigla] - {{equipe.nome}}</mat-option>
-				</mat-select>
-			</mat-form-field>
-
-			<mat-form-field>
-				<mat-select required placeholder="Equipe de Apoio" name="apoio">
-					<mat-option [value]="apoio" *ngFor="let apoio of equipes" >[apoio.sigla] - {{apoio.nome}}</mat-option>
+				<mat-select placeholder="Equipe de Apoio" name="apoio" [(ngModel)]="tarefa.apoio">
+					<mat-option [value]="apoio" *ngFor="let apoio of equipes" >[{{apoio.sigla}}] - {{apoio.nome}}</mat-option>
 				</mat-select>
 			</mat-form-field>
 
@@ -79,5 +74,6 @@
 			</div>
 
 		</form>
+		{{sse | json}}
 	</div>
 </div>

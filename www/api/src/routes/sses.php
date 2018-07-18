@@ -156,6 +156,7 @@
 			':id' => $sse->id_tipo_de_servico
 		));
 		$sse->tipoDeServico = $stmt->fetch();
+		$sse->tipoDeServico->prazo *= 1;
 
 		// Retornando resposta para usuário
 		return $res
