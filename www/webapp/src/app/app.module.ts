@@ -8,6 +8,7 @@ import { MaterialModule } from "./_modules/material/material.module";
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing/app-routing.module';
+import { CountdownModule } from 'ngx-countdown';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 import { ErrorInterceptor } from "./_helpers/error.interceptor";
@@ -55,7 +56,8 @@ import { TarefaComponent } from './_components/tarefa/tarefa.component';
 		BrowserAnimationsModule,
 		MaterialModule,
 		HttpClientModule,
-		AppRoutingModule
+		AppRoutingModule,
+		CountdownModule
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

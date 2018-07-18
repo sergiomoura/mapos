@@ -33,9 +33,7 @@ export class TarefaComponent implements OnInit {
 	reqTarefaResp:any;
 	prazoDeEntrega:Date = new Date();
 	atrasado:boolean = false;
-	nDias:number;
-	nHoras:number;
-	nMinutos:number;
+	tempoRestante:number = 0;
 	inicioPrev_timestring:string;
 	finalPrev_timestring:string;
 	ssesPendentes:SSE[] = [];
@@ -128,13 +126,8 @@ export class TarefaComponent implements OnInit {
 				this.prazoDeEntrega.setDate(this.prazoDeEntrega.getDate()+this.sse.tipoDeServico.prazo);
 
 				// Calculando o tempo restante
-				let timediff = (this.prazoDeEntrega.getTime() - (new Date()).getTime())/1000;
-				this.atrasado = timediff < 0;
-				this.nDias = Math.round(timediff / (60*60*24));
-				timediff -= this.nDias*(60*60*24);
-				this.nHoras = Math.round(timediff / (60*60));
-				timediff -= this.nHoras*(60*60);
-				this.nMinutos = Math.round(timediff / 60);
+				this.tempoRestante = (this.prazoDeEntrega.getTime() - (new Date()).getTime())/1000;
+				
 
 				// Removendo a sse do vetor de ssesPendentes
 				if(this.ssesPendentes){

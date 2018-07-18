@@ -42,9 +42,9 @@
 	<div class="container-tarefa">
 
 		<div class="tempo-restante">
-			<div>{{nDias}}<span> dia</span> : {{nHoras}}<span> h</span> : {{nMinutos}}<span> min</span></div>
+			<countdown [config]="{leftTime: tempoRestante}">$!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
 			<div>restantes</div>
-		</div>
+		</div>		
 
 		<form #tarefaForm="ngForm">
 			
