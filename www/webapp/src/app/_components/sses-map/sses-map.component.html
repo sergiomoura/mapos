@@ -8,11 +8,20 @@
 		[latitude]="sse.lat"
 		[longitude]="sse.lng"
 		[iconUrl]="'assets/' + sse.markerFile"
-		(markerClick)="onMarkerClick($event,sse.id)">
-		<agm-info-window [disableAutoPan]="true">
+		(markerClick)="onMarkerClick(infowindow)">
+		<agm-info-window [disableAutoPan]="true" #infowindow>
 			<div class="numero">SSE: {{sse.numero}}</div>
 			<div class="endereco">{{sse.endereco}}</div>
-			<a class="link" (click)="goToSse(sse.id)">Ver SSE</a>				
+			<div class="status">{{sse.statusMessage}}</div>
+			<div class="prazo">Prazo de entrega: {{sse.prazoFinal.toLocaleString()}}</div>
+			<div>
+				Equipe Atual: {{ sse.equipe ? ' [' + sse.equipe.sigla + '] - ' + sse.equipe.nome : ' NENHUMA'}}
+			</div>
+			<countdown *ngIf="sse.tempoRestante > 0" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
+			<div class="atrasado" *ngIf="sse.tempoRestante <= 0" >ATRASADA</div>
+			<a *ngIf="sse.status == '-1' || sse.status == '0' || sse.status == '3'" class="link" (click)="onDelegarClick(sse.id)">Delegar SSE</a>
+			<a class="link" (click)="goToSse(sse.id)">Ver SSE</a>
+
 	   	</agm-info-window>
 	</agm-marker>
 </agm-map>
@@ -22,6 +31,6 @@
 	<div><img src="assets/marker-delegada.svg"><span>Delegada</span></div>
 	<div><img src="assets/marker-emExecucao.svg"><span>Em Execução</span></div>
 	<div><img src="assets/marker-execucaoConcluida.svg"><span>Execução Concluída</span></div>
-	<div><img src="assets/marker-concluida.svg"><span>Concluída</span></div>
+	<div><img src="assets/marker-concluida.svg"><span>Finalizada</span></div>
 	<div><img src="assets/marker-concluida-u.svg"><span>Urgente</span></div>
 </div>

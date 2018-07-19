@@ -18,9 +18,19 @@
 					obs,
 					lat,
 					lng,
+					Y.id_equipe,
+					Y.inicio_p,
+					Y.final_p,
+					Y.inicio_r,
+					Y.final_r,
+					Y.id_apoio,
 					status
 				FROM
-					maxse_sses
+					maxse_sses X
+				LEFT JOIN
+					(SELECT B.id_sse,B.id_equipe,B.inicio_p,B.final_p,B.inicio_r,B.final_r,B.id_apoio FROM
+				(SELECT max(id) as id,id_sse FROM maxse_tarefas group by id_sse) A
+				INNER JOIN maxse_tarefas B on A.id=B.id) Y on X.id=Y.id_sse
 				ORDER BY
 					dh_registrado DESC';
 		$stmt = $this->db->prepare($sql);
