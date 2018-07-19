@@ -15,4 +15,22 @@
 			cursor: pointer;
 		}
 	}
+
+	.legenda {
+		position: fixed;
+		left: 0px;
+		bottom: 32px;
+		left: 23px;
+		padding: 10px 10px 0 10px;
+		background-color: rgba(255,255,255,0.5);
+
+		div {
+			margin: 0 0 10px 0;
+		}
+		img {
+			vertical-align: middle;
+			height: 24px;
+			margin-right: 5px;
+		}
+	}
 }

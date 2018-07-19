@@ -7,6 +7,7 @@
 		*ngFor="let sse of sses"
 		[latitude]="sse.lat"
 		[longitude]="sse.lng"
+		[iconUrl]="'assets/' + sse.markerFile"
 		(markerClick)="onMarkerClick($event,sse.id)">
 		<agm-info-window [disableAutoPan]="true">
 			<div class="numero">SSE: {{sse.numero}}</div>
@@ -15,3 +16,12 @@
 	   	</agm-info-window>
 	</agm-marker>
 </agm-map>
+<div class="legenda">
+	<div><img src="assets/marker-divergente.svg"><span>Divergente</span></div>
+	<div><img src="assets/marker-virgem.svg"><span>Virgem</span></div>
+	<div><img src="assets/marker-delegada.svg"><span>Delegada</span></div>
+	<div><img src="assets/marker-emExecucao.svg"><span>Em Execução</span></div>
+	<div><img src="assets/marker-execucaoConcluida.svg"><span>Execução Concluída</span></div>
+	<div><img src="assets/marker-concluida.svg"><span>Concluída</span></div>
+	<div><img src="assets/marker-concluida-u.svg"><span>Urgente</span></div>
+</div>

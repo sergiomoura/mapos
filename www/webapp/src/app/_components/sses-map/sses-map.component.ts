@@ -56,9 +56,44 @@ export class SsesMapComponent implements OnInit {
 
 	private parseSsesResponse(res):SSE[]{
 		for (let i = 0; i < res.length; i++) {
-			res[i].dh_registrado = new Date(res[i].dh_registrado);
-			res[i].lat *= 1;
-			res[i].lng *= 1;
+			const sse = res[i];
+			sse.dh_registrado = new Date(sse.dh_registrado);
+			sse.lat *= 1;
+			sse.lng *= 1;
+
+			// Determinando o nome do arquivo marker
+			sse.markerFile = 'marker-';
+			switch (+sse.status) {
+				case -1:
+					sse.markerFile += 'divergente'
+					break;
+				
+				case 0:
+					sse.markerFile += 'virgem'
+					break;
+
+				case 1:
+					sse.markerFile += 'delegada'
+					break;
+				
+				case 2:
+					sse.markerFile += 'emExecucao'
+					break;
+				
+				case 3:
+					sse.markerFile += 'execucaoConcluida'
+					break;
+				
+				case 100:
+					sse.markerFile += 'concluida'
+					break;
+			}
+
+			if(sse.urgente == "1"){
+				sse.markerFile += '-u';
+			}
+
+			sse.markerFile += '.svg';
 		}
 		return <SSE[]>res;
 	}
