@@ -4,13 +4,14 @@ import { SSE } from "./sse";
 export class Tarefa{
 
 	// Publicas
+	public id:number;
 	public sse:SSE;
 	public equipe:Equipe;
 	public apoio:Equipe;
-	public inicio_p:Date;
-	public inicio_r:Date;
-	public final_p:Date;
-	public final_r:Date;
+	public inicio_p:string;
+	public inicio_r:string;
+	public final_p:string;
+	public final_r:string;
 	public divergente:boolean;
 
 	// Privadas

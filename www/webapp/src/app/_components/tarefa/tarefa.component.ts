@@ -34,8 +34,6 @@ export class TarefaComponent implements OnInit {
 	prazoDeEntrega:Date = new Date();
 	atrasado:boolean = false;
 	tempoRestante:number = 0;
-	inicioPrev_timestring:string;
-	finalPrev_timestring:string;
 	ssesPendentes:SSE[] = [];
 	
 	constructor(
@@ -205,7 +203,7 @@ export class TarefaComponent implements OnInit {
 
 			// Parsing apoio
 			if(this.reqTarefaResp.id_apoio == null) {
-
+				this.reqTarefaResp.apoio = null;
 			} else {
 
 				this.reqTarefaResp.apoio = this.equipes.find(
@@ -217,15 +215,8 @@ export class TarefaComponent implements OnInit {
 			delete this.reqTarefaResp.id_apoio;
 
 			// Parsing Dates previstas
-			this.reqTarefaResp.inicio_p = new Date(this.reqTarefaResp.inicio_p);
-			this.reqTarefaResp.final_p = new Date(this.reqTarefaResp.final_p);
-
-			this.inicioPrev_timestring = this.reqTarefaResp.inicio_p.toISOString().substr(0,16);
-			this.finalPrev_timestring = this.reqTarefaResp.final_p.toISOString().substr(0,16);
-
-			// Parsing dates realizadas
-			this.reqTarefaResp.inicio_r = (this.reqTarefaResp.inicio_r == null ? null : new Date(this.reqTarefaResp.inicio_r));
-			this.reqTarefaResp.final_r = (this.reqTarefaResp.final_r == null ? null : new Date(this.reqTarefaResp.final_r));
+			this.reqTarefaResp.inicio_p = this.reqTarefaResp.inicio_p.replace(' ','T');
+			this.reqTarefaResp.final_p = this.reqTarefaResp.final_p.replace(' ','T');
 
 			// atribuindo a requisição a tarefa
 			this.tarefa = <Tarefa>this.reqTarefaResp;
@@ -234,5 +225,34 @@ export class TarefaComponent implements OnInit {
 
 	}
 
+	onSalvarTarefaClick(){
+		
+		if(this.tarefa.id == 0) {
+			
+		} else {
+			this.updateTarefa();
+		}
+	}
 
+	private updateTarefa(){
+		this.tarefaService.update(this.tarefa).subscribe(
+			res => {
+				console.log(res);
+			},
+			err => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar salvar a tarefa',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+			}
+		)
+	}
 }
