@@ -30,7 +30,7 @@ return [
             'caminho_para_fotos_sse' => "../photos/sses/",
             'STATUS' => [
                 'VIRGEM' => 0,
-                'DELEGADA' => 1,
+                'AGENDADA' => 1,
                 'EM_EXECUCAO' => 2,
                 'EXECUCAO_CONCLUIDA' => 3,
                 'FINALIZADA' => 100,

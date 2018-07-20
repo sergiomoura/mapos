@@ -57,7 +57,7 @@ export class NovaTarefaComponent implements OnInit {
 				
 				// Exibindo snackbar de sucesso
 				this.snackBar.open(
-					'SSE delegada com sucesso!',
+					'SSE agendada com sucesso!',
 					undefined,
 					{
 						panelClass: ['snackbar-ok'],

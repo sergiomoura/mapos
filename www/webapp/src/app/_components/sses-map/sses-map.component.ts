@@ -175,8 +175,8 @@ export class SsesMapComponent implements OnInit {
 						break;
 	
 					case 1:
-						sse.markerFile += 'delegada'
-						sse.statusMessage = 'Delegada';
+						sse.markerFile += 'agendada'
+						sse.statusMessage = 'Agendada';
 						break;
 					
 					case 2:
@@ -227,6 +227,18 @@ export class SsesMapComponent implements OnInit {
 		let ok = window.confirm(pergunta);
 		if(ok){
 			this.ssesService.setFinalizada(id_sse).subscribe(
+				res => {
+					this.getSses();
+				}
+			)
+		}
+	}
+
+	onReabrirClick(id_sse){
+		let pergunta = 'Tem certeza que deseja reabrir esta SSE?';
+		let ok = window.confirm(pergunta);
+		if(ok){
+			this.ssesService.reabrir(id_sse).subscribe(
 				res => {
 					this.getSses();
 				}

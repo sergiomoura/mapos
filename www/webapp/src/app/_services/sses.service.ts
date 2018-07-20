@@ -45,4 +45,9 @@ export class SsesService {
 	setFinalizada(id_sse:number):Observable<any>{
 		return this.http.patch('api/sses/' + id_sse + '/setFinalizada','');
 	}
+
+	// Reabrir uma SSE finalizada
+	reabrir(id_sse:number):Observable<any>{
+		return this.http.patch('api/sses/' + id_sse + '/reabrir','');
+	}
 }
