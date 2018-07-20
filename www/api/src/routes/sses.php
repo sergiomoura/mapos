@@ -37,6 +37,19 @@
 		$stmt->execute();
 		$sses = $stmt->fetchAll();
 
+		// Parsing data para tipos apropriados
+		foreach($sses as $sse){
+			$sse->id *= 1;
+			$sse->id_bairro *= 1;
+			$sse->id_equipe = is_null($sse->id_equipe) ? null : 1*$sse->id_equipe;
+			$sse->id_apoio = is_null($sse->id_apoio) ? null : 1*$sse->id_apoio;
+			$sse->id_tipo_de_servico *= 1;
+			$sse->lat *= 1;
+			$sse->lng *= 1;
+			$sse->status *= 1;
+			$sse->urgente = ($sse->urgente === '1');
+		}
+
 		// Retornando resposta para usuário
 		return $res
 		->withStatus(200)
@@ -503,6 +516,41 @@
 				}
 				break;
 		}
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json');
+	});
+
+	$app->patch($api_root.'/sses/{id_sse}/setFinalizada', function(Request $req, Response $res, $args = []){
+		
+		// Lendo argumentos
+		$id_sse = 1*$args['id_sse'];
+
+		// Iniciando transação
+		$this->db->beginTransaction();
+
+		// Preparando consulta
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA") WHERE id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		
+		try {
+			$stmt->execute(array(
+				':id_sse' => $id_sse
+			));	
+		} catch (Exception $e) {
+			// Algo deu errado. Rollback
+			$this->db->rollback();
+
+			// Enviando erro
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar marcar SSE como finalizada');
+		}
+
+		// Tudo certo. Comittando
+		$this->db->commit();
 
 		// Retornando resposta para usuário
 		return $res

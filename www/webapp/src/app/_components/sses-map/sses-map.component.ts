@@ -27,13 +27,13 @@ export class SsesMapComponent implements OnInit {
 	) {}
 
 	sses:SSE[];
+	tmpSses:any[];
 	initial_lat:number = -22.916405805627686;
 	initial_lng:number = -47.067499388564215;
 	initial_zoom:number = 12;
 	markerAtual:any;
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
-	tmpSses:any[];
 
 
 	ngOnInit() {
@@ -127,6 +127,7 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	private parseSses(){
+
 		if(this.tmpSses && this.tdss && this.equipes){
 			for (let i = 0; i < this.tmpSses.length; i++) {
 
@@ -136,23 +137,22 @@ export class SsesMapComponent implements OnInit {
 				// Parsing escalares
 				sse.dh_registrado = new Date(sse.dh_registrado);
 				sse.dh_recebido = new Date(sse.dh_recebido);
-				sse.lat *= 1;
-				sse.lng *= 1;
 				
 				// Paring Equipe
 				sse.equipe = this.equipes.find(
 					(e) => {
-						return +(e.id) == +(sse.id_equipe);
+						return +(e.id) == +(this.tmpSses[i].id_equipe);
 					}
 				)
+				delete this.tmpSses[i].id_equipe;
 
 				// Parsing tipo de serviço
 				sse.tipoDeServico = this.tdss.find(
 					(tds) => {
-						return +tds.id == +sse.id_tipo_de_servico;
+						return +tds.id == +this.tmpSses[i].id_tipo_de_servico;
 					}
 				)
-
+				delete this.tmpSses[i].id_tipo_de_servico;
 				// Determinando o prazo final
 				sse.prazoFinal = new Date(sse.dh_recebido.getTime());
 				sse.prazoFinal.setDate(+sse.prazoFinal.getDate() + (+sse.tipoDeServico.prazo));
@@ -200,6 +200,8 @@ export class SsesMapComponent implements OnInit {
 				}
 	
 				sse.markerFile += '.svg';
+
+				
 			}
 		}
 		this.sses = this.tmpSses;
@@ -218,6 +220,18 @@ export class SsesMapComponent implements OnInit {
 
 	onAgendarClick(id_sse){
 		this.openDialog(id_sse);
+	}
+
+	onSetConcluidaClick(id_sse){
+		let pergunta = 'Tem certeza que deseja marcar esta SSE como concluída?';
+		let ok = window.confirm(pergunta);
+		if(ok){
+			this.ssesService.setFinalizada(id_sse).subscribe(
+				res => {
+					this.getSses();
+				}
+			)
+		}
 	}
 
 	openDialog(sse): void {

@@ -18,4 +18,5 @@ export class SSE{
 	foto:SafeUrl;
 	lat:number;
 	lng:number;
+	status:number;
 }
