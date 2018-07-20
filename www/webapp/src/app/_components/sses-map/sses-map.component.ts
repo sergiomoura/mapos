@@ -215,7 +215,7 @@ export class SsesMapComponent implements OnInit {
 		this.router.navigateByUrl('home/sse/'+id);
 	}
 
-	onDelegarClick(id_sse){
+	onAgendarClick(id_sse){
 		this.openDialog(id_sse);
 	}
 
