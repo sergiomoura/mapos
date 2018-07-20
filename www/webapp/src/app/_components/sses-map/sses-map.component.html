@@ -20,7 +20,9 @@
 			</div>
 			<countdown *ngIf="sse.tempoRestante > 0" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
 			<div class="atrasado" *ngIf="sse.tempoRestante <= 0" >ATRASADA</div>
-			<a *ngIf="sse.status == '-1' || sse.status == '0' || sse.status == '3'" class="link" (click)="onDelegarClick(sse)">Delegar SSE</a>
+			<a *ngIf="sse.status == '100'" class="link" (click)="onReabrirClick(sse.id)">Reabrir SSE</a>
+			<a *ngIf="sse.status != '100'" class="link" (click)="onSetConcluidaClick(sse.id)">Marcar SSE como concluída</a>
+			<a *ngIf="sse.status != '100'" class="link" (click)="onAgendarClick(sse)">Agendar Tarefa para SSE</a>
 			<a class="link" (click)="goToSse(sse.id)">Ver SSE</a>
 
 	   	</agm-info-window>
