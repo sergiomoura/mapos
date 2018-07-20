@@ -1,0 +1,62 @@
+<div class="container">
+
+	<div class="sse-container">
+		<mat-form-field>
+			<input matInput type="text" readonly placeholder="SSE Número" value="{{sse.numero}}">
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput type="text" readonly placeholder="Endereço" value="{{sse.endereco}}">
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput type="text" readonly placeholder="Solicitação" value="{{'RG' + sse.tipoDeServico.codigo + '-' + sse.tipoDeServico.descricao}}">
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput type="text" readonly placeholder="Recebida em" value="{{sse.dh_recebido.toLocaleString()}}">
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput type="text" readonly placeholder="Prazo de Entrega" value="{{sse.prazoFinal.toLocaleString()}}">
+		</mat-form-field>
+	</div>
+
+	<div class="tarefa-container">
+		<form #formNovaTarefa="ngForm">
+			<mat-form-field>
+				<mat-select required placeholder="Equipe" name="equipe" [(ngModel)]="tarefa.equipe" >
+					<mat-option [value]="equipe" *ngFor="let equipe of equipes" >[{{equipe?.sigla}}] - {{equipe?.nome}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field>
+				<mat-select placeholder="Equipe de Apoio" name="apoio" [(ngModel)]="tarefa.apoio">
+					<mat-option [value]="null">Nenhuma equipe de apoio</mat-option>
+					<mat-option [value]="apoio" *ngFor="let apoio of equipes" >[{{apoio.sigla}}] - {{apoio.nome}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<mat-form-field>
+				<input
+					matInput
+					required
+					type="datetime-local"
+					name="inicio_p"
+					[(ngModel)]="tarefa.inicio_p"
+					placeholder="Início Previsto">
+			</mat-form-field>
+
+			<mat-form-field>
+				<input
+					matInput
+					required
+					type="datetime-local"
+					name="final_p"
+					[(ngModel)]="tarefa.final_p"
+					placeholder="Final Previsto">
+			</mat-form-field>
+
+			<div class="controles">
+				<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
+				<button [disabled]="!formNovaTarefa.valid" mat-raised-button color="primary" (click)="onSalvarClick()">Salvar</button>
+			</div>
+		</form>
+	</div>
+</div>

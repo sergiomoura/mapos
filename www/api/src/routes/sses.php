@@ -68,7 +68,7 @@
 					dh_registrado DESC';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(
-			'status_acabada' => $this->maxse['status_acabada']
+			'status_acabada' => $this->maxse['STATUS']['FINALIZADA']
 		));
 		$sses = array_map(function($sse){
 			$sse->lat *= 1;

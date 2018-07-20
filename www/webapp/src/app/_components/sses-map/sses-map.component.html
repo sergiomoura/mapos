@@ -12,6 +12,7 @@
 		<agm-info-window [disableAutoPan]="true" #infowindow>
 			<div class="numero">SSE: {{sse.numero}}</div>
 			<div class="endereco">{{sse.endereco}}</div>
+			<div>RG{{sse.tipoDeServico.codigo}} - {{sse.tipoDeServico.descricao}}</div>
 			<div class="status">{{sse.statusMessage}}</div>
 			<div class="prazo">Prazo de entrega: {{sse.prazoFinal.toLocaleString()}}</div>
 			<div>
@@ -19,7 +20,7 @@
 			</div>
 			<countdown *ngIf="sse.tempoRestante > 0" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
 			<div class="atrasado" *ngIf="sse.tempoRestante <= 0" >ATRASADA</div>
-			<a *ngIf="sse.status == '-1' || sse.status == '0' || sse.status == '3'" class="link" (click)="onDelegarClick(sse.id)">Delegar SSE</a>
+			<a *ngIf="sse.status == '-1' || sse.status == '0' || sse.status == '3'" class="link" (click)="onDelegarClick(sse)">Delegar SSE</a>
 			<a class="link" (click)="goToSse(sse.id)">Ver SSE</a>
 
 	   	</agm-info-window>

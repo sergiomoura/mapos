@@ -13,6 +13,7 @@ export class TarefaService {
 
 	private url_get:string = '/api/tarefas';
 	private url_put:string = '/api/tarefas';
+	private url_post:string = '/api/tarefas';
 
 	getById(id:number){
 		return this.http.get(this.url_get+'/'+id);
@@ -20,5 +21,9 @@ export class TarefaService {
 
 	update(tarefa:Tarefa){
 		return this.http.put(this.url_put+'/'+tarefa.id,tarefa)
+	}
+
+	create(tarefa:Tarefa){
+		return this.http.post(this.url_post,tarefa);
 	}
 }

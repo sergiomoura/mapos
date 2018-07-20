@@ -85,4 +85,80 @@
 		->withHeader('Content-Type','application/json');
 	});
 
+	$app->post($api_root.'/tarefas',function(Request $req, Response $res, $args = []){
+
+		$tarefa = json_decode($req->getBody()->getContents());
+		
+		// Begin transaction
+		$this->db->beginTransaction();
+		
+		// Criando tarefa
+		$sql = 'INSERT INTO maxse_tarefas (
+					divergente,
+					final_p,
+					final_r,
+					id_apoio,
+					id_equipe,
+					id_sse,
+					inicio_p,
+					inicio_r
+				) VALUES (
+					:divergente,
+					:final_p,
+					:final_r,
+					:id_apoio,
+					:id_equipe,
+					:id_sse,
+					:inicio_p,
+					:inicio_r
+				)';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(array(
+				':divergente' 	=> ($tarefa->divergente ? 1 : 0),
+				':final_p' 		=> $tarefa->final_p,
+				':final_r' 		=> $tarefa->final_r,
+				':id_apoio' 	=> (isset($tarefa->apoio) ? $tarefa->apoio->id : null),
+				':id_equipe'	=> $tarefa->equipe->id,
+				':id_sse' 		=> $tarefa->sse->id,
+				':inicio_p' 	=> $tarefa->inicio_p,
+				':inicio_r' 	=> $tarefa->inicio_r				
+			));	
+		} catch (Exception $e) {
+			// Interrompendo transação
+			$this->db->rollback();
+
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar criar tarefa: '.$e->getMessage());
+		}
+
+		// Atualizando status de sse de 0 para 1
+		$sql = 'UPDATE maxse_sses SET status=:status WHERE id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(array(
+				':id_sse' => $tarefa->sse->id,
+				':status' => $this->maxse['STATUS']['DELEGADA']
+			));
+		} catch (Exception $e) {
+			// Interrompendo transação
+			$this->db->rollback();
+
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao alterar status da SSE: '.$e->getMessage());
+		}
+		
+		// Comitando transação
+		$this->db->commit();
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json');
+	});
+
 	

@@ -25,11 +25,12 @@ import { SsesComponent } from './_components/sses/sses.component';
 import { SsesMapComponent } from './_components/sses-map/sses-map.component';
 import { SsesGridComponent } from './_components/sses-grid/sses-grid.component';
 import { SseComponent } from './_components/sse/sse.component';
+import { TarefaComponent } from './_components/tarefa/tarefa.component';
+import { NovaTarefaComponent } from './_components/nova-tarefa/nova-tarefa.component';
 
 import { FocusDirective } from './_directives/focus.directive';
 
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
-import { TarefaComponent } from './_components/tarefa/tarefa.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -45,7 +46,8 @@ import { TarefaComponent } from './_components/tarefa/tarefa.component';
 		SsesGridComponent,
 		SsesMapComponent,
 		SseComponent,
-		TarefaComponent
+		TarefaComponent,
+		NovaTarefaComponent
 	],
 	imports: [
 		BrowserModule,
@@ -58,6 +60,9 @@ import { TarefaComponent } from './_components/tarefa/tarefa.component';
 		HttpClientModule,
 		AppRoutingModule,
 		CountdownModule
+	],
+	entryComponents: [
+		NovaTarefaComponent
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

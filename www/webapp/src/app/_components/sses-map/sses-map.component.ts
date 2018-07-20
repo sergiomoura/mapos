@@ -7,6 +7,9 @@ import { TiposDeServicoService } from "../../_services/tipos-de-servico.service"
 import { TipoDeServico } from "../../_models/tipoDeServico";
 import { EquipesService } from '../../_services/equipes.service';
 import { Equipe } from '../../_models/equipe';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
+
 @Component({
 	selector: 'app-sses-map',
 	templateUrl: './sses-map.component.html',
@@ -19,7 +22,8 @@ export class SsesMapComponent implements OnInit {
 		private ssesService:SsesService,
 		private snackBar:MatSnackBar,
 		private router:Router,
-		private tdsService:TiposDeServicoService
+		private tdsService:TiposDeServicoService,
+		public dialog: MatDialog
 	) {}
 
 	sses:SSE[];
@@ -212,7 +216,23 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	onDelegarClick(id_sse){
-		console.log(id_sse);
+		this.openDialog(id_sse);
+	}
+
+	openDialog(sse): void {
+		const dialogRef = this.dialog.open(NovaTarefaComponent, {
+			width: '800px',
+			data: {
+				'sse': sse,
+				'equipes':this.equipes,
+
+			}
+		});
+	
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('Diálogo fechado. Resultado');
+			console.dir(result)
+		});
 	}
 
 }
