@@ -47,6 +47,7 @@ export class SsesMapComponent implements OnInit {
 			res => {
 				this.tmpSses = res;
 				this.parseSses();
+				this.markerAtual = undefined;
 			},
 			err => {
 				// Exibindo snackbar de erro
@@ -229,10 +230,13 @@ export class SsesMapComponent implements OnInit {
 			}
 		});
 	
-		dialogRef.afterClosed().subscribe(result => {
-			console.log('Diálogo fechado. Resultado');
-			console.dir(result)
-		});
+		dialogRef.afterClosed().subscribe(
+			result => {
+				if(result == 1){
+					this.getSses();
+				}
+			}
+		);
 	}
 
 }

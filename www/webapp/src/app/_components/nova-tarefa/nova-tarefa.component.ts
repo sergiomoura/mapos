@@ -47,13 +47,13 @@ export class NovaTarefaComponent implements OnInit {
 	}
 
 	onCancelarClick(){
-		this.dialogRef.close();
+		this.dialogRef.close(0);
 	}
 
 	onSalvarClick(){
 		this.tarefaService.create(this.tarefa).subscribe(
 			res => {
-				this.dialogRef.close(this.sse);
+				this.dialogRef.close(1);
 				
 				// Exibindo snackbar de sucesso
 				this.snackBar.open(

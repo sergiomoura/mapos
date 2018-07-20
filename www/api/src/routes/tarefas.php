@@ -133,24 +133,6 @@
 			->withStatus(500)
 			->write('Falha ao tentar criar tarefa: '.$e->getMessage());
 		}
-
-		// Atualizando status de sse de 0 para 1
-		$sql = 'UPDATE maxse_sses SET status=:status WHERE id=:id_sse';
-		$stmt = $this->db->prepare($sql);
-		try {
-			$stmt->execute(array(
-				':id_sse' => $tarefa->sse->id,
-				':status' => $this->maxse['STATUS']['DELEGADA']
-			));
-		} catch (Exception $e) {
-			// Interrompendo transação
-			$this->db->rollback();
-
-			// Retornando erro para usuário
-			return $res
-			->withStatus(500)
-			->write('Falha ao alterar status da SSE: '.$e->getMessage());
-		}
 		
 		// Comitando transação
 		$this->db->commit();

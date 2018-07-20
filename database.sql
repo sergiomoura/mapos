@@ -151,7 +151,6 @@ CREATE TABLE `maxse_medidas_linear` (
 
 LOCK TABLES `maxse_medidas_linear` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_linear` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_linear` VALUES (15,3.05,17,'p');
 /*!40000 ALTER TABLE `maxse_medidas_linear` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -179,7 +178,6 @@ CREATE TABLE `maxse_medidas_unidades` (
 
 LOCK TABLES `maxse_medidas_unidades` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_unidades` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_unidades` VALUES (14,1,18,'p'),(21,3,19,'p'),(22,1,20,'p');
 /*!40000 ALTER TABLE `maxse_medidas_unidades` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,6 +237,30 @@ INSERT INTO `maxse_pessoas` VALUES (1,'SÉRGIO MOURA','smouracalmon@gmail.com'),
 UNLOCK TABLES;
 
 --
+-- Table structure for table `maxse_sse_status`
+--
+
+DROP TABLE IF EXISTS `maxse_sse_status`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `maxse_sse_status` (
+  `id` tinyint(1) NOT NULL,
+  `nome` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_sse_status`
+--
+
+LOCK TABLES `maxse_sse_status` WRITE;
+/*!40000 ALTER TABLE `maxse_sse_status` DISABLE KEYS */;
+INSERT INTO `maxse_sse_status` VALUES (-1,'DIVERGENTE'),(0,'VIRGEM'),(1,'AGENDADA'),(2,'EM EXECUÇÃO'),(3,'EXECUÇÃO CONCLUIDA'),(100,'FINALIZADA');
+/*!40000 ALTER TABLE `maxse_sse_status` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maxse_sses`
 --
 
@@ -261,7 +283,9 @@ CREATE TABLE `maxse_sses` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `numero_UNIQUE` (`numero`),
   KEY `fk_maxse_sses_1_idx` (`id_bairro`),
-  CONSTRAINT `fk_maxse_sses_1` FOREIGN KEY (`id_bairro`) REFERENCES `maxse_bairros` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_maxse_sses_2_idx` (`status`),
+  CONSTRAINT `fk_maxse_sses_1` FOREIGN KEY (`id_bairro`) REFERENCES `maxse_bairros` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_maxse_sses_2` FOREIGN KEY (`status`) REFERENCES `maxse_sse_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -271,7 +295,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',0,NULL,1,-22.9533354,-47.1839279),(17,'Rua Antônio Texeira, 70',256,'3652552',7,'2018-07-16 15:11:33','2018-06-01 12:01:00',1,NULL,0,-22.9387992,-47.0315675),(18,'Rua Ananias Holanda de Oliveira, 10',74,'3652530',11,'2018-07-15 18:35:47','2018-06-01 14:34:00',0,'Nivelar unidade e trocar tampão 030 na via',1,-22.9487008,-47.1045349),(19,'Rua Governador Pedro de Toledo, 10',582,'222222',11,'2018-07-16 17:53:18','2018-07-16 04:00:00',1,'URGENCIA DEVIDO LOCALIZAÇÃO DO BURACO EM ZONA DE RISCO',1,-22.9052583,-47.0728880),(20,'Rua Barreto Leme, 1010',582,'55555',11,'2018-07-16 23:50:41','2018-07-16 08:09:00',0,NULL,2,-22.9019069,-47.0615965),(21,'Rua Roxo Moreira, 1134',350,'12111',8,'2018-07-19 10:42:50','2018-07-19 10:00:00',0,'Urgente',1,-22.8204116,-47.0715904);
+INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',0,NULL,0,-22.9533354,-47.1839279);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,7 +323,7 @@ CREATE TABLE `maxse_tarefas` (
   CONSTRAINT `fk_maxse_tarefas_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_3` FOREIGN KEY (`id_apoio`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -308,9 +332,57 @@ CREATE TABLE `maxse_tarefas` (
 
 LOCK TABLES `maxse_tarefas` WRITE;
 /*!40000 ALTER TABLE `maxse_tarefas` DISABLE KEYS */;
-INSERT INTO `maxse_tarefas` VALUES (3,16,3,6,'2018-07-16 08:00:00','2018-07-16 12:00:00','2018-07-16 08:15:00','2018-07-16 12:42:30',0),(4,18,5,NULL,'2018-07-17 08:00:00','2018-07-16 12:00:00',NULL,NULL,1),(5,19,4,NULL,'2018-07-17 08:00:00','2018-07-18 12:00:00',NULL,NULL,0),(6,20,3,6,'2018-07-19 08:00:00','2018-07-20 12:00:00','2018-07-19 08:17:00',NULL,0),(7,16,4,NULL,'2018-07-20 08:00:00','2018-07-20 16:00:00',NULL,NULL,0),(8,18,4,6,'2018-08-10 20:30:00','2018-08-11 06:00:00',NULL,NULL,0),(13,21,3,6,'2018-10-20 08:00:00','2018-10-20 18:00:00',NULL,NULL,0);
 /*!40000 ALTER TABLE `maxse_tarefas` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`maxse_tarefas_BEFORE_INSERT` BEFORE INSERT ON `maxse_tarefas` FOR EACH ROW
+BEGIN
+	DECLARE sse_status INT;
+	SELECT status into sse_status from maxse_sses where id=NEW.id_sse;
+	IF sse_status = sseStatus('FINALIZADA') THEN
+		SIGNAL SQLSTATE '45000'	SET MESSAGE_TEXT = 'An error occurred';
+    END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`maxse_tarefas_AFTER_INSERT` AFTER INSERT ON `maxse_tarefas` FOR EACH ROW
+BEGIN
+	DECLARE sse_status int;
+    SELECT status INTO sse_status FROM maxse_sses WHERE id=NEW.id_sse;
+    
+    IF sse_status = sseStatus('VIRGEM') THEN
+		UPDATE maxse_sses SET status=1 WHERE id=NEW.id_sse;
+    END IF;
+    IF sse_status = sseStatus('EXECUÇÃO CONCLUIDA') THEN
+		UPDATE maxse_sses SET status=1 WHERE id=NEW.id_sse;
+    END IF;
+    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Temporary table structure for view `maxse_tarefas_v`
@@ -416,7 +488,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b51b5ed55e6f8.20043963','2018-07-20 08:14:05',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b51ccf5709837.74810471','2018-07-20 09:52:21',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -447,4 +519,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-20  7:14:26
+-- Dump completed on 2018-07-20  8:52:55
