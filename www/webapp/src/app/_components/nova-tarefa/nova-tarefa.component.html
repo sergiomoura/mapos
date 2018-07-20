@@ -2,19 +2,19 @@
 
 	<div class="sse-container">
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="SSE Número" value="{{sse.numero}}">
+			<input matInput type="text" disabled placeholder="SSE Número" value="{{sse.numero}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="Endereço" value="{{sse.endereco}}">
+			<input matInput type="text" disabled placeholder="Endereço" value="{{sse.endereco}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="Solicitação" value="{{'RG' + sse.tipoDeServico.codigo + '-' + sse.tipoDeServico.descricao}}">
+			<input matInput type="text" disabled placeholder="Solicitação" value="{{'RG' + sse.tipoDeServico.codigo + '-' + sse.tipoDeServico.descricao}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="Recebida em" value="{{sse.dh_recebido.toLocaleString()}}">
+			<input matInput type="text" disabled placeholder="Recebida em" value="{{sse.dh_recebido.toLocaleString()}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="Prazo de Entrega" value="{{sse.prazoFinal.toLocaleString()}}">
+			<input matInput type="text" disabled placeholder="Prazo de Entrega" value="{{sse.prazoFinal.toLocaleString()}}">
 		</mat-form-field>
 	</div>
 
