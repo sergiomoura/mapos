@@ -1,0 +1,26 @@
+table {
+	width:80%;
+	position: relative;
+	left: 10%;;
+	margin-top: 50px;
+	border-collapse: collapse;
+	
+	td {
+		padding: 10px;
+		border-bottom: 1px solid #CCC;
+		text-align: center;
+	}
+
+	td:nth-child(2){
+		text-align: left;
+	}
+
+	thead td {
+		font-size: 12px;
+		color:#666;
+	}
+	tbody tr:last-child td{
+		border-bottom: none;
+	}
+
+}

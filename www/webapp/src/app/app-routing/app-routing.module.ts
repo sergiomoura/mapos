@@ -13,6 +13,8 @@ import { SseComponent } from "../_components/sse/sse.component";
 import { SsesGridComponent } from '../_components/sses-grid/sses-grid.component';
 import { SsesMapComponent } from '../_components/sses-map/sses-map.component';
 import { TarefaComponent } from '../_components/tarefa/tarefa.component';
+import { EstoqueComponent } from "../_components/estoque/estoque.component";
+import { ProdutosComponent } from "../_components/produtos/produtos.component";
 
 const routes:Routes = [
 	{
@@ -39,6 +41,16 @@ const routes:Routes = [
 			{
 				path: 'equipes',
 				component: EquipesComponent,
+			},
+			{
+				path: 'estoque',
+				component: EstoqueComponent,
+				children: [
+					{
+						path:'produtos',
+						component:ProdutosComponent
+					}
+				]
 			},
 			{
 				path:'tarefas/:id',

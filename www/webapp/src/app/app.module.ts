@@ -31,6 +31,8 @@ import { NovaTarefaComponent } from './_components/nova-tarefa/nova-tarefa.compo
 import { FocusDirective } from './_directives/focus.directive';
 
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
+import { EstoqueComponent } from './_components/estoque/estoque.component';
+import { ProdutosComponent } from './_components/produtos/produtos.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -47,7 +49,9 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/mater
 		SsesMapComponent,
 		SseComponent,
 		TarefaComponent,
-		NovaTarefaComponent
+		NovaTarefaComponent,
+		EstoqueComponent,
+		ProdutosComponent
 	],
 	imports: [
 		BrowserModule,
