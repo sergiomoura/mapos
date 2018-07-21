@@ -1,54 +1,28 @@
 <form #form="ngForm">
 	<div class="nf-head">
 		<mat-form-field>
-			<input matInput required type="number" name="numero" placeholder="Número">
+			<input matInput [(ngModel)]="nf.numero"  required type="number" name="numero" placeholder="Número">
 		</mat-form-field>
 		<mat-form-field>
-				<input matInput [matDatepicker]="picker" placeholder="Data">
+				<input matInput [(ngModel)]="nf.data" name="data"  [matDatepicker]="picker" placeholder="Data">
 				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 				<mat-datepicker #picker></mat-datepicker>
 		</mat-form-field>
 	</div>
 
 	<div class="nf-body">
-		
-		<div class="movimento">
+		<div class="movimento" *ngFor="let mov of nf.movimentos;let i=index">
 			<mat-form-field>
-				<mat-select placeholder="Produto">
-					<mat-option *ngFor="let p of produtos" [value]="p">
+				<mat-select required [(ngModel)]="mov.produto" name="produto_{{i}}" placeholder="Produto">
+					<mat-option *ngFor="let p of data.produtos" [value]="p">
 						{{p.nome}}
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
 			<mat-form-field>
-				<input matInput type="number" step="0.01" name="qtde" placeholder="Quantidade">
+				<input matInput required [(ngModel)]="mov.qtde"  type="number" step="0.01" name="qtde_{{i}}" placeholder="Quantidade {{mov.produto? '(' + mov.produto.unidade + ')' : ''}}">
 			</mat-form-field>
-		</div>
-
-		<div class="movimento">
-			<mat-form-field>
-				<mat-select placeholder="Produto">
-					<mat-option *ngFor="let p of produtos" [value]="p">
-						{{p.nome}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
-			<mat-form-field>
-				<input matInput type="number" step="0.01" name="qtde" placeholder="Quantidade">
-			</mat-form-field>
-		</div>
-
-		<div class="movimento">
-			<mat-form-field>
-				<mat-select placeholder="Produto">
-					<mat-option *ngFor="let p of produtos" [value]="p">
-						{{p.nome}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
-			<mat-form-field>
-				<input matInput type="number" step="0.01" name="qtde" placeholder="Quantidade">
-			</mat-form-field>
+			<button mat-icon-button (click)=onDeleteClick(i)><mat-icon>delete</mat-icon></button>
 		</div>
 	</div>
 
@@ -57,7 +31,7 @@
 		<button mat-raised-button color="primary" (click)="onSalvarClick()" [disabled]="!form.valid">Salvar</button>
 	</div>
 
-	<button class="addButton" mat-fab color="primary">
+	<button (click)="onAddClick()" class="addButton" mat-fab color="primary">
 		<mat-icon>add</mat-icon>
 	</button>
 </form>

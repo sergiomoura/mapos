@@ -16,7 +16,11 @@ form {
 			display: flex;
 			justify-content: space-between;
 			mat-form-field{
-				width: calc(50% - 10px);
+				width: calc(50% - 30px);
+			}
+			button {
+				position: relative;
+				top: 15px;
 			}
 		}
 	}

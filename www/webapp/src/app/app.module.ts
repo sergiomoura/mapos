@@ -36,6 +36,7 @@ import { ProdutosComponent } from './_components/produtos/produtos.component';
 import { EditProdutoComponent } from './_components/edit-produto/edit-produto.component';
 import { MovimentosComponent } from './_components/movimentos/movimentos.component';
 import { LancarNotaComponent } from './_components/lancar-nota/lancar-nota.component';
+import { EditMovimentoComponent } from './_components/edit-movimento/edit-movimento.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -57,7 +58,8 @@ import { LancarNotaComponent } from './_components/lancar-nota/lancar-nota.compo
 		ProdutosComponent,
 		EditProdutoComponent,
 		MovimentosComponent,
-		LancarNotaComponent
+		LancarNotaComponent,
+		EditMovimentoComponent
 	],
 	imports: [
 		BrowserModule,
