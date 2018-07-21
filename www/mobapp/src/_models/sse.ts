@@ -15,5 +15,6 @@ export class SSE{
 	medidas_area:any[];	
 	medidas_linear:any[];
 	medidas_unidades:any[];
+	prazoFinal:Date;
 	foto:SafeUrl;
 }

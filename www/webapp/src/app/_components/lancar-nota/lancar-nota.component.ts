@@ -16,7 +16,7 @@ export interface DialogData {
 })
 export class LancarNotaComponent implements OnInit {
 	
-	private nf:NF;
+	public nf:NF;
 
 	constructor(
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,

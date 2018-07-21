@@ -32,12 +32,12 @@ export class SseComponent implements OnInit {
 		numero:'',
 	};
 
-	private domasas:Domasa[];
-	private tdss:TipoDeServico[];
-	private domasaSelecionada:Domasa;
+	public domasas:Domasa[];
+	public tdss:TipoDeServico[];
+	public domasaSelecionada:Domasa;
 	private sseResponse:any;
-	private medidaTotal:number;
-	private timestring:string;
+	public medidaTotal:number;
+	public timestring:string;
 
 	ngOnInit() {
 		this.getDomasas();

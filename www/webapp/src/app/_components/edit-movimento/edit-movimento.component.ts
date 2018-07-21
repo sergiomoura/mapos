@@ -14,7 +14,7 @@ export interface DialogData{
 })
 export class EditMovimentoComponent implements OnInit {
 
-	private movimento:Movimento;
+	public movimento:Movimento;
 
 	constructor(
 		public dialogRef: MatDialogRef<EditMovimentoComponent>,
