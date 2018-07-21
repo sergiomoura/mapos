@@ -12,72 +12,16 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>1</td>
-			<td>Produto 1</td>
-			<td>50</td>
-			<td>50000</td>
-			<td>3520</td>
-			<td>m</td>
-			<td>10/12/2017 15:30</td>
+		<tr *ngFor="let produto of produtos">
+			<td>{{produto.id}}</td>
+			<td>{{produto.nome}}</td>
+			<td>{{produto.qtde_min}}</td>
+			<td>{{produto.qtde_max}}</td>
+			<td>{{produto.qtde}}</td>
+			<td>{{produto.unidade}}</td>
+			<td>{{produto.ultimo_movimento|date:'dd/MM/yyyy hh:mm'}}</td>
 			<td>
-				<button mat-icon-button>
-					<mat-icon>edit</mat-icon>
-				</button>
-			</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>Produto 1</td>
-			<td>50</td>
-			<td>50000</td>
-			<td>3520</td>
-			<td>m</td>
-			<td>10/12/2017 15:30</td>
-			<td>
-				<button mat-icon-button>
-					<mat-icon>edit</mat-icon>
-				</button>
-			</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>Produto 1</td>
-			<td>50</td>
-			<td>50000</td>
-			<td>3520</td>
-			<td>m</td>
-			<td>10/12/2017 15:30</td>
-			<td>
-				<button mat-icon-button>
-					<mat-icon>edit</mat-icon>
-				</button>
-			</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>Produto 1</td>
-			<td>50</td>
-			<td>50000</td>
-			<td>3520</td>
-			<td>m</td>
-			<td>10/12/2017 15:30</td>
-			<td>
-				<button mat-icon-button>
-					<mat-icon>edit</mat-icon>
-				</button>
-			</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>Produto 1</td>
-			<td>50</td>
-			<td>50000</td>
-			<td>3520</td>
-			<td>m</td>
-			<td>10/12/2017 15:30</td>
-			<td>
-				<button mat-icon-button>
+				<button mat-icon-button (click)="openEditProduto(produto.id)">
 					<mat-icon>edit</mat-icon>
 				</button>
 			</td>

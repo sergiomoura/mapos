@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ProdutosService } from '../../_services/produtos.service';
+import { MatSnackBar } from "@angular/material";
+import { Produto } from "../../_models/produto";
 
 @Component({
 	selector: 'app-produtos',
@@ -8,11 +10,37 @@ import { Router } from '@angular/router';
 })
 export class ProdutosComponent implements OnInit {
 
+	produtos:Produto[];
+
 	constructor(
-		private router:Router
+		private prodService:ProdutosService,
+		private snackBar:MatSnackBar
 	) { }
 
 	ngOnInit() {
+		this.getProdutos();
+	}
+
+	getProdutos(){
+		this.prodService.get().subscribe(
+			res => {
+				this.produtos = <Produto[]>res;
+			},
+			err => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar carregar produtos',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+			}
+		)
 	}
 
 }
