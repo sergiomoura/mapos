@@ -1,0 +1,33 @@
+form {
+	position: relative;
+	.nf-head{
+		mat-form-field{
+			width: 150px;
+			margin-right: 20px;
+		}
+	}
+	
+	.nf-body {
+		border: 1px solid #CCC;
+		margin-bottom: 22px;
+		padding: 10px 20px 5px 20px;
+		background-color: #F0F0F0;
+		.movimento{
+			display: flex;
+			justify-content: space-between;
+			mat-form-field{
+				width: calc(50% - 10px);
+			}
+		}
+	}
+	.controles{
+		display: flex;
+		justify-content: space-between;
+	}
+	
+	.addButton{
+		position: absolute;
+		top: 20px;
+		right:0px;
+	}
+}

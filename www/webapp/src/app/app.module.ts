@@ -73,7 +73,8 @@ import { LancarNotaComponent } from './_components/lancar-nota/lancar-nota.compo
 	],
 	entryComponents: [
 		NovaTarefaComponent,
-		EditProdutoComponent
+		EditProdutoComponent,
+		LancarNotaComponent
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

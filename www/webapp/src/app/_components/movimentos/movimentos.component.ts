@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Produto } from "../../_models/produto";
 import { MovimentosService } from '../../_services/movimentos.service';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { Movimento } from '../../_models/movimento';
 import { ProdutosService } from '../../_services/produtos.service';
+import { LancarNotaComponent } from '../lancar-nota/lancar-nota.component';
 
 @Component({
 	selector: 'app-movimentos',
@@ -16,7 +17,8 @@ export class MovimentosComponent implements OnInit {
 	constructor(
 		private movService:MovimentosService,
 		private prodService:ProdutosService,
-		private snackBar:MatSnackBar
+		private snackBar:MatSnackBar,
+		public dialog: MatDialog
 	) { }
 
 	movimentos:Movimento[];
@@ -100,5 +102,25 @@ export class MovimentosComponent implements OnInit {
 			this.movimentos = this.tmpMovimentos;
 		}
 	}
+
+	onLancarClick(){
+		const dialogRef = this.dialog.open(LancarNotaComponent, {
+			width: '600px',
+			data: {
+				'produtos': this.produtos
+			},
+			disableClose:false
+		});
+	
+		dialogRef.afterClosed().subscribe(
+			result => {
+				if(result == 1){
+					this.getMovimentos();
+				}
+			}
+		);
+	}
+
+	
 
 }

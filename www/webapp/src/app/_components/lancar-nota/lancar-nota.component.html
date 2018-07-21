@@ -1,3 +1,63 @@
-<p>
-  lancar-nota works!
-</p>
+<form #form="ngForm">
+	<div class="nf-head">
+		<mat-form-field>
+			<input matInput required type="number" name="numero" placeholder="Número">
+		</mat-form-field>
+		<mat-form-field>
+				<input matInput [matDatepicker]="picker" placeholder="Data">
+				<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+				<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+	<div class="nf-body">
+		
+		<div class="movimento">
+			<mat-form-field>
+				<mat-select placeholder="Produto">
+					<mat-option *ngFor="let p of produtos" [value]="p">
+						{{p.nome}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput type="number" step="0.01" name="qtde" placeholder="Quantidade">
+			</mat-form-field>
+		</div>
+
+		<div class="movimento">
+			<mat-form-field>
+				<mat-select placeholder="Produto">
+					<mat-option *ngFor="let p of produtos" [value]="p">
+						{{p.nome}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput type="number" step="0.01" name="qtde" placeholder="Quantidade">
+			</mat-form-field>
+		</div>
+
+		<div class="movimento">
+			<mat-form-field>
+				<mat-select placeholder="Produto">
+					<mat-option *ngFor="let p of produtos" [value]="p">
+						{{p.nome}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput type="number" step="0.01" name="qtde" placeholder="Quantidade">
+			</mat-form-field>
+		</div>
+	</div>
+
+	<div class="controles">
+		<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
+		<button mat-raised-button color="primary" (click)="onSalvarClick()" [disabled]="!form.valid">Salvar</button>
+	</div>
+
+	<button class="addButton" mat-fab color="primary">
+		<mat-icon>add</mat-icon>
+	</button>
+</form>
