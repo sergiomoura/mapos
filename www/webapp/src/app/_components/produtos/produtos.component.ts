@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProdutosService } from '../../_services/produtos.service';
-import { MatSnackBar } from "@angular/material";
+import { MatSnackBar, MatDialog } from "@angular/material";
 import { Produto } from "../../_models/produto";
+import { EditProdutoComponent } from "../edit-produto/edit-produto.component";
 
 @Component({
 	selector: 'app-produtos',
@@ -14,7 +15,8 @@ export class ProdutosComponent implements OnInit {
 
 	constructor(
 		private prodService:ProdutosService,
-		private snackBar:MatSnackBar
+		private snackBar:MatSnackBar,
+		public dialog: MatDialog
 	) { }
 
 	ngOnInit() {
@@ -41,6 +43,23 @@ export class ProdutosComponent implements OnInit {
 				);
 			}
 		)
+	}
+
+	openEditProdutoDialog(produto?:Produto): void {
+		const dialogRef = this.dialog.open(EditProdutoComponent, {
+			width: '600px',
+			data: {
+				'produto': produto
+			}
+		});
+	
+		dialogRef.afterClosed().subscribe(
+			result => {
+				if(result == 1){
+					this.getProdutos();
+				}
+			}
+		);
 	}
 
 }

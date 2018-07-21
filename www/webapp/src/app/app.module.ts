@@ -33,6 +33,7 @@ import { FocusDirective } from './_directives/focus.directive';
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
 import { EstoqueComponent } from './_components/estoque/estoque.component';
 import { ProdutosComponent } from './_components/produtos/produtos.component';
+import { EditProdutoComponent } from './_components/edit-produto/edit-produto.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -51,7 +52,8 @@ import { ProdutosComponent } from './_components/produtos/produtos.component';
 		TarefaComponent,
 		NovaTarefaComponent,
 		EstoqueComponent,
-		ProdutosComponent
+		ProdutosComponent,
+		EditProdutoComponent
 	],
 	imports: [
 		BrowserModule,
@@ -66,7 +68,8 @@ import { ProdutosComponent } from './_components/produtos/produtos.component';
 		CountdownModule
 	],
 	entryComponents: [
-		NovaTarefaComponent
+		NovaTarefaComponent,
+		EditProdutoComponent
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
