@@ -19,4 +19,5 @@ export class SSE{
 	lat:number;
 	lng:number;
 	status:number;
+	prazoFinal:Date;
 }
