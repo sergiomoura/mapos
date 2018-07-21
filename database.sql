@@ -32,7 +32,7 @@ CREATE TABLE `estoque_movimentos` (
   PRIMARY KEY (`id`),
   KEY `fk_estoque_movimentos_1_idx` (`id_produto`),
   CONSTRAINT `fk_estoque_movimentos_1` FOREIGN KEY (`id_produto`) REFERENCES `estoque_produtos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,6 +41,7 @@ CREATE TABLE `estoque_movimentos` (
 
 LOCK TABLES `estoque_movimentos` WRITE;
 /*!40000 ALTER TABLE `estoque_movimentos` DISABLE KEYS */;
+INSERT INTO `estoque_movimentos` VALUES (1,3,'2018-07-18 00:00:00','1',20.000000,1),(2,4,'2018-07-18 00:00:15','1',500.000000,1),(3,5,'2018-07-17 10:15:20','1',1000.000000,2),(4,4,'2018-07-19 12:10:15','1',350.000000,3),(5,3,'2018-07-21 10:30:12','-1',10.000000,25),(6,4,'2018-07-21 10:30:12','-1',50.000000,25);
 /*!40000 ALTER TABLE `estoque_movimentos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -93,7 +94,7 @@ CREATE TABLE `estoque_produtos` (
 
 LOCK TABLES `estoque_produtos` WRITE;
 /*!40000 ALTER TABLE `estoque_produtos` DISABLE KEYS */;
-INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,20.000000,NULL),(4,'Guias','m',100.000000,10000.000000,500.000000,'2018-07-20 10:30:00'),(5,'Terra','m³',1000.000000,NULL,1520.150000,'2018-07-20 10:35:00'),(8,'Teste 6','kg',10.000000,500.000000,0.000000,NULL),(9,'asdasd','assa',0.000000,NULL,0.000000,NULL);
+INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,20.000000,NULL),(4,'Guias','m',100.000000,10000.000000,500.000000,'2018-07-20 10:30:00'),(5,'Terra','m³',1000.000000,NULL,1520.150000,'2018-07-20 10:35:00');
 /*!40000 ALTER TABLE `estoque_produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -571,7 +572,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b532b1f10d3e4.93543949','2018-07-21 10:46:23',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b533e8c944221.02765737','2018-07-21 12:09:16',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -602,4 +603,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-21  9:48:47
+-- Dump completed on 2018-07-21 11:11:11

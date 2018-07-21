@@ -35,6 +35,7 @@ import { EstoqueComponent } from './_components/estoque/estoque.component';
 import { ProdutosComponent } from './_components/produtos/produtos.component';
 import { EditProdutoComponent } from './_components/edit-produto/edit-produto.component';
 import { MovimentosComponent } from './_components/movimentos/movimentos.component';
+import { LancarNotaComponent } from './_components/lancar-nota/lancar-nota.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -55,7 +56,8 @@ import { MovimentosComponent } from './_components/movimentos/movimentos.compone
 		EstoqueComponent,
 		ProdutosComponent,
 		EditProdutoComponent,
-		MovimentosComponent
+		MovimentosComponent,
+		LancarNotaComponent
 	],
 	imports: [
 		BrowserModule,

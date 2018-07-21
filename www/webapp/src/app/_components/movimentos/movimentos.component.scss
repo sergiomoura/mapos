@@ -1,0 +1,37 @@
+.controles {
+	width:80%;
+	position: relative;
+	left: 10%;
+	text-align: right;
+	margin-top: 25px;
+}
+table {
+	width:80%;
+	position: relative;
+	left: 10%;;
+	margin-top: 25px;
+	border-collapse: collapse;
+	
+	td {
+		padding: 10px;
+		border-bottom: 1px solid #CCC;
+		text-align: center;
+	}
+
+	thead td {
+		font-size: 12px;
+		color:#666;
+	}
+
+	tbody td:nth-child(4){
+		color:blue;
+	}
+	tbody td:nth-child(5){
+		color:red;
+	}
+	
+	tbody tr:last-child td{
+		border-bottom: none;
+	}
+
+}

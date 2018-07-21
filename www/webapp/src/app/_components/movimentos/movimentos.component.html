@@ -1,3 +1,28 @@
-<p>
-  movimentos works!
-</p>
+<div class="controles">
+	<button mat-raised-button color="primary" (click)="onLancarClick()">Lançar Nota de Entrada</button>
+</div>
+<table>
+	<thead>
+		<tr>
+			<td>Id</td>
+			<td>Produto</td>
+			<td>Data/Hora</td>
+			<td>Entrada</td>
+			<td>Saída</td>
+			<td>Referência</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr *ngFor="let m of movimentos">
+			<td>{{m.id}}</td>
+			<td>{{m.produto.nome}}</td>
+			<td>{{m.dh.toLocaleString()}}</td>
+			<td><span *ngIf="m.tipo ==  1">{{m.qtde}} {{m.produto.unidade}}</span></td>
+			<td><span *ngIf="m.tipo == -1">{{m.qtde}} {{m.produto.unidade}}</span></td>
+			<td>
+				<a *ngIf="m.tipo == -1" (click)="abrirTarefa()">{{m.id_referencia}}</a>
+				<a *ngIf="m.tipo ==  1" (click)="abrirNf()">{{m.id_referencia}}</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

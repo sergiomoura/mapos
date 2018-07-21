@@ -13,8 +13,8 @@ export class ProdutosService {
 
 	private url_get:string = 'api/estoque/produtos';
 	private url_update:string = 'api/estoque/produtos';
-	private url_create:string = 'api/estoque/produtos'
-	private url_delete:string = 'api/estoque/produtos'
+	private url_create:string = 'api/estoque/produtos';
+	private url_delete:string = 'api/estoque/produtos';
 	
 	get(){
 		return this.http.get(this.url_get);
