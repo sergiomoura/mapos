@@ -34,6 +34,7 @@ import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/mater
 import { EstoqueComponent } from './_components/estoque/estoque.component';
 import { ProdutosComponent } from './_components/produtos/produtos.component';
 import { EditProdutoComponent } from './_components/edit-produto/edit-produto.component';
+import { MovimentosComponent } from './_components/movimentos/movimentos.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -53,7 +54,8 @@ import { EditProdutoComponent } from './_components/edit-produto/edit-produto.co
 		NovaTarefaComponent,
 		EstoqueComponent,
 		ProdutosComponent,
-		EditProdutoComponent
+		EditProdutoComponent,
+		MovimentosComponent
 	],
 	imports: [
 		BrowserModule,
