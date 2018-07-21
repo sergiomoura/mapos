@@ -1,3 +1,21 @@
-<p>
-  edit-produto works!
-</p>
+<form #form="ngForm">
+	<mat-form-field>
+		<input (keyup.enter)="onEnterKeyup($event)" matInput required [(ngModel)]="produto.nome"  type="text" name="nome" placeholder="Nome">
+	</mat-form-field>
+	<mat-form-field>
+		<input (keyup.enter)="onEnterKeyup($event)" matInput required [(ngModel)]="produto.unidade"  type="text" name="unidade" placeholder="Unidade">
+	</mat-form-field>
+	<mat-form-field>
+		<input matInput [(ngModel)]="produto.qtde"  type="number" step="0.01" disabled name="qtde" placeholder="Quantidade">
+	</mat-form-field>
+	<mat-form-field>
+		<input (keyup.enter)="onEnterKeyup($event)" matInput required [(ngModel)]="produto.qtde_min"  type="number" step="0.01" name="qtde_min" placeholder="Qtde Mínima">
+	</mat-form-field>
+	<mat-form-field>
+		<input (keyup.enter)="onEnterKeyup($event)" matInput [(ngModel)]="produto.qtde_max"  type="number" step="0.01" name="qtde_max" placeholder="Qtde Máxima">
+	</mat-form-field>
+	<div class="controles">
+		<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
+		<button mat-raised-button color="primary" (click)="onSalvarClick()" [disabled]="!form.valid">Salvar</button>
+	</div>
+</form>

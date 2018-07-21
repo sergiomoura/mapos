@@ -50,7 +50,8 @@ export class ProdutosComponent implements OnInit {
 			width: '600px',
 			data: {
 				'produto': produto
-			}
+			},
+			disableClose:true
 		});
 	
 		dialogRef.afterClosed().subscribe(
@@ -60,6 +61,56 @@ export class ProdutosComponent implements OnInit {
 				}
 			}
 		);
+	}
+
+	onAdicionarClick(){
+		console.log('teste');
+		// Criando o produto novo
+		let produto:Produto = <Produto>{
+			id: 0,
+			nome: '',
+			qtde: 0,
+			qtde_max: null,
+			qtde_min: 0,
+			unidade: ''
+		};
+
+		this.openEditProdutoDialog(produto);
+
+	}
+
+	onDeleteClick(id_produto){
+		let pergunta:string = "Tem certeza que deseja remover o produto?"
+		if(window.confirm(pergunta)) {
+			this.prodService.delete(id_produto).subscribe(
+				res => {
+					// Recarregando produtos
+					this.getProdutos();
+					
+					// Exibindo snackbar de sucesso
+					this.snackBar.open(
+						'Produto removido com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
+				},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao tentar remover produto. Provavelmente ele possui movimentações.',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+				}
+			)
+		}
 	}
 
 }

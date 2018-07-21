@@ -1,3 +1,6 @@
+<div class="controles">
+	<button mat-raised-button color="primary" (click)="onAdicionarClick()">Adicionar Novo Produto</button>
+</div>
 <table>
 	<thead>
 		<tr>
@@ -21,6 +24,9 @@
 			<td>{{produto.unidade}}</td>
 			<td>{{produto.ultimo_movimento|date:'dd/MM/yyyy hh:mm'}}</td>
 			<td>
+				<button mat-icon-button (click)="onDeleteClick(produto.id)">
+					<mat-icon>delete</mat-icon>
+				</button>
 				<button mat-icon-button (click)="openEditProdutoDialog(produto)">
 					<mat-icon>edit</mat-icon>
 				</button>
