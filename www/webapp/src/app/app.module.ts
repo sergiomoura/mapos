@@ -76,7 +76,8 @@ import { EditMovimentoComponent } from './_components/edit-movimento/edit-movime
 	entryComponents: [
 		NovaTarefaComponent,
 		EditProdutoComponent,
-		LancarNotaComponent
+		LancarNotaComponent,
+		EditMovimentoComponent
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -5,6 +5,7 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { Movimento } from '../../_models/movimento';
 import { ProdutosService } from '../../_services/produtos.service';
 import { LancarNotaComponent } from '../lancar-nota/lancar-nota.component';
+import { EditMovimentoComponent } from '../edit-movimento/edit-movimento.component';
 
 @Component({
 	selector: 'app-movimentos',
@@ -109,7 +110,7 @@ export class MovimentosComponent implements OnInit {
 			data: {
 				'produtos': this.produtos
 			},
-			disableClose:false
+			disableClose:true
 		});
 	
 		dialogRef.afterClosed().subscribe(
@@ -121,6 +122,22 @@ export class MovimentosComponent implements OnInit {
 		);
 	}
 
-	
+	onEditClick(movimento:Movimento){
+		const dialogRef = this.dialog.open(EditMovimentoComponent,{
+			width: '800px',
+			data: {
+				'movimento': movimento
+			},
+			disableClose:false
+		})
+
+		dialogRef.afterClosed().subscribe(
+			result => {
+				if(result == 1){
+					this.getMovimentos();
+				}
+			}
+		)
+	}
 
 }

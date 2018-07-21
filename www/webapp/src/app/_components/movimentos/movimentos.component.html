@@ -10,6 +10,7 @@
 			<td>Entrada</td>
 			<td>Saída</td>
 			<td>Referência</td>
+			<td></td>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,6 +23,11 @@
 			<td>
 				<a *ngIf="m.tipo == -1" (click)="abrirTarefa()">{{m.id_referencia}}</a>
 				<a *ngIf="m.tipo ==  1" (click)="abrirNf()">{{m.id_referencia}}</a>
+			</td>
+			<td>
+				<button mat-icon-button (click)="onEditClick(m)">
+					<mat-icon>edit</mat-icon>
+				</button>
 			</td>
 		</tr>
 	</tbody>

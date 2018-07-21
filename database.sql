@@ -16,6 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `debug`
+--
+
+DROP TABLE IF EXISTS `debug`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `debug` (
+  `msg` varchar(200) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `debug`
+--
+
+LOCK TABLES `debug` WRITE;
+/*!40000 ALTER TABLE `debug` DISABLE KEYS */;
+INSERT INTO `debug` VALUES ('11'),('comecou'),('old do tipo 1'),('terminou'),('- comecou'),('-- comecou'),('movimento do tipo 1'),('quantidade atual:'),('-5'),('5.000000'),('-'),('500.000000'),('='),('-495.000000'),('acabou');
+/*!40000 ALTER TABLE `debug` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `estoque_movimentos`
 --
 
@@ -27,12 +49,12 @@ CREATE TABLE `estoque_movimentos` (
   `id_produto` int(11) NOT NULL,
   `dh` datetime NOT NULL,
   `tipo` enum('-1','1') NOT NULL,
-  `qtde` decimal(15,6) NOT NULL,
+  `qtde` decimal(15,6) unsigned NOT NULL,
   `id_referencia` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_estoque_movimentos_1_idx` (`id_produto`),
   CONSTRAINT `fk_estoque_movimentos_1` FOREIGN KEY (`id_produto`) REFERENCES `estoque_produtos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,9 +63,156 @@ CREATE TABLE `estoque_movimentos` (
 
 LOCK TABLES `estoque_movimentos` WRITE;
 /*!40000 ALTER TABLE `estoque_movimentos` DISABLE KEYS */;
-INSERT INTO `estoque_movimentos` VALUES (1,3,'2018-07-18 00:00:00','1',20.000000,1),(2,4,'2018-07-18 00:00:15','1',500.000000,1),(3,5,'2018-07-17 10:15:20','1',1000.000000,2),(4,4,'2018-07-19 12:10:15','1',350.000000,3),(5,3,'2018-07-21 10:30:12','-1',10.000000,25),(6,4,'2018-07-21 10:30:12','-1',50.000000,25),(7,4,'2018-07-21 16:34:25','1',500.000000,15),(8,3,'2018-07-21 16:34:25','1',20.000000,15),(9,5,'2018-07-21 16:35:56','1',1520.150000,16),(10,4,'2018-07-21 16:37:26','1',500.000000,17),(11,4,'2018-07-21 16:39:10','1',99.000000,18),(12,4,'2018-07-21 16:39:11','1',1.000000,18);
+INSERT INTO `estoque_movimentos` VALUES (1,3,'2018-07-18 00:00:00','1',20.000000,1),(2,4,'2018-07-18 00:00:15','1',500.000000,1),(3,5,'2018-07-17 10:15:20','1',1000.000000,2),(5,3,'2018-07-21 10:30:12','-1',10.000000,25),(6,4,'2018-07-21 10:30:12','-1',51.000000,25),(7,4,'2018-07-21 16:34:25','1',500.000000,15),(8,3,'2018-07-21 16:34:25','1',20.000000,15),(10,4,'2018-07-21 16:37:26','1',500.000000,17),(11,4,'2018-07-21 16:39:10','1',49.000000,18),(12,4,'2018-07-21 16:39:11','1',1.000000,18);
 /*!40000 ALTER TABLE `estoque_movimentos` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_BEFORE_INSERT` BEFORE INSERT ON `estoque_movimentos` FOR EACH ROW
+BEGIN
+	declare qtde_atual decimal;
+	
+    if (new.tipo = '-1') then
+		select qtde into qtde_atual from estoque_produtos where id=new.id_produto;
+        if (qtde_atual - new.qtde < 0) then
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Movimentação deixaria estoque negativo.';
+        end if;
+    end if;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_AFTER_INSERT` AFTER INSERT ON `estoque_movimentos` FOR EACH ROW
+BEGIN
+	if(new.tipo = '-1') then
+		update estoque_produtos set qtde = qtde - new.qtde where id=new.id_produto;
+	elseif (new.tipo = '1') then
+		update estoque_produtos set qtde = qtde + new.qtde where id=new.id_produto;
+    end if;    
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_BEFORE_UPDATE` BEFORE UPDATE ON `estoque_movimentos` FOR EACH ROW
+BEGIN
+
+	declare qtde_atual decimal;
+    
+	if (old.tipo = '1') then
+		select qtde into qtde_atual from estoque_produtos where id=old.id_produto;
+        if (old.qtde - new.qtde > qtde_atual) then
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Alteração deixaria estoque negativo';
+        end if;
+	elseif (old.tipo = '-1') then
+		select qtde into qtde_atual from estoque_produtos where id=old.id_produto;
+        if (new.qtde - old.qtde > qtde_atual) then
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Alteração deixaria estoque negativo';
+        end if;
+    end if;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_AFTER_UPDATE` AFTER UPDATE ON `estoque_movimentos` FOR EACH ROW
+BEGIN
+	if(OLD.tipo = '1') then
+		UPDATE estoque_produtos SET qtde = qtde + new.qtde - old.qtde where id = old.id_produto;
+    elseif (OLD.tipo = '-1') then
+		UPDATE estoque_produtos SET qtde = qtde - new.qtde + old.qtde where id = old.id_produto;
+    end if;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_BEFORE_DELETE` BEFORE DELETE ON `estoque_movimentos` FOR EACH ROW
+BEGIN
+	declare qtde_atual decimal;
+    
+	if (old.tipo = '1') then
+		select qtde into qtde_atual from estoque_produtos where id=old.id_produto;
+        if (old.qtde > qtde_atual) then
+			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Alteração deixaria estoque negativo';
+        end if;
+    end if;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_AFTER_DELETE` AFTER DELETE ON `estoque_movimentos` FOR EACH ROW
+BEGIN
+	if(OLD.tipo = '1') then
+		UPDATE estoque_produtos SET qtde = qtde - old.qtde where id = old.id_produto;
+    elseif (OLD.tipo = '-1') then
+		UPDATE estoque_produtos SET qtde = qtde + old.qtde where id = old.id_produto;
+    end if;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `estoque_nfs_entrada`
@@ -57,7 +226,7 @@ CREATE TABLE `estoque_nfs_entrada` (
   `numero` int(11) NOT NULL,
   `data` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -66,7 +235,7 @@ CREATE TABLE `estoque_nfs_entrada` (
 
 LOCK TABLES `estoque_nfs_entrada` WRITE;
 /*!40000 ALTER TABLE `estoque_nfs_entrada` DISABLE KEYS */;
-INSERT INTO `estoque_nfs_entrada` VALUES (15,254,'2001-01-26'),(16,255,'2018-07-19'),(17,5655,'2018-07-10'),(18,65455,'2018-07-24');
+INSERT INTO `estoque_nfs_entrada` VALUES (15,254,'2001-01-26'),(16,255,'2018-07-19'),(17,5655,'2018-07-10'),(18,65455,'2018-07-24'),(19,2121,'2018-07-21');
 /*!40000 ALTER TABLE `estoque_nfs_entrada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -95,7 +264,7 @@ CREATE TABLE `estoque_produtos` (
 
 LOCK TABLES `estoque_produtos` WRITE;
 /*!40000 ALTER TABLE `estoque_produtos` DISABLE KEYS */;
-INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,20.000000,NULL),(4,'Guias','m',100.000000,10000.000000,500.000000,'2018-07-20 10:30:00'),(5,'Terra','m³',1000.000000,NULL,1520.150000,'2018-07-20 10:35:00');
+INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,20.000000,NULL),(4,'Guias','m',100.000000,10000.000000,490.000000,'2018-07-20 10:30:00'),(5,'Terra','m³',1000.000000,NULL,1520.150000,'2018-07-20 10:35:00');
 /*!40000 ALTER TABLE `estoque_produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -573,7 +742,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b538d28b294d5.22830469','2018-07-21 17:44:40',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b53afd86e5968.90695666','2018-07-21 20:12:40',1,1,1,1),(44,'boulos','$1$GKXfLe5d$e9Bk9Uv6oPFq4no.PG9jI.',NULL,NULL,1,0,1,119),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$Kat7gzmY$5g5CmxeF6A4lZ9iGf.xyw1','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$F.76UOIk$wnaaXhZRz6fnfndftIq5F.',NULL,NULL,1,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -604,4 +773,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-21 16:45:54
+-- Dump completed on 2018-07-21 19:13:30
