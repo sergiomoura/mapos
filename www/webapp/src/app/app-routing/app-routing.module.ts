@@ -15,6 +15,7 @@ import { SsesMapComponent } from '../_components/sses-map/sses-map.component';
 import { TarefaComponent } from '../_components/tarefa/tarefa.component';
 import { EstoqueComponent } from "../_components/estoque/estoque.component";
 import { ProdutosComponent } from "../_components/produtos/produtos.component";
+import { MovimentosComponent } from '../_components/movimentos/movimentos.component';
 
 const routes:Routes = [
 	{
@@ -49,6 +50,10 @@ const routes:Routes = [
 					{
 						path:'produtos',
 						component:ProdutosComponent
+					},
+					{
+						path:'movimentos',
+						component:MovimentosComponent
 					}
 				]
 			},

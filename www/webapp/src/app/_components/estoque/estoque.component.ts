@@ -19,4 +19,8 @@ export class EstoqueComponent implements OnInit {
 		this.router.navigateByUrl('home/estoque/produtos');
 	}
 
+	onMovimentacaoClick(){
+		this.router.navigateByUrl('home/estoque/movimentos');
+	}
+
 }
