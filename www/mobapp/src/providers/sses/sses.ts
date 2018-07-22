@@ -11,8 +11,8 @@ export class SsesProvider {
 		private urls: Urls
 	) {}
 
-	getVisibles(){
-		return this.http.get(this.urls.sses);
+	getVirgens(){
+		return this.http.get(this.urls.sses+'?status=virgem');
 	}
 
 	getById(id:number){

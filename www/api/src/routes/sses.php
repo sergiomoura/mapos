@@ -4,9 +4,23 @@
 	use Slim\Http\Response;
 
 	$app->get($api_root.'/sses',function(Request $req, Response $res, $args = []){
+		
+		// Verificando os status requeridos
+		if(array_key_exists('status',$_GET)){
+			$status_requerido = explode(',',$_GET['status']);
+		} else {
+			$status_requerido = array();
+		}
 
+		// Determinando condição sobre status requeridos
+		if(sizeof($status_requerido) == 0) {
+			$cndStatus = 'TRUE';
+		} else {
+			$cndStatus = 'status=sseStatus("' . implode($status_requerido, '") OR status=sseStatus("') .'")';
+		}
+		
 		// Levantando tipos de equipe na base
-		$sql = 'SELECT
+		$sql = "SELECT
 					id,
 					endereco,
 					id_bairro,
@@ -31,8 +45,9 @@
 					(SELECT B.id_sse,B.id_equipe,B.inicio_p,B.final_p,B.inicio_r,B.final_r,B.id_apoio FROM
 				(SELECT max(id) as id,id_sse FROM maxse_tarefas group by id_sse) A
 				INNER JOIN maxse_tarefas B on A.id=B.id) Y on X.id=Y.id_sse
+				WHERE $cndStatus
 				ORDER BY
-					dh_registrado DESC';
+					dh_registrado DESC";
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		$sses = $stmt->fetchAll();
@@ -279,24 +294,23 @@
 		}
 
 		// Atualizando dados báscos
+		$sql = 'UPDATE
+					maxse_sses
+				SET
+					endereco = :endereco,
+					id_bairro = :id_bairro,
+					numero = :numero,
+					id_tipo_de_servico = :id_tipo_de_servico,
+					dh_registrado = now(),
+					dh_recebido = :dh_recebido,
+					urgente = :urgente,
+					obs = :obs,
+					lat = :lat,
+					lng = :lng
+					WHERE id=:id
+				';
+		$stmt = $this->db->prepare($sql);
 		try {
-			$sql = 'UPDATE
-						maxse_sses
-					SET
-						endereco = :endereco,
-						id_bairro = :id_bairro,
-						numero = :numero,
-						id_tipo_de_servico = :id_tipo_de_servico,
-						dh_registrado = now(),
-						dh_recebido = :dh_recebido,
-						urgente = :urgente,
-						obs = :obs,
-						lat = :lat,
-						lng = :lng
-						WHERE id=:id
-					';
-			$stmt = $thidescricao
-			->db->prepare($sql);
 			$stmt->execute(array(
 				':endereco'				=> $sse->endereco,
 				':id_bairro'			=> $sse->bairro->id,

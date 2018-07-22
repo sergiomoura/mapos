@@ -19,42 +19,45 @@ import { SsePage } from "../pages/sse/sse";
 import { GeralProvider } from '../providers/geral/geral';
 import { Camera } from '@ionic-native/camera';
 import { SelectSearchableModule } from 'ionic-select-searchable'
+import { TarefasPage } from '../pages/tarefas/tarefas';
 
 @NgModule({
-  declarations: [
-    MyApp,
-    HomePage,
-    LoginPage,
-    SsesPage,
-    SsePage
-  ],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(MyApp),
-    FormsModule,
-    HttpClientModule,
-    IonicStorageModule.forRoot(),
-    SelectSearchableModule
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    MyApp,
-    HomePage,
-    LoginPage,
-    SsesPage,
-    SsePage
-  ],
-  providers: [
-    StatusBar,
-    SplashScreen,
-    Camera,
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
-    AuthProvider,
-    Device,
-    Urls,
-    SsesProvider,
-    GeralProvider
-  ]
+	declarations: [
+		MyApp,
+		HomePage,
+		LoginPage,
+		SsesPage,
+		SsePage,
+		TarefasPage
+	],
+	imports: [
+		BrowserModule,
+		IonicModule.forRoot(MyApp),
+		FormsModule,
+		HttpClientModule,
+		IonicStorageModule.forRoot(),
+		SelectSearchableModule
+	],
+	bootstrap: [IonicApp],
+	entryComponents: [
+		MyApp,
+		HomePage,
+		LoginPage,
+		SsesPage,
+		SsePage,
+		TarefasPage
+	],
+	providers: [
+		StatusBar,
+		SplashScreen,
+		Camera,
+		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+		{provide: ErrorHandler, useClass: IonicErrorHandler},
+		AuthProvider,
+		Device,
+		Urls,
+		SsesProvider,
+		GeralProvider
+	]
 })
 export class AppModule {}

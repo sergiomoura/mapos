@@ -52,7 +52,7 @@ export class SsesPage {
 		});
 		loader.present();
 
-		this.ssesProvider.getVisibles().subscribe(
+		this.ssesProvider.getVirgens().subscribe(
 			res => {
 				this.sses = <SSE[]>res;
 				loader.dismiss();

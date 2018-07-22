@@ -5,6 +5,7 @@ import { Storage } from "@ionic/storage";
 import { SsesPage } from '../sses/sses';
 import { ToastController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
+import { TarefasPage } from '../tarefas/tarefas';
 
 @Component({
 	selector: 'page-login',
@@ -46,7 +47,14 @@ export class LoginPage {
 
 				// Guardando o current user no localStorage
 				this.storage.set('currentUser',res).then(
-					() => { this.navCtrl.push(SsesPage);}
+					() => {
+						let acessoApp:string = (<any>res).acessoApp;
+						if( acessoApp == "1") {
+							this.navCtrl.push(SsesPage);
+						} else if(acessoApp == "2") {
+							this.navCtrl.push(TarefasPage);
+						}
+					}
 				)
 			},
 			err => {

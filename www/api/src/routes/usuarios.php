@@ -160,7 +160,7 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 
 
 	// Verificando se é para atualizar o password
-	if($senha === ''){
+	if($senha == '' || empty($senha) || is_null($senha)){
 		
 		// Não é para atualizar a senha
 

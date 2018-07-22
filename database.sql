@@ -16,28 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `debug`
---
-
-DROP TABLE IF EXISTS `debug`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `debug` (
-  `msg` varchar(200) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `debug`
---
-
-LOCK TABLES `debug` WRITE;
-/*!40000 ALTER TABLE `debug` DISABLE KEYS */;
-INSERT INTO `debug` VALUES ('11'),('comecou'),('old do tipo 1'),('terminou'),('- comecou'),('-- comecou'),('movimento do tipo 1'),('quantidade atual:'),('-5'),('5.000000'),('-'),('500.000000'),('='),('-495.000000'),('acabou');
-/*!40000 ALTER TABLE `debug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `estoque_movimentos`
 --
 
@@ -548,7 +526,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',1,NULL,1,-22.9533354,-47.1839279);
+INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',1,NULL,0,-22.9533354,-47.1839279);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -585,7 +563,6 @@ CREATE TABLE `maxse_tarefas` (
 
 LOCK TABLES `maxse_tarefas` WRITE;
 /*!40000 ALTER TABLE `maxse_tarefas` DISABLE KEYS */;
-INSERT INTO `maxse_tarefas` VALUES (26,16,5,NULL,'2018-10-10 00:00:00','2018-10-10 00:00:00','2018-10-10 00:00:00','2018-10-10 00:10:10',0),(28,16,4,NULL,'2018-10-20 10:10:00','2018-10-20 16:00:00',NULL,NULL,0);
 /*!40000 ALTER TABLE `maxse_tarefas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -742,7 +719,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b54659e0e1cd2.84716782','2018-07-22 09:08:14',1,1,1,1),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$P9silUJQ$0qJLE9fEUtilVlwTDzEVe/','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$iYEEprBt$HDtmLf6njU552lHX3YIL4.',NULL,NULL,2,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157),(73,'boulos','$1$uMvLp/7c$WSOacfAme8FNMZM2xiT4..',NULL,NULL,0,0,1,176),(78,'afranio','$1$6SOBNtrv$3v.Sy/M1g4wlEPWywjJxw/',NULL,NULL,2,0,1,184);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5489f20df585.10086572','2018-07-22 11:43:14',1,1,1,1),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$P9silUJQ$0qJLE9fEUtilVlwTDzEVe/','5b4c604f52f523.99954247','2018-07-16 07:07:27',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$iYEEprBt$HDtmLf6njU552lHX3YIL4.',NULL,NULL,2,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157),(73,'boulos','$1$uMvLp/7c$WSOacfAme8FNMZM2xiT4..',NULL,NULL,0,0,1,176),(78,'afranio','$1$Mwp0X7Q3$46XHfnWszL9cCwrAKx8sX0','5b5488cf373888.91643667','2018-07-22 11:38:23',2,0,1,184);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -773,4 +750,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-22  8:09:02
+-- Dump completed on 2018-07-22 10:43:55

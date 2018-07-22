@@ -59,7 +59,7 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 	}
 
 	// Se ele está tentando acessar a partir de app sem permissão
-	if($login->from === 'app' && $user->acessoApp !== '1'){
+	if($login->from === 'app' && $user->acessoApp === '0'){
 		// Retornando erro para usuário
 		return $res
 		->withStatus(403)
