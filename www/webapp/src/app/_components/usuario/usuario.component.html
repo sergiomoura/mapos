@@ -17,13 +17,22 @@
 			<input name="senha2" [(ngModel)]="senha2" matInput type="password" placeholder="Confirmação de Senha" [required]="usuario.id==0">
 		</mat-form-field>
 
-		<div class="checkbox-container">
-			<mat-checkbox name="ativo" [(ngModel)]="usuario.ativo" color="primary">Ativo</mat-checkbox>
-			<span class="spacer"></span>
-			<mat-checkbox name="acessoApp" [(ngModel)]="usuario.acessoApp" color="primary" [disabled]="!usuario.ativo">Acesso ao App</mat-checkbox>
-			<span class="spacer"></span>
-			<mat-checkbox name="acessoWeb" [(ngModel)]="usuario.acessoWeb" color="primary" [disabled]="!usuario.ativo">Acesso WEB</mat-checkbox>
-		</div>
+		<mat-checkbox name="ativo" [(ngModel)]="usuario.ativo" color="primary">Ativo</mat-checkbox>
+
+		<mat-form-field>
+			<mat-select name="acessoApp" [(ngModel)]="usuario.acessoApp" [disabled]="!usuario.ativo" placeholder="Acesso via APP">
+				<mat-option [value]="0">Não tem</mat-option>
+				<mat-option [value]="1">Como Registrador</mat-option>
+				<mat-option [value]="2">Como Executor</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field>
+			<mat-select name="acessoWeb" [(ngModel)]="usuario.acessoWeb" [disabled]="!usuario.ativo" placeholder="Acesso Web">
+				<mat-option [value]="false">Não</mat-option>
+				<mat-option [value]="true">Sim</mat-option>
+			</mat-select>
+		</mat-form-field>
 		
 		<div class="controles">
 			<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>

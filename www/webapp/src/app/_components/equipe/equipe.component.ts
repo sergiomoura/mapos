@@ -152,7 +152,7 @@ export class EquipeComponent implements OnInit {
 				membro.lider = true;
 				membro.username = tmp_equipe.usuario_lider.username;
 				membro.acessoWeb = tmp_equipe.usuario_lider.acessoWeb == '1';
-				membro.acessoApp = tmp_equipe.usuario_lider.acessoApp == '1';
+				membro.acessoApp = tmp_equipe.usuario_lider.acessoApp == '0' ? 0 : 2;
 			} else {
 				membro.lider = false;
 				membro.username = null;

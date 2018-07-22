@@ -40,7 +40,7 @@
 						<td><mat-checkbox (click)="onLiderClick(m.id)" color="primary" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.lider"></mat-checkbox></td>
 						<td><input [required]="m.lider" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.username" type="text" [disabled]="!m.lider"></td>
 						<td><input [required]="m.lider" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.senha" type="password" [disabled]="!m.lider"></td>
-						<td><mat-checkbox color="primary" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.acessoApp" [disabled]="!m.lider"></mat-checkbox></td>
+						<td><mat-checkbox color="primary" [ngModelOptions]="{standalone: true}"  value="2" [(ngModel)]="m.acessoApp" [disabled]="!m.lider"></mat-checkbox></td>
 						<td><mat-checkbox color="primary" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.acessoWeb" [disabled]="!m.lider"></mat-checkbox></td>
 						<td><button (click)="onRemoveButtonClick(i)" mat-icon-button><mat-icon>remove_circle</mat-icon></button></td>
 					</tr>

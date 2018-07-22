@@ -14,10 +14,13 @@
 
         mat-checkbox {
             width: 100%;
+            margin-bottom: 24px;
+            display: inline-block;
         }
 
         .checkbox-container{
             display: flex;
+            justify-content: space-between;
         }
 
         .controles{

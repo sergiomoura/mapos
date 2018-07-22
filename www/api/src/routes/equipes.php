@@ -167,7 +167,7 @@
 			':username' => $lider->username,
 			':password' => $lider->hash,
 			':acessoWeb' => ($lider->acessoWeb ? 1 : 0),
-			':acessoApp' => ($lider->acessoApp ? 1 : 0),
+			':acessoApp' => ($lider->acessoApp ? 2 : 0),
 			'id_pessoa' => $lider->id_pessoa
 		));
 
@@ -270,7 +270,7 @@
 			':id_pessoa'	=> $lider->id_pessoa,
 			':username'		=> $lider->username,
 			':password'		=> crypt($lider->password),
-			':acessoApp'	=> ($lider->acessoApp ? 1 : 0),
+			':acessoApp'	=> ($lider->acessoApp ? 2 : 0),
 			':acessoWeb'	=> ($lider->acessoWeb ? 1 : 0),
 		));
 		

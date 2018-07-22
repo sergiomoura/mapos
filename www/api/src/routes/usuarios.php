@@ -50,7 +50,7 @@ $app->get($api_root.'/usuarios', function (Request $req,  Response $res, $args =
 	
 	// Parsing usuários antes de enviar
 	foreach ($usuarios as $u) {
-		$u->acessoApp = ($u->acessoApp == "1");
+		$u->acessoApp *= 1;
 		$u->acessoWeb = ($u->acessoWeb == "1");
 		$u->ativo = ($u->ativo == "1");
 	}
@@ -106,7 +106,7 @@ $app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $
 	// Parse data
 	$user->ativo = ($user->ativo == 1);
 	$user->acessoWeb = ($user->acessoWeb == 1);
-	$user->acessoApp = ($user->acessoApp == 1);
+	$user->acessoApp *= 1;
 	$user->id *= 1;
 
 	// Enviando resposta para cliente
@@ -177,7 +177,7 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 			array(
 				':username' =>$usuario->username,
 				':ativo'    =>($usuario->ativo ? 1 : 0),
-				':acessoApp'=>($usuario->acessoApp ? 1 : 0),
+				':acessoApp'=>($usuario->acessoApp*1),
 				':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
 				':id'       =>$usuario->id
 			)
@@ -200,7 +200,7 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 				':username' => $usuario->username,
 				':pass'     => crypt($senha),
 				':ativo'    => ($usuario->ativo ? 1 : 0),
-				':acessoApp'=> ($usuario->acessoApp ? 1 : 0),
+				':acessoApp'=> ($usuario->acessoApp*1),
 				':acessoWeb'=> ($usuario->acessoWeb ? 1 : 0),
 				':id'       => $usuario->id
 			)
@@ -264,7 +264,7 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 		array(
 			':username' =>$usuario->username,
 			':ativo'    =>($usuario->ativo ? 1 : 0),
-			':acessoApp'=>($usuario->acessoApp ? 1 : 0),
+			':acessoApp'=>($usuario->acessoApp*1),
 			':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
 			':id_pessoa'=>$id_pessoa
 		)

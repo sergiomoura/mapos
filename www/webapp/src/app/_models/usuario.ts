@@ -1,4 +1,8 @@
-import { Equipe } from "./equipe";
+enum AcessoWeb {
+    negado = 0,
+    registrador  = 1,
+    executor = 2
+}
 
 export class Usuario {
     id: number;
@@ -6,6 +10,6 @@ export class Usuario {
     email: string;
     username: string;
     acessoApp: boolean;
-    acessoWeb: boolean;
+    acessoWeb: AcessoWeb;
     ativo:boolean;
 }
