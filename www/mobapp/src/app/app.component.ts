@@ -3,6 +3,7 @@ import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from "@ionic/storage";
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
 
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from "../providers/auth/auth";
@@ -20,18 +21,29 @@ export class MyApp {
 		statusBar: StatusBar,
 		splashScreen: SplashScreen,
 		private authProvider: AuthProvider,
-		private storage:Storage
+		private storage:Storage,
+		private scrOrientation:ScreenOrientation
 	) {
 		platform.ready().then(
 			() => {
+				// Travando orientação da tela
+				this.scrOrientation.lock(this.scrOrientation.ORIENTATIONS.PORTRAIT);
+				
+				// Escondendo statusBar
 				statusBar.hide();
+
+				// Escondendo spash screen
 				splashScreen.hide();
+
+				// Ligando intervalo para atualizar o token
 				setInterval(
 					() => {
 						this.refresh();
 					},
 					this.IRDT
 				)
+
+
 			}
 		);
 	}

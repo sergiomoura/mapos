@@ -18,6 +18,7 @@ import { JwtInterceptor } from "../helpers/jwt.interceptor";
 import { SsePage } from "../pages/sse/sse";
 import { GeralProvider } from '../providers/geral/geral';
 import { Camera } from '@ionic-native/camera';
+import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { SelectSearchableModule } from 'ionic-select-searchable'
 import { TarefasPage } from '../pages/tarefas/tarefas';
 
@@ -51,6 +52,7 @@ import { TarefasPage } from '../pages/tarefas/tarefas';
 		StatusBar,
 		SplashScreen,
 		Camera,
+		ScreenOrientation,
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		{provide: ErrorHandler, useClass: IonicErrorHandler},
 		AuthProvider,
