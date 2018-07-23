@@ -24,6 +24,8 @@ import { TarefasPage } from '../pages/tarefas/tarefas';
 import { TarefasProvider } from '../providers/tarefas/tarefas';
 import { TarefaPage } from '../pages/tarefa/tarefa';
 import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
+import { TarefaTabsPage } from '../pages/tarefa-tabs/tarefa-tabs';
+import { TarefaTabsPageModule } from '../pages/tarefa-tabs/tarefa-tabs.module';
 
 @NgModule({
 	declarations: [
@@ -41,7 +43,8 @@ import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
 		HttpClientModule,
 		IonicStorageModule.forRoot(),
 		SelectSearchableModule,
-		TarefaPageModule
+		TarefaPageModule,
+		TarefaTabsPageModule
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -51,7 +54,7 @@ import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
 		SsesPage,
 		SsePage,
 		TarefasPage,
-		TarefaPage
+		TarefaTabsPage
 	],
 	providers: [
 		StatusBar,

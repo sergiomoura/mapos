@@ -27,10 +27,8 @@ export class Urls {
 	apiRoot():string{
 		console.log('Device UUID:' + this.device.uuid);
 		if(this.device.uuid == null){
-			console.log('Em servidor local ' + this.LOCAL_SERVER);
 			return this.LOCAL_SERVER;
 		} else {
-			console.log('Em servidor remoto ' + this.REMOTE_SERVER);
 			return this.REMOTE_SERVER;
 		}
 	}
