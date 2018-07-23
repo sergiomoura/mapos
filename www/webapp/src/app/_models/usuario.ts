@@ -1,4 +1,4 @@
-enum AcessoWeb {
+enum AcessoApp {
     negado = 0,
     registrador  = 1,
     executor = 2
@@ -9,7 +9,7 @@ export class Usuario {
     nome: string;
     email: string;
     username: string;
-    acessoApp: boolean;
-    acessoWeb: AcessoWeb;
+    acessoApp: AcessoApp;
+    acessoWeb: boolean;
     ativo:boolean;
 }

@@ -30,7 +30,7 @@ export class UsuarioComponent implements OnInit {
 		email:'',
 		username:'',
 		ativo:true,
-		acessoApp:false,
+		acessoApp:0,
 		acessoWeb:false,
 	};
 	
