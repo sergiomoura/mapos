@@ -175,7 +175,7 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(
 			array(
-				':username' =>$usuario->username,
+				':username' => strtolower($usuario->username),
 				':ativo'    =>($usuario->ativo ? 1 : 0),
 				':acessoApp'=>($usuario->acessoApp*1),
 				':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
@@ -197,7 +197,7 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(
 			array(
-				':username' => $usuario->username,
+				':username' => strtolower($usuario->username),
 				':pass'     => crypt($senha),
 				':ativo'    => ($usuario->ativo ? 1 : 0),
 				':acessoApp'=> ($usuario->acessoApp*1),
@@ -262,7 +262,7 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 	$stmt = $this->db->prepare($sql);
 	$stmt->execute(
 		array(
-			':username' =>$usuario->username,
+			':username' =>strtolower($usuario->username),
 			':ativo'    =>($usuario->ativo ? 1 : 0),
 			':acessoApp'=>($usuario->acessoApp*1),
 			':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
