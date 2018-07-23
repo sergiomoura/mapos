@@ -721,7 +721,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5657926d8f66.81315328','2018-07-23 20:32:50',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b560cdfc3f665.86190083','2018-07-23 15:14:07',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b565960d14638.51801823','2018-07-23 20:40:32',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b565c426d9d78.27487593','2018-07-23 20:52:50',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b560cdfc3f665.86190083','2018-07-23 15:14:07',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b565c1a903a11.54619412','2018-07-23 20:52:10',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -777,4 +777,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-23 19:41:46
+-- Dump completed on 2018-07-23 19:53:12

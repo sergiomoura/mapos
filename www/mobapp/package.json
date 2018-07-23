@@ -21,6 +21,7 @@
     "@angular/http": "5.2.11",
     "@angular/platform-browser": "5.2.11",
     "@angular/platform-browser-dynamic": "5.2.11",
+    "@ionic-native/android-full-screen": "^4.10.0",
     "@ionic-native/camera": "^4.9.1",
     "@ionic-native/core": "4.7.0",
     "@ionic-native/device": "^4.9.0",
@@ -33,6 +34,7 @@
     "cordova-browser": "5.0.3",
     "cordova-plugin-camera": "^4.0.3",
     "cordova-plugin-device": "^2.0.2",
+    "cordova-plugin-fullscreen": "^1.2.0",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.1.19",
     "cordova-plugin-screen-orientation": "^3.0.1",
@@ -65,7 +67,8 @@
       "cordova-sqlite-storage": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-camera": {},
-      "cordova-plugin-screen-orientation": {}
+      "cordova-plugin-screen-orientation": {},
+      "cordova-plugin-fullscreen": {}
     },
     "platforms": [
       "android",

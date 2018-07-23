@@ -26,6 +26,7 @@ import { TarefaPage } from '../pages/tarefa/tarefa';
 import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
 import { TarefaTabsPage } from '../pages/tarefa-tabs/tarefa-tabs';
 import { TarefaTabsPageModule } from '../pages/tarefa-tabs/tarefa-tabs.module';
+import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 
 @NgModule({
 	declarations: [
@@ -61,6 +62,7 @@ import { TarefaTabsPageModule } from '../pages/tarefa-tabs/tarefa-tabs.module';
 		SplashScreen,
 		Camera,
 		ScreenOrientation,
+		AndroidFullScreen,
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		{provide: ErrorHandler, useClass: IonicErrorHandler},
 		AuthProvider,
