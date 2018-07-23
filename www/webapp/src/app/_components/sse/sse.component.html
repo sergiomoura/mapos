@@ -97,8 +97,12 @@
 			<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total" [(ngModel)]="medidaTotal">
 		</mat-form-field>
 		
-		<button mat-raised-button color="accent" (click)="onCriarTarefaClick()">Criar Tarefa para esta SSE</button>
-		<button mat-raised-button color="primary" [disabled]="!sseForm.valid" (click)="onSalvarClick()">Salvar Alterações</button>
+		<div class="controles">
+			<button mat-raised-button disabled color="accent">Cancelar</button>
+			<button mat-button disabled >Agendar tarefa para SSE</button>
+			<button mat-button disabled>Marcar SSE como concluída</button>
+			<button mat-raised-button color="primary" [disabled]="!sseForm.valid" (click)="onSalvarClick()">Salvar Alterações</button>
+		</div>
 		
 	</form>
 </div>

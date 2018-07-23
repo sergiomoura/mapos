@@ -15,6 +15,10 @@
 			mat-form-field {
 				display: block;
 			}
+			.controles{
+				display: flex;
+				justify-content: space-between;
+			}
 		}
 		.medidas{
 			position: relative;
