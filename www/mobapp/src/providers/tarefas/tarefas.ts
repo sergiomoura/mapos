@@ -14,4 +14,8 @@ export class TarefasProvider {
 		return this.http.get(this.urls.tarefas);
 	}
 
+	getById(id_tarefa:number){
+		return this.http.get(this.urls.tarefas+'/'+id_tarefa);
+	}
+
 }
