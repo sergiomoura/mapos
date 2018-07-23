@@ -51,8 +51,10 @@ export class LoginPage {
 						let acessoApp:string = (<any>res).acessoApp;
 						if( acessoApp == "1") {
 							this.navCtrl.push(SsesPage);
+							this.navCtrl.setRoot(SsesPage);
 						} else if(acessoApp == "2") {
 							this.navCtrl.push(TarefasPage);
+							this.navCtrl.setRoot(TarefasPage);
 						}
 					}
 				)

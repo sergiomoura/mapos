@@ -21,6 +21,7 @@ export class Urls {
 	public get sses() : string {return this.apiRoot() + '/sses';}
 	public get domasas() : string {return this.apiRoot() + '/domasas';}
 	public get tiposDeServico() : string {return this.apiRoot() + '/tdss';}
+	public get tarefas() : string {return this.apiRoot() + '/tarefas';}
 	
 
 	apiRoot():string{

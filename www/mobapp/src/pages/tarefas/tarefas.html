@@ -7,9 +7,9 @@
 
 <ion-content >
 	<ion-list>
-		<button ion-item item-start>
+		<button ion-item item-start *ngFor="let tarefa of tarefas" (click)="onTarefaClick(tarefa.id)">
 			<ion-icon name="calendar"></ion-icon>
-			<div class="title">SSE 1231331</div>
+			<div class="title">SSE {{tarefa.numero_sse}}</div>
 			<table class="tempo">
 				<thead>
 					<tr>
@@ -21,166 +21,17 @@
 				<tbody>
 					<tr>
 						<td>Prev</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
+						<td>{{tarefa.inicio_p == null ? '-' : tarefa.inicio_p.toLocaleString().substr(0,16)}}</td>
+						<td>{{tarefa.final_p == null ? '-' : tarefa.final_p.toLocaleString().substr(0,16)}}</td>
 					</tr>
 					<tr>
 						<td>Real</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
+						<td>{{tarefa.inicio_r == null ? '-' : tarefa.inicio_r.toLocaleString().substr(0,16)}}</td>
+						<td>{{tarefa.final_r == null ? '-' : tarefa.final_r.toLocaleString().substr(0,16)}}</td>
 					</tr>
 				</tbody>
 			</table>
 		</button>
-		<button ion-item item-start>
-			<ion-icon name="calendar"></ion-icon>
-			<div class="title">SSE 1231331</div>
-			<table class="tempo">
-				<thead>
-					<tr>
-						<td></td>
-						<td>Início</td>
-						<td>Fim</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Prev</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-					<tr>
-						<td>Real</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-				</tbody>
-			</table>
-		</button>
-		<button ion-item item-start>
-			<ion-icon name="calendar"></ion-icon>
-			<div class="title">SSE 1231331</div>
-			<table class="tempo">
-				<thead>
-					<tr>
-						<td></td>
-						<td>Início</td>
-						<td>Fim</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Prev</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-					<tr>
-						<td>Real</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-				</tbody>
-			</table>
-		</button>
-		<button ion-item item-start>
-			<ion-icon name="calendar"></ion-icon>
-			<div class="title">SSE 1231331</div>
-			<table class="tempo">
-				<thead>
-					<tr>
-						<td></td>
-						<td>Início</td>
-						<td>Fim</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Prev</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-					<tr>
-						<td>Real</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-				</tbody>
-			</table>
-		</button>
-		<button ion-item item-start>
-			<ion-icon name="calendar"></ion-icon>
-			<div class="title">SSE 1231331</div>
-			<table class="tempo">
-				<thead>
-					<tr>
-						<td></td>
-						<td>Início</td>
-						<td>Fim</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Prev</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-					<tr>
-						<td>Real</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-				</tbody>
-			</table>
-		</button>
-		<button ion-item item-start>
-			<ion-icon name="calendar"></ion-icon>
-			<div class="title">SSE 1231331</div>
-			<table class="tempo">
-				<thead>
-					<tr>
-						<td></td>
-						<td>Início</td>
-						<td>Fim</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Prev</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-					<tr>
-						<td>Real</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-				</tbody>
-			</table>
-		</button>
-		<button ion-item item-start>
-			<ion-icon name="calendar"></ion-icon>
-			<div class="title">SSE 1231331</div>
-			<table class="tempo">
-				<thead>
-					<tr>
-						<td></td>
-						<td>Início</td>
-						<td>Fim</td>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Prev</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-					<tr>
-						<td>Real</td>
-						<td>12/07/2018 08:00</td>
-						<td>12/07/2018 08:00</td>
-					</tr>
-				</tbody>
-			</table>
-		</button>
+		
 	</ion-list>
 </ion-content>

@@ -21,6 +21,9 @@ import { Camera } from '@ionic-native/camera';
 import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { SelectSearchableModule } from 'ionic-select-searchable'
 import { TarefasPage } from '../pages/tarefas/tarefas';
+import { TarefasProvider } from '../providers/tarefas/tarefas';
+import { TarefaPage } from '../pages/tarefa/tarefa';
+import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
 
 @NgModule({
 	declarations: [
@@ -37,7 +40,8 @@ import { TarefasPage } from '../pages/tarefas/tarefas';
 		FormsModule,
 		HttpClientModule,
 		IonicStorageModule.forRoot(),
-		SelectSearchableModule
+		SelectSearchableModule,
+		TarefaPageModule
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -46,7 +50,8 @@ import { TarefasPage } from '../pages/tarefas/tarefas';
 		LoginPage,
 		SsesPage,
 		SsePage,
-		TarefasPage
+		TarefasPage,
+		TarefaPage
 	],
 	providers: [
 		StatusBar,
@@ -59,7 +64,8 @@ import { TarefasPage } from '../pages/tarefas/tarefas';
 		Device,
 		Urls,
 		SsesProvider,
-		GeralProvider
+		GeralProvider,
+    	TarefasProvider
 	]
 })
 export class AppModule {}
