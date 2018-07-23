@@ -316,7 +316,7 @@ CREATE TABLE `maxse_equipes` (
   KEY `fk_maxse_equipes_2_idx` (`id_membro_lider`),
   CONSTRAINT `fk_maxse_equipes_1` FOREIGN KEY (`id_tipo`) REFERENCES `maxse_tipos_de_equipe` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_equipes_2` FOREIGN KEY (`id_membro_lider`) REFERENCES `maxse_membros` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -325,7 +325,7 @@ CREATE TABLE `maxse_equipes` (
 
 LOCK TABLES `maxse_equipes` WRITE;
 /*!40000 ALTER TABLE `maxse_equipes` DISABLE KEYS */;
-INSERT INTO `maxse_equipes` VALUES (3,'Base 1','B11',2,1,170),(4,'Tapa Buraco A1','TBR1',1,1,122),(5,'Guias e Sarjetas 1','G&S1',3,1,123),(6,'Equpe Mecanizada','CBQ1',4,1,124),(7,'Base 2','B2',2,1,125),(8,'Tapa Buraco A2','TBR2',1,1,126),(18,'Equipe Teste 6','eqt6',1,1,140),(19,'asdasd','as',1,1,145),(20,'eeeeeeeeeeeeeeeeeeeee','eee',1,1,149),(21,'fffewwe','yy',4,1,151),(22,'Base2','B2a',2,1,178);
+INSERT INTO `maxse_equipes` VALUES (23,'Tapa Buraco 1','TBR1',1,1,179),(24,'Base 1','B1',2,1,186),(25,'Mecanizada 1','MEC1',4,1,185);
 /*!40000 ALTER TABLE `maxse_equipes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -345,7 +345,7 @@ CREATE TABLE `maxse_medidas_area` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_area_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_area_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -354,7 +354,7 @@ CREATE TABLE `maxse_medidas_area` (
 
 LOCK TABLES `maxse_medidas_area` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_area` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_area` VALUES (34,3.50,2.20,16,'p'),(35,1.00,3.00,23,'p'),(36,2.00,1.00,23,'p'),(37,2.00,2.00,24,'p');
+INSERT INTO `maxse_medidas_area` VALUES (38,2.00,2.00,25,'p'),(39,5.00,3.00,26,'p'),(40,2.00,2.00,26,'p'),(41,0.50,2.00,28,'p');
 /*!40000 ALTER TABLE `maxse_medidas_area` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -373,7 +373,7 @@ CREATE TABLE `maxse_medidas_linear` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_linear_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_linear_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -382,6 +382,7 @@ CREATE TABLE `maxse_medidas_linear` (
 
 LOCK TABLES `maxse_medidas_linear` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_linear` DISABLE KEYS */;
+INSERT INTO `maxse_medidas_linear` VALUES (16,5.00,27,'p');
 /*!40000 ALTER TABLE `maxse_medidas_linear` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -429,7 +430,7 @@ CREATE TABLE `maxse_membros` (
   KEY `fk_maxse_membros_1_idx` (`id_pessoa`),
   CONSTRAINT `fk_maxse_membros_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_maxse_membros_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=188 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,7 +439,7 @@ CREATE TABLE `maxse_membros` (
 
 LOCK TABLES `maxse_membros` WRITE;
 /*!40000 ALTER TABLE `maxse_membros` DISABLE KEYS */;
-INSERT INTO `maxse_membros` VALUES (122,5000.00,4,123),(123,10000.00,5,124),(124,8000.00,6,125),(125,7000.00,7,126),(126,9000.00,8,127),(140,500000.00,18,146),(141,500000.00,18,147),(142,500000.00,18,148),(145,0.03,19,151),(146,0.00,19,152),(149,1283.00,20,155),(150,1283.00,20,156),(151,0.39,21,157),(152,0.39,21,158),(170,1000.00,3,176),(171,1200.00,3,177),(172,10.03,3,178),(173,2000.00,3,179),(178,5230.00,22,184);
+INSERT INTO `maxse_membros` VALUES (179,15000.00,23,186),(180,15000.00,23,187),(181,15000.00,23,188),(185,0.00,25,192),(186,15000.00,24,193),(187,8000.00,24,194);
 /*!40000 ALTER TABLE `maxse_membros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -454,7 +455,7 @@ CREATE TABLE `maxse_pessoas` (
   `nome` varchar(60) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=185 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=195 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -463,7 +464,7 @@ CREATE TABLE `maxse_pessoas` (
 
 LOCK TABLES `maxse_pessoas` WRITE;
 /*!40000 ALTER TABLE `maxse_pessoas` DISABLE KEYS */;
-INSERT INTO `maxse_pessoas` VALUES (1,'SÉRGIO MOURA','smouracalmon@gmail.com'),(123,'JOÃO','joao@teste.com'),(124,'JÚPTER','jupter@planeta.com'),(125,'Pedro','pedro@teste.com'),(126,'Maxwell','maxwell@teste.com'),(127,'Edson Arantes','edson@teste.com'),(146,'Michel Temer','michel@teste.com'),(147,'Mael','mael@teste.com'),(148,'Rumbo','rumbo@teste'),(151,'qwqweqw','eee'),(152,'eeeq','qqe'),(155,'eqw','qweqq@rre'),(156,'ddd','qweq@qdwq'),(157,'qw','fsde'),(158,'qdqqw','qwdqw'),(176,'MEMBRO BOULOS','membro_b@teste.com'),(177,'MEMBRO_COSTA','membro_c@teste.com'),(178,'MEMBRO_DAMACENO','membro_d@teste.com'),(179,'MEMBRO_ERNESTO','membro_e@teste.com'),(184,'Afrânio Góes','afranio@teste.com');
+INSERT INTO `maxse_pessoas` VALUES (1,'SÉRGIO MOURA','smouracalmon@gmail.com'),(185,'Registrador','registrador@teste.com'),(186,'Líder Executor da Silva','lider@teste.com'),(187,'Membro Um da Silva','membro1@teste.com'),(188,'Membro Dois de Araújo','membro2@teste.com'),(192,'Mecanilsson Oliveira','mecanilsson@teste.com'),(193,'Basílio Pascoal','basilio@teste.com'),(194,'Membro de Basílio','');
 /*!40000 ALTER TABLE `maxse_pessoas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -517,7 +518,7 @@ CREATE TABLE `maxse_sses` (
   KEY `fk_maxse_sses_2_idx` (`status`),
   CONSTRAINT `fk_maxse_sses_1` FOREIGN KEY (`id_bairro`) REFERENCES `maxse_bairros` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_sses_2` FOREIGN KEY (`status`) REFERENCES `maxse_sse_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -526,7 +527,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (16,'Rua Décio Andrade Silva, 356',153,'3652359',1,'2018-07-15 10:06:06','2018-05-31 10:26:00',1,NULL,0,-22.9533354,-47.1839279),(22,'Rua Luis Marcelino Guemeli,30',10,'3652380',2,'2018-07-22 08:30:00','2018-07-21 16:20:00',NULL,'',0,-22.0000000,-47.0000000),(23,'Rua Barreto Leme 100',582,'333333',2,'2018-07-22 15:28:30','2018-07-22 00:00:00',0,NULL,0,-43.0000000,-22.0000000),(24,'Av Lix da Cunha, 1200',582,'55555',3,'2018-07-22 15:29:57','2018-07-22 00:00:00',1,'werwer rwewre ',0,-43.0000000,-22.0000000);
+INSERT INTO `maxse_sses` VALUES (25,'Barreto Leme,1010',582,'11111',1,'2018-07-22 19:47:01','2018-07-20 09:00:00',1,NULL,0,-22.9019069,-47.0615965),(26,'Rua José Florence Texeira, 100',103,'22222',1,'2018-07-22 19:55:08','2018-07-20 08:04:00',0,NULL,1,-22.9556395,-47.0915508),(27,'Av Júlio Raimundo granja, 10',82,'33333',8,'2018-07-22 19:59:48','2018-07-19 09:05:00',0,'Texto',0,-22.9142486,-47.0359529),(28,'Rua Lourenço Zen, 32',3,'44444',1,'2018-07-23 02:23:06','2018-07-20 09:31:00',1,NULL,1,-22.9296951,-47.1253623);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -554,7 +555,7 @@ CREATE TABLE `maxse_tarefas` (
   CONSTRAINT `fk_maxse_tarefas_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_3` FOREIGN KEY (`id_apoio`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -563,6 +564,7 @@ CREATE TABLE `maxse_tarefas` (
 
 LOCK TABLES `maxse_tarefas` WRITE;
 /*!40000 ALTER TABLE `maxse_tarefas` DISABLE KEYS */;
+INSERT INTO `maxse_tarefas` VALUES (29,28,24,25,'2018-07-23 08:00:00','2018-07-23 12:00:00',NULL,NULL,0),(30,26,24,25,'2018-07-23 14:00:00','2018-07-23 18:00:00',NULL,NULL,0),(31,28,23,NULL,'2018-07-23 14:00:00','2018-07-23 15:00:00',NULL,NULL,0);
 /*!40000 ALTER TABLE `maxse_tarefas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -710,7 +712,7 @@ CREATE TABLE `maxse_usuarios` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_maxse_usuarios_1_idx` (`id_pessoa`),
   CONSTRAINT `fk_maxse_usuarios_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -719,7 +721,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b54cdae0ff410.39193865','2018-07-22 16:32:14',1,1,1,1),(45,'joao','$1$AmpuA.Jb$oOG7ujtbU0ZW9.tiiiEOb1',NULL,NULL,1,0,1,123),(46,'jupter','$1$xd9ZZwfy$0iLNsYRrExY7OSrwWcu.r/',NULL,NULL,1,0,1,124),(47,'pedro','$1$nRTM0bJi$81x6VWMIAaDDs3EpsH.Lv0',NULL,NULL,1,0,1,125),(48,'maxwell','$1$08EoUozo$ucrdOaS1lh3c8YxmA01iS.',NULL,NULL,1,0,1,126),(49,'edson','$1$HNiLkI9h$7RIsvB8HOegaryWDzTFhh/','5b54cb838917f7.10407155','2018-07-22 16:22:59',1,0,1,127),(62,'michel','$1$9WZEShzZ$PjX62Fls8w3EjVxyBbfA4.',NULL,NULL,0,0,1,146),(64,'ddasad','$1$n.MUb9yL$r5/xDxhxXjvy9XvW5DnPM/',NULL,NULL,0,0,1,151),(66,'ssssss','$1$iYEEprBt$HDtmLf6njU552lHX3YIL4.',NULL,NULL,2,0,1,155),(67,'asdasda','$1$GTzKWy2A$XCesYurRUTufgqNr1nLzK0',NULL,NULL,0,0,1,157),(73,'boulos','$1$uMvLp/7c$WSOacfAme8FNMZM2xiT4..',NULL,NULL,0,0,1,176),(78,'afranio','$1$rot279Dz$tRlNynKSV.090b9KoNL3X0','5b54cb7681b8d5.65101120','2018-07-22 16:22:46',2,0,1,184);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b55763acea186.91129551','2018-07-23 04:31:22',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b55656ec17dd1.67254175','2018-07-23 03:19:42',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b55760c3dfda3.79227319','2018-07-23 04:30:36',2,0,1,193);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -750,4 +752,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-22 15:57:35
+-- Dump completed on 2018-07-23  3:33:16

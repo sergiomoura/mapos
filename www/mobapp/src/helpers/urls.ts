@@ -17,6 +17,7 @@ export class Urls {
 
 	// Definindo os GETTERS
 	public get login() : string {return this.apiRoot() + '/login';}
+	public get refresh() : string {return this.apiRoot() + '/refresh';}
 	public get sses() : string {return this.apiRoot() + '/sses';}
 	public get domasas() : string {return this.apiRoot() + '/domasas';}
 	public get tiposDeServico() : string {return this.apiRoot() + '/tdss';}
