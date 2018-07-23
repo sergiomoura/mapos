@@ -26,17 +26,10 @@ page-login {
 		background-color:transparent;
 	}
 	input {
-		color:#FFF;
+		color: color($colors,light);
 	}
 
 	.label-md {
-		color:#FFF !important;
-	}
-	
-	.console {
-		position: absolute;
-		top:310px;
-		width: calc(100% - 30px);
-		background: #FFF;
+		color: color($colors,light) !important;
 	}
 }
