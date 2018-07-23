@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	// Definição de timerId
 	private timerId:number;
-	private IRDT:number = 1 * 60 * 1000; // Intervalo de Renovação Do Token (1 MINUTO)
+	private IRDT:number = 10 * 60 * 1000; // Intervalo de Renovação Do Token (10 MINUTO)
 
 	constructor(private authService:AuthService) { }
 
