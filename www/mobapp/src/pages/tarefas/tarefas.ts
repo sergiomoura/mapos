@@ -75,7 +75,7 @@ export class TarefasPage {
 	}
 
 	onTarefaClick(id_tarefa:number){
-		this.navCtrl.push(TarefaTabsPage);
+		this.navCtrl.push(TarefaTabsPage,{'id_tarefa':id_tarefa});
 	}
 
 }
