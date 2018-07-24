@@ -106,7 +106,7 @@ export class MovimentosComponent implements OnInit {
 
 	onLancarClick(){
 		const dialogRef = this.dialog.open(LancarNotaComponent, {
-			width: '600px',
+			width: '700px',
 			data: {
 				'produtos': this.produtos
 			},
@@ -124,7 +124,7 @@ export class MovimentosComponent implements OnInit {
 
 	onEditClick(movimento:Movimento){
 		const dialogRef = this.dialog.open(EditMovimentoComponent,{
-			width: '800px',
+			width: '500px',
 			data: {
 				'movimento': movimento
 			},

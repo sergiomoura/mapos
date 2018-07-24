@@ -9,6 +9,7 @@
 			<td>Data/Hora</td>
 			<td>Entrada</td>
 			<td>Saída</td>
+			<td>Valor Unit</td>
 			<td>Referência</td>
 			<td></td>
 		</tr>
@@ -20,6 +21,7 @@
 			<td>{{m.dh.toLocaleString()}}</td>
 			<td><span *ngIf="m.tipo ==  1">{{m.qtde}} {{m.produto.unidade}}</span></td>
 			<td><span *ngIf="m.tipo == -1">{{m.qtde}} {{m.produto.unidade}}</span></td>
+			<td>{{m.valor_unit | currency:'BRL':symbol:'1.2-2'}}</td>
 			<td>
 				<a *ngIf="m.tipo == -1" (click)="abrirTarefa()">{{m.id_referencia}}</a>
 				<a *ngIf="m.tipo ==  1" (click)="abrirNf()">{{m.id_referencia}}</a>

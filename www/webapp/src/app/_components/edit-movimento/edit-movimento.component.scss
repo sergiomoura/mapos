@@ -1,8 +1,6 @@
 .campos{
-	display: flex;
-	justify-content: space-between;
 	mat-form-field {
-		width: calc(25% - 5px);
+		display: block;
 	}
 }
 .controles{

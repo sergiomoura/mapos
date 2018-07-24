@@ -22,6 +22,12 @@
 			<mat-form-field>
 				<input matInput required [(ngModel)]="mov.qtde"  type="number" step="0.01" name="qtde_{{i}}" placeholder="Quantidade {{mov.produto? '(' + mov.produto.unidade + ')' : ''}}">
 			</mat-form-field>
+			<mat-form-field>
+				<input matInput required [(ngModel)]="mov.valor_unit"  type="number" step="0.01" name="valor_unit_{{i}}" placeholder="Valor Unit(R$)">
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput required value="{{mov.valor_unit * mov.qtde}}"  type="number" step="0.01" name="valor_{{i}}" placeholder="Valor Tot(R$)">
+			</mat-form-field>
 			<button mat-icon-button (click)=onDeleteClick(i)><mat-icon>delete</mat-icon></button>
 		</div>
 	</div>

@@ -6,4 +6,5 @@ export class Produto{
 	qtde:number;
 	ultimo_movimento:Date;
 	unidade:string;
+	valor_unit:number;
 }

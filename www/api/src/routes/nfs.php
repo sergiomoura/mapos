@@ -40,13 +40,15 @@
 					dh,
 					tipo,
 					qtde,
-					id_referencia
+					id_referencia,
+					valor_unit
 				) VALUES (
 					:id_produto,
 					:dh,
 					:tipo,
 					:qtde,
-					:id_referencia
+					:id_referencia,
+					:valor_unit
 				)';
 		$stmt = $this->db->prepare($sql);
 		foreach ($nf->movimentos as $movimento) {
@@ -59,7 +61,8 @@
 						':dh'			 => date('Y-m-d H:i:s'),
 						':qtde'			 => $movimento->qtde,
 						':tipo'			 => 1,
-						':id_referencia' => $nf->id
+						':id_referencia' => $nf->id,
+						':valor_unit' 	 => $movimento->valor_unit
 					)
 				);
 			} catch (Exception $e2) {
@@ -69,7 +72,7 @@
 				// Retornando erro para usuário
 				return $res
 				->withStatus(500)
-				->write('Falha ao tentar inserir movimento: ' . $e2->getMessage());
+				->write('Falhou ao tentar inserir movimento: ' . $e2->getMessage().' - '.$stmt->queryString);
 			}
 		}
 

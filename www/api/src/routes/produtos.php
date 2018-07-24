@@ -6,7 +6,7 @@
 	$app->get($api_root.'/estoque/produtos',function(Request $req, Response $res, $args = []){
 
 		// Levantando tipos de equipe na base
-		$sql = 'SELECT id,nome,unidade,qtde_min,qtde_max,qtde,ultimo_movimento FROM estoque_produtos ORDER BY nome';
+		$sql = 'SELECT id,nome,unidade,qtde_min,qtde_max,qtde,ultimo_movimento,valor_unit FROM estoque_produtos ORDER BY nome';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		$produtos = $stmt->fetchAll();
@@ -17,6 +17,7 @@
 			$p->qtde_min *= 1;
 			$p->qtde_max = is_null($p->qtde_max) ? null : ($p->qtde_max*= 1);
 			$p->qtde *= 1;
+			$p->valor *= 1;
 		}
 
 

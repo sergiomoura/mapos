@@ -6,7 +6,7 @@
 	$app->get($api_root.'/estoque/movimentos',function(Request $req, Response $res, $args = []){
 
 		// Levantando tipos de equipe na base
-		$sql = 'SELECT id,id_produto,dh,qtde,tipo,id_referencia FROM estoque_movimentos ORDER BY dh DESC';
+		$sql = 'SELECT id,id_produto,dh,qtde,tipo,id_referencia,valor_unit FROM estoque_movimentos ORDER BY dh DESC';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		$movimentos = $stmt->fetchAll();
@@ -18,6 +18,7 @@
 			$m->qtde *= 1;
 			$m->tipo *= 1;
 			$m->id_referencia *= 1;
+			$m->valor_unit *= 1;
 		}
 
 
@@ -50,14 +51,16 @@
 
 		// Preparando consulta
 		$sql = 'UPDATE estoque_movimentos SET
-					qtde=:qtde
+					qtde=:qtde,
+					valor_unit=:valor_unit
 				WHERE id=:id';
 		$stmt = $this->db->prepare($sql);
 
 		try {
 			$stmt->execute(array(
-				':qtde'		=> $movimento->qtde,
-				':id'		=> $movimento->id
+				':qtde'		  => $movimento->qtde,
+				':valor_unit' => $movimento->valor_unit,
+				':id'		  => $movimento->id
 			));
 		} catch (Exception $e) {
 			

@@ -10,6 +10,7 @@
 			<td>Qtde max</td>
 			<td>Qtde atual</td>
 			<td>Unid</td>
+			<td>Valor Unit</td>
 			<td>Última Movimentação</td>
 			<td>Ações</td>
 		</tr>
@@ -22,6 +23,7 @@
 			<td>{{produto.qtde_max}}</td>
 			<td>{{produto.qtde}}</td>
 			<td>{{produto.unidade}}</td>
+			<td>{{produto.valor_unit| currency:'BRL':symbol:'1.2-2'}}</td>
 			<td>{{produto.ultimo_movimento|date:'dd/MM/yyyy hh:mm'}}</td>
 			<td>
 				<button mat-icon-button (click)="onDeleteClick(produto.id)">

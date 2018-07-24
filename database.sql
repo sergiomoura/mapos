@@ -16,6 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `debug`
+--
+
+DROP TABLE IF EXISTS `debug`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `debug` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `msg` varchar(250) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `debug`
+--
+
+LOCK TABLES `debug` WRITE;
+/*!40000 ALTER TABLE `debug` DISABLE KEYS */;
+INSERT INTO `debug` VALUES (1,''),(2,'Alterando Movimento de entrada'),(3,'qtde atual'),(4,'80'),(5,'valor unit atual'),(6,'80'),(7,'valor total'),(8,'6400'),(9,'-------------------------'),(10,'qtde nova'),(11,'80.000000'),(12,'valor unit novo'),(13,'100.00'),(14,'valor novo do movimento'),(15,'8000.00000000'),(16,'-------------------------'),(17,'qtde old'),(18,'40.000000'),(19,'valor unit old'),(20,'100.00'),(21,'valor old do movimento'),(22,'4000.00000000'),(23,'-------------------------'),(24,'volume atualizado'),(25,'120.000000'),(26,'Valor tot atualizado'),(27,'10400.00000000'),(28,'Valor unit atualizado'),(29,'86.666666666666666666'),(30,'-------------------------'),(31,''),(32,'Alterando Movimento de entrada'),(33,'qtde atual'),(34,'120'),(35,'valor unit atual'),(36,'87'),(37,'valor total'),(38,'10440'),(39,'-------------------------'),(40,'qtde nova'),(41,'40.000000'),(42,'valor unit novo'),(43,'100.00'),(44,'valor novo do movimento'),(45,'4000.00000000'),(46,'-------------------------'),(47,'qtde old'),(48,'80.000000'),(49,'valor unit old'),(50,'100.00'),(51,'valor old do movimento'),(52,'8000.00000000'),(53,'-------------------------'),(54,'volume atualizado'),(55,'80.000000'),(56,'Valor tot atualizado'),(57,'6440.00000000'),(58,'Valor unit atualizado'),(59,'80.500000000000000000'),(60,'-------------------------'),(61,''),(62,'Alterando Movimento de entrada'),(63,'qtde atual'),(64,'80'),(65,'valor unit atual'),(66,'80'),(67,'valor total'),(68,'6400'),(69,'-------------------------'),(70,'qtde nova'),(71,'80.000000'),(72,'valor unit novo'),(73,'100.00'),(74,'valor novo do movimento'),(75,'8000.00000000'),(76,'-------------------------'),(77,'qtde old'),(78,'40.000000'),(79,'valor unit old'),(80,'60.00'),(81,'valor old do movimento'),(82,'2400.00000000'),(83,'-------------------------'),(84,'volume atualizado'),(85,'120.000000'),(86,'Valor tot atualizado'),(87,'12000.00000000'),(88,'Valor unit atualizado'),(89,'100.000000000000000000'),(90,'-------------------------'),(91,''),(92,'Alterando Movimento de entrada'),(93,'qtde atual'),(94,'120'),(95,'valor unit atual'),(96,'100'),(97,'valor total'),(98,'12000'),(99,'-------------------------'),(100,'qtde nova'),(101,'40.000000'),(102,'valor unit novo'),(103,'55.00'),(104,'valor novo do movimento'),(105,'2200.00000000'),(106,'-------------------------'),(107,'qtde old'),(108,'40.000000'),(109,'valor unit old'),(110,'100.00'),(111,'valor old do movimento'),(112,'4000.00000000'),(113,'-------------------------'),(114,'volume atualizado'),(115,'120.000000'),(116,'Valor tot atualizado'),(117,'10200.00000000'),(118,'Valor unit atualizado'),(119,'85.000000000000000000'),(120,'-------------------------'),(121,''),(122,'Alterando Movimento de entrada'),(123,'qtde atual'),(124,'120'),(125,'valor unit atual'),(126,'85'),(127,'valor total'),(128,'10200'),(129,'-------------------------'),(130,'qtde nova'),(131,'40.000000'),(132,'valor unit novo'),(133,'100.00'),(134,'valor novo do movimento'),(135,'4000.00000000'),(136,'-------------------------'),(137,'qtde old'),(138,'40.000000'),(139,'valor unit old'),(140,'55.00'),(141,'valor old do movimento'),(142,'2200.00000000'),(143,'-------------------------'),(144,'volume atualizado'),(145,'120.000000'),(146,'Valor tot atualizado'),(147,'12000.00000000'),(148,'Valor unit atualizado'),(149,'100.000000000000000000'),(150,'-------------------------');
+/*!40000 ALTER TABLE `debug` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `estoque_movimentos`
 --
 
@@ -29,11 +53,11 @@ CREATE TABLE `estoque_movimentos` (
   `tipo` enum('-1','1') NOT NULL,
   `qtde` decimal(15,6) unsigned NOT NULL,
   `id_referencia` int(11) NOT NULL,
-  `valor` decimal(14,2) NOT NULL DEFAULT '0.00',
+  `valor_unit` decimal(14,2) NOT NULL DEFAULT '0.00',
   PRIMARY KEY (`id`),
   KEY `fk_estoque_movimentos_1_idx` (`id_produto`),
   CONSTRAINT `fk_estoque_movimentos_1` FOREIGN KEY (`id_produto`) REFERENCES `estoque_produtos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +66,7 @@ CREATE TABLE `estoque_movimentos` (
 
 LOCK TABLES `estoque_movimentos` WRITE;
 /*!40000 ALTER TABLE `estoque_movimentos` DISABLE KEYS */;
-INSERT INTO `estoque_movimentos` VALUES (1,3,'2018-07-18 00:00:00','1',20.000000,1,0.00),(2,4,'2018-07-18 00:00:15','1',500.000000,1,0.00),(3,5,'2018-07-17 10:15:20','1',1000.000000,2,0.00),(5,3,'2018-07-21 10:30:12','-1',10.000000,25,0.00),(6,4,'2018-07-21 10:30:12','-1',51.000000,25,0.00),(7,4,'2018-07-21 16:34:25','1',500.000000,15,0.00),(8,3,'2018-07-21 16:34:25','1',20.000000,15,0.00),(10,4,'2018-07-21 16:37:26','1',500.000000,17,0.00),(11,4,'2018-07-21 16:39:10','1',49.000000,18,0.00),(12,4,'2018-07-21 16:39:11','1',1.000000,18,0.00);
+INSERT INTO `estoque_movimentos` VALUES (25,3,'2018-07-24 09:01:23','1',40.000000,28,100.00),(26,3,'2018-07-24 09:02:22','1',80.000000,29,100.00);
 /*!40000 ALTER TABLE `estoque_movimentos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -81,11 +105,17 @@ DELIMITER ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_AFTER_INSERT` AFTER INSERT ON `estoque_movimentos` FOR EACH ROW
 BEGIN
+	declare qtde_atual decimal;
+    declare valor_unit_atual decimal;
+    
+    select qtde into qtde_atual from estoque_produtos where id=new.id_produto;
+    select valor_unit into valor_unit_atual from estoque_produtos where id=new.id_produto;
+    
 	if(new.tipo = '-1') then
-		update estoque_produtos set qtde = qtde - new.qtde where id=new.id_produto;
+		update estoque_produtos set qtde = qtde - new.qtde, ultimo_movimento=now() where id=new.id_produto;
 	elseif (new.tipo = '1') then
-		update estoque_produtos set qtde = qtde + new.qtde where id=new.id_produto;
-    end if;    
+		update estoque_produtos set qtde = qtde + new.qtde, valor_unit = (valor_unit_atual*qtde_atual + new.valor_unit*new.qtde)/(qtde_atual + new.qtde), ultimo_movimento=now() where id=new.id_produto;
+    end if;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -134,8 +164,56 @@ DELIMITER ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_AFTER_UPDATE` AFTER UPDATE ON `estoque_movimentos` FOR EACH ROW
 BEGIN
+	
+    declare valor_unit_atual decimal;
+    declare qtde_atual decimal;
+    
+    SELECT valor_unit,qtde INTO valor_unit_atual,qtde_atual from estoque_produtos WHERE id=old.id_produto;
+    
+    INSERT INTO debug (msg) values ('');
+    
 	if(OLD.tipo = '1') then
-		UPDATE estoque_produtos SET qtde = qtde + new.qtde - old.qtde where id = old.id_produto;
+		
+		INSERT INTO debug (msg) values ('Alterando Movimento de entrada');
+		INSERT INTO debug (msg) values ('qtde atual');
+		INSERT INTO debug (msg) values (qtde_atual);
+		INSERT INTO debug (msg) values ('valor unit atual');
+		INSERT INTO debug (msg) values (valor_unit_atual);
+        INSERT INTO debug (msg) values ('valor total');
+        INSERT INTO debug (msg) values (qtde_atual*valor_unit_atual);
+        INSERT INTO debug (msg) values ('-------------------------');
+		INSERT INTO debug (msg) values ('qtde nova');
+		INSERT INTO debug (msg) values (new.qtde);
+		INSERT INTO debug (msg) values ('valor unit novo');
+		INSERT INTO debug (msg) values (new.valor_unit);
+        INSERT INTO debug (msg) values ('valor novo do movimento');
+        INSERT INTO debug (msg) values (new.qtde * new.valor_unit);
+        INSERT INTO debug (msg) values ('-------------------------');
+		INSERT INTO debug (msg) values ('qtde old');
+		INSERT INTO debug (msg) values (old.qtde);
+		INSERT INTO debug (msg) values ('valor unit old');
+		INSERT INTO debug (msg) values (old.valor_unit);
+        INSERT INTO debug (msg) values ('valor old do movimento');
+        INSERT INTO debug (msg) values (old.qtde * old.valor_unit);
+        INSERT INTO debug (msg) values ('-------------------------');
+        INSERT INTO debug (msg) values ('volume atualizado');
+        INSERT INTO debug (msg) values (qtde_atual + new.qtde - old.qtde);
+        INSERT INTO debug (msg) values ('Valor tot atualizado');
+        INSERT INTO debug (msg) values (qtde_atual*valor_unit_atual + new.qtde*new.valor_unit - old.qtde*old.valor_unit);
+        INSERT INTO debug (msg) values ('Valor unit atualizado');
+        INSERT INTO debug (msg) values ((qtde_atual*valor_unit_atual + new.qtde*new.valor_unit - old.qtde*old.valor_unit)/(qtde_atual + new.qtde - old.qtde));
+        INSERT INTO debug (msg) values ('-------------------------');
+        
+        
+        UPDATE estoque_produtos
+		SET
+			qtde = qtde + new.qtde - old.qtde,
+            valor_unit = if(
+							(qtde + new.qtde - old.qtde = 0),
+                            0,
+                            ( qtde_atual*valor_unit_atual + new.qtde*new.valor_unit - old.qtde*old.valor_unit)/(qtde_atual + new.qtde - old.qtde))
+		WHERE id = old.id_produto;
+        
     elseif (OLD.tipo = '-1') then
 		UPDATE estoque_produtos SET qtde = qtde - new.qtde + old.qtde where id = old.id_produto;
     end if;
@@ -181,10 +259,27 @@ DELIMITER ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_AFTER_DELETE` AFTER DELETE ON `estoque_movimentos` FOR EACH ROW
 BEGIN
+	
+    declare valor_unit_atual decimal;
+    declare qtde_atual decimal;
+    
+    SELECT valor_unit,qtde INTO valor_unit_atual,qtde_atual from estoque_produtos WHERE id=old.id_produto;
+    
 	if(OLD.tipo = '1') then
-		UPDATE estoque_produtos SET qtde = qtde - old.qtde where id = old.id_produto;
+		UPDATE
+			estoque_produtos
+		SET
+			qtde = qtde - old.qtde,
+            valor_unit = if((qtde_atual - old.qtde)=0,0,(qtde_atual*valor_unit_atual - old.qtde*old.valor_unit)/(qtde_atual - old.qtde)),
+            ultimo_movimento=now()
+		WHERE id = old.id_produto;
+			
     elseif (OLD.tipo = '-1') then
-		UPDATE estoque_produtos SET qtde = qtde + old.qtde where id = old.id_produto;
+		UPDATE
+			estoque_produtos
+		SET qtde = qtde + old.qtde,
+            ultimo_movimento=now()
+		WHERE id = old.id_produto;
     end if;
 END */;;
 DELIMITER ;
@@ -205,7 +300,7 @@ CREATE TABLE `estoque_nfs_entrada` (
   `numero` int(11) NOT NULL,
   `data` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -214,7 +309,7 @@ CREATE TABLE `estoque_nfs_entrada` (
 
 LOCK TABLES `estoque_nfs_entrada` WRITE;
 /*!40000 ALTER TABLE `estoque_nfs_entrada` DISABLE KEYS */;
-INSERT INTO `estoque_nfs_entrada` VALUES (15,254,'2001-01-26'),(16,255,'2018-07-19'),(17,5655,'2018-07-10'),(18,65455,'2018-07-24'),(19,2121,'2018-07-21');
+INSERT INTO `estoque_nfs_entrada` VALUES (15,254,'2001-01-26'),(16,255,'2018-07-19'),(17,5655,'2018-07-10'),(18,65455,'2018-07-24'),(19,2121,'2018-07-21'),(20,1,'2018-07-24'),(25,12000,'2018-10-07'),(26,1,'2018-07-23'),(27,2,'2018-07-24'),(28,2000,'2018-07-10'),(29,12131,'2018-07-28');
 /*!40000 ALTER TABLE `estoque_nfs_entrada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +328,7 @@ CREATE TABLE `estoque_produtos` (
   `qtde_max` decimal(15,6) DEFAULT NULL,
   `qtde` decimal(15,6) NOT NULL DEFAULT '0.000000',
   `ultimo_movimento` datetime DEFAULT NULL,
-  `valor` decimal(14,2) NOT NULL DEFAULT '0.00',
+  `valor_unit` decimal(22,15) NOT NULL DEFAULT '0.000000000000000',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -244,7 +339,7 @@ CREATE TABLE `estoque_produtos` (
 
 LOCK TABLES `estoque_produtos` WRITE;
 /*!40000 ALTER TABLE `estoque_produtos` DISABLE KEYS */;
-INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,20.000000,NULL,0.00),(4,'Guias','m',100.000000,10000.000000,490.000000,'2018-07-20 10:30:00',0.00),(5,'Terra','m³',1000.000000,NULL,1520.150000,'2018-07-20 10:35:00',0.00);
+INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,120.000000,'2018-07-24 09:02:22',100.000000000000000),(4,'Guias','m',100.000000,10000.000000,0.000000,NULL,0.000000000000000),(5,'Terra','m³',1000.000000,NULL,0.000000,NULL,0.000000000000000);
 /*!40000 ALTER TABLE `estoque_produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -723,7 +818,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b56b7aa752078.22554745','2018-07-24 03:22:50',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b560cdfc3f665.86190083','2018-07-23 15:14:07',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b56b45fc14ed0.97120872','2018-07-24 03:08:47',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5725e42f8346.33860396','2018-07-24 11:13:08',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b560cdfc3f665.86190083','2018-07-23 15:14:07',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b56b45fc14ed0.97120872','2018-07-24 03:08:47',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -779,4 +874,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-24  2:27:11
+-- Dump completed on 2018-07-24 10:22:33
