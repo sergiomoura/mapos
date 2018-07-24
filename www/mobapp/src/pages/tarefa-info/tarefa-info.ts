@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams , ToastController } from 'ionic-angular';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
+import { LoadingController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -9,17 +10,60 @@ import { TarefasProvider } from '../../providers/tarefas/tarefas';
 })
 export class TarefaInfoPage {
 
+	tarefa:any;
+
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		private tarefasProvider:TarefasProvider
+		private tarefasProvider:TarefasProvider,
+		private toastController: ToastController,
+		private loadingConttroller: LoadingController
 	) {	}
 
 	ionViewDidLoad() {
-		this.getTarefa(5);
+		this.getTarefa(<number>this.navParams.data.id_tarefa)
 	}
 
 	getTarefa(id_tarefa:number){
-		console.log(id_tarefa)
+		// Criando e mostrando loading
+		let loading = this.loadingConttroller.create();
+		loading.setContent('Aguarde...').present();
+
+		// Fazendo requisição para carregar tarefa
+		this.tarefasProvider.getCompleteById(this.navParams.data.id_tarefa)
+		.subscribe(
+			res => {
+				// Esconde o carregando
+				loading.dismiss();
+
+				// Transformando o tipo de res de Object para Any
+				let tmp = <any>res;
+
+				// Parsing dates
+				tmp.final_p = (tmp.final_p == null ? null : new Date(tmp.final_p));
+				tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
+				tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
+				tmp.inicio_r = (tmp.inicio_r == null ? null : new Date(tmp.inicio_r));
+
+				// Atribuindo a propriedade pública tarefa
+				this.tarefa = tmp;
+			},
+			err => {
+				// Esconde o carregando
+				loading.dismiss();
+				
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+					message: 'Falha ao carregar tarefa',
+					duration: 0,
+					showCloseButton: true,
+					closeButtonText: 'X'
+				});
+				toast.present();
+
+				// Imprimindo erro no console
+				console.warn(err);
+			}
+		)
 	}
 }

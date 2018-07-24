@@ -1,46 +1,24 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { TarefasProvider } from '../../providers/tarefas/tarefas';
-import { LoadingController } from 'ionic-angular';
-
-
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
 	selector: 'page-tarefa-tabs',
 	templateUrl: 'tarefa-tabs.html'
 })
+
 export class TarefaTabsPage {
 
 	tarefaInfoRoot = 'TarefaInfoPage'
 	tarefaIniciarRoot = 'TarefaIniciarPage'
 	tarefaConcluirRoot = 'TarefaConcluirPage'
 
+	id_tarefa:number;
+
 	constructor(
 		public navCtrl: NavController,
-		public navParams: NavParams,
-		private tarefasProvider: TarefasProvider,
-		private toastController: ToastController,
-		private loadingConttroller: LoadingController
+		public navParams: NavParams
 	) {
-
-		// Criando e mostrando loading
-		let loading = this.loadingConttroller.create();
-		loading.setContent('Aguarde...').present();
-
-		this.tarefasProvider.getCompleteById(this.navParams.data.id_tarefa)
-		.subscribe(
-			res => {
-				loading.dismiss();
-				console.log('ok!');
-				console.log(res);
-			},
-			err => {
-				loading.dismiss();
-				console.log('erro!');
-				console.log(err);
-			}
-		)
+		this.id_tarefa = +this.navParams.data.id_tarefa;
 	}
-
 }

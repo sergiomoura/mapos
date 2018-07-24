@@ -79,7 +79,8 @@
 					id,
 					numero,
 					endereco,
-					id_tipo_de_servico
+					id_tipo_de_servico,
+					obs
 				FROM 
 					maxse_sses 
 				WHERE 
