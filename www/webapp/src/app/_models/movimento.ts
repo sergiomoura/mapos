@@ -11,5 +11,5 @@ export class Movimento{
 	tipo:TipoDeMovimento;
 	produto:Produto;
 	qtde:number;
-	valor:number;
+	valor_unit:number;
 }

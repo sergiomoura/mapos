@@ -25,7 +25,6 @@ export class Urls {
 	
 
 	apiRoot():string{
-		console.log('Device UUID:' + this.device.uuid);
 		if(this.device.uuid == null){
 			return this.LOCAL_SERVER;
 		} else {
