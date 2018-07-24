@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams , ToastController } from 'ionic-angular';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
 import { LoadingController } from 'ionic-angular';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
 @IonicPage()
 @Component({
@@ -17,7 +18,8 @@ export class TarefaInfoPage {
 		public navParams: NavParams,
 		private tarefasProvider:TarefasProvider,
 		private toastController: ToastController,
-		private loadingConttroller: LoadingController
+		private loadingConttroller: LoadingController,
+		private launchNavigator: LaunchNavigator
 	) {	}
 
 	ionViewDidLoad() {
@@ -65,5 +67,12 @@ export class TarefaInfoPage {
 				console.warn(err);
 			}
 		)
+	}
+
+	onNavigateClick() {
+		let options: LaunchNavigatorOptions ={
+			transportMode : 'driving'
+		}
+		this.launchNavigator.navigate(this.tarefa.sse.endereco,options);
 	}
 }
