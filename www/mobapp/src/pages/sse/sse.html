@@ -2,122 +2,127 @@
 	<ion-navbar color="primary">
 		<ion-title>SSE {{sse.numero}}</ion-title>
 		<ion-buttons end>
-			<button ion-button (click)="onSalvarClick()"><ion-icon name="checkmark"></ion-icon></button>
+			<button ion-button (click)="onSalvarClick()" [disabled]="!form.valid"><ion-icon name="checkmark"></ion-icon></button>
 		</ion-buttons>
 	</ion-navbar>
 </ion-header>
+
 <ion-content padding>
-	<div id="image-container" *ngIf="sse.foto">
-		<img [src]="sse.foto" alt="Imagem da SSE" (click)="onCameraClick()">
-		<button ion-button clear color="dark" (click)="rmFoto()"><ion-icon name="trash"></ion-icon></button>
-	</div>
-	<ion-item>
-		<ion-label floating>DOMASA</ion-label>
-		<ion-select [(ngModel)]="domasaSelecionada">
-			<ion-option [value]="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</ion-option>
-		</ion-select>
-	</ion-item>
-	<ion-item>
-		<ion-label floating>Número</ion-label>
-		<ion-input type="number" [(ngModel)]="sse.numero"></ion-input>
-	</ion-item>
-	<ion-item>
-		<ion-label floating>Data do Recebimento</ion-label>
-		<ion-datetime displayFormat="DD MMM YYYY" [(ngModel)]="sse.dh_recebido"></ion-datetime>
-	</ion-item>
-	<ion-item>
-		<ion-label floating>Hora do Recebimento</ion-label>
-		<ion-datetime displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="sse.dh_recebido"></ion-datetime>
-	</ion-item>
-	<ion-item>
-		<ion-label floating>Tipo de Serviço</ion-label>
-		<ion-select [(ngModel)]="sse.tipoDeServico" (ionChange)="onTipoDeSevicoChange()">
-			<ion-option [value]="tds" *ngFor="let tds of tiposDeServico">RG{{tds.codigo}}</ion-option>
-		</ion-select>
-	</ion-item>
-	<ion-item>
-		<ion-label floating>Endereço</ion-label>
-		<ion-input type="text" [(ngModel)]="sse.endereco"></ion-input>
-	</ion-item>
-	<ion-item>
-		<ion-label floating>Bairro</ion-label>
-		<select-searchable
-			item-content
-			[(ngModel)]="sse.bairro"
-			[items]="domasaSelecionada?.bairros"
-			itemValueField="id"
-			itemTextField="nome"
-			[canSearch]="true"
-			(onChange)="onBairroChange($event)"
-			style="margin-bottom:36px"
-			[focusSearchbar]="true"
-			searchPlaceholder="Buscar bairro"
-			[noItemsFoundText]="'Nenhum bairro carregado. Selecione uma DOMASA primeiro'">
-		</select-searchable>
-	</ion-item>
-	<ion-item>
-		<ion-label>Urgência? {{sse.urgente?'SIM':'NÃO'}}</ion-label>
-		<ion-toggle [(ngModel)]="sse.urgente"></ion-toggle>
-	</ion-item>
-	<ion-item>
-		<ion-label floating>Observações</ion-label>
-		<ion-input type="text" [(ngModel)]="sse.obs"></ion-input>
-	</ion-item>
-	<div class="medidas-container">
-		<span class="title">Medidas</span>
-		<button
-			ion-button
-			small
-			color="dark"
-			clear
-			(click)="addMedida()">
-			<ion-icon name="add"></ion-icon>
-		</button>
-		<div class="medidas-area" *ngIf="sse.tipoDeServico?.medida=='a'">
-			<div *ngFor="let med of sse.medidas_area; index as i">
-				<ion-input type="number" (ionChange)="onMedidaChange()" step="0.01" [(ngModel)]="med.l"></ion-input> x
-				<ion-input type="number" (ionChange)="onMedidaChange()" step="0.01" [(ngModel)]="med.c"></ion-input> {{unidade}}
-				<button
-					ion-button
-					small
-					color="dark"
-					clear
-					(click)="rmMedida(i)">
-					<ion-icon name="trash"></ion-icon>
-				</button>
+	<form #form="ngForm">
+		<div id="image-container" *ngIf="sse.foto">
+			<img [src]="sse.foto" alt="Imagem da SSE" (click)="onCameraClick()">
+			<button ion-button clear color="dark" (click)="rmFoto()"><ion-icon name="trash"></ion-icon></button>
+		</div>
+		<ion-item>
+			<ion-label floating>DOMASA</ion-label>
+			<ion-select required name="domasa" [(ngModel)]="domasaSelecionada">
+				<ion-option [value]="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Número</ion-label>
+			<ion-input name="numero" required type="number" [(ngModel)]="sse.numero"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Data do Recebimento</ion-label>
+			<ion-datetime name="data_recebido" required displayFormat="DD MMM YYYY" [(ngModel)]="sse.dh_recebido"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Hora do Recebimento</ion-label>
+			<ion-datetime name="hora_recebido" required displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="sse.dh_recebido"></ion-datetime>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Tipo de Serviço</ion-label>
+			<ion-select name="tipo" required [(ngModel)]="sse.tipoDeServico" (ionChange)="onTipoDeSevicoChange()">
+				<ion-option [value]="tds" *ngFor="let tds of tiposDeServico">RG{{tds.codigo}}</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Endereço</ion-label>
+			<ion-input name="endereco" required type="text" [(ngModel)]="sse.endereco"></ion-input>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Bairro</ion-label>
+			<select-searchable
+				item-content
+				name="bairro"
+				required
+				[(ngModel)]="sse.bairro"
+				[items]="domasaSelecionada?.bairros"
+				itemValueField="id"
+				itemTextField="nome"
+				[canSearch]="true"
+				(onChange)="onBairroChange($event)"
+				style="margin-bottom:36px"
+				[focusSearchbar]="true"
+				searchPlaceholder="Buscar bairro"
+				[noItemsFoundText]="'Nenhum bairro carregado. Selecione uma DOMASA primeiro'">
+			</select-searchable>
+		</ion-item>
+		<ion-item>
+			<ion-label>Prioridade? {{sse.urgente?'SIM':'NÃO'}}</ion-label>
+			<ion-toggle name="urgencia" [(ngModel)]="sse.urgente"></ion-toggle>
+		</ion-item>
+		<ion-item>
+			<ion-label floating>Observações</ion-label>
+			<ion-input name="obs" type="text" [(ngModel)]="sse.obs"></ion-input>
+		</ion-item>
+		<div class="medidas-container">
+			<span class="title">Medidas</span>
+			<button
+				[disabled]="sse.tipoDeServico == null"
+				ion-button
+				small
+				color="dark"
+				clear
+				(click)="addMedida()">
+				<ion-icon name="add"></ion-icon>
+			</button>
+			<div class="medidas-area" *ngIf="sse.tipoDeServico?.medida=='a'">
+				<div *ngFor="let med of sse.medidas_area; let i=index">
+					<ion-input type="number" required (ionChange)="onMedidaChange()" step="0.01" name="med_l_{{i}}" [(ngModel)]="med.l"></ion-input> x
+					<ion-input type="number" required (ionChange)="onMedidaChange()" step="0.01" name="med_c_{{i}}" [(ngModel)]="med.c"></ion-input> {{unidade}}
+					<button
+						ion-button
+						small
+						color="dark"
+						clear
+						(click)="rmMedida(i)">
+						<ion-icon name="trash"></ion-icon>
+					</button>
+				</div>
+			</div>
+			<div class="medidas-comprimento" *ngIf="sse.tipoDeServico?.medida=='l'">
+				<div *ngFor="let med of sse.medidas_linear; let i=index">
+					<ion-input type="number" required (ionChange)="onMedidaChange()" step="0.01"  name="med_v_{{i}}" [(ngModel)]="med.v"></ion-input> {{unidade}}
+					<button
+						ion-button
+						small
+						color="dark"
+						clear
+						(click)="rmMedida(i)">
+						<ion-icon name="trash"></ion-icon>
+					</button>
+				</div>
+			</div>
+			<div class="medidas-unidade" *ngIf="sse.tipoDeServico?.medida=='u'">
+				<div *ngFor="let med of sse.medidas_unidades;let i=index">
+					<ion-input type="number" required (ionChange)="onMedidaChange()" step="1"  name="med_n_{{i}}" [(ngModel)]="med.n"></ion-input> {{unidade}}
+					<button
+						ion-button
+						small
+						color="dark"
+						clear
+						(click)="rmMedida(i)">
+						<ion-icon name="trash"></ion-icon>
+					</button>
+				</div>
 			</div>
 		</div>
-		<div class="medidas-comprimento" *ngIf="sse.tipoDeServico?.medida=='l'">
-			<div *ngFor="let med of sse.medidas_linear">
-				<ion-input type="number" (ionChange)="onMedidaChange()" step="0.01" [(ngModel)]="med.v"></ion-input> {{unidade}}
-				<button
-					ion-button
-					small
-					color="dark"
-					clear
-					(click)="rmMedida(i)">
-					<ion-icon name="trash"></ion-icon>
-				</button>
-			</div>
-		</div>
-		<div class="medidas-unidade" *ngIf="sse.tipoDeServico?.medida=='u'">
-			<div *ngFor="let med of sse.medidas_unidades">
-				<ion-input type="number" (ionChange)="onMedidaChange()" step="1" [(ngModel)]="med.n"></ion-input> {{unidade}}
-				<button
-					ion-button
-					small
-					color="dark"
-					clear
-					(click)="rmMedida(i)">
-					<ion-icon name="trash"></ion-icon>
-				</button>
-			</div>
-		</div>
-	</div>
-	<ion-item>
-		<ion-label floating>Total ({{unidade}})</ion-label>
-		<ion-input disabled type="number" [(ngModel)]="this.medidaTotal"></ion-input>
-	</ion-item>
-	
+		<ion-item>
+			<ion-label floating>Total ({{unidade}})</ion-label>
+			<ion-input disabled type="number" name="medida_total" [(ngModel)]="this.medidaTotal"></ion-input>
+		</ion-item>
+	</form>
 	<button class="bt-camera" ion-fab (click)="onCameraClick()"><ion-icon name="camera"></ion-icon></button>
 </ion-content>

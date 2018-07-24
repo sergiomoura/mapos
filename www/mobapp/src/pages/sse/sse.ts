@@ -133,6 +133,24 @@ export class SsePage {
 	onTipoDeSevicoChange(){
 		this.unidade = this.getUnidade(this.sse);
 		this.medidaTotal = this.calculaTotal(this.sse);
+
+		// adicionando campo de medidas
+		let vetor:any[];
+		switch (this.sse.tipoDeServico.medida) {
+			case 'a':
+				vetor = this.sse.medidas_area;
+				break;
+			
+			case 'l':
+				vetor = this.sse.medidas_linear;
+				break;
+			case 'u':
+				vetor = this.sse.medidas_unidades;
+				break;
+		}
+		if(vetor.length == 0){
+			this.addMedida();
+		}
 	}
 
 	onMedidaChange(){
@@ -317,15 +335,15 @@ export class SsePage {
 	addMedida(){
 		switch (this.sse.tipoDeServico.medida) {
 			case 'a':
-				this.sse.medidas_area.push({'l':0,'c':0});
+				this.sse.medidas_area.push({'l':null,'c':null});
 				break;
 			
 			case 'l':
-				this.sse.medidas_linear.push({'v':0});
+				this.sse.medidas_linear.push({'v':null});
 				break;
 			
 			case 'u':
-				this.sse.medidas_unidades.push({'n':0});
+				this.sse.medidas_unidades.push({'n':null});
 				break;
 
 			default:
