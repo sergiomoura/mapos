@@ -1,0 +1,22 @@
+page-tarefa-info {
+	.divergente{
+		top:56px;
+		background-color: #F00;
+		color:#FFF;
+		text-align: center;
+		padding: 10px;
+	}
+
+	.container-medidas{
+		padding:16px;
+		border-bottom:1px solid #DEDEDE;
+		.titulo{
+			font-size: 13px;
+			color: #939393;
+		}
+		.medidas{
+			margin-top: 10px;
+    		color: #939393;
+		}
+	}
+}

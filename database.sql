@@ -16,30 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `debug`
---
-
-DROP TABLE IF EXISTS `debug`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `debug` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `msg` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=151 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `debug`
---
-
-LOCK TABLES `debug` WRITE;
-/*!40000 ALTER TABLE `debug` DISABLE KEYS */;
-INSERT INTO `debug` VALUES (1,''),(2,'Alterando Movimento de entrada'),(3,'qtde atual'),(4,'80'),(5,'valor unit atual'),(6,'80'),(7,'valor total'),(8,'6400'),(9,'-------------------------'),(10,'qtde nova'),(11,'80.000000'),(12,'valor unit novo'),(13,'100.00'),(14,'valor novo do movimento'),(15,'8000.00000000'),(16,'-------------------------'),(17,'qtde old'),(18,'40.000000'),(19,'valor unit old'),(20,'100.00'),(21,'valor old do movimento'),(22,'4000.00000000'),(23,'-------------------------'),(24,'volume atualizado'),(25,'120.000000'),(26,'Valor tot atualizado'),(27,'10400.00000000'),(28,'Valor unit atualizado'),(29,'86.666666666666666666'),(30,'-------------------------'),(31,''),(32,'Alterando Movimento de entrada'),(33,'qtde atual'),(34,'120'),(35,'valor unit atual'),(36,'87'),(37,'valor total'),(38,'10440'),(39,'-------------------------'),(40,'qtde nova'),(41,'40.000000'),(42,'valor unit novo'),(43,'100.00'),(44,'valor novo do movimento'),(45,'4000.00000000'),(46,'-------------------------'),(47,'qtde old'),(48,'80.000000'),(49,'valor unit old'),(50,'100.00'),(51,'valor old do movimento'),(52,'8000.00000000'),(53,'-------------------------'),(54,'volume atualizado'),(55,'80.000000'),(56,'Valor tot atualizado'),(57,'6440.00000000'),(58,'Valor unit atualizado'),(59,'80.500000000000000000'),(60,'-------------------------'),(61,''),(62,'Alterando Movimento de entrada'),(63,'qtde atual'),(64,'80'),(65,'valor unit atual'),(66,'80'),(67,'valor total'),(68,'6400'),(69,'-------------------------'),(70,'qtde nova'),(71,'80.000000'),(72,'valor unit novo'),(73,'100.00'),(74,'valor novo do movimento'),(75,'8000.00000000'),(76,'-------------------------'),(77,'qtde old'),(78,'40.000000'),(79,'valor unit old'),(80,'60.00'),(81,'valor old do movimento'),(82,'2400.00000000'),(83,'-------------------------'),(84,'volume atualizado'),(85,'120.000000'),(86,'Valor tot atualizado'),(87,'12000.00000000'),(88,'Valor unit atualizado'),(89,'100.000000000000000000'),(90,'-------------------------'),(91,''),(92,'Alterando Movimento de entrada'),(93,'qtde atual'),(94,'120'),(95,'valor unit atual'),(96,'100'),(97,'valor total'),(98,'12000'),(99,'-------------------------'),(100,'qtde nova'),(101,'40.000000'),(102,'valor unit novo'),(103,'55.00'),(104,'valor novo do movimento'),(105,'2200.00000000'),(106,'-------------------------'),(107,'qtde old'),(108,'40.000000'),(109,'valor unit old'),(110,'100.00'),(111,'valor old do movimento'),(112,'4000.00000000'),(113,'-------------------------'),(114,'volume atualizado'),(115,'120.000000'),(116,'Valor tot atualizado'),(117,'10200.00000000'),(118,'Valor unit atualizado'),(119,'85.000000000000000000'),(120,'-------------------------'),(121,''),(122,'Alterando Movimento de entrada'),(123,'qtde atual'),(124,'120'),(125,'valor unit atual'),(126,'85'),(127,'valor total'),(128,'10200'),(129,'-------------------------'),(130,'qtde nova'),(131,'40.000000'),(132,'valor unit novo'),(133,'100.00'),(134,'valor novo do movimento'),(135,'4000.00000000'),(136,'-------------------------'),(137,'qtde old'),(138,'40.000000'),(139,'valor unit old'),(140,'55.00'),(141,'valor old do movimento'),(142,'2200.00000000'),(143,'-------------------------'),(144,'volume atualizado'),(145,'120.000000'),(146,'Valor tot atualizado'),(147,'12000.00000000'),(148,'Valor unit atualizado'),(149,'100.000000000000000000'),(150,'-------------------------');
-/*!40000 ALTER TABLE `debug` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `estoque_movimentos`
 --
 
@@ -818,7 +794,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5725e42f8346.33860396','2018-07-24 11:13:08',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b560cdfc3f665.86190083','2018-07-23 15:14:07',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b56b45fc14ed0.97120872','2018-07-24 03:08:47',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5728447a5f23.95656917','2018-07-24 11:23:16',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b560cdfc3f665.86190083','2018-07-23 15:14:07',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b56b45fc14ed0.97120872','2018-07-24 03:08:47',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -874,4 +850,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-24 10:22:33
+-- Dump completed on 2018-07-24 10:31:57

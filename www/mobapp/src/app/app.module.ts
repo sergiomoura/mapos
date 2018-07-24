@@ -22,8 +22,11 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation";
 import { SelectSearchableModule } from 'ionic-select-searchable'
 import { TarefasPage } from '../pages/tarefas/tarefas';
 import { TarefasProvider } from '../providers/tarefas/tarefas';
-import { TarefaPage } from '../pages/tarefa/tarefa';
 import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
+import { TarefaTabsPage } from '../pages/tarefa-tabs/tarefa-tabs';
+import { TarefaTabsPageModule } from '../pages/tarefa-tabs/tarefa-tabs.module';
+import { AndroidFullScreen } from '@ionic-native/android-full-screen';
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 
 @NgModule({
 	declarations: [
@@ -41,7 +44,8 @@ import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
 		HttpClientModule,
 		IonicStorageModule.forRoot(),
 		SelectSearchableModule,
-		TarefaPageModule
+		TarefaPageModule,
+		TarefaTabsPageModule
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -51,13 +55,15 @@ import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
 		SsesPage,
 		SsePage,
 		TarefasPage,
-		TarefaPage
+		TarefaTabsPage
 	],
 	providers: [
 		StatusBar,
 		SplashScreen,
 		Camera,
 		ScreenOrientation,
+		AndroidFullScreen,
+		LaunchNavigator,
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
 		{provide: ErrorHandler, useClass: IonicErrorHandler},
 		AuthProvider,

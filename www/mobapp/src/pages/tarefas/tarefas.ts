@@ -4,7 +4,7 @@ import { ToastController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { TarefasProvider } from "../../providers/tarefas/tarefas";
 import { Tarefa } from "../../_models/tarefa";
-import { TarefaPage } from '../tarefa/tarefa';
+import { TarefaTabsPage } from "../tarefa-tabs/tarefa-tabs";
 
 @Component({
 	selector: 'page-tarefas',
@@ -75,7 +75,7 @@ export class TarefasPage {
 	}
 
 	onTarefaClick(id_tarefa:number){
-		this.navCtrl.push(TarefaPage,{'id_tarefa':id_tarefa});
+		this.navCtrl.push(TarefaTabsPage,{'id_tarefa':id_tarefa});
 	}
 
 }

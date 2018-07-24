@@ -1,0 +1,97 @@
+<ion-header>
+	<ion-navbar color="primary">
+		<ion-title>SSE {{tarefa?.sse.numero}}</ion-title>
+	</ion-navbar>
+	<div class="divergente" *ngIf="tarefa?.divergente=='1'">
+		Medidas reais divergem das medidas previstas.<br>
+		Entrar em contato com a central?
+	</div>
+</ion-header>
+
+<ion-content padding>
+	
+	<ion-fab top right edge>
+		<button (click)="onNavigateClick()" color="secondary" ion-fab mini><ion-icon name="navigate"></ion-icon></button>
+	</ion-fab>
+
+	<ion-item>
+		<ion-label floating>Endereço</ion-label>
+		<ion-input type="text" disabled value="{{tarefa?.sse.endereco}}"></ion-input>
+	</ion-item>
+
+	<ion-item>
+		<ion-label floating>Observações</ion-label>
+		<ion-input type="text" disabled value="{{(tarefa?.sse.obs == null || tarefa?.sse.obs == '') ? '-' : tarefa?.sse.obs}}"></ion-input>
+	</ion-item>
+	
+	<ion-item>
+		<ion-label floating>Tipo de Servico</ion-label>
+		<ion-input type="text" disabled value="RG{{tarefa?.sse.tipoDeServico.codigo}} - {{tarefa?.sse.tipoDeServico.descricao}}"></ion-input>
+	</ion-item>
+
+	<ion-item>
+		<ion-label floating>Equipe</ion-label>
+		<ion-input type="text" disabled value="[{{tarefa?.equipe.sigla}}] {{tarefa?.equipe.nome}}"></ion-input>
+	</ion-item>
+
+	<ion-item>
+		<ion-label floating>Equipe de Apoio</ion-label>
+		<ion-input
+			type="text"
+			disabled
+			value="{{tarefa?.apoio ? '['+tarefa?.apoio.sigla+'] '+tarefa?.apoio.nome : '-'}}"></ion-input>
+	</ion-item>
+
+	<ion-item>
+		<ion-label floating>Início Previsto</ion-label>
+		<ion-input type="text" disabled value="{{tarefa?.inicio_p.toLocaleString().substr(0,16)}}"></ion-input>
+	</ion-item>
+
+	<ion-item>
+		<ion-label floating>Final Previsto</ion-label>
+		<ion-input type="text" disabled value="{{tarefa?.final_p.toLocaleString().substr(0,16)}}"></ion-input>
+	</ion-item>
+
+	<ion-item>
+		<ion-label floating>Início Realizado</ion-label>
+		<ion-input
+			type="text"
+			disabled
+			value="{{tarefa?.inicio_r ? tarefa.inicio_r.toLocaleString().substr(0,16) : '-' }}"></ion-input>
+	</ion-item>
+
+	<ion-item>
+		<ion-label floating>Final Realizado</ion-label>
+		<ion-input
+			type="text"
+			disabled
+			value="{{tarefa?.final_r ? tarefa.final_r.toLocaleString().substr(0,16) : '-' }}"></ion-input>
+	</ion-item>
+
+	<div class="container-medidas">
+		<div class="titulo">Medidas Previstas</div>
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'a'">
+			<div *ngFor="let m of tarefa?.sse.medidas_area"><div *ngIf="m.tipo=='p'">{{m.l}} x {{m.c}} m²</div></div>
+		</div>
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'l'">
+			<div *ngFor="let m of tarefa?.sse.medidas_linear"><div *ngIf="m.tipo=='p'">{{m.v}} m</div></div>
+		</div>
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'u'">
+			<div *ngFor="let m of tarefa?.sse.medidas_unidades"><div *ngIf="m.tipo=='p'">{{m.n}} unid</div></div>
+		</div>
+	</div>
+
+	<div class="container-medidas">
+		<div class="titulo">Medidas Realizadas</div>
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'a'">
+			<div *ngFor="let m of tarefa?.sse.medidas_area"><div *ngIf="m.tipo=='r'">{{m.l}} x {{m.c}} m²</div></div>
+		</div>
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'l'">
+			<div *ngFor="let m of tarefa?.sse.medidas_linear"><div *ngIf="m.tipo=='r'">{{m.v}} m</div></div>
+		</div>
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'u'">
+			<div *ngFor="let m of tarefa?.sse.medidas_unidades"><div *ngIf="m.tipo=='r'">{{m.n}} unid</div></div>
+		</div>
+	</div>
+
+</ion-content>
