@@ -11,12 +11,12 @@
 	<form #form="ngForm">
 		<ion-item>
 			<ion-label floating>Data do Início (Realizado)</ion-label>
-			<ion-datetime name="data" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.inicio_r" ></ion-datetime>
+			<ion-datetime required name="data" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.inicio_r" ></ion-datetime>
 		</ion-item>
 
 		<ion-item>
 			<ion-label floating>Hora do Início (Realizado)</ion-label>
-			<ion-datetime name="hora" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.inicio_r"></ion-datetime>
+			<ion-datetime required name="hora" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.inicio_r"></ion-datetime>
 		</ion-item>
 
 		<ion-item>
