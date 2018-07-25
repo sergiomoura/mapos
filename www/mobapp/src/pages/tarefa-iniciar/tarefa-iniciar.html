@@ -21,13 +21,13 @@
 
 		<div class="container-medidas">
 			<div class="titulo">Medidas Previstas</div>
-			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'a'">
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoPrev.medida == 'a'">
 				<div *ngFor="let m of tarefa?.sse.medidas_area.prev">{{m.l}} x {{m.c}} m²</div>
 			</div>
-			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'l'">
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoPrev.medida == 'l'">
 				<div *ngFor="let m of tarefa?.sse.medidas_linear.prev">{{m.v}} m</div>
 			</div>
-			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'u'">
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoPrev.medida == 'u'">
 				<div *ngFor="let m of tarefa?.sse.medidas_unidades.prev">{{m.n}} unid</div>
 			</div>
 		</div>
@@ -46,7 +46,7 @@
 				</button>
 			</div>
 			
-			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'a'">
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal.medida == 'a'">
 				<div *ngFor="let med of tarefa?.sse.medidas_area.real; let i=index;">
 					<ion-input type="number" required step="0.01" name="med_l_{{i}}" [(ngModel)]="med.l"></ion-input> x
 					<ion-input type="number" required step="0.01" name="med_c_{{i}}" [(ngModel)]="med.c"></ion-input> m²
@@ -62,7 +62,7 @@
 				</div>
 			</div>
 			
-			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'l'">
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal.medida == 'l'">
 				<div *ngFor="let med of tarefa?.sse.medidas_linear.real; let i=index;">
 					<ion-input type="number" required step="0.01" name="med_v_{{i}}" [(ngModel)]="med.v"></ion-input> m
 					<button
@@ -77,7 +77,7 @@
 				</div>
 			</div>
 
-			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'u'">
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal.medida == 'u'">
 				<div *ngFor="let med of tarefa?.sse.medidas_unidades.real; let i=index;">
 					<ion-input type="number" required step="0.01" name="med_n_{{i}}" [(ngModel)]="med.n"></ion-input> m
 					<button

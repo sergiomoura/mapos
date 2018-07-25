@@ -80,6 +80,7 @@
 					numero,
 					endereco,
 					id_tipo_de_servico,
+					id_tipo_de_servico_r,
 					obs
 				FROM 
 					maxse_sses 
@@ -97,7 +98,7 @@
 		$tarefa->sse = $sse;
 		unset($tarefa->id_sse);
 
-		// Levantando tipo de servico da sse;
+		// Levantando tipo de servico previsto da sse;
 		$sql = 'SELECT
 					id,
 					prazo,
@@ -115,109 +116,108 @@
 				':id_tds' => $tarefa->sse->id_tipo_de_servico
 			)
 		);
-		$tarefa->sse->tipoDeServico = $stmt->fetch();
+		$tarefa->sse->tipoDeServicoPrev = $stmt->fetch();
 		unset($tarefa->sse->id_tipo_de_servico);
 
-		// Levantando medidas da SSE
-		switch ($tarefa->sse->tipoDeServico->medida) {
+		// Levantando tipo de servico real da sse;
+		$sql = 'SELECT
+					id,
+					prazo,
+					codigo,
+					descricao,
+					medida
+				FROM
+					maxse_tipos_de_servico
+				WHERE
+					id=:id_tds';
+		
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_tds' => $tarefa->sse->id_tipo_de_servico_r
+			)
+		);
+		$tds_r = $stmt->fetch();
+		$tarefa->sse->tipoDeServicoReal = ($tds_r === false ? null : $tds_r);
+		unset($tarefa->sse->id_tipo_de_servico_r);
+
+		// Criando objetos para guardar medidas
+		$sse->medidas_linear = new stdClass();
+		$sse->medidas_linear->real = array();
+		$sse->medidas_linear->prev = array();
+		
+		$sse->medidas_unidades = new stdClass();
+		$sse->medidas_unidades->real = array();
+		$sse->medidas_unidades->prev = array();
+
+		$sse->medidas_area = new stdClass();
+		$sse->medidas_area->real = array();
+		$sse->medidas_area->prev = array();
+
+		// Levantando medidas previstas da SSE
+		switch ($tarefa->sse->tipoDeServicoPrev->medida) {
 			case 'a':
 				// Carregando medidas da sse
-				$sql = 'SELECT id, l, c, tipo FROM maxse_medidas_area WHERE id_sse=:id_sse';
+				$sql = 'SELECT id, l, c, tipo FROM maxse_medidas_area WHERE id_sse=:id_sse AND tipo="p"';
 				$stmt = $this->db->prepare($sql);
 				$stmt->execute(array(':id_sse' => $sse->id));
-				$medidas = $stmt->fetchAll();
-
-				// Criando classe objeto para guardar as medidas
-				$sse->medidas_area = new stdClass();
-				$sse->medidas_area->real = array();
-				$sse->medidas_area->prev = array();
-
-				// Classificando entre medidas prev e medidas real
-				foreach ($medidas as $m) {
-					if($m->tipo === 'p') {
-						array_push($sse->medidas_area->prev,$m);
-					} else {
-						array_push($sse->medidas_area->real,$m);
-					}
-				}
-				
-				// Criando vetores vazios para medidas lineares e para medidas de unidade
-				$sse->medidas_linear = new stdClass();
-				$sse->medidas_linear->real = array();
-				$sse->medidas_linear->prev = array();
-				
-				$sse->medidas_unidades = new stdClass();
-				$sse->medidas_unidades->real = array();
-				$sse->medidas_unidades->prev = array();
-				
+				$sse->medidas_area->prev = $stmt->fetchAll();
 				break;
 			
 			case 'l':
-				// Carregando medidas da sse
-				$sql = 'SELECT id, v, tipo FROM maxse_medidas_linear WHERE id_sse=:id_sse';
+				$sql = 'SELECT id, v, tipo FROM maxse_medidas_linear WHERE id_sse=:id_sse AND tipo="p"';
 				$stmt = $this->db->prepare($sql);
 				$stmt->execute(array(':id_sse' => $sse->id));
-				$medidas = $stmt->fetchAll();
-
-				// Criando classe objeto para guardar as medidas
-				$sse->medidas_linear = new stdClass();
-				$sse->medidas_linear->real = array();
-				$sse->medidas_linear->prev = array();
-
-				// Classificando entre medidas prev e medidas real
-				foreach ($medidas as $m) {
-					if($m->tipo === 'p') {
-						array_push($sse->medidas_linear->prev,$m);
-					} else {
-						array_push($sse->medidas_linear->real,$m);
-					}
-				}
-				
-				// Criando vetores vazios para medidas lineares e para medidas de unidade
-				$sse->medidas_area = new stdClass();
-				$sse->medidas_area->real = array();
-				$sse->medidas_area->prev = array();
-				
-				$sse->medidas_unidades = new stdClass();
-				$sse->medidas_unidades->real = array();
-				$sse->medidas_unidades->prev = array();
+				$sse->medidas_linear->prev = $stmt->fetchAll();
+				break;
 
 			case 'u':
-				// Carregando medidas da sse
-				$sql = 'SELECT id, n, tipo FROM maxse_medidas_unidades WHERE id_sse=:id_sse';
+				$sql = 'SELECT id, n, tipo FROM maxse_medidas_unidades WHERE id_sse=:id_sse AND tipo="p"';
 				$stmt = $this->db->prepare($sql);
 				$stmt->execute(array(':id_sse' => $sse->id));
-				$medidas = $stmt->fetchAll();
-
-				// Criando classe objeto para guardar as medidas
-				$sse->medidas_unidades = new stdClass();
-				$sse->medidas_unidades->real = array();
-				$sse->medidas_unidades->prev = array();
-
-				// Classificando entre medidas prev e medidas real
-				foreach ($medidas as $m) {
-					if($m->tipo === 'p') {
-						array_push($sse->medidas_unidades->prev,$m);
-					} else {
-						array_push($sse->medidas_unidades->real,$m);
-					}
-				}
-				
-				// Criando vetores vazios para medidas lineares e para medidas de unidade
-				$sse->medidas_area = new stdClass();
-				$sse->medidas_area->real = array();
-				$sse->medidas_area->prev = array();
-				
-				$sse->medidas_linear = new stdClass();
-				$sse->medidas_linear->real = array();
-				$sse->medidas_linear->prev = array();
+				$sse->medidas_unidades->prev = $stmt->fetchAll();
+				break;
 
 			default:
 				// Retornando erro para usuário
 				return $res
 				->withStatus(500)
-				->write("Tipo de medida desconhecido.");
+				->write("Tipo de medida desconhecido.".__LINE__);
 				break;
+		}
+
+		// Levantando medidas reais da SSE
+		if(!is_null($tarefa->sse->tipoDeServicoReal)) {
+			switch ( $tarefa->sse->tipoDeServicoReal->medida) {
+				case 'a':
+					// Carregando medidas da sse
+					$sql = 'SELECT id, l, c, tipo FROM maxse_medidas_area WHERE id_sse=:id_sse AND tipo="r"';
+					$stmt = $this->db->prepare($sql);
+					$stmt->execute(array(':id_sse' => $sse->id));
+					$sse->medidas_area->real = $stmt->fetchAll();
+					break;
+				
+				case 'l':
+					$sql = 'SELECT id, v, tipo FROM maxse_medidas_linear WHERE id_sse=:id_sse AND tipo="r"';
+					$stmt = $this->db->prepare($sql);
+					$stmt->execute(array(':id_sse' => $sse->id));
+					$sse->medidas_linear->real = $stmt->fetchAll();
+					break;
+	
+				case 'u':
+					$sql = 'SELECT id, n, tipo FROM maxse_medidas_unidades WHERE id_sse=:id_sse AND tipo="r"';
+					$stmt = $this->db->prepare($sql);
+					$stmt->execute(array(':id_sse' => $sse->id));
+					$sse->medidas_unidades->real = $stmt->fetchAll();
+					break;
+	
+				default:
+					// Retornando erro para usuário
+					return $res
+					->withStatus(500)
+					->write("Tipo de medida desconhecido." .__LINE__);
+					break;
+			}
 		}
 
 		// Levantando equipe que irá realizar a tarefa
@@ -230,7 +230,6 @@
 		);
 		$tarefa->equipe = $stmt->fetch();
 		unset($tarefa->id_equipe);
-
 		
 		// Levantando apoio que irá realizar a tarefa
 		$sql = 'SELECT id,nome,sigla FROM maxse_equipes WHERE id=:id_apoio';

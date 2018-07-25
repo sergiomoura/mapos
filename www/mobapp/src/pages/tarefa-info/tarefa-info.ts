@@ -23,6 +23,9 @@ export class TarefaInfoPage {
 	) {	}
 
 	ionViewDidLoad() {
+	}
+
+	ionViewWillEnter(){
 		this.getTarefa(<number>this.navParams.data.id_tarefa)
 	}
 

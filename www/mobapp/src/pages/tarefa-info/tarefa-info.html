@@ -25,8 +25,8 @@
 	</ion-item>
 	
 	<ion-item>
-		<ion-label floating>Tipo de Servico</ion-label>
-		<ion-input type="text" disabled value="RG{{tarefa?.sse.tipoDeServico.codigo}} - {{tarefa?.sse.tipoDeServico.descricao}}"></ion-input>
+		<ion-label floating>Tipo de Servico Previsto</ion-label>
+		<ion-input type="text" disabled value="RG{{tarefa?.sse.tipoDeServicoPrev.codigo}} - {{tarefa?.sse.tipoDeServicoPrev.descricao}}"></ion-input>
 	</ion-item>
 
 	<ion-item>
@@ -70,26 +70,26 @@
 
 	<div class="container-medidas">
 		<div class="titulo">Medidas Previstas</div>
-		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'a'">
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServicoPrev.medida == 'a'">
 			<div *ngFor="let m of tarefa?.sse.medidas_area.prev">{{m.l}} x {{m.c}} m²</div>
 		</div>
-		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'l'">
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServicoPrev.medida == 'l'">
 			<div *ngFor="let m of tarefa?.sse.medidas_linear.prev">{{m.v}} m</div>
 		</div>
-		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'u'">
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServicoPrev.medida == 'u'">
 			<div *ngFor="let m of tarefa?.sse.medidas_unidades.prev">{{m.n}} unid</div>
 		</div>
 	</div>
 
 	<div class="container-medidas">
 		<div class="titulo">Medidas Realizadas</div>
-		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'a'">
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServicoReal?.medida == 'a'">
 			<div *ngFor="let m of tarefa?.sse.medidas_area.real">{{m.l}} x {{m.c}} m²</div>
 		</div>
-		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'l'">
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServicoReal?.medida == 'l'">
 			<div *ngFor="let m of tarefa?.sse.medidas_linear.real">{{m.v}} m</div>
 		</div>
-		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'u'">
+		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServicoReal?.medida == 'u'">
 			<div *ngFor="let m of tarefa?.sse.medidas_unidades.real">{{m.n}} unid</div>
 		</div>
 	</div>

@@ -25,6 +25,10 @@ export class TarefaIniciarPage {
 	) {	}
 
 	ionViewDidLoad() {
+		
+	}
+
+	ionViewWillEnter(){
 		this.getTarefa(<number>this.navParams.data.id_tarefa);
 	}
 
@@ -54,7 +58,7 @@ export class TarefaIniciarPage {
 
 				// Adicionando campo de medidas realizadas caso ele esteja vazio
 				let vetor = [];
-				switch (this.tarefa.sse.tipoDeServico.medida) {
+				switch (this.tarefa.sse.tipoDeServicoReal.medida) {
 					case 'a':
 						vetor = this.tarefa.sse.medidas_area.real;
 						break;
@@ -92,7 +96,7 @@ export class TarefaIniciarPage {
 	}
 
 	addMedida(){
-		switch (this.tarefa.sse.tipoDeServico.medida) {
+		switch (this.tarefa.sse.tipoDeServicoReal.medida) {
 			case 'a':
 				this.tarefa.sse.medidas_area.real.push({'l':null,'c':null, 'tipo':'r'});
 				break;
