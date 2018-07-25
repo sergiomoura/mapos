@@ -1,14 +1,19 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>SSEs</ion-title>
-  </ion-toolbar>
+	<ion-toolbar color="primary">
+		<ion-title>SSEs</ion-title>
+		<ion-buttons end>
+			<button ion-button (click)="onRefreshClick()"><ion-icon name="refresh"></ion-icon></button>
+		</ion-buttons>
+	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <button ion-item (click)="onSSEClick(sse.id)" *ngFor="let sse of sses">
-    <h2>{{sse.numero}}</h2>
-    <h3>Registrada em {{sse.dh_registrado | date:"dd/MM/yyyy à's' HH:mm:ss"}}</h3>
-  </button>
-  <button class="bt-add" ion-fab color="primary" (click)="onAddClick()"><ion-icon name="add"></ion-icon></button>
+	<ion-list>
+		<button ion-item (click)="onSSEClick(sse.id)" *ngFor="let sse of sses">
+			<h2>{{sse.numero}}</h2>
+			<h3>Registrada em {{sse.dh_registrado | date:"dd/MM/yyyy à's' HH:mm:ss"}}</h3>
+		</button>
+	</ion-list>
+	<button class="bt-add" ion-fab color="primary" (click)="onAddClick()"><ion-icon name="add"></ion-icon></button>
 </ion-content>
 

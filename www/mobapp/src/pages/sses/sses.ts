@@ -13,7 +13,7 @@ import { Storage } from "@ionic/storage";
 	templateUrl: 'sses.html',
 })
 export class SsesPage {
-
+k
 	// Privadas
 	sses:SSE[] = <SSE[]>[];
 
@@ -42,6 +42,10 @@ export class SsesPage {
 
 	onAddClick(){
 		this.navCtrl.push(SsePage,{idSse:0});
+	}
+
+	onRefreshClick(){
+		this.getSSEs();
 	}
 
 	getSSEs(){
