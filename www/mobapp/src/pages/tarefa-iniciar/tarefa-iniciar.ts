@@ -51,6 +51,26 @@ export class TarefaIniciarPage {
 
 				// Atribuindo a propriedade pública tarefa
 				this.tarefa = tmp;
+
+				// Adicionando campo de medidas realizadas caso ele esteja vazio
+				let vetor = [];
+				switch (this.tarefa.sse.tipoDeServico.medida) {
+					case 'a':
+						vetor = this.tarefa.sse.medidas_area.real;
+						break;
+					
+					case 'l':
+						vetor = this.tarefa.sse.medidas_linear.real;
+						break;
+					
+					case 'u':
+						vetor = this.tarefa.sse.medidas_unidades.real;
+						break;
+				}
+
+				if(vetor.length == 0){
+					this.addMedida();
+				}
 			},
 			err => {
 				// Esconde o carregando
@@ -69,6 +89,23 @@ export class TarefaIniciarPage {
 				console.warn(err);
 			}
 		)
+	}
+
+	addMedida(){
+		switch (this.tarefa.sse.tipoDeServico.medida) {
+			case 'a':
+				this.tarefa.sse.medidas_area.real.push({'l':null,'c':null, 'tipo':'r'});
+				break;
+			
+			case 'l':
+				this.tarefa.sse.medidas_linear.real.push({'v':null, 'tipo':'r'});
+				break;
+			
+			case 'u':
+				this.tarefa.sse.medidas_unidades.real.push({'n':null, 'tipo':'r'});
+				break;
+		}
+		
 	}
 
 	onCameraClick(){

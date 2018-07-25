@@ -71,26 +71,26 @@
 	<div class="container-medidas">
 		<div class="titulo">Medidas Previstas</div>
 		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'a'">
-			<div *ngFor="let m of tarefa?.sse.medidas_area"><div *ngIf="m.tipo=='p'">{{m.l}} x {{m.c}} m²</div></div>
+			<div *ngFor="let m of tarefa?.sse.medidas_area.prev">{{m.l}} x {{m.c}} m²</div>
 		</div>
 		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'l'">
-			<div *ngFor="let m of tarefa?.sse.medidas_linear"><div *ngIf="m.tipo=='p'">{{m.v}} m</div></div>
+			<div *ngFor="let m of tarefa?.sse.medidas_linear.prev">{{m.v}} m</div>
 		</div>
 		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'u'">
-			<div *ngFor="let m of tarefa?.sse.medidas_unidades"><div *ngIf="m.tipo=='p'">{{m.n}} unid</div></div>
+			<div *ngFor="let m of tarefa?.sse.medidas_unidades.prev">{{m.n}} unid</div>
 		</div>
 	</div>
 
 	<div class="container-medidas">
 		<div class="titulo">Medidas Realizadas</div>
 		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'a'">
-			<div *ngFor="let m of tarefa?.sse.medidas_area"><div *ngIf="m.tipo=='r'">{{m.l}} x {{m.c}} m²</div></div>
+			<div *ngFor="let m of tarefa?.sse.medidas_area.real">{{m.l}} x {{m.c}} m²</div>
 		</div>
 		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'l'">
-			<div *ngFor="let m of tarefa?.sse.medidas_linear"><div *ngIf="m.tipo=='r'">{{m.v}} m</div></div>
+			<div *ngFor="let m of tarefa?.sse.medidas_linear.real">{{m.v}} m</div>
 		</div>
 		<div class="medidas" *ngIf="tarefa?.sse.tipoDeServico.medida == 'u'">
-			<div *ngFor="let m of tarefa?.sse.medidas_unidades"><div *ngIf="m.tipo=='r'">{{m.n}} unid</div></div>
+			<div *ngFor="let m of tarefa?.sse.medidas_unidades.real">{{m.n}} unid</div>
 		</div>
 	</div>
 

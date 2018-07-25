@@ -71,11 +71,11 @@
       "cordova-sqlite-storage": {},
       "cordova-plugin-statusbar": {},
       "cordova-plugin-camera": {},
-      "cordova-plugin-screen-orientation": {},
       "cordova-plugin-fullscreen": {},
       "uk.co.workingedge.phonegap.plugin.launchnavigator": {
         "OKHTTP_VERSION": "3.+"
-      }
+      },
+      "cordova-plugin-screen-orientation": {}
     },
     "platforms": [
       "android",

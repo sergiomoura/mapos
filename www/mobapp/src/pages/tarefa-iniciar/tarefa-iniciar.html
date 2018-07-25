@@ -1,33 +1,99 @@
 <ion-header>
 	<ion-navbar color="primary">
-		<ion-title>Início de Execução</ion-title>
+		<ion-title>Início de Exec. SSE {{tarefa?.sse?.numero}}</ion-title>
 		<ion-buttons end>
-			<button ion-button (click)="onSalvarClick()"><ion-icon name="checkmark"></ion-icon></button>
+			<button ion-button [disabled]="!form.valid" (click)="onSalvarClick()"><ion-icon name="checkmark"></ion-icon></button>
 		</ion-buttons>
 	</ion-navbar>
 </ion-header>
 
 <ion-content padding>
-	
-	<ion-item>
-		<ion-label floating>Data do Início</ion-label>
-		<ion-datetime displayFormat="DD MMM YYYY"></ion-datetime>
-	</ion-item>
+	<form #form="ngForm">
+		<ion-item>
+			<ion-label floating>Data do Início (Realizado)</ion-label>
+			<ion-datetime name="data" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.inicio_r" ></ion-datetime>
+		</ion-item>
 
-	<ion-item>
-		<ion-label floating>Hora do Início</ion-label>
-		<ion-datetime displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
-	</ion-item>
+		<ion-item>
+			<ion-label floating>Hora do Início (Realizado)</ion-label>
+			<ion-datetime name="hora" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.inicio_r"></ion-datetime>
+		</ion-item>
 
-	<div class="container-medidas">
-		<div class="titulo">Medidas Previstas</div>
-		-
-	</div>
+		<div class="container-medidas">
+			<div class="titulo">Medidas Previstas</div>
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'a'">
+				<div *ngFor="let m of tarefa?.sse.medidas_area.prev">{{m.l}} x {{m.c}} m²</div>
+			</div>
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'l'">
+				<div *ngFor="let m of tarefa?.sse.medidas_linear.prev">{{m.v}} m</div>
+			</div>
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'u'">
+				<div *ngFor="let m of tarefa?.sse.medidas_unidades.prev">{{m.n}} unid</div>
+			</div>
+		</div>
 
-	<div class="container-medidas">
-		<div class="titulo">Medidas Realizadas</div>
-		-
-	</div>
+		<div class="container-medidas">
+			
+			<div class="titulo">
+				Medidas Realizadas
+				<button
+					ion-button
+					small
+					color="dark"
+					clear
+					(click)="addMedida()">
+					<ion-icon name="add"></ion-icon>
+				</button>
+			</div>
+			
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'a'">
+				<div *ngFor="let med of tarefa?.sse.medidas_area.real; let i=index;">
+					<ion-input type="number" required step="0.01" name="med_l_{{i}}" [(ngModel)]="med.l"></ion-input> x
+					<ion-input type="number" required step="0.01" name="med_c_{{i}}" [(ngModel)]="med.c"></ion-input> m²
+					<button
+						*ngIf="tarefa?.sse.medidas_area.real.length > 1"
+						ion-button
+						small
+						color="dark"
+						clear
+						(click)="rmMedida(i)">
+						<ion-icon name="trash"></ion-icon>
+					</button>
+				</div>
+			</div>
+			
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'l'">
+				<div *ngFor="let med of tarefa?.sse.medidas_linear.real; let i=index;">
+					<ion-input type="number" required step="0.01" name="med_v_{{i}}" [(ngModel)]="med.v"></ion-input> m
+					<button
+						*ngIf="tarefa?.sse.medidas_linear.real.length > 1"
+						ion-button
+						small
+						color="dark"
+						clear
+						(click)="rmMedida(i)">
+						<ion-icon name="trash"></ion-icon>
+					</button>
+				</div>
+			</div>
+
+			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServico.medida == 'u'">
+				<div *ngFor="let med of tarefa?.sse.medidas_unidades.real; let i=index;">
+					<ion-input type="number" required step="0.01" name="med_n_{{i}}" [(ngModel)]="med.n"></ion-input> m
+					<button
+						*ngIf="tarefa?.sse.medidas_unidades.real.length > 1"
+						ion-button
+						small
+						color="dark"
+						clear
+						(click)="rmMedida(i)">
+						<ion-icon name="trash"></ion-icon>
+					</button>
+				</div>
+			</div>
+
+		</div>
+	</form>
 
 	<div class="container-fotos">
 		<div class="titulo">Fotos</div>
@@ -39,7 +105,5 @@
 	<ion-fab bottom right >
 		<button (click)="onCameraClick()" color="secondary" ion-fab><ion-icon name="camera"></ion-icon></button>
 	</ion-fab>
-
-
 
 </ion-content>

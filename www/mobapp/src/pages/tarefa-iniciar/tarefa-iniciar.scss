@@ -5,10 +5,23 @@ page-tarefa-iniciar {
 		.titulo{
 			font-size: 13px;
 			color: #939393;
+			button {
+				position: relative;
+				top: -6px;
+			}
 		}
 		.medidas{
 			margin-top: 10px;
-    		color: #939393;
+			color: #939393;
+			ion-input {
+				border:none;
+				border-bottom: 1px solid #DEDEDE;
+				padding: 0px 0;
+				width: calc(50% - 38px);
+				color:#000;
+				text-align: center;
+				display: inline-block;
+			}
 		}
 	}
 
