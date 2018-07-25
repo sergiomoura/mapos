@@ -32,7 +32,7 @@
 	<div class="container-fotos">
 		<div class="titulo">Fotos</div>
 		<div class="fotos">
-			
+			<img *ngFor="let foto of tarefa?.fotos_inicio" [src]="foto" alt="-">
 		</div>
 	</div>
 

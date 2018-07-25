@@ -179,6 +179,49 @@
 		$tarefa->apoio = (false === $apoio ? null : $apoio);
 		unset($tarefa->id_apoio);
 
+		// Levantando fotos, se for o caso
+		if(array_key_exists('comFotos',$_GET) && $_GET['comFotos'] === '1'){
+			
+			// Criando vetores de fotos
+			$tarefa->fotos_inicio = array();
+			$tarefa->fotos_fim = array();
+			
+			// Determinando a pasta que contem as fotos
+			$pasta = $this->maxse['caminho_para_fotos_tarefas'].$tarefa->id;
+			if(file_exists($pasta)){
+
+				// Listando os arquivos que existem na pasta
+				$arquivos = scandir($pasta);
+
+				// Removenod o . e o ..
+				array_shift($arquivos);
+				array_shift($arquivos);
+
+				// Salvando fotos nos arrays
+				foreach ($arquivos as $arquivo) {
+
+					// Determinando o caminho completo para a foto
+					$caminho = $pasta.'/'.$arquivo;
+
+					// Lendo conteúdo de arquivo
+					$data = file_get_contents($caminho);
+						
+					// encodando para base64
+					$data = base64_encode($data);
+
+					// adicionando cabeçalho base64
+					$data = 'data:image/jpeg;base64,'.$data;
+
+					// Guardando imagem no vetor correto (inicio ou fim)
+					if(substr($arquivo,0,3) === 'ini'){
+						array_push($tarefa->fotos_inicio, $data);
+					} elseif(substr($arquivo,0,3) === 'fim') {
+						array_push($tarefa->fotos_fim, $data);
+					}
+				}
+			}
+		}
+
 		
 		// Retornando resposta para usuário
 		return $res

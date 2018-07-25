@@ -14,8 +14,12 @@ export class TarefasProvider {
 		return this.http.get(this.urls.tarefas);
 	}
 
-	getCompleteById(id_tarefa:number){
-		return this.http.get(this.urls.tarefas+'/'+id_tarefa+'/all');
+	getCompleteById(id_tarefa:number, comFotos?:boolean){
+		if(comFotos){
+			return this.http.get(this.urls.tarefas+'/'+id_tarefa+'/all?comFotos=1');
+		} else {
+			return this.http.get(this.urls.tarefas+'/'+id_tarefa+'/all?comFotos=0');
+		}
 	}
 
 }
