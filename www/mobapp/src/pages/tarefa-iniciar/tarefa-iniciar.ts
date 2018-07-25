@@ -4,6 +4,10 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
 import { LoadingController } from 'ionic-angular';
+import { GeralProvider } from "../../providers/geral/geral";
+import { TipoDeServico } from '../../_models/tipoDeServico';
+import { SSE } from '../../_models/sse';
+
 
 @IonicPage()
 @Component({
@@ -12,7 +16,13 @@ import { LoadingController } from 'ionic-angular';
 })
 export class TarefaIniciarPage {
 
-	tarefa:any = {};
+	tarefa:any = {
+		sse : {
+			tipoDeServicoReal:undefined,
+			tipoDeServicoPrev:undefined
+		}
+	};
+	tiposDeServico:TipoDeServico[];
 
 	constructor(
 		public navCtrl: NavController,
@@ -21,11 +31,26 @@ export class TarefaIniciarPage {
 		private sanitizer:DomSanitizer,
 		private tarefasProvider:TarefasProvider,
 		private toastController: ToastController,
-		private loadingConttroller: LoadingController
+		private loadingConttroller: LoadingController,
+		private provider:GeralProvider
 	) {	}
 
 	ionViewDidLoad() {
-		
+		this.provider.getTiposDeServico().subscribe(
+			res => {
+				this.tiposDeServico = <TipoDeServico[]>res;
+			},
+			err => {
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+				message: 'Falha ao carregar tipos de serviço',
+				duration: 0,
+				showCloseButton: true,
+				closeButtonText: 'X'
+				});
+				toast.present();
+			}
+		)
 	}
 
 	ionViewWillEnter(){
@@ -57,23 +82,35 @@ export class TarefaIniciarPage {
 				this.tarefa = tmp;
 
 				// Adicionando campo de medidas realizadas caso ele esteja vazio
-				let vetor = [];
-				switch (this.tarefa.sse.tipoDeServicoReal.medida) {
-					case 'a':
-						vetor = this.tarefa.sse.medidas_area.real;
-						break;
-					
-					case 'l':
-						vetor = this.tarefa.sse.medidas_linear.real;
-						break;
-					
-					case 'u':
-						vetor = this.tarefa.sse.medidas_unidades.real;
-						break;
+				if(this.tarefa.sse.tipoDeServicoReal){
+					let vetor = [];
+					switch (this.tarefa.sse.tipoDeServicoReal.medida) {
+						case 'a':
+							vetor = this.tarefa.sse.medidas_area.real;
+							break;
+						
+						case 'l':
+							vetor = this.tarefa.sse.medidas_linear.real;
+							break;
+						
+						case 'u':
+							vetor = this.tarefa.sse.medidas_unidades.real;
+							break;
+					}
+	
+					if(vetor.length == 0){
+						this.addMedida();
+					}
 				}
 
-				if(vetor.length == 0){
-					this.addMedida();
+				// Linkando o tipo de serviço a real a um elemento do vetor tipos de serviços
+				// para o select funcionar.
+				if( this.tarefa.sse.tipoDeServicoReal != undefined){
+					this.tarefa.sse.tipoDeServicoReal = this.tiposDeServico.find(
+						(tds) => {
+							return tds.id == this.tarefa.sse.tipoDeServicoReal.id;
+						}
+					)
 				}
 			},
 			err => {
@@ -109,7 +146,25 @@ export class TarefaIniciarPage {
 				this.tarefa.sse.medidas_unidades.real.push({'n':null, 'tipo':'r'});
 				break;
 		}
-		
+	}
+
+	rmMedida(i){
+		let medidas = [];
+		switch (this.tarefa.sse.tipoDeServicoReal.medida) {
+			case 'a':
+				medidas = this.tarefa.sse.medidas_area.real;
+				break;
+			
+			case 'l':
+				medidas = this.tarefa.sse.medidas_linear.real;
+				break;
+			
+			case 'u':
+				medidas = this.tarefa.sse.medidas_unidades.real;
+				break;
+		}
+
+		medidas.splice(i,1);
 	}
 
 	onCameraClick(){
@@ -126,5 +181,25 @@ export class TarefaIniciarPage {
 			},
 			(err) => {}
 		);
+	}
+
+	onTipoDeServicoChange(){
+		let medidas;
+		switch (this.tarefa.sse.tipoDeServicoReal.medida) {
+			case 'a':
+				medidas = this.tarefa.sse.medidas_area.real;
+				break;
+			
+			case 'l':
+				medidas = this.tarefa.sse.medidas_linear.real;
+				break;
+			
+			case 'u':
+				medidas = this.tarefa.sse.medidas_unidades.real;
+				break;
+		}
+		if(medidas.length == 0){
+			this.addMedida();
+		}
 	}
 }
