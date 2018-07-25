@@ -22,4 +22,8 @@ export class TarefasProvider {
 		}
 	}
 
+	setIniciada(tarefa){
+		return this.http.patch(this.urls.tarefas + '/' + tarefa.id + '/iniciada',tarefa);
+	}
+
 }

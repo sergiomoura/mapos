@@ -494,4 +494,13 @@
 		->write(json_encode($tarefas));
 	});
 
-	
+	$app->patch($api_root.'/tarefas/{id}/iniciada', function(Request $req, Response $res, $args = []){
+		$tarefa = json_decode($req->getBody()->getContents());
+		echo('<pre>');
+		print_r($tarefa);
+		echo('</pre>');
+		
+		// Retornando erro para usuário
+		return $res
+		->withStatus(503);
+	});

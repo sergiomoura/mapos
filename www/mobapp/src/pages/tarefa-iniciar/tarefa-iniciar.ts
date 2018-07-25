@@ -1,13 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertOptions } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
 import { LoadingController } from 'ionic-angular';
 import { GeralProvider } from "../../providers/geral/geral";
 import { TipoDeServico } from '../../_models/tipoDeServico';
-import { SSE } from '../../_models/sse';
-
+import { AlertController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -32,7 +31,8 @@ export class TarefaIniciarPage {
 		private tarefasProvider:TarefasProvider,
 		private toastController: ToastController,
 		private loadingConttroller: LoadingController,
-		private provider:GeralProvider
+		private provider:GeralProvider,
+		private alertController:AlertController
 	) {	}
 
 	ionViewDidLoad() {
@@ -77,6 +77,9 @@ export class TarefaIniciarPage {
 				tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
 				tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
 				tmp.inicio_r = (tmp.inicio_r == null ? null : new Date(tmp.inicio_r));
+
+				// Parsing divergencia
+				tmp.divergente = tmp.divergente=='1';
 
 				// Atribuindo a propriedade pública tarefa
 				this.tarefa = tmp;
@@ -132,6 +135,33 @@ export class TarefaIniciarPage {
 		)
 	}
 
+	private getVetorDeMedidasReal():any[]{
+		switch (this.tarefa.sse.tipoDeServicoReal.medida) {
+			case 'a':
+				return this.tarefa.sse.medidas_area.real;
+			
+			case 'l':
+				return this.tarefa.sse.medidas_linear.real;
+			
+			case 'u':
+				return this.tarefa.sse.medidas_unidades.real;
+		}
+	}
+
+	private getVetorDeMedidasPrev():any[]{
+		
+		switch (this.tarefa.sse.tipoDeServicoPrev.medida) {
+			case 'a':
+				return this.tarefa.sse.medidas_area.prev;
+			
+			case 'l':
+				return this.tarefa.sse.medidas_linear.prev;
+			
+			case 'u':
+				return this.tarefa.sse.medidas_unidades.prev;
+		}
+	}
+
 	addMedida(){
 		switch (this.tarefa.sse.tipoDeServicoReal.medida) {
 			case 'a':
@@ -149,22 +179,83 @@ export class TarefaIniciarPage {
 	}
 
 	rmMedida(i){
-		let medidas = [];
-		switch (this.tarefa.sse.tipoDeServicoReal.medida) {
-			case 'a':
-				medidas = this.tarefa.sse.medidas_area.real;
-				break;
-			
-			case 'l':
-				medidas = this.tarefa.sse.medidas_linear.real;
-				break;
-			
-			case 'u':
-				medidas = this.tarefa.sse.medidas_unidades.real;
-				break;
+		let medidas = this.getVetorDeMedidasReal();
+		medidas.splice(i,1);
+	}
+
+	salvarInicio(){
+		this.tarefasProvider.setIniciada(this.tarefa).subscribe(
+			res => {
+				console.log('Mudar para o tab de info!');
+			},
+			err => {
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+				message: 'Falha ao tentar registrar início de tarefa!',
+				duration: 0,
+				showCloseButton: true,
+				closeButtonText: 'X'
+				});
+				toast.present();
+			}
+		)
+	}
+
+	temDivergencia(){
+
+		// Verificando se real e previsto são do mesmo tipo de servico
+		if(this.tarefa.sse.tipoDeServicoReal.id != this.tarefa.sse.tipoDeServicoPrev.id){
+			return true;
 		}
 
-		medidas.splice(i,1);
+		// Carregando vetores de medidas
+		let medidasReais = Object.assign([],this.getVetorDeMedidasReal());
+		let medidasPrevistas = Object.assign([],this.getVetorDeMedidasPrev());
+
+		// Verificando se o número de medidas são os mesmos
+		if(medidasReais.length != medidasPrevistas.length){
+			return true;
+		}
+
+		console.dir(medidasReais);
+		console.dir(medidasPrevistas);
+
+		// Verificando se há divergências nos valores
+		let index:number;
+		for (let i = 0; i < medidasReais.length; i++) {
+			const mr = medidasReais[i];
+			index = medidasPrevistas.findIndex(
+				(mp) => {
+					switch (this.tarefa.sse.tipoDeServicoReal.medida) {
+						case 'a':
+							return (+mp.l == +mr.l && +mp.c == +mr.c) || (+mp.l == +mr.c && +mp.c == +mr.l);
+							break;
+						
+						case 'l':
+							return (+mp.v == +mr.v);
+							break;
+						
+						case 'l':
+							return (+mp.n == +mr.n);
+							break;
+					
+						default:
+							return false;
+							break;
+					}
+				}
+			)
+			console.log(index);
+			if(index == -1){
+				return true;
+			} else {
+				medidasPrevistas.splice(index,1);
+			}
+		}
+
+		// Se chegou até aqui, não possui divergencia
+		return false;
+		
 	}
 
 	onCameraClick(){
@@ -201,5 +292,51 @@ export class TarefaIniciarPage {
 		if(medidas.length == 0){
 			this.addMedida();
 		}
+	}
+
+	onSalvarClick(){
+		this.tarefa.divergente = this.temDivergencia();
+		if(this.tarefa.divergente){
+
+			let confirm = this.alertController.create(<AlertOptions>{
+				title:'Existem divergências entre as medidas ou serviço a ser realizado.',
+				message: 'Deseja notificar essa divergência para a central?',
+				buttons: [
+					{
+						text: 'Não',
+						handler: () => {}
+					},
+					{
+						text: 'Sim',
+						handler: () => {
+							this.salvarInicio();
+						}
+					}
+				]
+			});
+			
+			confirm.present();
+
+		} else {
+			let confirm = this.alertController.create(<AlertOptions>{
+				title:'Deseja registrar que o serviço foi iniciado?',
+				message: 'Esta ação não poderá ser desfeita.',
+				buttons: [
+					{
+						text: 'Não',
+						handler: () => {}
+					},
+					{
+						text: 'Sim, tenho certeza.',
+						handler: () => {
+							this.salvarInicio();
+						}
+					}
+				]
+			});
+
+			confirm.present();
+		}
+
 	}
 }
