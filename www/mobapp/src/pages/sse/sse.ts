@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, AlertOptions } from 'ionic-angular';
 import { Domasa } from "../../_models/domasa";
 import { TipoDeServico } from "../../_models/tipoDeServico";
 import { Storage } from "@ionic/storage";
@@ -10,6 +10,7 @@ import { ToastController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
+import { AlertController } from 'ionic-angular';
 
 @Component({
 	selector: 'page-sse',
@@ -33,7 +34,8 @@ export class SsePage {
 		private loadingConttroller: LoadingController,
 		private toastController: ToastController,
 		private camera:Camera,
-		private sanitizer:DomSanitizer
+		private sanitizer:DomSanitizer,
+		private alertController:AlertController
 	) {}
 
 	ionViewDidLoad() {
@@ -158,7 +160,25 @@ export class SsePage {
 	}
 
 	onSalvarClick(){
-		this.salvar();
+		let confirm = this.alertController.create(<AlertOptions>{
+			title:'Tem certeza que deseja salvar a SSE?',
+			message: 'Sendo salva, poderá ser agendada a alguma equipe de execução. Quando isso acontecer, você não mais poderá alterá-la.',
+			buttons: [
+				{
+					text: 'Não',
+					handler: () => {}
+				},
+				{
+					text: 'Sim, tenho certeza.',
+					handler: () => {
+						this.salvar();
+					}
+				}
+			]
+		})
+
+		confirm.present();
+		
 	}
 
 	onCameraClick(){
