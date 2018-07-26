@@ -76,7 +76,7 @@ export class TarefaIniciarPage {
 				tmp.final_p = (tmp.final_p == null ? null : new Date(tmp.final_p));
 				tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
 				tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
-				tmp.inicio_r = (tmp.inicio_r == null ? null : new Date(tmp.inicio_r));
+				tmp.inicio_r = (tmp.inicio_r == null ? null : tmp.inicio_r.replace(' ','T'));
 
 				// Parsing divergencia
 				tmp.divergente = tmp.divergente=='1';
@@ -186,7 +186,7 @@ export class TarefaIniciarPage {
 	salvarInicio(){
 		this.tarefasProvider.setIniciada(this.tarefa).subscribe(
 			res => {
-				console.log('Mudar para o tab de info!');
+				this.navCtrl.parent.select(0);
 			},
 			err => {
 				// Exibindo toast de erro

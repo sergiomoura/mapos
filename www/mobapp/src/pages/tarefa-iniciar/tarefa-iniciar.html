@@ -5,6 +5,9 @@
 			<button ion-button [disabled]="!form.valid" (click)="onSalvarClick()"><ion-icon name="checkmark"></ion-icon></button>
 		</ion-buttons>
 	</ion-navbar>
+	<div class="divergente" *ngIf="tarefa?.divergente=='1'">
+		Medidas reais ou tipo de serviço divergem do previsto.
+	</div>
 </ion-header>
 
 <ion-content padding>
