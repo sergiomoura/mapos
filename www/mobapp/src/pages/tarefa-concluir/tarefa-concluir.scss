@@ -1,3 +1,68 @@
 page-tarefa-concluir {
-
+	.divergente{
+		top:56px;
+		background-color: #F00;
+		color:#FFF;
+		text-align: center;
+		padding: 10px;
+	}
+	.container-materiais{
+		padding: 10px;
+		border-bottom:1px solid #DEDEDE;
+		.titulo{
+			font-size: 13px;
+			color: #939393;
+			button {
+				position: relative;
+				top: -6px;
+			}
+		}
+		.materiais {
+			margin-top: 10px;
+			color: #939393;
+			ion-row{
+				ion-select {
+					width:250px;
+					border-bottom: 1px solid #DEDEDE;
+					position: relative;
+					top:-2px;
+					margin-right: 10px;
+				}
+				ion-input {
+					border:none;
+					border-bottom: 1px solid #DEDEDE;
+					color:#000;
+				}
+			}
+		}
+		padding-bottom: 20px;
+	}
+	.container-fotos{
+		padding:16px;
+		border-bottom:1px solid #DEDEDE;
+		.titulo{
+			font-size: 13px;
+			color: #939393;
+		}
+		.fotos{
+			margin-top: 10px;
+			color: #939393;
+			
+			.foto {
+				position: relative;
+				button {
+					position: absolute;
+					bottom: 5px;
+					left: 2px;
+					background-color: rgba(255, 255, 255,0.3);
+					border-radius: 20px;
+					width: 28px;
+					font-size: 10px;
+					height: 28px;
+					color: #000;
+				}
+			}
+		}
+	}
 }
+

@@ -22,6 +22,7 @@ export class Urls {
 	public get domasas() : string {return this.apiRoot() + '/domasas';}
 	public get tiposDeServico() : string {return this.apiRoot() + '/tdss';}
 	public get tarefas() : string {return this.apiRoot() + '/tarefas';}
+	public get produtos() : string {return this.apiRoot() + '/estoque/produtos/paraExecucao';}
 	
 
 	apiRoot():string{

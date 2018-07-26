@@ -17,4 +17,8 @@ export class GeralProvider {
 	getTiposDeServico() {
 		return this.http.get(this.urls.tiposDeServico);
 	}
+
+	getProdutos() {
+		return this.http.get(this.urls.produtos);
+	}
 }

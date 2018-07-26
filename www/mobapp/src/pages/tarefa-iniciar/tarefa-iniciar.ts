@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertOptions } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
 import { LoadingController } from 'ionic-angular';
 import { GeralProvider } from "../../providers/geral/geral";

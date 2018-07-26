@@ -1,18 +1,73 @@
-<!--
-  Generated template for the TarefaConcluirPage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>tarefa-concluir</ion-title>
-  </ion-navbar>
-
+	<ion-navbar color ="primary">
+		<ion-title>Final de Exec. SSE {{tarefa?.sse?.numero}}</ion-title>
+		<ion-buttons end>
+			<button ion-button [disabled]="!form.valid" (click)="onSalvarClick()"><ion-icon name="checkmark"></ion-icon></button>
+		</ion-buttons>
+	</ion-navbar>
+	<div class="divergente" *ngIf="tarefa?.divergente=='1'">
+		Medidas reais ou tipo de serviço divergem do previsto.
+	</div>
 </ion-header>
 
 
 <ion-content padding>
+	<form #form="ngForm">
+		<ion-item>
+			<ion-label floating>Data da Conclusão (Realizado)</ion-label>
+			<ion-datetime required name="data" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.final_r"></ion-datetime>
+		</ion-item>
 
+		<ion-item>
+			<ion-label floating>Hora da Conclusão (Realizado)</ion-label>
+			<ion-datetime required name="hora" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.final_r" ></ion-datetime>
+		</ion-item>
+
+		<ion-item>
+			<ion-label floating>Observações</ion-label>
+			<ion-input name="obs" [(ngModel)]="tarefa.observacoes" ></ion-input>
+		</ion-item>
+
+		<div class="container-materiais">
+			<div class="titulo">
+				Material Utilizado
+				<button
+					ion-button
+					small
+					color="dark"
+					clear
+					(click)="addMaterial()">
+					<ion-icon name="add"></ion-icon>
+				</button>
+			</div>
+			<div class="materiais">
+				
+				<ion-row align-items-center>
+					<ion-select name="produto">
+						<ion-option *ngFor="let produto of produtos">{{produto.nome}} [{{produto.unidade}}]</ion-option>
+					</ion-select>
+					<ion-input type="number" step="0.01" value="2.3"></ion-input>
+				</ion-row>
+
+			</div>
+		</div>
+		
+	</form>
+
+	<div class="container-fotos">
+		<div class="titulo">Fotos</div>
+		<div class="fotos">
+			<div class="foto" *ngFor="let foto of tarefa?.fotos_fim; let i=index">
+				<img [src]="foto" alt="foto_{{i}}">
+				<button ion-button clear icon-only (click)="rmFoto(i)">
+					<ion-icon name="trash"></ion-icon>
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<ion-fab bottom right >
+		<button (click)="onCameraClick()" color="secondary" ion-fab><ion-icon name="camera"></ion-icon></button>
+	</ion-fab>
 </ion-content>
