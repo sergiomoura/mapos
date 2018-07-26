@@ -622,11 +622,11 @@
 		// Inserindo medidas novas (como tipo r)
 		switch ($tarefa->sse->tipoDeServicoReal->medida) {
 			case 'a':
-				$sql = 'INSERT INTO maxse_medidas_area (l,c,tipo) VALUES (:l,:c,"r")';
+				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo) VALUES (:l,:c,:id_sse,"r")';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_area->real as $m) {
 					try {
-						$stmt->execute(array(':l'=>$m->l, ':c'=>$m->c));
+						$stmt->execute(array(':l'=>$m->l, ':c'=>$m->c, ':id_sse' => $tarefa->sse->id));
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -640,11 +640,11 @@
 				break;
 			
 			case 'l':
-				$sql = 'INSERT INTO maxse_medidas_linear (v,tipo) VALUES (:v,"r")';
+				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo) VALUES (:v,:id_sse,"r")';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_linear->real as $m) {
 					try {
-						$stmt->execute(array(':v'=>$m->v));
+						$stmt->execute(array(':v'=>$m->v,':id_sse'=>$tarefa->sse->id));
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -658,11 +658,11 @@
 				break;
 			
 			case 'u':
-				$sql = 'INSERT INTO maxse_medidas_unidades (n,tipo) VALUES (:n,"r")';
+				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo) VALUES (:n,:id_sse,"r")';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_unidades->real as $m) {
 					try {
-						$stmt->execute(array(':n'=>$m->n));
+						$stmt->execute(array(':n'=>$m->n,':id_sse'=>$tarefa->sse->id));
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -674,8 +674,12 @@
 					}
 				}
 				break;
+			default:
+				// Retornando erro para usuário
+				return $res
+				->withStatus(400)
+				->write('Tipo de medida desconhecido');
 		}
-		$sql = '';
 		
 		// Atualizando tarefa (inicio_r, divergente)
 		$sql = 'UPDATE maxse_tarefas SET inicio_r=:inicio_r, divergente=:divergente WHERE id=:id_tarefa';
