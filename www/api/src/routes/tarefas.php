@@ -495,6 +495,8 @@
 	});
 
 	$app->patch($api_root.'/tarefas/{id}/iniciada', function(Request $req, Response $res, $args = []){
+		
+		// Lendo a tarefa na requisição
 		$tarefa = json_decode($req->getBody()->getContents());
 		
 		// :::::::: OPERAÇÕES DE FS ::::::::
@@ -510,14 +512,14 @@
 			array_shift($arquivos);
 			array_shift($arquivos);
 
+			// Criando um vetor que guarda os caminhos para remoção futura
+			$paraRemover = array();
+
 			// Salvando fotos nos arrays
 			foreach ($arquivos as $arquivo) {
 
 				// Determinando o caminho completo para a foto
 				$caminho = $pasta.'/'.$arquivo;
-
-				// Criando um vetor que guarda os caminhos para remoção futura
-				$paraRemover = array();
 
 				// Lendo conteúdo de arquivo, caso ele seja do tipo ini
 				if (substr($arquivo,0,3) == 'ini') {
@@ -555,19 +557,154 @@
 		// :::::::::::::::::::::::::::::::::
 
 		// :::::::::OPERAÇÕES DE DB ::::::::
+		$this->db->beginTransaction();
+
 		// Atualizando SSE (tipo_de_servico_r, status)
+		$sql = 'UPDATE maxse_sses SET id_tipo_de_servico_r=:tds_r, status=sseStatus("EM_EXECUCAO") where id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(
+				array(
+					':tds_r' => $tarefa->sse->tipoDeServicoReal->id,
+					':id_sse' => $tarefa->sse->id
+				)
+			);
+		} catch (Exception $e) {
+			
+			// Falhou! Rollback
+			$this->db->rollback();
+
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar atualizar SSE: '.$e->getMessage());
+		}
+		
 
 		// Removendo medidas antigas (do tipo r)
+		switch ($tarefa->sse->tipoDeServicoReal->medida) {
+			case 'a':
+				$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse = :id_sse AND tipo="r"';
+				break;
+			
+			case 'l':
+				$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse = :id_sse AND tipo="r"';
+				break;
+			
+			case 'u':
+				$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse = :id_sse AND tipo="r"';
+				break;
+
+			default:
+				// Retornando erro para usuário
+				return $res
+				->withStatus(400)
+				->write('Tipo de medida desconhecido');
+		}
+		
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(
+				array(
+					':id_sse' => $tarefa->sse->id
+				)
+			);
+		} catch (Exception $e) {
+			// Falhou! Rollback
+			$this->db->rollback();
+
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar remover medidas: '.$e->getMessage());
+		}
 
 		// Inserindo medidas novas (como tipo r)
+		switch ($tarefa->sse->tipoDeServicoReal->medida) {
+			case 'a':
+				$sql = 'INSERT INTO maxse_medidas_area (l,c,tipo) VALUES (:l,:c,"r")';
+				$stmt = $this->db->prepare($sql);
+				foreach ($tarefa->sse->medidas_area->real as $m) {
+					try {
+						$stmt->execute(array(':l'=>$m->l, ':c'=>$m->c));
+					} catch (Exception $e) {
+						// Falhou. Rollback!
+						$this->db->rollback();
 
+						// Retornando erro para usuário
+						return $res
+						->withStatus(500)
+						->write('Falha ao tentar inserir medidas: '.$e->getMessage());
+					}
+				}
+				break;
+			
+			case 'l':
+				$sql = 'INSERT INTO maxse_medidas_linear (v,tipo) VALUES (:v,"r")';
+				$stmt = $this->db->prepare($sql);
+				foreach ($tarefa->sse->medidas_linear->real as $m) {
+					try {
+						$stmt->execute(array(':v'=>$m->v));
+					} catch (Exception $e) {
+						// Falhou. Rollback!
+						$this->db->rollback();
+
+						// Retornando erro para usuário
+						return $res
+						->withStatus(500)
+						->write('Falha ao tentar inserir medidas: '.$e->getMessage());
+					}
+				}
+				break;
+			
+			case 'u':
+				$sql = 'INSERT INTO maxse_medidas_unidades (n,tipo) VALUES (:n,"r")';
+				$stmt = $this->db->prepare($sql);
+				foreach ($tarefa->sse->medidas_unidades->real as $m) {
+					try {
+						$stmt->execute(array(':n'=>$m->n));
+					} catch (Exception $e) {
+						// Falhou. Rollback!
+						$this->db->rollback();
+
+						// Retornando erro para usuário
+						return $res
+						->withStatus(500)
+						->write('Falha ao tentar inserir medidas: '.$e->getMessage());
+					}
+				}
+				break;
+		}
+		$sql = '';
+		
 		// Atualizando tarefa (inicio_r, divergente)
+		$sql = 'UPDATE maxse_tarefas SET inicio_r=:inicio_r, divergente=:divergente WHERE id=:id_tarefa';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(
+				array(
+					':inicio_r' => str_replace('Z','',str_replace('T',' ',$tarefa->inicio_r)),
+					':divergente' => $tarefa->divergente ? 1 : 0,
+					':id_tarefa' => $tarefa->id
+				)
+			);	
+		} catch (Exception $e) {
+			// Falhou. Rollback!
+			$this->db->rollback();
 
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar atualizar tarefa: '.$e->getMessage());
+		}
+		
+		// Chegou aqui é por que está tudo certo! Commit!
+		$this->db->commit();
 
 		// :::::::::::::::::::::::::::::::::
 
 
 		// Retornando erro para usuário
 		return $res
-		->withStatus(503);
+		->withStatus(200);
 	});
