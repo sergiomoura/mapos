@@ -52,6 +52,7 @@
 			<div class="titulo">
 				Medidas Realizadas
 				<button
+					[disabled]="!tarefa.sse.tipoDeServicoReal"
 					ion-button
 					small
 					color="dark"

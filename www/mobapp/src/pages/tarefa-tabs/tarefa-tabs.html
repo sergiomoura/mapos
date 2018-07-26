@@ -1,5 +1,5 @@
 <ion-tabs>
-    <ion-tab [root]="tarefaInfoRoot"     [rootParams]="{'id_tarefa':id_tarefa}" tabIcon="information-circle"></ion-tab>
-    <ion-tab [root]="tarefaIniciarRoot"  [rootParams]="{'id_tarefa':id_tarefa}" tabIcon="construct"></ion-tab>
-    <ion-tab [root]="tarefaConcluirRoot" [rootParams]="{'id_tarefa':id_tarefa}" tabIcon="download"></ion-tab>
+    <ion-tab [root]="tarefaInfoRoot"     [rootParams]="{'id_tarefa':id_tarefa}" tabIcon="information-circle" tabTitle="Informações" ></ion-tab>
+    <ion-tab [root]="tarefaIniciarRoot"  [rootParams]="{'id_tarefa':id_tarefa}" tabIcon="construct" tabTitle="Iniciar Serviço"></ion-tab>
+    <ion-tab [root]="tarefaConcluirRoot" [rootParams]="{'id_tarefa':id_tarefa}" tabIcon="download" tabTitle="Concluir Serviço"></ion-tab>
 </ion-tabs>

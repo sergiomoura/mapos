@@ -533,7 +533,7 @@
 		
 		// Salvando fotos novas
 		foreach ($tarefa->fotos_inicio as $i => $foto) {
-			$data = str_replace('data:image/jpeg;base64,','',$foto);
+			$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
 			$data = base64_decode($data);
 
 			// O nome do arquivo será
