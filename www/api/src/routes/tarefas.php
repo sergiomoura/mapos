@@ -496,10 +496,77 @@
 
 	$app->patch($api_root.'/tarefas/{id}/iniciada', function(Request $req, Response $res, $args = []){
 		$tarefa = json_decode($req->getBody()->getContents());
-		echo('<pre>');
-		print_r($tarefa);
-		echo('</pre>');
 		
+		// :::::::: OPERAÇÕES DE FS ::::::::
+		
+		// RENOMEANDO FOTOS ANTIGAS
+		$pasta = $this->maxse['caminho_para_fotos_tarefas'].$tarefa->id;
+		if(file_exists($pasta)){
+
+			// Listando os arquivos que existem na pasta
+			$arquivos = scandir($pasta);
+
+			// Removenod o . e o ..
+			array_shift($arquivos);
+			array_shift($arquivos);
+
+			// Salvando fotos nos arrays
+			foreach ($arquivos as $arquivo) {
+
+				// Determinando o caminho completo para a foto
+				$caminho = $pasta.'/'.$arquivo;
+
+				// Criando um vetor que guarda os caminhos para remoção futura
+				$paraRemover = array();
+
+				// Lendo conteúdo de arquivo, caso ele seja do tipo ini
+				if (substr($arquivo,0,3) == 'ini') {
+					rename($caminho,$caminho.'.old');
+					array_push($paraRemover, $caminho.'.old');
+				}
+			}
+		} else {
+			mkdir($pasta);
+		}
+		
+		// Salvando fotos novas
+		foreach ($tarefa->fotos_inicio as $i => $foto) {
+			$data = str_replace('data:image/jpeg;base64,','',$foto);
+			$data = base64_decode($data);
+
+			// O nome do arquivo será
+			$caminho = $pasta.'/ini-'.($i+1).'.jpg';
+
+			// Abrindo arquivo para escrita
+			$ifp = fopen( $caminho, 'wb' ); 
+
+			// Escrevendo dados no arquivo
+			fwrite( $ifp, $data);
+
+			// clean up the file resource
+			fclose( $ifp ); 
+		}
+
+		// Removendo fotos antigas
+		foreach ($paraRemover as $arquivo) {
+			unlink($arquivo);
+		}
+
+		// :::::::::::::::::::::::::::::::::
+
+		// :::::::::OPERAÇÕES DE DB ::::::::
+		// Atualizando SSE (tipo_de_servico_r, status)
+
+		// Removendo medidas antigas (do tipo r)
+
+		// Inserindo medidas novas (como tipo r)
+
+		// Atualizando tarefa (inicio_r, divergente)
+
+
+		// :::::::::::::::::::::::::::::::::
+
+
 		// Retornando erro para usuário
 		return $res
 		->withStatus(503);
