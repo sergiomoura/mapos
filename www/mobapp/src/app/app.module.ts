@@ -26,7 +26,7 @@ import { TarefaPageModule } from '../pages/tarefa/tarefa.module';
 import { TarefaTabsPage } from '../pages/tarefa-tabs/tarefa-tabs';
 import { TarefaTabsPageModule } from '../pages/tarefa-tabs/tarefa-tabs.module';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
-import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import { LaunchNavigator } from '@ionic-native/launch-navigator';
 
 @NgModule({
 	declarations: [

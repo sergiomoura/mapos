@@ -217,9 +217,6 @@ export class TarefaIniciarPage {
 			return true;
 		}
 
-		console.dir(medidasReais);
-		console.dir(medidasPrevistas);
-
 		// Verificando se há divergências nos valores
 		let index:number;
 		for (let i = 0; i < medidasReais.length; i++) {
@@ -229,23 +226,18 @@ export class TarefaIniciarPage {
 					switch (this.tarefa.sse.tipoDeServicoReal.medida) {
 						case 'a':
 							return (+mp.l == +mr.l && +mp.c == +mr.c) || (+mp.l == +mr.c && +mp.c == +mr.l);
-							break;
 						
 						case 'l':
 							return (+mp.v == +mr.v);
-							break;
 						
-						case 'l':
+						case 'u':
 							return (+mp.n == +mr.n);
-							break;
 					
 						default:
 							return false;
-							break;
 					}
 				}
 			)
-			console.log(index);
 			if(index == -1){
 				return true;
 			} else {
@@ -256,6 +248,27 @@ export class TarefaIniciarPage {
 		// Se chegou até aqui, não possui divergencia
 		return false;
 		
+	}
+
+	rmFoto(i) {
+		let confirm = this.alertController.create(<AlertOptions>{
+			title:'Deseja mesmo remover a foto?',
+			message: '',
+			buttons: [
+				{
+					text: 'Não',
+					handler: () => {}
+				},
+				{
+					text: 'Sim, tenho certeza',
+					handler: () => {
+						this.tarefa.fotos_inicio.splice(i,1);
+					}
+				}
+			]
+		});
+		
+		confirm.present();
 	}
 
 	onCameraClick(){
