@@ -306,7 +306,7 @@ CREATE TABLE `estoque_produtos` (
   `ultimo_movimento` datetime DEFAULT NULL,
   `valor_unit` decimal(22,15) NOT NULL DEFAULT '0.000000000000000',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -315,7 +315,7 @@ CREATE TABLE `estoque_produtos` (
 
 LOCK TABLES `estoque_produtos` WRITE;
 /*!40000 ALTER TABLE `estoque_produtos` DISABLE KEYS */;
-INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,120.000000,'2018-07-24 09:02:22',100.000000000000000),(4,'Guias','m',100.000000,10000.000000,0.000000,NULL,0.000000000000000),(5,'Terra','m³',1000.000000,NULL,0.000000,NULL,0.000000000000000);
+INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,120.000000,'2018-07-24 09:02:22',100.000000000000000),(4,'Guias','m',100.000000,10000.000000,0.000000,NULL,0.000000000000000),(5,'Terra','m³',1000.000000,NULL,0.000000,NULL,0.000000000000000),(10,'CBUQ','T',0.000000,NULL,0.000000,NULL,0.000000000000000);
 /*!40000 ALTER TABLE `estoque_produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -770,6 +770,35 @@ INSERT INTO `maxse_tipos_de_servico` VALUES (1,'37','A',3.5,'Construção e/ou r
 UNLOCK TABLES;
 
 --
+-- Table structure for table `maxse_tipos_de_servico_x_produtos`
+--
+
+DROP TABLE IF EXISTS `maxse_tipos_de_servico_x_produtos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `maxse_tipos_de_servico_x_produtos` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_tipo` int(11) NOT NULL,
+  `id_produto` int(11) NOT NULL,
+  `qtde_por_unidade_de_trab` decimal(15,6) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_maxse_tipos_de_servico_x_produtos_1_idx` (`id_tipo`),
+  KEY `fk_maxse_tipos_de_servico_x_produtos_2_idx` (`id_produto`),
+  CONSTRAINT `fk_maxse_tipos_de_servico_x_produtos_1` FOREIGN KEY (`id_tipo`) REFERENCES `maxse_tipos_de_servico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_maxse_tipos_de_servico_x_produtos_2` FOREIGN KEY (`id_produto`) REFERENCES `estoque_produtos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `maxse_tipos_de_servico_x_produtos`
+--
+
+LOCK TABLES `maxse_tipos_de_servico_x_produtos` WRITE;
+/*!40000 ALTER TABLE `maxse_tipos_de_servico_x_produtos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `maxse_tipos_de_servico_x_produtos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `maxse_usuarios`
 --
 
@@ -799,7 +828,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5a03c973e346.07921161','2018-07-26 15:24:25',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b5a001817e942.48222837','2018-07-26 15:08:40',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b5a0358eb4064.53752238','2018-07-26 15:22:32',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5ad9eceb1286.39168392','2018-07-27 06:38:04',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b5a001817e942.48222837','2018-07-26 15:08:40',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b5adcce26bda3.42046776','2018-07-27 06:50:22',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -855,4 +884,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-26 14:26:10
+-- Dump completed on 2018-07-27  6:00:46

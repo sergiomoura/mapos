@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertOptions } from 'ionic-angular';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { DomSanitizer } from '@angular/platform-browser';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+// import { Camera } from '@ionic-native/camera';
+// import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
 import { GeralProvider } from "../../providers/geral/geral";
 import { LoadingController } from 'ionic-angular';
-import { AlertController } from 'ionic-angular';
+// import { AlertController } from 'ionic-angular';
 import { Produto } from "../../_models/produto";
 
 @IonicPage()
@@ -27,12 +27,12 @@ export class TarefaConcluirPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		private camera: Camera,
-		private sanitizer:DomSanitizer,
+		// private camera: Camera,
+		// private sanitizer:DomSanitizer,
 		private tarefasProvider:TarefasProvider,
 		private toastController: ToastController,
 		private loadingConttroller: LoadingController,
-		private alertController:AlertController,
+		// private alertController:AlertController,
 		private provider:GeralProvider,
 	) {	}
 
@@ -117,7 +117,4 @@ export class TarefaConcluirPage {
 			this.tarefa = this.tmpTarefa;
 		}
 	}
-
-	
-
 }
