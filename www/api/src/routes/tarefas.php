@@ -45,8 +45,58 @@
 	
 	$app->get($api_root.'/tarefas/{id}/all',function(Request $req, Response $res, $args = []){
 
-		// Lendo id da url
+		// Lendo id da tarefa da url
 		$id_tarefa = 1*$args['id'];
+
+		// Capturando o token do header HTTP_AUTHORIZATION;
+		$token = str_replace('Bearer ','',$req->getHeaders()['HTTP_AUTHORIZATION'][0]);
+
+		// Verificano se usuário é  líder de equipe
+		$sql = 'SELECT
+					a.id_equipe
+				FROM
+					maxse_membros a
+					inner join maxse_usuarios b on a.id_pessoa=b.id_pessoa
+				WHERE token=:token';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':token' => $token
+			)
+		);
+		$rs = $stmt->fetch();
+		if($rs === false){
+			$eh_lider = false;
+			$id_equipe = null;
+		} else {
+			$eh_lider = true;
+			$id_equipe = $rs->id_equipe;
+		}
+
+		// Se for líder de equipe, verificando se a tarefa ainda é dele e se o status da sse dela não foi cancelada
+		if($eh_lider) {
+			$sql = 'SELECT
+						count(*)=1 as ok
+					FROM
+						maxse_tarefas a
+						INNER JOIN maxse_sses b ON a.id_sse=b.id
+					WHERE b.status<>sseStatus("CANCELADA") AND a.id_equipe=:id_equipe AND a.id=:id_tarefa';
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute(
+				array(
+					':id_equipe' => $id_equipe,
+					':id_tarefa' => $id_tarefa
+				)
+			);
+			$ok = ($stmt->fetch())->ok;
+			if($ok !== '1') {
+				// Retornando erro para usuário
+				return $res
+				->withStatus(403)
+				->write('Tarefa não autorizada para esta equipe');
+			}
+		}
+
 
 		// Recuperando tarefa da base de dados
 		$sql = 'SELECT
