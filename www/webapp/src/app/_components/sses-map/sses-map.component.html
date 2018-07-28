@@ -10,11 +10,11 @@
 		[iconUrl]="'assets/' + sse.markerFile"
 		(markerClick)="onMarkerClick(infowindow)">
 		<agm-info-window [disableAutoPan]="true" #infowindow>
-			<div class="numero">SSE: {{sse.numero}}</div>
-			<div class="endereco">{{sse.endereco}}</div>
-			<div>RG{{sse.tipoDeServico.codigo}} - {{sse.tipoDeServico.descricao}}</div>
-			<div class="status">{{sse.statusMessage}}</div>
-			<div class="prazo">Prazo de entrega: {{sse.prazoFinal.toLocaleString()}}</div>
+			<div class="numero">SSE: {{sse?.numero}}</div>
+			<div class="endereco">{{sse?.endereco}}</div>
+			<div>RG{{sse?.tipoDeServico?.codigo}} - {{sse?.tipoDeServico?.descricao}}</div>
+			<div class="status">{{sse?.statusMessage}}</div>
+			<div class="prazo">Prazo de entrega: {{sse?.prazoFinal?.toLocaleString()}}</div>
 			<div>
 				Equipe Atual: {{ sse.equipe ? ' [' + sse.equipe.sigla + '] - ' + sse.equipe.nome : ' NENHUMA'}}
 			</div>

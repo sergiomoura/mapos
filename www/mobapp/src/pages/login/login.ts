@@ -27,6 +27,7 @@ export class LoginPage {
 
 	ionViewDidLoad() {
 		this.storage.remove('currentUser');
+		this.storage.remove('tarefaAtual');
 	}
 
 	onEntrarClick(){

@@ -26,4 +26,8 @@ export class TarefasProvider {
 		return this.http.patch(this.urls.tarefas + '/' + tarefa.id + '/iniciada',tarefa);
 	}
 
+	setDivergente(tarefa){
+		return this.http.patch(this.urls.tarefas + '/' + tarefa.id + '/divergente',tarefa);
+	}
+
 }

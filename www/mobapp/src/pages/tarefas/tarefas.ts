@@ -24,6 +24,10 @@ export class TarefasPage {
 	private tmpTarefas: any[];
 
 	ionViewDidLoad() {
+		
+	}
+
+	ionViewWillEnter(){
 		this.getTarefas();
 	}
 

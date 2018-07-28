@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertOptions } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Events } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
@@ -21,9 +21,11 @@ export class TarefaIniciarPage {
 		sse: {
 			tipoDeServicoReal: undefined,
 			tipoDeServicoPrev: undefined
-		}
+		},
+		fotos_inicio: []
 	};
 	tiposDeServico: TipoDeServico[];
+	executarComAutorizacao: boolean = false;
 
 	constructor(
 		public navCtrl: NavController,
@@ -34,7 +36,8 @@ export class TarefaIniciarPage {
 		private toastController: ToastController,
 		private provider: GeralProvider,
 		private alertController: AlertController,
-		private storage: Storage
+		private storage: Storage,
+		public events:Events
 	) { }
 
 	ionViewDidLoad() {
@@ -182,12 +185,34 @@ export class TarefaIniciarPage {
 	salvarInicio() {
 		this.tarefasProvider.setIniciada(this.tarefa).subscribe(
 			res => {
+				this.storage.set('tarefaAtual',this.tarefa);
 				this.navCtrl.parent.select(0);
+				this.events.publish('tarefa:iniciada');
 			},
 			err => {
 				// Exibindo toast de erro
 				const toast = this.toastController.create({
 					message: 'Falha ao tentar registrar início de tarefa!',
+					duration: 0,
+					showCloseButton: true,
+					closeButtonText: 'X'
+				});
+				toast.present();
+			}
+		)
+	}
+
+	salvarDivergencia() {
+		this.tarefasProvider.setDivergente(this.tarefa).subscribe(
+			res => {
+				this.storage.set('tarefaAtual',this.tarefa);
+				this.navCtrl.parent.select(0);
+				this.events.publish('tarefa:divergente');
+			},
+			err => {
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+					message: 'Falha ao tentar registrar divergência de tarefa!',
 					duration: 0,
 					showCloseButton: true,
 					closeButtonText: 'X'
@@ -301,51 +326,55 @@ export class TarefaIniciarPage {
 		if (medidas.length == 0) {
 			this.addMedida();
 		}
+
+		this.tarefa.divergente = this.temDivergencia();
+	}
+
+	onMedidaBlur(){
+		this.tarefa.divergente = this.temDivergencia();
 	}
 
 	onSalvarClick() {
-		this.tarefa.divergente = this.temDivergencia();
-		if (this.tarefa.divergente) {
-
-			let confirm = this.alertController.create(<AlertOptions>{
-				title: 'Existem divergências entre as medidas ou serviço a ser realizado.',
-				message: 'Deseja notificar essa divergência para a central?',
-				buttons: [
-					{
-						text: 'Não',
-						handler: () => { }
-					},
-					{
-						text: 'Sim',
-						handler: () => {
-							this.salvarInicio();
-						}
+		
+		let confirm = this.alertController.create(<AlertOptions>{
+			title: 'Deseja registrar que o serviço foi iniciado?',
+			message: 'Esta ação não poderá ser desfeita.',
+			buttons: [
+				{
+					text: 'Não',
+					handler: () => { }
+				},
+				{
+					text: 'Sim, tenho certeza.',
+					handler: () => {
+						this.salvarInicio();
 					}
-				]
-			});
+				}
+			]
+		});
 
-			confirm.present();
+		confirm.present();
+	}
 
-		} else {
-			let confirm = this.alertController.create(<AlertOptions>{
-				title: 'Deseja registrar que o serviço foi iniciado?',
-				message: 'Esta ação não poderá ser desfeita.',
-				buttons: [
-					{
-						text: 'Não',
-						handler: () => { }
-					},
-					{
-						text: 'Sim, tenho certeza.',
-						handler: () => {
-							this.salvarInicio();
-						}
+	onSalvarDivergenciaClick() {
+		let confirm = this.alertController.create(<AlertOptions>{
+			title: 'Deseja registrar este serviço como divergente?',
+			message: 'Ele não será iniciado e você poderá se encaminhar para o início de um outro serviço. Ele somente pode ser iniciado com autorização.',
+			buttons: [
+				{
+					text: 'Não',
+					handler: () => { }
+				},
+				{
+					text: 'Sim',
+					handler: () => {
+						this.tarefa.inicio_r = null;
+						this.salvarDivergencia();
 					}
-				]
-			});
+				}
+			]
+		});
 
-			confirm.present();
-		}
-
+		confirm.present();
 	}
 }

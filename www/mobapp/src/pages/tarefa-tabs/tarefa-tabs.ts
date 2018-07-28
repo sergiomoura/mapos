@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { Storage } from "@ionic/storage";
 import { TarefasProvider } from "../../providers/tarefas/tarefas";
 
@@ -15,15 +15,39 @@ export class TarefaTabsPage {
 	tarefaIniciarRoot = 'TarefaIniciarPage'
 	tarefaConcluirRoot = 'TarefaConcluirPage'
 	id_tarefa:number;
+	tarefa:any;
 
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private tarefaProvider: TarefasProvider,
 		private storage:Storage,
-		private toastController: ToastController
+		private toastController: ToastController,
+		public events:Events
 	) {
 		this.id_tarefa = +this.navParams.data.id_tarefa;
+		
+		// Subscribe para quando a tarefa for iniciada
+		this.events.subscribe('tarefa:iniciada',
+			() => {
+				this.storage.get('tarefaAtual').then(
+					(tarefa) => {
+						this.tarefa = tarefa;
+					}
+				)
+			}
+		)
+
+		// Subscribe para quando a tarefa for registrada como divergente
+		this.events.subscribe('tarefa:divergente',
+			() => {
+				this.storage.get('tarefaAtual').then(
+					(tarefa) => {
+						this.tarefa = tarefa;
+					}
+				)
+			}
+		)
 	}
 
 	ionViewDidLoad(){
@@ -35,7 +59,11 @@ export class TarefaTabsPage {
 			res => {
 				this.storage.set('tarefaAtual',res).then(
 					(tarefa)=>{
-						// TODO: Anunciar para os tab inicial que a tarefa foi carregada
+						// Guardando tarefa em variável local
+						this.tarefa = tarefa;
+
+						// Disparando evento que a tarefa foi carregada e salva no cel
+						this.events.publish('tarefa:carregada');
 					},
 					(y)=>{
 						// Exibindo toast de erro
