@@ -4,9 +4,11 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 // import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
 import { GeralProvider } from "../../providers/geral/geral";
-import { LoadingController } from 'ionic-angular';
 // import { AlertController } from 'ionic-angular';
 import { Produto } from "../../_models/produto";
+import { Storage } from '@ionic/storage';
+import { format } from "date-fns";
+
 
 @IonicPage()
 @Component({
@@ -25,96 +27,55 @@ export class TarefaConcluirPage {
 	produtos:Produto[];
 
 	constructor(
+		private storage:Storage,
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		// private camera: Camera,
 		// private sanitizer:DomSanitizer,
 		private tarefasProvider:TarefasProvider,
 		private toastController: ToastController,
-		private loadingConttroller: LoadingController,
 		// private alertController:AlertController,
 		private provider:GeralProvider,
 	) {	}
 
-	ionViewDidLoad() {
-		this.getProdutos();
-	}
+	ionViewDidLoad() { }
 
 	ionViewWillEnter(){
-		this.getTarefa(<number>this.navParams.data.id_tarefa);
+		this.getTarefa();
 	}
 
-	getProdutos(){
-		this.provider.getProdutos().subscribe(
-			res => {
-				this.produtos = <Produto[]>res;
-				this.parseTarefa();
+
+	getTarefa() {
+		let intervalo = window.setInterval(
+			() => {
+				this.storage.get('tarefaAtual').then(
+					(res) => {
+						if (res) {
+							window.clearInterval(intervalo);
+
+							// Transformando o tipo de res de Object para Any
+							let tmp = <any>res;
+
+							// Parsing dates
+							tmp.final_p = (tmp.final_p == null ? null : new Date(tmp.final_p));
+							tmp.final_r = (tmp.final_r == null ? format(new Date(), 'YYYY-MM-DDTHH:mm:ss') : new Date(tmp.final_r));
+							tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
+							tmp.inicio_r = (tmp.inicio_r == null ? null : tmp.inicio_r.replace(' ', 'T'));
+
+							// Parsing divergencia
+							tmp.divergente = tmp.divergente == '1';
+
+							// Atribuindo a propriedade pública tarefa
+							this.tarefa = tmp;
+
+						}
+					},
+					err => {
+						console.log('Não leu do storage');
+					}
+				)
 			},
-			err => {
-				// Exibindo toast de erro
-				const toast = this.toastController.create({
-					message: 'Falha ao tentar carregar produtos',
-					duration: 0,
-					showCloseButton: true,
-					closeButtonText: 'X'
-				});
-				toast.present();
-			}
+			200
 		)
-	}
-
-	getTarefa(id_tarefa:number){
-		// Criando e mostrando loading
-		let loading = this.loadingConttroller.create();
-		loading.setContent('Aguarde...').present();
-
-		// Fazendo requisição para carregar tarefa
-		this.tarefasProvider.getCompleteById(this.navParams.data.id_tarefa, true)
-		.subscribe(
-			res => {
-				
-				// Esconde o carregando
-				loading.dismiss();
-
-				// Atribuindo resposta ao tmpTarefa
-				this.tmpTarefa = res;
-
-				// Chamando o parse tarefa
-				this.parseTarefa();
-				
-			},
-			err => {
-				// Esconde o carregando
-				loading.dismiss();
-				
-				// Exibindo toast de erro
-				const toast = this.toastController.create({
-					message: 'Falha ao carregar tarefa',
-					duration: 0,
-					showCloseButton: true,
-					closeButtonText: 'X'
-				});
-				toast.present();
-
-				// Imprimindo erro no console
-				console.warn(err);
-			}
-		)
-	}
-
-	parseTarefa(){
-		if(this.produtos && this.tmpTarefa){
-			// Parsing dates
-			this.tmpTarefa.final_p = (this.tmpTarefa.final_p == null ? null : new Date(this.tmpTarefa.final_p));
-			this.tmpTarefa.final_r = (this.tmpTarefa.final_r == null ? null : this.tmpTarefa.final_r.replace(' ','T'));
-			this.tmpTarefa.inicio_p = (this.tmpTarefa.inicio_p == null ? null : new Date(this.tmpTarefa.inicio_p));
-			this.tmpTarefa.inicio_r = (this.tmpTarefa.inicio_r == null ? null : new Date(this.tmpTarefa.inicio_r));
-	
-			// Parsing divergencia
-			this.tmpTarefa.divergente = this.tmpTarefa.divergente=='1';
-	
-			// Atribuindo a propriedade pública tarefa
-			this.tarefa = this.tmpTarefa;
-		}
 	}
 }

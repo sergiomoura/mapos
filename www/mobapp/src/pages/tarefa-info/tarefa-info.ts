@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams , ToastController } from 'ionic-ang
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
 import { LoadingController } from 'ionic-angular';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -16,59 +17,33 @@ export class TarefaInfoPage {
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
-		private tarefasProvider:TarefasProvider,
-		private toastController: ToastController,
-		private loadingConttroller: LoadingController,
-		private launchNavigator: LaunchNavigator
+		private launchNavigator: LaunchNavigator,
+		private storage:Storage
 	) {	}
 
 	ionViewDidLoad() {
 	}
 
 	ionViewWillEnter(){
-		this.getTarefa(<number>this.navParams.data.id_tarefa)
+		this.getTarefa()
 	}
 
-	getTarefa(id_tarefa:number){
-		// Criando e mostrando loading
-		let loading = this.loadingConttroller.create();
-		loading.setContent('Aguarde...').present();
-
-		// Fazendo requisição para carregar tarefa
-		this.tarefasProvider.getCompleteById(this.navParams.data.id_tarefa)
-		.subscribe(
-			res => {
-				// Esconde o carregando
-				loading.dismiss();
-
-				// Transformando o tipo de res de Object para Any
-				let tmp = <any>res;
-
-				// Parsing dates
-				tmp.final_p = (tmp.final_p == null ? null : new Date(tmp.final_p));
-				tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
-				tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
-				tmp.inicio_r = (tmp.inicio_r == null ? null : new Date(tmp.inicio_r));
-
-				// Atribuindo a propriedade pública tarefa
-				this.tarefa = tmp;
+	getTarefa(){
+		let intervalo = window.setInterval(
+			() => {
+				this.storage.get('tarefaAtual').then(
+					(res) => {
+						if(res){
+							window.clearInterval(intervalo);
+							this.tarefa = res;
+						}
+					},
+					err => {
+						console.log('Não leu do storage');
+					}
+				)
 			},
-			err => {
-				// Esconde o carregando
-				loading.dismiss();
-				
-				// Exibindo toast de erro
-				const toast = this.toastController.create({
-					message: 'Falha ao carregar tarefa',
-					duration: 0,
-					showCloseButton: true,
-					closeButtonText: 'X'
-				});
-				toast.present();
-
-				// Imprimindo erro no console
-				console.warn(err);
-			}
+			200
 		)
 	}
 

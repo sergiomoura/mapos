@@ -35,7 +35,7 @@ export class TarefaTabsPage {
 			res => {
 				this.storage.set('tarefaAtual',res).then(
 					(tarefa)=>{
-						// Anunciar para os tab inicial que a tarefa foi carregada
+						// TODO: Anunciar para os tab inicial que a tarefa foi carregada
 					},
 					(y)=>{
 						// Exibindo toast de erro
@@ -50,7 +50,14 @@ export class TarefaTabsPage {
 				)
 			},
 			err => {
-				console.log("deu ruim!");
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+				message: 'Falha ao carregar tarefa.',
+				duration: 0,
+				showCloseButton: true,
+				closeButtonText: 'X'
+				});
+				toast.present();
 			}
 		)
 	}

@@ -335,15 +335,12 @@
 				}
 			}
 		}
-
 		
 		// Retornando resposta para usuário
 		return $res
 		->withStatus(200)
 		->withHeader('Content-Type','application/json')
 		->write(json_encode($tarefa));
-		
-		
 
 	});
 

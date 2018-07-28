@@ -27,32 +27,7 @@
 		<ion-item>
 			<ion-label floating>Observações</ion-label>
 			<ion-input name="obs" [(ngModel)]="tarefa.observacoes" ></ion-input>
-		</ion-item>
-
-		<div class="container-materiais">
-			<div class="titulo">
-				Material Utilizado
-				<button
-					ion-button
-					small
-					color="dark"
-					clear
-					(click)="addMaterial()">
-					<ion-icon name="add"></ion-icon>
-				</button>
-			</div>
-			<div class="materiais">
-				
-				<ion-row align-items-center>
-					<ion-select name="produto">
-						<ion-option *ngFor="let produto of produtos">{{produto.nome}} [{{produto.unidade}}]</ion-option>
-					</ion-select>
-					<ion-input type="number" step="0.01" value="2.3"></ion-input>
-				</ion-row>
-
-			</div>
-		</div>
-		
+		</ion-item>		
 	</form>
 
 	<div class="container-fotos">
