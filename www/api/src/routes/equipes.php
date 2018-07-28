@@ -6,7 +6,7 @@
 	$app->get($api_root.'/equipes',function(Request $req, Response $res, $args=[]){
 
 		// Levantando equipes da base
-		$sql = 'SELECT id,nome,sigla,id_tipo,ativa FROM maxse_equipes ORDER BY id';
+		$sql = 'SELECT id,nome,sigla,id_tipo,ativa FROM maxse_equipes ORDER BY nome';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		$equipes = $stmt->fetchAll();

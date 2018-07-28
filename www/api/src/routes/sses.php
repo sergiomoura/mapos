@@ -264,7 +264,7 @@
 		if($output->status != 'OK'){
 			// Retornando erro para usuário
 			return $res
-			->withStatus(400)
+			->withStatus(503)
 			->write('Falha ao recuperar coordenadas do endereço: '.$output->status);
 		}
 

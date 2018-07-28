@@ -56,7 +56,7 @@ k
 		});
 		loader.present();
 
-		this.ssesProvider.getVirgens().subscribe(
+		this.ssesProvider.getCadstradas().subscribe(
 			res => {
 				this.sses = <SSE[]>res;
 				loader.dismiss();

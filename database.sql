@@ -446,7 +446,7 @@ CREATE TABLE `maxse_medidas_linear` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_linear_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_linear_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -455,7 +455,7 @@ CREATE TABLE `maxse_medidas_linear` (
 
 LOCK TABLES `maxse_medidas_linear` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_linear` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_linear` VALUES (16,5.00,27,'p');
+INSERT INTO `maxse_medidas_linear` VALUES (16,5.00,27,'p'),(17,3.00,32,'p');
 /*!40000 ALTER TABLE `maxse_medidas_linear` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -561,7 +561,7 @@ CREATE TABLE `maxse_sse_status` (
 
 LOCK TABLES `maxse_sse_status` WRITE;
 /*!40000 ALTER TABLE `maxse_sse_status` DISABLE KEYS */;
-INSERT INTO `maxse_sse_status` VALUES (-1,'DIVERGENTE'),(0,'VIRGEM'),(1,'AGENDADA'),(2,'EM_EXECUCAO'),(3,'EXECUCAO_CONCLUIDA'),(100,'FINALIZADA');
+INSERT INTO `maxse_sse_status` VALUES (-100,'CANCELADA'),(-2,'RETRABALHO'),(-1,'DIVERGENTE'),(0,'CADASTRADA'),(1,'AGENDADA'),(2,'EXECUTANDO'),(3,'PENDENTE'),(100,'FINALIZADA');
 /*!40000 ALTER TABLE `maxse_sse_status` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -596,7 +596,7 @@ CREATE TABLE `maxse_sses` (
   CONSTRAINT `fk_maxse_sses_2` FOREIGN KEY (`status`) REFERENCES `maxse_sse_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_sses_3` FOREIGN KEY (`id_tipo_de_servico`) REFERENCES `maxse_tipos_de_servico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_sses_4` FOREIGN KEY (`id_tipo_de_servico_r`) REFERENCES `maxse_tipos_de_servico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -605,7 +605,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (25,'Barreto Leme,1010',582,'11111',1,NULL,'2018-07-22 19:47:01','2018-07-20 09:00:00',1,NULL,0,-22.9019069,-47.0615965),(26,'Rua José Florence Texeira, 100',103,'22222',1,1,'2018-07-22 19:55:08','2018-07-20 08:04:00',0,NULL,2,-22.9556395,-47.0915508),(27,'Av Júlio Raimundo granja, 10',82,'33333',8,NULL,'2018-07-22 19:59:48','2018-07-19 09:05:00',0,'Texto',0,-22.9142486,-47.0359529),(28,'Rua Lourenço Zen, 32',3,'44444',1,1,'2018-07-23 02:23:06','2018-07-20 09:31:00',1,NULL,2,-22.9296951,-47.1253623),(29,'Rua Júlio de Mesquita, 1000',582,'66666',1,NULL,'2018-07-24 20:22:26','2018-07-24 09:00:00',1,'Texto da observação',0,-22.8970402,-47.0565344),(30,'Av Orozimbo Maia, 1005',11,'777777',1,NULL,'2018-07-24 20:57:17','2018-07-24 07:00:00',0,'Teste',0,-22.8937507,-47.0608927),(31,'Rua roxo moreira 1028',7,'888888',3,NULL,'2018-07-24 23:01:52','2018-07-25 12:15:00',0,NULL,0,-22.8200305,-47.0721652);
+INSERT INTO `maxse_sses` VALUES (25,'Barreto Leme,1010',582,'11111',1,NULL,'2018-07-22 19:47:01','2018-07-20 09:00:00',1,NULL,0,-22.9019069,-47.0615965),(26,'Rua José Florence Texeira, 100',103,'22222',1,1,'2018-07-22 19:55:08','2018-07-20 08:04:00',0,NULL,2,-22.9556395,-47.0915508),(27,'Av Júlio Raimundo granja, 10',82,'33333',8,NULL,'2018-07-22 19:59:48','2018-07-19 09:05:00',0,'Texto',0,-22.9142486,-47.0359529),(28,'Rua Lourenço Zen, 32',3,'44444',1,1,'2018-07-23 02:23:06','2018-07-20 09:31:00',1,NULL,2,-22.9296951,-47.1253623),(29,'Rua Júlio de Mesquita, 1000',582,'66666',1,NULL,'2018-07-24 20:22:26','2018-07-24 09:00:00',1,'Texto da observação',0,-22.8970402,-47.0565344),(30,'Av Orozimbo Maia, 1005',11,'777777',1,NULL,'2018-07-24 20:57:17','2018-07-24 07:00:00',0,'Teste',0,-22.8937507,-47.0608927),(31,'Rua roxo moreira 1028',7,'888888',3,NULL,'2018-07-24 23:01:52','2018-07-25 12:15:00',0,NULL,0,-22.8200305,-47.0721652),(32,'Rua Barreto Leme, 500',582,'2222222',7,NULL,'2018-07-28 11:11:09','2018-07-28 00:00:00',0,'teste',1,-22.9038455,-47.0658678);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -633,7 +633,7 @@ CREATE TABLE `maxse_tarefas` (
   CONSTRAINT `fk_maxse_tarefas_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_3` FOREIGN KEY (`id_apoio`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -642,7 +642,7 @@ CREATE TABLE `maxse_tarefas` (
 
 LOCK TABLES `maxse_tarefas` WRITE;
 /*!40000 ALTER TABLE `maxse_tarefas` DISABLE KEYS */;
-INSERT INTO `maxse_tarefas` VALUES (29,28,24,25,'2018-07-23 08:00:00','2018-07-23 12:00:00','2018-07-26 10:10:00',NULL,0),(30,26,24,25,'2018-07-23 14:00:00','2018-07-23 18:00:00','2018-07-26 13:30:00',NULL,0),(31,28,23,NULL,'2018-07-23 14:00:00','2018-07-23 15:00:00',NULL,NULL,0);
+INSERT INTO `maxse_tarefas` VALUES (29,28,24,25,'2018-07-23 08:00:00','2018-07-23 12:00:00','2018-07-26 10:10:00',NULL,0),(30,26,24,25,'2018-07-23 14:00:00','2018-07-23 18:00:00','2018-07-26 13:30:00',NULL,0),(31,28,23,NULL,'2018-07-23 14:00:00','2018-07-23 15:00:00',NULL,NULL,0),(34,32,24,NULL,'2018-07-30 08:00:00','2018-07-30 12:00:00',NULL,NULL,0);
 /*!40000 ALTER TABLE `maxse_tarefas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -659,7 +659,7 @@ BEGIN
 	DECLARE sse_status INT;
 	SELECT status into sse_status from maxse_sses where id=NEW.id_sse;
 	IF sse_status = sseStatus('FINALIZADA') THEN
-		SIGNAL SQLSTATE '45000'	SET MESSAGE_TEXT = 'An error occurred';
+		SIGNAL SQLSTATE '45000'	SET MESSAGE_TEXT = 'Não é possível agendar tarefa para SSE finalizada.';
     END IF;
 END */;;
 DELIMITER ;
@@ -681,11 +681,11 @@ BEGIN
 	DECLARE sse_status int;
     SELECT status INTO sse_status FROM maxse_sses WHERE id=NEW.id_sse;
     
-    IF sse_status = sseStatus('VIRGEM') THEN
-		UPDATE maxse_sses SET status=1 WHERE id=NEW.id_sse;
+    IF sse_status = sseStatus('CADASTRADA') THEN
+		UPDATE maxse_sses SET status=sseStatus('AGENDADA') WHERE id=NEW.id_sse;
     END IF;
-    IF sse_status = sseStatus('EXECUCAO_CONCLUIDA') THEN
-		UPDATE maxse_sses SET status=1 WHERE id=NEW.id_sse;
+    IF sse_status = sseStatus('PENDENTE') THEN
+		UPDATE maxse_sses SET status=sseStatus('AGENDADA') WHERE id=NEW.id_sse;
     END IF;
     
 END */;;
@@ -828,7 +828,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5ad9eceb1286.39168392','2018-07-27 06:38:04',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b5a001817e942.48222837','2018-07-26 15:08:40',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b5adcce26bda3.42046776','2018-07-27 06:50:22',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5c7c73450ee7.97557994','2018-07-28 12:23:47',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b5c7af9ac2cd2.14009546','2018-07-28 12:17:29',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b5adcce26bda3.42046776','2018-07-27 06:50:22',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -884,4 +884,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-27  6:00:46
+-- Dump completed on 2018-07-28 11:33:22

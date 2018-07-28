@@ -29,7 +29,7 @@ export class MyApp {
 		platform.ready().then(
 			() => {
 				// Travando orientação da tela
-				this.scrOrientation.lock(this.scrOrientation.ORIENTATIONS.PORTRAIT);
+				// this.scrOrientation.lock(this.scrOrientation.ORIENTATIONS.PORTRAIT);
 
 				// Entrando em fullscreen
 				if(this.fullScreen.isImmersiveModeSupported()){

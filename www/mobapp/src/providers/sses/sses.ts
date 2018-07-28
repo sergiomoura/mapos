@@ -11,8 +11,8 @@ export class SsesProvider {
 		private urls: Urls
 	) {}
 
-	getVirgens(){
-		return this.http.get(this.urls.sses+'?status=virgem');
+	getCadstradas(){
+		return this.http.get(this.urls.sses+'?status=cadastrada');
 	}
 
 	getById(id:number){

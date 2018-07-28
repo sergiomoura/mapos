@@ -503,6 +503,10 @@
 		
 		// RENOMEANDO FOTOS ANTIGAS
 		$pasta = $this->maxse['caminho_para_fotos_tarefas'].$tarefa->id;
+		
+		// Criando um vetor que guarda os caminhos para remoção futura
+		$paraRemover = array();
+		
 		if(file_exists($pasta)){
 
 			// Listando os arquivos que existem na pasta
@@ -511,9 +515,6 @@
 			// Removenod o . e o ..
 			array_shift($arquivos);
 			array_shift($arquivos);
-
-			// Criando um vetor que guarda os caminhos para remoção futura
-			$paraRemover = array();
 
 			// Salvando fotos nos arrays
 			foreach ($arquivos as $arquivo) {
@@ -560,7 +561,7 @@
 		$this->db->beginTransaction();
 
 		// Atualizando SSE (tipo_de_servico_r, status)
-		$sql = 'UPDATE maxse_sses SET id_tipo_de_servico_r=:tds_r, status=sseStatus("EM_EXECUCAO") where id=:id_sse';
+		$sql = 'UPDATE maxse_sses SET id_tipo_de_servico_r=:tds_r, status=sseStatus("EXECUTANDO") where id=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		try {
 			$stmt->execute(
