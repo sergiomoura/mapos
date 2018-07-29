@@ -37,7 +37,7 @@ export class TarefasPage {
 		let loading = this.loadingConttroller.create();
 		loading.setContent('Aguarde...').present();
 
-		this.tarefasProvider.get().subscribe(
+		this.tarefasProvider.getDoDia().subscribe(
 			res => {
 
 				// Escondendo loading

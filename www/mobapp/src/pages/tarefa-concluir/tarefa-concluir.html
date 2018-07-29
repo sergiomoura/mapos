@@ -29,7 +29,7 @@
 		<div class="titulo">Fotos</div>
 		<div class="fotos">
 			<div class="foto" *ngFor="let foto of tarefa?.fotos_fim; let i=index">
-				<img [src]="foto" alt="foto_{{i}}">
+				<img [src]="foto" alt="foto_{{i}}" imageViewer>
 				<button ion-button clear icon-only (click)="rmFoto(i)">
 					<ion-icon name="trash"></ion-icon>
 				</button>

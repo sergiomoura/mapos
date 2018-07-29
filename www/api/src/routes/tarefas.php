@@ -474,7 +474,11 @@
 
 		// Determinando restições a partir do GET
 		// TODO:
-		$restricoes = 'TRUE';
+		if(array_key_exists['doDia']){
+			$restricoes = "( (date(inicio_p)=date(now()) AND final_r IS NULL) OR date(final_r)=date(now()) )";
+		} else {
+			$restricoes = 'TRUE';
+		}
 
 		// Preparando consulta
 		if($eh_lider){

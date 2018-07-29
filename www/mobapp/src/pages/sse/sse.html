@@ -10,7 +10,7 @@
 <ion-content padding>
 	<form #form="ngForm">
 		<div id="image-container" *ngIf="sse.foto">
-			<img [src]="sse.foto" alt="Imagem da SSE" (click)="onCameraClick()">
+			<img [src]="sse.foto" alt="Imagem da SSE" imageViewer>
 			<button ion-button clear color="dark" (click)="rmFoto()"><ion-icon name="trash"></ion-icon></button>
 		</div>
 		<ion-item>

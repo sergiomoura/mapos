@@ -27,6 +27,7 @@ import { TarefaTabsPage } from '../pages/tarefa-tabs/tarefa-tabs';
 import { TarefaTabsPageModule } from '../pages/tarefa-tabs/tarefa-tabs.module';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { IonicImageViewerModule } from 'ionic-img-viewer';
 
 @NgModule({
 	declarations: [
@@ -45,7 +46,8 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 		IonicStorageModule.forRoot(),
 		SelectSearchableModule,
 		TarefaPageModule,
-		TarefaTabsPageModule
+		TarefaTabsPageModule,
+		IonicImageViewerModule
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
