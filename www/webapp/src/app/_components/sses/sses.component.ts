@@ -22,4 +22,8 @@ export class SsesComponent implements OnInit {
 	onMapButtonClick(){
 		this.router.navigateByUrl('home/sses/map')
 	}
+
+	onNovaSSEButtonClick(){
+		this.router.navigateByUrl('home/sse/0')
+	}
 }
