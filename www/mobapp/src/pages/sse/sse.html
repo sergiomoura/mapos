@@ -15,13 +15,13 @@
 		</div>
 		<ion-item>
 			<ion-label floating>DOMASA</ion-label>
-			<ion-select required name="domasa" [(ngModel)]="domasaSelecionada">
+			<ion-select (ionChange)="onDomasaChange()" name="domasa" [(ngModel)]="domasaSelecionada">
 				<ion-option [value]="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</ion-option>
 			</ion-select>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Número</ion-label>
-			<ion-input name="numero" required type="number" [(ngModel)]="sse.numero"></ion-input>
+			<ion-input name="numero"  [required]="sse?.urgencia!=3" type="number" [(ngModel)]="sse.numero"></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Data do Recebimento</ion-label>
@@ -38,31 +38,37 @@
 			</ion-select>
 		</ion-item>
 		<ion-item>
+			<ion-label floating>Prioridade</ion-label>
+			<ion-select required name="prioridade" [(ngModel)]="sse.urgencia">
+				<ion-option [value]="0">Normal</ion-option>
+				<ion-option [value]="1">Prioridade</ion-option>
+				<ion-option [value]="2">Urgência</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item>
 			<ion-label floating>Endereço</ion-label>
 			<ion-input name="endereco" required type="text" [(ngModel)]="sse.endereco"></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Bairro</ion-label>
 			<select-searchable
+				[searchDebounce]="1000"
 				item-content
 				name="bairro"
 				required
 				[(ngModel)]="sse.bairro"
-				[items]="domasaSelecionada?.bairros"
+				[items]="bairrosExibidos"
 				itemValueField="id"
 				itemTextField="nome"
 				[canSearch]="true"
-				(onChange)="onBairroChange($event)"
+				(onChange)="onBairroChange()"
 				style="margin-bottom:36px"
 				[focusSearchbar]="true"
 				searchPlaceholder="Buscar bairro"
-				[noItemsFoundText]="'Nenhum bairro carregado. Selecione uma DOMASA primeiro'">
+				[noItemsFoundText]="'Nenhum bairro encontrado'">
 			</select-searchable>
 		</ion-item>
-		<ion-item>
-			<ion-label>Prioridade? {{sse.urgente?'SIM':'NÃO'}}</ion-label>
-			<ion-toggle name="urgencia" [(ngModel)]="sse.urgente"></ion-toggle>
-		</ion-item>
+		
 		<ion-item>
 			<ion-label floating>Observações</ion-label>
 			<ion-input name="obs" type="text" [(ngModel)]="sse.obs"></ion-input>

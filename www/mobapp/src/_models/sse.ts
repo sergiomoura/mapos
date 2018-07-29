@@ -11,7 +11,7 @@ export class SSE{
 	dh_registrado:string;
 	dh_recebido:string;
 	obs:string;
-	urgente:boolean;
+	urgente:number;
 	medidas_area:any[];	
 	medidas_linear:any[];
 	medidas_unidades:any[];

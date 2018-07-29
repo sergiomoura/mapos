@@ -11,6 +11,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { AlertController } from 'ionic-angular';
+import { Bairro } from '../../_models/bairro';
 
 @Component({
 	selector: 'page-sse',
@@ -25,6 +26,8 @@ export class SsePage {
 	public domasaSelecionada:Domasa;
 	public medidaTotal: number = 0;
 	public unidade: string = 'm²';
+	public bairrosExibidos:Bairro[] = [];
+	public todosBairros:Bairro[] = [];
 
 	constructor(
 		public navCtrl: NavController,
@@ -44,6 +47,13 @@ export class SsePage {
 		this.storage.get('domasas').then(
 			domasas => {
 				this.domasas = <Domasa[]>domasas;
+				for (let i = 0; i < this.domasas.length; i++) {
+					const domasa = this.domasas[i];
+					for (let j = 0; j < domasa.bairros.length; j++) {
+						this.todosBairros.push(domasa.bairros[j]);
+					}
+				}
+				this.bairrosExibidos = this.todosBairros;
 			}
 		)
 
@@ -66,7 +76,6 @@ export class SsePage {
 			// Criando e mostrando loading
 			let loading = this.loadingConttroller.create();
 			loading.setContent('Aguarde').present();
-
 
 			this.sseProvider.getById(id).subscribe(
 				res => {
@@ -130,6 +139,11 @@ export class SsePage {
 
 		return <SSE>res;
 
+	}
+
+	onDomasaChange(){
+		this.bairrosExibidos = this.domasaSelecionada.bairros;
+		this.sse.bairro = undefined;
 	}
 
 	onTipoDeSevicoChange(){
@@ -391,10 +405,25 @@ export class SsePage {
 		this.sse.foto = undefined;
 	}
 
-	onBairroChange(event: {
-        component: SelectSearchableComponent,
-        value: any 
-    }){
-		console.log(this.sse.bairro)
+	onBairroChange(){
+		// Buscando domasa do bairro
+		let i = 0;
+		let achou = false;
+		let bairro:Bairro;
+		while (i<this.domasas.length && !achou) {
+			
+			bairro = this.domasas[i].bairros.find(
+				(b) => {
+					return b.id == this.sse.bairro.id;
+				}
+			)
+			achou = (bairro != undefined);
+
+			if (achou) {
+				this.domasaSelecionada = this.domasas[i];
+			}
+
+			i++;
+		}
 	}
 }
