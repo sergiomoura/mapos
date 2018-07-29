@@ -3,15 +3,26 @@
 	&>div{
 		@include mat-elevation(2);
 		padding-bottom: 0px;
-		.imgSse {
-			width: 50%;
-			display: inline-block;
-			vertical-align: top;
-		}
+		
 		form {
-			display: inline-block;
 			padding: 20px;
-			width: calc(50% - 40px);
+			width: calc(100% - 40px);
+			.topo {
+				display: flex;
+				justify-content: space-between;
+				.left {
+					flex-grow: 1;
+				};
+				img, .noImageButton {
+					height: 247px;
+					margin-left: 20px;
+					border: 1px solid #DEDEDE;
+					background-color: #DEDEDE;
+				}
+				.noImageButton{
+					width: 180px;
+				}
+			}
 			mat-form-field {
 				display: block;
 			}
@@ -19,12 +30,12 @@
 				display: flex;
 				justify-content: space-between;
 			}
-		}
-		.medidas{
-			position: relative;
-			margin-bottom: 20px;
-			input {
-				width:50px;
+			.medidas{
+				position: relative;
+				margin-bottom: 20px;
+				input {
+					width:50px;
+				}
 			}
 		}
 	}
