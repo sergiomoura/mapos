@@ -317,7 +317,7 @@
 				':numero'				=> $sse->numero	,
 				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
 				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
-				':urgente'				=> ($sse->urgente?1:0),
+				':urgente'				=> $sse->urgencia,
 				':obs'					=> $sse->obs,
 				':lat'					=> $sse->lat,
 				':lng'					=> $sse->lng,
@@ -455,7 +455,7 @@
 				':numero'				=> $sse->numero	,
 				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
 				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
-				':urgente'				=> ($sse->urgente?1:0),
+				':urgente'				=> $sse->urgencia,
 				':obs'					=> $sse->obs,
 				':lat'					=> $sse->lat,
 				':lng'					=> $sse->lng
@@ -464,7 +464,7 @@
 			// Retornando erro para usuário
 			return $res
 			->withStatus(500)
-			->write('Falha ao tentar atualizar SSE: '.$e->getMessage());
+			->write('Falha ao tentar criar SSE: '.$e->getMessage());
 		}
 		
 		// Recuperando id da SSE recém inserida

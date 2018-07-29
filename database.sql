@@ -337,7 +337,7 @@ CREATE TABLE `maxse_medidas_area` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_area_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_area_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=118 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=119 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -346,7 +346,7 @@ CREATE TABLE `maxse_medidas_area` (
 
 LOCK TABLES `maxse_medidas_area` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_area` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_area` VALUES (38,2.00,2.00,25,'p'),(39,5.00,3.00,26,'p'),(40,2.00,2.00,26,'p'),(41,0.50,2.00,28,'p'),(42,2.00,2.00,29,'p'),(43,3.00,2.00,29,'p'),(44,2.00,3.00,30,'p'),(45,5.00,0.50,31,'p'),(47,1.00,3.00,28,'p'),(105,5.00,3.00,26,'r'),(106,2.00,2.00,26,'r'),(107,1.00,3.00,28,'r'),(108,0.50,2.00,28,'r'),(109,2.00,2.00,34,'p'),(110,2.00,3.00,34,'r'),(111,1.00,2.00,25,'r'),(117,3.00,1.00,29,'r');
+INSERT INTO `maxse_medidas_area` VALUES (38,2.00,2.00,25,'p'),(39,5.00,3.00,26,'p'),(40,2.00,2.00,26,'p'),(41,0.50,2.00,28,'p'),(42,2.00,2.00,29,'p'),(43,3.00,2.00,29,'p'),(44,2.00,3.00,30,'p'),(45,5.00,0.50,31,'p'),(47,1.00,3.00,28,'p'),(105,5.00,3.00,26,'r'),(106,2.00,2.00,26,'r'),(107,1.00,3.00,28,'r'),(108,0.50,2.00,28,'r'),(109,2.00,2.00,34,'p'),(110,2.00,3.00,34,'r'),(111,1.00,2.00,25,'r'),(117,3.00,1.00,29,'r'),(118,3.00,3.00,35,'p');
 /*!40000 ALTER TABLE `maxse_medidas_area` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -516,7 +516,7 @@ CREATE TABLE `maxse_sses` (
   CONSTRAINT `fk_maxse_sses_2` FOREIGN KEY (`status`) REFERENCES `maxse_sse_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_sses_3` FOREIGN KEY (`id_tipo_de_servico`) REFERENCES `maxse_tipos_de_servico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_sses_4` FOREIGN KEY (`id_tipo_de_servico_r`) REFERENCES `maxse_tipos_de_servico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -525,7 +525,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (25,'Barreto Leme,1010',582,'11111',1,1,'2018-07-22 19:47:01','2018-07-20 09:00:00',1,NULL,3,-22.9019069,-47.0615965),(26,'Rua José Florence Texeira, 100',103,'22222',1,1,'2018-07-22 19:55:08','2018-07-20 08:04:00',0,NULL,3,-22.9556395,-47.0915508),(27,'Av Júlio Raimundo granja, 10',82,'33333',8,8,'2018-07-22 19:59:48','2018-07-19 09:05:00',0,'Texto',2,-22.9142486,-47.0359529),(28,'Rua Lourenço Zen, 32',3,'44444',1,1,'2018-07-23 02:23:06','2018-07-20 09:31:00',1,NULL,3,-22.9296951,-47.1253623),(29,'Rua Júlio de Mesquita, 1000',582,'66666',1,1,'2018-07-24 20:22:26','2018-07-24 09:00:00',1,'Texto da observação',2,-22.8970402,-47.0565344),(30,'Av Orozimbo Maia, 1005',11,'777777',1,NULL,'2018-07-24 20:57:17','2018-07-24 07:00:00',0,'Teste',0,-22.8937507,-47.0608927),(31,'Rua roxo moreira 1028',7,'888888',3,NULL,'2018-07-24 23:01:52','2018-07-25 12:15:00',0,NULL,0,-22.8200305,-47.0721652),(32,'Rua Barreto Leme, 500',582,'2222222',7,7,'2018-07-28 11:11:09','2018-07-28 00:00:00',0,'teste',3,-22.9038455,-47.0658678),(33,'Rua João José Pereira, 17',9,'33333333',11,11,'2018-07-28 19:11:47','2018-07-28 10:00:00',0,'Teste',3,-22.9436292,-47.0932248),(34,'Rua Alcides Barel, 38',2,'44444444',1,1,'2018-07-28 19:22:05','2018-07-28 10:00:00',0,NULL,2,-22.9264835,-47.1245318);
+INSERT INTO `maxse_sses` VALUES (25,'Barreto Leme,1010',582,'11111',1,1,'2018-07-22 19:47:01','2018-07-20 09:00:00',1,NULL,3,-22.9019069,-47.0615965),(26,'Rua José Florence Texeira, 100',103,'22222',1,1,'2018-07-22 19:55:08','2018-07-20 08:04:00',0,NULL,3,-22.9556395,-47.0915508),(27,'Av Júlio Raimundo granja, 10',82,'33333',8,8,'2018-07-22 19:59:48','2018-07-19 09:05:00',0,'Texto',2,-22.9142486,-47.0359529),(28,'Rua Lourenço Zen, 32',3,'44444',1,1,'2018-07-23 02:23:06','2018-07-20 09:31:00',1,NULL,3,-22.9296951,-47.1253623),(29,'Rua Júlio de Mesquita, 1000',582,'66666',1,1,'2018-07-24 20:22:26','2018-07-24 09:00:00',1,'Texto da observação',2,-22.8970402,-47.0565344),(30,'Av Orozimbo Maia, 1005',11,'777777',1,NULL,'2018-07-24 20:57:17','2018-07-24 07:00:00',0,'Teste',0,-22.8937507,-47.0608927),(31,'Rua roxo moreira 1028',7,'888888',3,NULL,'2018-07-24 23:01:52','2018-07-25 12:15:00',0,NULL,0,-22.8200305,-47.0721652),(32,'Rua Barreto Leme, 500',582,'2222222',7,7,'2018-07-28 11:11:09','2018-07-28 00:00:00',0,'teste',3,-22.9038455,-47.0658678),(33,'Rua João José Pereira, 17',9,'33333333',11,11,'2018-07-28 19:11:47','2018-07-28 10:00:00',0,'Teste',3,-22.9436292,-47.0932248),(34,'Rua Alcides Barel, 38',2,'44444444',1,1,'2018-07-28 19:22:05','2018-07-28 10:00:00',0,NULL,2,-22.9264835,-47.1245318),(35,'Rua Itagibá, 50',22,'',2,NULL,'2018-07-29 06:44:51','2018-07-29 00:30:00',2,NULL,0,-22.9416392,-47.0361094);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -753,7 +753,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5d869b6f0485.15605052','2018-07-29 07:19:23',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b5d86060e20b4.09146389','2018-07-29 07:16:54',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b5d2b3bb13b70.19889899','2018-07-29 00:49:31',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5d9642710e85.51569725','2018-07-29 08:26:10',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b5d956b039ea3.95315738','2018-07-29 08:22:35',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b5d2b3bb13b70.19889899','2018-07-29 00:49:31',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -809,4 +809,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-29  6:20:11
+-- Dump completed on 2018-07-29  7:29:39

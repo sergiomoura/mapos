@@ -5,6 +5,25 @@ page-sse {
 		right: 16px;
 	}
 
+	.container-data-recebimento{
+		position: relative;
+		button {
+			position: absolute;
+			width: 50px;
+			top: 40px;
+			margin: 0 0 0 5px;
+		}
+		button:nth-child(2){
+			right: 0px;
+		}
+		button:nth-child(3){
+			right: 60px;
+		}
+		ion-item {
+			display: inline-block;
+		}
+	}
+
 	.medidas-container{
 		
 		margin:  0 0 0 16px;

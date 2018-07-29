@@ -9,9 +9,9 @@ import { LoadingController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SelectSearchableComponent } from 'ionic-select-searchable';
 import { AlertController } from 'ionic-angular';
 import { Bairro } from '../../_models/bairro';
+import { format } from "date-fns";
 
 @Component({
 	selector: 'page-sse',
@@ -28,7 +28,7 @@ export class SsePage {
 	public unidade: string = 'm²';
 	public bairrosExibidos:Bairro[] = [];
 	public todosBairros:Bairro[] = [];
-
+	
 	constructor(
 		public navCtrl: NavController,
 		public navParams: NavParams,
@@ -167,6 +167,10 @@ export class SsePage {
 		if(vetor.length == 0){
 			this.addMedida();
 		}
+	}
+
+	onToggleHoraClick(s:string){
+		this.sse.dh_recebido = format(new Date(),'YYYY-MM-DDT'+s+':00:00');
 	}
 
 	onMedidaChange(){
@@ -323,8 +327,8 @@ export class SsePage {
 			bairro:null,
 			tipoDeServico:null,
 			dh_registrado:null,
-			dh_recebido:null,
-			urgente:false,
+			dh_recebido: format(new Date(),'YYYY-MM-DDT10:00:00'),
+			urgencia:0,
 			medidas_area:<any[]>[],
 			medidas_linear:<any[]>[],
 			medidas_unidades:<any[]>[]
