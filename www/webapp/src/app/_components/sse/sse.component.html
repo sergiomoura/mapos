@@ -10,7 +10,7 @@
 				</mat-form-field>
 		
 				<mat-form-field>
-					<input required name="numero" [(ngModel)]="sse.numero" matInput placeholder="SSE Número">
+					<input [required]="sse.urgencia!=2" name="numero" [(ngModel)]="sse.numero" matInput placeholder="SSE Número">
 				</mat-form-field>
 		
 				<mat-form-field>
@@ -25,7 +25,7 @@
 			</div>
 			
 			<img *ngIf="sse?.foto" [src]="sse?.foto" alt="{{ 'SSE ' + sse?.numero }}">
-			<button *ngIf="!sse?.foto" class="noImageButton">SSE sem foto</button>
+			<button disabled *ngIf="!sse?.foto" class="noImageButton">SSE sem foto</button>
 		</div>
 
 		<mat-form-field>
