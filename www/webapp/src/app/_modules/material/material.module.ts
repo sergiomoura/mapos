@@ -15,7 +15,8 @@ import {
   MatSelectModule,
   MatDatepickerModule,
   MatNativeDateModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatAutocompleteModule,
 } from '@angular/material';
 
 @NgModule({
@@ -35,7 +36,8 @@ import {
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -53,7 +55,8 @@ import {
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatAutocompleteModule
   ],
   declarations: []
 })
