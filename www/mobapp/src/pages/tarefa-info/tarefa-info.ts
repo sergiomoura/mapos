@@ -51,6 +51,6 @@ export class TarefaInfoPage {
 		let options: LaunchNavigatorOptions ={
 			transportMode : 'driving'
 		}
-		this.launchNavigator.navigate(this.tarefa.sse.endereco,options);
+		this.launchNavigator.navigate(this.tarefa.sse.endereco+', CAMPINAS, SÃO PAULO',options);
 	}
 }
