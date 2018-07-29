@@ -30,4 +30,8 @@ export class TarefasProvider {
 		return this.http.patch(this.urls.tarefas + '/' + tarefa.id + '/divergente',tarefa);
 	}
 
+	setConcluida(tarefa){
+		return this.http.patch(this.urls.tarefas + '/' + tarefa.id + '/concluida',tarefa);
+	}
+
 }

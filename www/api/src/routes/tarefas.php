@@ -980,3 +980,196 @@
 		return $res
 		->withStatus(200);
 	});
+
+	$app->patch($api_root.'/tarefas/{id}/concluida', function(Request $req, Response $res, $args = []){
+		
+		// Lendo a tarefa na requisição
+		$tarefa = json_decode($req->getBody()->getContents());
+		
+		// :::::::: OPERAÇÕES DE FS ::::::::
+		
+		// RENOMEANDO FOTOS ANTIGAS
+		$pasta = $this->maxse['caminho_para_fotos_tarefas'].$tarefa->id;
+		
+		// Criando um vetor que guarda os caminhos para remoção futura
+		$paraRemover = array();
+		
+		if(file_exists($pasta)){
+
+			// Listando os arquivos que existem na pasta
+			$arquivos = scandir($pasta);
+
+			// Removenod o . e o ..
+			array_shift($arquivos);
+			array_shift($arquivos);
+
+			// Salvando fotos nos arrays
+			foreach ($arquivos as $arquivo) {
+
+				// Determinando o caminho completo para a foto
+				$caminho = $pasta.'/'.$arquivo;
+
+				// Lendo conteúdo de arquivo, caso ele seja do tipo fim
+				if (substr($arquivo,0,3) == 'fim') {
+					rename($caminho,$caminho.'.old');
+					array_push($paraRemover, $caminho.'.old');
+				}
+			}
+		} else {
+			mkdir($pasta);
+		}
+		
+		// Salvando fotos novas
+		foreach ($tarefa->fotos_inicio as $i => $foto) {
+			$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
+			$data = base64_decode($data);
+
+			// O nome do arquivo será
+			$caminho = $pasta.'/fim-'.($i+1).'.jpg';
+
+			// Abrindo arquivo para escrita
+			$ifp = fopen( $caminho, 'wb' ); 
+
+			// Escrevendo dados no arquivo
+			fwrite( $ifp, $data);
+
+			// clean up the file resource
+			fclose( $ifp ); 
+		}
+
+		// Removendo fotos antigas
+		foreach ($paraRemover as $arquivo) {
+			unlink($arquivo);
+		}
+
+		// :::::::::::::::::::::::::::::::::
+
+		// :::::::::OPERAÇÕES DE DB ::::::::
+		$this->db->beginTransaction();
+
+		// Atualizando SSE (tipo_de_servico_r, status)
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("PENDENTE") where id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(
+				array(
+					':id_sse' => $tarefa->sse->id
+				)
+			);
+		} catch (Exception $e) {
+			
+			// Falhou! Rollback
+			$this->db->rollback();
+
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar atualizar SSE: '.$e->getMessage());
+		}
+		
+		// Levantando o gasto com matéria prima
+		$sql = 'SELECT
+					id_produto,
+					qtde_por_unidade_de_trab as coef,
+					b.valor_unit
+				FROM
+					maxse_tipos_de_servico_x_produtos a
+					INNER JOIN estoque_produtos b ON a.id_produto=b.id
+				WHERE id_tipo=:id_tipo';
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_tipo' => $tarefa->sse->tipoDeServicoReal->id));
+		$gastos_mp = $stmt->fetchAll();
+
+		// Determinando o trabalho com base no tipo de servico e nas medidas
+		$trabalho = 0;
+		switch ($tarefa->sse->tipoDeServicoReal->medida) {
+			case 'a':
+				foreach ($tarefa->sse->medidas_area->real as $m) {
+					$trabalho += $m->l * $m->c;
+				}
+				break;
+			
+			case 'l':
+				foreach ($tarefa->sse->medidas_linear->real as $m) {
+					$trabalho += $m->v;
+				}
+				break;
+			
+			case 'u':
+				foreach ($tarefa->sse->medidas_unidades->real as $m) {
+					$trabalho += $m->n;
+				}
+				break;
+		}
+		
+		// Inserindo movimentos de saída no estoque
+		$sql = 'INSERT INTO estoque_movimentos (
+					id_produto,
+					dh,
+					tipo,
+					qtde,
+					id_referencia,
+					valor_unit
+				) VALUES (
+					:id_produto,
+					:dh,
+					"-1",
+					:qtde,
+					:id_referencia,
+					:valor_unit
+				)';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($gastos_mp as $gasto_mp) {
+			try {
+				$stmt->execute(
+					array(
+						':id_produto' => $gasto_mp->id_produto,
+						':dh' => $tarefa->final_r,
+						':qtde' => $gasto_mp->coef * $trabalho,
+						':id_referencia' => $tarefa->id,
+						':valor_unit' => $gasto_mp->valor_unit
+					)
+				);
+			} catch (Exception $e) {
+				// Erro! Rollback
+				$this->db->rollback();
+
+				// Retornando erro para usuário
+				return $res
+				->withStatus(500)
+				->write('Falha ao tentar registrar saída no estoque: ' .$e->getMessage());
+			}
+		}
+
+		// Atualizando tarefa (inicio_r, divergente)
+		$sql = 'UPDATE maxse_tarefas SET final_r=:final_r WHERE id=:id_tarefa';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(
+				array(
+					':final_r' => str_replace('Z','',str_replace('T',' ',$tarefa->final_r)),
+					':id_tarefa' => $tarefa->id
+				)
+			);	
+		} catch (Exception $e) {
+			// Falhou. Rollback!
+			$this->db->rollback();
+
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar atualizar tarefa: '.$e->getMessage());
+		}
+		
+		// Chegou aqui é por que está tudo certo! Commit!
+		$this->db->commit();
+
+		// :::::::::::::::::::::::::::::::::
+
+
+		// Retornando erro para usuário
+		return $res
+		->withStatus(200);
+	});

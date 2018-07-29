@@ -33,7 +33,7 @@ CREATE TABLE `estoque_movimentos` (
   PRIMARY KEY (`id`),
   KEY `fk_estoque_movimentos_1_idx` (`id_produto`),
   CONSTRAINT `fk_estoque_movimentos_1` FOREIGN KEY (`id_produto`) REFERENCES `estoque_produtos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,34 +42,9 @@ CREATE TABLE `estoque_movimentos` (
 
 LOCK TABLES `estoque_movimentos` WRITE;
 /*!40000 ALTER TABLE `estoque_movimentos` DISABLE KEYS */;
-INSERT INTO `estoque_movimentos` VALUES (25,3,'2018-07-24 09:01:23','1',40.000000,28,100.00),(26,3,'2018-07-24 09:02:22','1',80.000000,29,100.00);
+INSERT INTO `estoque_movimentos` VALUES (27,3,'2018-07-28 21:11:45','1',1000.000000,30,100.00),(28,10,'2018-07-28 21:11:46','1',1000.000000,30,600000.00),(31,3,'2018-07-28 21:55:15','-1',0.000000,29,100.00),(32,10,'2018-07-28 21:55:15','-1',0.000000,29,600000.00),(33,3,'2018-07-28 23:14:14','-1',0.000000,30,100.00),(34,10,'2018-07-28 23:14:14','-1',0.000000,30,600000.00),(35,3,'2018-07-28 23:16:57','-1',0.000000,38,100.00),(36,10,'2018-07-28 23:16:57','-1',0.000000,38,600000.00),(37,10,'2018-07-28 23:25:56','-1',0.819810,35,600000.00);
 /*!40000 ALTER TABLE `estoque_movimentos` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_BEFORE_INSERT` BEFORE INSERT ON `estoque_movimentos` FOR EACH ROW
-BEGIN
-	declare qtde_atual decimal;
-	
-    if (new.tipo = '-1') then
-		select qtde into qtde_atual from estoque_produtos where id=new.id_produto;
-        if (qtde_atual - new.qtde < 0) then
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Movimentação deixaria estoque negativo.';
-        end if;
-    end if;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -91,37 +66,6 @@ BEGIN
 		update estoque_produtos set qtde = qtde - new.qtde, ultimo_movimento=now() where id=new.id_produto;
 	elseif (new.tipo = '1') then
 		update estoque_produtos set qtde = qtde + new.qtde, valor_unit = (valor_unit_atual*qtde_atual + new.valor_unit*new.qtde)/(qtde_atual + new.qtde), ultimo_movimento=now() where id=new.id_produto;
-    end if;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_BEFORE_UPDATE` BEFORE UPDATE ON `estoque_movimentos` FOR EACH ROW
-BEGIN
-
-	declare qtde_atual decimal;
-    
-	if (old.tipo = '1') then
-		select qtde into qtde_atual from estoque_produtos where id=old.id_produto;
-        if (old.qtde - new.qtde > qtde_atual) then
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Alteração deixaria estoque negativo';
-        end if;
-	elseif (old.tipo = '-1') then
-		select qtde into qtde_atual from estoque_produtos where id=old.id_produto;
-        if (new.qtde - old.qtde > qtde_atual) then
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Alteração deixaria estoque negativo';
-        end if;
     end if;
 END */;;
 DELIMITER ;
@@ -208,31 +152,6 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_BEFORE_DELETE` BEFORE DELETE ON `estoque_movimentos` FOR EACH ROW
-BEGIN
-	declare qtde_atual decimal;
-    
-	if (old.tipo = '1') then
-		select qtde into qtde_atual from estoque_produtos where id=old.id_produto;
-        if (old.qtde > qtde_atual) then
-			SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Alteração deixaria estoque negativo';
-        end if;
-    end if;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `maxse000`.`estoque_movimentos_AFTER_DELETE` AFTER DELETE ON `estoque_movimentos` FOR EACH ROW
 BEGIN
 	
@@ -276,7 +195,7 @@ CREATE TABLE `estoque_nfs_entrada` (
   `numero` int(11) NOT NULL,
   `data` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -285,7 +204,7 @@ CREATE TABLE `estoque_nfs_entrada` (
 
 LOCK TABLES `estoque_nfs_entrada` WRITE;
 /*!40000 ALTER TABLE `estoque_nfs_entrada` DISABLE KEYS */;
-INSERT INTO `estoque_nfs_entrada` VALUES (15,254,'2001-01-26'),(16,255,'2018-07-19'),(17,5655,'2018-07-10'),(18,65455,'2018-07-24'),(19,2121,'2018-07-21'),(20,1,'2018-07-24'),(25,12000,'2018-10-07'),(26,1,'2018-07-23'),(27,2,'2018-07-24'),(28,2000,'2018-07-10'),(29,12131,'2018-07-28');
+INSERT INTO `estoque_nfs_entrada` VALUES (15,254,'2001-01-26'),(16,255,'2018-07-19'),(17,5655,'2018-07-10'),(18,65455,'2018-07-24'),(19,2121,'2018-07-21'),(20,1,'2018-07-24'),(25,12000,'2018-10-07'),(26,1,'2018-07-23'),(27,2,'2018-07-24'),(28,2000,'2018-07-10'),(29,12131,'2018-07-28'),(30,1,'2018-07-28');
 /*!40000 ALTER TABLE `estoque_nfs_entrada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,7 +234,7 @@ CREATE TABLE `estoque_produtos` (
 
 LOCK TABLES `estoque_produtos` WRITE;
 /*!40000 ALTER TABLE `estoque_produtos` DISABLE KEYS */;
-INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,120.000000,'2018-07-24 09:02:22',100.000000000000000),(4,'Guias','m',100.000000,10000.000000,0.000000,NULL,0.000000000000000),(5,'Terra','m³',1000.000000,NULL,0.000000,NULL,0.000000000000000),(10,'CBUQ','T',0.000000,NULL,0.000000,NULL,0.000000000000000);
+INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',10000.000000,50000.000000,1000.000000,'2018-07-28 23:17:17',100.000000000000000),(4,'Guias','m',100.000000,10000.000000,0.000000,NULL,0.000000000000000),(10,'CBUQ','T',0.000000,NULL,999.180190,'2018-07-28 23:31:24',600000.000000000000000);
 /*!40000 ALTER TABLE `estoque_produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -606,7 +525,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (25,'Barreto Leme,1010',582,'11111',1,1,'2018-07-22 19:47:01','2018-07-20 09:00:00',1,NULL,2,-22.9019069,-47.0615965),(26,'Rua José Florence Texeira, 100',103,'22222',1,1,'2018-07-22 19:55:08','2018-07-20 08:04:00',0,NULL,2,-22.9556395,-47.0915508),(27,'Av Júlio Raimundo granja, 10',82,'33333',8,8,'2018-07-22 19:59:48','2018-07-19 09:05:00',0,'Texto',2,-22.9142486,-47.0359529),(28,'Rua Lourenço Zen, 32',3,'44444',1,1,'2018-07-23 02:23:06','2018-07-20 09:31:00',1,NULL,2,-22.9296951,-47.1253623),(29,'Rua Júlio de Mesquita, 1000',582,'66666',1,1,'2018-07-24 20:22:26','2018-07-24 09:00:00',1,'Texto da observação',2,-22.8970402,-47.0565344),(30,'Av Orozimbo Maia, 1005',11,'777777',1,NULL,'2018-07-24 20:57:17','2018-07-24 07:00:00',0,'Teste',0,-22.8937507,-47.0608927),(31,'Rua roxo moreira 1028',7,'888888',3,NULL,'2018-07-24 23:01:52','2018-07-25 12:15:00',0,NULL,0,-22.8200305,-47.0721652),(32,'Rua Barreto Leme, 500',582,'2222222',7,7,'2018-07-28 11:11:09','2018-07-28 00:00:00',0,'teste',2,-22.9038455,-47.0658678),(33,'Rua João José Pereira, 17',9,'33333333',11,11,'2018-07-28 19:11:47','2018-07-28 10:00:00',0,'Teste',2,-22.9436292,-47.0932248),(34,'Rua Alcides Barel, 38',2,'44444444',1,1,'2018-07-28 19:22:05','2018-07-28 10:00:00',0,NULL,2,-22.9264835,-47.1245318);
+INSERT INTO `maxse_sses` VALUES (25,'Barreto Leme,1010',582,'11111',1,1,'2018-07-22 19:47:01','2018-07-20 09:00:00',1,NULL,3,-22.9019069,-47.0615965),(26,'Rua José Florence Texeira, 100',103,'22222',1,1,'2018-07-22 19:55:08','2018-07-20 08:04:00',0,NULL,3,-22.9556395,-47.0915508),(27,'Av Júlio Raimundo granja, 10',82,'33333',8,8,'2018-07-22 19:59:48','2018-07-19 09:05:00',0,'Texto',2,-22.9142486,-47.0359529),(28,'Rua Lourenço Zen, 32',3,'44444',1,1,'2018-07-23 02:23:06','2018-07-20 09:31:00',1,NULL,3,-22.9296951,-47.1253623),(29,'Rua Júlio de Mesquita, 1000',582,'66666',1,1,'2018-07-24 20:22:26','2018-07-24 09:00:00',1,'Texto da observação',2,-22.8970402,-47.0565344),(30,'Av Orozimbo Maia, 1005',11,'777777',1,NULL,'2018-07-24 20:57:17','2018-07-24 07:00:00',0,'Teste',0,-22.8937507,-47.0608927),(31,'Rua roxo moreira 1028',7,'888888',3,NULL,'2018-07-24 23:01:52','2018-07-25 12:15:00',0,NULL,0,-22.8200305,-47.0721652),(32,'Rua Barreto Leme, 500',582,'2222222',7,7,'2018-07-28 11:11:09','2018-07-28 00:00:00',0,'teste',3,-22.9038455,-47.0658678),(33,'Rua João José Pereira, 17',9,'33333333',11,11,'2018-07-28 19:11:47','2018-07-28 10:00:00',0,'Teste',3,-22.9436292,-47.0932248),(34,'Rua Alcides Barel, 38',2,'44444444',1,1,'2018-07-28 19:22:05','2018-07-28 10:00:00',0,NULL,2,-22.9264835,-47.1245318);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -644,7 +563,7 @@ CREATE TABLE `maxse_tarefas` (
 
 LOCK TABLES `maxse_tarefas` WRITE;
 /*!40000 ALTER TABLE `maxse_tarefas` DISABLE KEYS */;
-INSERT INTO `maxse_tarefas` VALUES (29,28,24,25,'2018-07-23 08:00:00','2018-07-23 12:00:00','2018-07-26 10:10:00',NULL,0,NULL),(30,26,24,25,'2018-07-23 14:00:00','2018-07-23 18:00:00','2018-07-26 13:30:00',NULL,0,NULL),(31,28,23,NULL,'2018-07-23 14:00:00','2018-07-23 15:00:00',NULL,NULL,0,NULL),(34,32,24,NULL,'2018-07-30 08:00:00','2018-07-30 12:00:00','2018-07-28 19:02:27',NULL,0,NULL),(35,33,24,25,'2018-07-30 08:00:00','2018-07-30 10:00:00','2018-07-28 19:14:05',NULL,0,NULL),(36,34,24,25,'2018-07-30 08:00:00','2018-07-30 20:00:00','2018-07-28 19:28:49',NULL,1,'Sergio'),(37,27,24,25,'2018-07-31 14:00:00','2018-07-31 18:00:00','2018-07-28 19:32:52',NULL,1,'Sergio'),(38,25,24,25,'2018-07-29 10:00:00','2018-07-29 12:00:00','2018-07-28 19:41:33',NULL,1,NULL),(39,29,24,25,'2018-08-01 10:00:00','2018-08-01 12:00:00','2018-07-28 20:08:51',NULL,1,'Sergio');
+INSERT INTO `maxse_tarefas` VALUES (29,28,24,25,'2018-07-23 08:00:00','2018-07-23 12:00:00','2018-07-26 10:10:00','2018-07-28 21:55:15',0,NULL),(30,26,24,25,'2018-07-23 14:00:00','2018-07-23 18:00:00','2018-07-26 13:30:00','2018-07-28 23:14:14',0,NULL),(31,28,23,NULL,'2018-07-23 14:00:00','2018-07-23 15:00:00',NULL,NULL,0,NULL),(34,32,24,NULL,'2018-07-30 08:00:00','2018-07-30 12:00:00','2018-07-28 19:02:27','2018-07-28 23:33:00',0,NULL),(35,33,24,25,'2018-07-30 08:00:00','2018-07-30 10:00:00','2018-07-28 19:14:05','2018-07-28 23:25:56',0,NULL),(36,34,24,25,'2018-07-30 08:00:00','2018-07-30 20:00:00','2018-07-28 19:28:49',NULL,1,'Sergio'),(37,27,24,25,'2018-07-31 14:00:00','2018-07-31 18:00:00','2018-07-28 19:32:52',NULL,1,'Sergio'),(38,25,24,25,'2018-07-29 10:00:00','2018-07-29 12:00:00','2018-07-28 19:41:33','2018-07-28 23:16:57',1,NULL),(39,29,24,25,'2018-08-01 10:00:00','2018-08-01 12:00:00','2018-07-28 20:08:51',NULL,1,'Sergio');
 /*!40000 ALTER TABLE `maxse_tarefas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -770,7 +689,7 @@ CREATE TABLE `maxse_tipos_de_servico` (
 
 LOCK TABLES `maxse_tipos_de_servico` WRITE;
 /*!40000 ALTER TABLE `maxse_tipos_de_servico` DISABLE KEYS */;
-INSERT INTO `maxse_tipos_de_servico` VALUES (1,'37','A',3.5,'Construção e/ou recuperação de pavimento asfáltico espessura 20cm','a'),(2,'4B','B',3.5,'Construção e/ou recuperação de pavimento asfáltico espessura 28 cm','a'),(3,'52','C',3.5,'Recapeamento de pavimento','a'),(4,'54','D',3.5,'Construção de pavimento em paralelepípedo','a'),(7,'56','G',2.5,'Construção e/ou recuperação de guias','l'),(8,'58','H',2.5,'Construção e/ou recuperação de sarjetas','l'),(9,'88','E',3.5,'Recuperação (nivelamento) de pavimento em paralelepípedo','a'),(10,'FR','I',7.0,'Fresagem contínua de pavimento a frio','a'),(11,'NV','F',3.5,'Fresagem contínua de pavimento a frio','u');
+INSERT INTO `maxse_tipos_de_servico` VALUES (1,'37','A',3.5,'Construção e/ou recuperação de pavimento asfáltico espessura 20cm','a'),(2,'4B','B',3.5,'Construção e/ou recuperação de pavimento asfáltico espessura 28 cm','a'),(3,'52','C',3.5,'Recapeamento de pavimento','a'),(4,'54','D',3.5,'Construção de pavimento em paralelepípedo','a'),(7,'56','G',2.5,'Construção e/ou recuperação de guias','l'),(8,'58','H',2.5,'Construção e/ou recuperação de sarjetas','l'),(9,'88','E',3.5,'Recuperação (nivelamento) de pavimento em paralelepípedo','a'),(10,'FR','I',7.0,'Fresagem contínua de pavimento a frio','a'),(11,'NV','F',3.5,'Nivelamento de poços de visita ou caixas de registro na via','u');
 /*!40000 ALTER TABLE `maxse_tipos_de_servico` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -791,7 +710,7 @@ CREATE TABLE `maxse_tipos_de_servico_x_produtos` (
   KEY `fk_maxse_tipos_de_servico_x_produtos_2_idx` (`id_produto`),
   CONSTRAINT `fk_maxse_tipos_de_servico_x_produtos_1` FOREIGN KEY (`id_tipo`) REFERENCES `maxse_tipos_de_servico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tipos_de_servico_x_produtos_2` FOREIGN KEY (`id_produto`) REFERENCES `estoque_produtos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -800,6 +719,7 @@ CREATE TABLE `maxse_tipos_de_servico_x_produtos` (
 
 LOCK TABLES `maxse_tipos_de_servico_x_produtos` WRITE;
 /*!40000 ALTER TABLE `maxse_tipos_de_servico_x_produtos` DISABLE KEYS */;
+INSERT INTO `maxse_tipos_de_servico_x_produtos` VALUES (1,1,3,0.150000),(2,1,10,0.120000),(3,2,3,0.200000),(4,2,10,0.192000),(5,3,10,0.072000),(6,11,10,0.273270);
 /*!40000 ALTER TABLE `maxse_tipos_de_servico_x_produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -833,7 +753,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5d00e8d68993.41698597','2018-07-28 21:48:56',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b5cebf1b00512.39203682','2018-07-28 20:19:29',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b5cff52e41472.35787109','2018-07-28 21:42:10',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b5d2682afad45.86135271','2018-07-29 00:29:22',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b5cebf1b00512.39203682','2018-07-28 20:19:29',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b5d25c900be82.24351839','2018-07-29 00:26:17',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -889,4 +809,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-07-28 20:52:10
+-- Dump completed on 2018-07-28 23:35:49

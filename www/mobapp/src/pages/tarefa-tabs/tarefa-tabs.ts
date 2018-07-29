@@ -48,6 +48,17 @@ export class TarefaTabsPage {
 				)
 			}
 		)
+
+		// Subscribe para quando a tarefa for concluida
+		this.events.subscribe('tarefa:concluida',
+			() => {
+				this.storage.get('tarefaAtual').then(
+					(tarefa) => {
+						this.tarefa = tarefa;
+					}
+				)
+			}
+		)
 	}
 
 	ionViewDidLoad(){

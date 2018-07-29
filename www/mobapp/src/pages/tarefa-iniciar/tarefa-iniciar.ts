@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Eve
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
-import { LoadingController } from 'ionic-angular';
 import { GeralProvider } from "../../providers/geral/geral";
 import { TipoDeServico } from '../../_models/tipoDeServico';
 import { AlertController } from 'ionic-angular';

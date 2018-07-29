@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Events } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
-import { GeralProvider } from "../../providers/geral/geral";
-// import { AlertController } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
 import { Produto } from "../../_models/produto";
 import { Storage } from '@ionic/storage';
 import { format } from "date-fns";
@@ -34,8 +33,7 @@ export class TarefaConcluirPage {
 		private sanitizer:DomSanitizer,
 		private tarefasProvider:TarefasProvider,
 		private toastController: ToastController,
-		// private alertController:AlertController,
-		private provider:GeralProvider,
+		private alertController:AlertController,
 		public events:Events
 	) {
 		this.events.subscribe('tarefa:carregada',
@@ -88,5 +86,55 @@ export class TarefaConcluirPage {
 			},
 			(err) => { }
 		);
+	}
+
+	onSalvarClick(){
+		let confirm = this.alertController.create(<AlertOptions>{
+			title: 'Deseja registrar este serviço como concluído?',
+			message: 'Essa ação não poderá ser desfeita.',
+			buttons: [
+				{
+					text: 'Não',
+					handler: () => { }
+				},
+				{
+					text: 'Sim',
+					handler: () => {
+						this.salvarConclusao();
+					}
+				}
+			]
+		});
+
+		confirm.present();
+	}
+
+	salvarConclusao(){
+		this.tarefasProvider.setConcluida(this.tarefa).subscribe(
+			res => {
+				// Salvando tarefa no storage
+				this.storage.set('tarefaAtual',this.tarefa).then(
+					() => {
+
+						// Disparando evento de tarefa concluida
+						this.events.publish('tarefa:concluida');
+					}
+				)
+
+				// Movendo para tab inicial
+				this.navCtrl.parent.select(0);
+				
+			},
+			err => {
+				// Exibindo toast de erro
+				const toast = this.toastController.create({
+				message: 'Falha ao tentar concluir tarefa!',
+				duration: 0,
+				showCloseButton: true,
+				closeButtonText: 'X'
+				});
+				toast.present();
+			}
+		)
 	}
 }

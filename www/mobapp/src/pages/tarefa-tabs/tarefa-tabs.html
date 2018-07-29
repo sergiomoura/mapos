@@ -1,5 +1,5 @@
 <ion-tabs>
     <ion-tab [root]="tarefaInfoRoot"     tabIcon="information-circle"   tabTitle="Informações" ></ion-tab>
     <ion-tab [root]="tarefaIniciarRoot"  tabIcon="construct"            tabTitle="Iniciar Serviço" [enabled]="tarefa?.inicio_r==null"></ion-tab>
-    <ion-tab [root]="tarefaConcluirRoot" tabIcon="download"             tabTitle="Concluir Serviço" [enabled]="tarefa?.inicio_r!=null"></ion-tab>
+    <ion-tab [root]="tarefaConcluirRoot" tabIcon="download"             tabTitle="Concluir Serviço" [enabled]="tarefa?.inicio_r!=null && tarefa?.final_r==null"></ion-tab>
 </ion-tabs>
