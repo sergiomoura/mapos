@@ -28,7 +28,7 @@
 					id_tipo_de_servico,
 					dh_registrado,
 					dh_recebido,
-					urgente,
+					urgente as urgencia,
 					obs,
 					lat,
 					lng,
@@ -62,7 +62,35 @@
 			$sse->lat *= 1;
 			$sse->lng *= 1;
 			$sse->status *= 1;
-			$sse->urgente = ($sse->urgente === '1');
+			$sse->urgencia *= 1;
+		}
+
+		// Para cada SSE, recuperando as tarefas dela
+		$sql = 'SELECT
+					id,
+					id_equipe,
+					id_apoio,
+					inicio_p,
+					final_p,
+					inicio_r,
+					final_r,
+					divergente,
+					autorizadaPor
+				FROM
+					maxse_tarefas
+				WHERE
+					id_sse=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		foreach ($sses as $sse) {
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$tarefas = $stmt->fetchAll();
+
+			if($tarefas === false){
+				// Não há tarefas para esta SSE
+				$sse->tarefas = array();
+			} else {
+				$sse->tarefas = $tarefas;
+			}
 		}
 
 		// Retornando resposta para usuário

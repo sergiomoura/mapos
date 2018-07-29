@@ -164,14 +164,24 @@ export class SsesMapComponent implements OnInit {
 				sse.markerFile = 'marker-';
 				sse.statusMsg = '';
 				switch (+sse.status) {
+					case -100:
+						sse.markerFile += 'cancelada';
+						sse.statusMessage = 'Cancelada';
+						break;
+
+					case -2:
+						sse.markerFile += 'retrabalho';
+						sse.statusMessage = 'Retrabalho';
+						break;
+
 					case -1:
 						sse.markerFile += 'divergente';
 						sse.statusMessage = 'Divergente';
 						break;
 					
 					case 0:
-						sse.markerFile += 'virgem';
-						sse.statusMessage = 'Virgem - aguardando ação do programador.';
+						sse.markerFile += 'cadastrada';
+						sse.statusMessage = 'Cadastrada - aguardando ação do programador.';
 						break;
 	
 					case 1:
@@ -180,25 +190,23 @@ export class SsesMapComponent implements OnInit {
 						break;
 					
 					case 2:
-						sse.markerFile += 'emExecucao';
-						sse.statusMessage = 'Em execução';
+						sse.markerFile += 'executando';
+						sse.statusMessage = 'Executando';
 						break;
 					
 					case 3:
-						sse.markerFile += 'execucaoConcluida'
-						sse.statusMessage = 'Execução concluída - aguardando ação do programador.';
+						sse.markerFile += 'pendente'
+						sse.statusMessage = 'Pendente - aguardando ação do programador.';
 						break;
 					
 					case 100:
-						sse.markerFile += 'concluida'
+						sse.markerFile += 'finalizada'
 						sse.statusMessage = 'Finalizada';
 						break;
 				}
-	
-				if(sse.urgente == "1"){
-					sse.markerFile += '-u';
-				}
-	
+				
+				
+				sse.markerFile += '-' + sse.urgencia;
 				sse.markerFile += '.svg';
 
 				
