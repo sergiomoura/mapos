@@ -4,7 +4,7 @@
 			
 			<div class="left">
 				<mat-form-field>
-					<mat-select required name="domasa" placeholder="DOMASA" [(ngModel)]="domasaSelecionada">
+					<mat-select (selectionChange)="onDomasaChange()" required name="domasa" placeholder="DOMASA" [(ngModel)]="domasaSelecionada">
 						<mat-option [value]="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</mat-option>
 					</mat-select>
 				</mat-form-field>
@@ -23,7 +23,7 @@
 					<input required name="dh_recebido_hora" matInput placeholder="Hora" type="time" [(ngModel)]="timestring">
 				</mat-form-field>
 			</div>
-
+			
 			<img *ngIf="sse?.foto" [src]="sse?.foto" alt="{{ 'SSE ' + sse?.numero }}">
 			<button *ngIf="!sse?.foto" class="noImageButton">SSE sem foto</button>
 		</div>
@@ -35,16 +35,22 @@
 		</mat-form-field>
 
 		<mat-form-field>
-			<input required name="endereco" [(ngModel)]="sse.endereco" matInput placeholder="Local">
+			<input required name="endereco" [(ngModel)]="sse.endereco" matInput placeholder="Endereço">
 		</mat-form-field>
 
 		<mat-form-field>
-			<mat-select required placeholder="Bairro" name="bairro" [(ngModel)]="sse.bairro">
-				<mat-option [value]="bairro" *ngFor="let bairro of domasaSelecionada?.bairros">{{bairro.nome}}</mat-option>
+			<mat-select (selectionChange)="onBairrosChange()" required placeholder="Bairro" name="bairro" [(ngModel)]="sse.bairro">
+				<mat-option [value]="bairro" *ngFor="let bairro of bairrosExibidos">{{bairro.codigo}} - {{bairro.nome}}</mat-option>
 			</mat-select>
 		</mat-form-field>
 
-		<mat-checkbox name="urgente" color="warn" [(ngModel)]="sse.urgente">Urgência</mat-checkbox>
+		<mat-form-field>
+			<mat-select name="urgencia" [(ngModel)]="sse.urgencia" placeholder="Nível de Prioridade">
+				<mat-option [value]="0">Normal</mat-option>
+				<mat-option [value]="1">Prioridade</mat-option>
+				<mat-option [value]="2">Urgente</mat-option>
+			</mat-select>
+		</mat-form-field>
 
 		<mat-form-field>
 			<textarea name="obs" [(ngModel)]="sse.obs" matInput placeholder="Observações"></textarea>
@@ -97,5 +103,8 @@
 		</div>
 
 	</form>
+	<pre>
+		{{bairrosExibidos | json}}
+	</pre>
 </div>
 <span>&nbsp;</span>
