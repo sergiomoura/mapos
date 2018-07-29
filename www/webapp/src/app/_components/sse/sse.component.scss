@@ -26,6 +26,21 @@
 			mat-form-field {
 				display: block;
 			}
+			.container-hora-recebida{
+				display: flex;
+				mat-form-field {
+					flex-grow: 1;
+					display: inline-block;
+				}
+				button{
+					min-width: 0;
+					width: 60px;
+					height: 35px;
+					margin-left: 10px;
+					position: relative;
+					top: 12px;
+				}
+			}
 			.controles{
 				display: flex;
 				justify-content: space-between;

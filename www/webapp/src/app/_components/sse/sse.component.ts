@@ -10,6 +10,8 @@ import { TipoDeServico } from '../../_models/tipoDeServico';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Bairro } from '../../_models/bairro';
 import { FormControl } from '@angular/forms';
+import { format } from "date-fns";
+import { Location } from '@angular/common';
 
 @Component({
 	selector: 'app-sse',
@@ -26,7 +28,8 @@ export class SseComponent implements OnInit {
 		private tdsService: TiposDeServicoService,
 		private snackBar: MatSnackBar,
 		private sanitizer: DomSanitizer,
-		private router: Router
+		private router: Router,
+		private location: Location
 	) { }
 
 	sse: SSE = <SSE>{
@@ -82,7 +85,7 @@ export class SseComponent implements OnInit {
 				}
 			)
 		} else {
-			this.sse = this.sseVazia();
+			this.sseVazia();
 		}
 	}
 
@@ -164,27 +167,69 @@ export class SseComponent implements OnInit {
 	private updateSse() {
 		return this.ssesService.update(this.sse).subscribe(
 			res => {
-				console.log(res);
+				this.location.back();
 			},
 			err => {
-				console.warn(err);
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar atualizar SSE',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
 			}
-
 		)
 	}
 
 	private createSse() {
-
+		return this.ssesService.create(this.sse).subscribe(
+			res => {
+				this.location.back();
+			},
+			err => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar criar SSE',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+			}
+		)
 	}
 
 	sseVazia() {
 		let sse: SSE = new SSE();
+		sse.id = 0;
 		sse.dh_recebido = new Date();
 		sse.dh_recebido.setHours(10);
+		sse.dh_recebido.setMinutes(0);
 		sse.endereco = '';
 		sse.tipoDeServico = undefined;
 		sse.numero = '';
-		return sse;
+		sse.foto = null;
+		sse.medidas_area = [];
+		sse.medidas_linear = [];
+		sse.medidas_unidades = [];
+		sse.urgencia=0;
+
+
+		this.sseResponse = sse;
+		this.parseSse();
+	}
+
+	setHora(s:number){
+		this.timestring = s + ':00';
 	}
 
 
@@ -196,7 +241,7 @@ export class SseComponent implements OnInit {
 			this.sseResponse.dh_recebido = new Date(this.sseResponse.dh_recebido);
 			this.sseResponse.dh_registrado = new Date(this.sseResponse.dh_registrado);
 			this.sseResponse.id *= 1;
-			this.sseResponse.foto = this.sanitizer.bypassSecurityTrustResourceUrl(this.sseResponse.foto);
+			this.sseResponse.foto = (this.sseResponse.foto ? this.sanitizer.bypassSecurityTrustResourceUrl(this.sseResponse.foto) : null);
 			this.sseResponse.urgente = (this.sseResponse.urgente == "1");
 			this.timestring = this.sseResponse.dh_recebido.toTimeString().substr(0, 2)
 				+ ':' +
@@ -313,23 +358,27 @@ export class SseComponent implements OnInit {
 
 		let total: number = 0;
 
-		if (this.sse.tipoDeServico.medida == 'a') {
-			for (let i = 0; i < this.sse.medidas_area.length; i++) {
-				total += (1 * this.sse.medidas_area[i].l) * (1 * this.sse.medidas_area[i].c);
+		if(this.sse.tipoDeServico){
+			if (this.sse.tipoDeServico.medida == 'a') {
+				for (let i = 0; i < this.sse.medidas_area.length; i++) {
+					total += (1 * this.sse.medidas_area[i].l) * (1 * this.sse.medidas_area[i].c);
+				}
 			}
-		}
-
-		if (this.sse.tipoDeServico.medida == 'l') {
-			for (let i = 0; i < this.sse.medidas_linear.length; i++) {
-				total += (1 * this.sse.medidas_linear[i].v);
+	
+			if (this.sse.tipoDeServico.medida == 'l') {
+				for (let i = 0; i < this.sse.medidas_linear.length; i++) {
+					total += (1 * this.sse.medidas_linear[i].v);
+				}
 			}
-		}
-
-		if (this.sse.tipoDeServico.medida == 'u') {
-			for (let i = 0; i < this.sse.medidas_unidades.length; i++) {
-				total += (1 * this.sse.medidas_unidades[i].n);
+	
+			if (this.sse.tipoDeServico.medida == 'u') {
+				for (let i = 0; i < this.sse.medidas_unidades.length; i++) {
+					total += (1 * this.sse.medidas_unidades[i].n);
+				}
 			}
+			this.medidaTotal = total;
+		} else {
+			this.medidaTotal = 0;
 		}
-		this.medidaTotal = total;
 	}
 }

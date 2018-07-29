@@ -18,18 +18,27 @@
 					<mat-datepicker-toggle matSuffix [for]="dpRecebimento"></mat-datepicker-toggle>
 					<mat-datepicker #dpRecebimento></mat-datepicker>
 				</mat-form-field>
-		
-				<mat-form-field>
-					<input required name="dh_recebido_hora" matInput placeholder="Hora" type="time" [(ngModel)]="timestring">
-				</mat-form-field>
+				
+				<div class="container-hora-recebida">
+					<mat-form-field>
+						<input required name="dh_recebido_hora" matInput placeholder="Hora" type="time" [(ngModel)]="timestring">
+					</mat-form-field>
+					<button (click)="setHora(10)" mat-raised-button color="accent">
+						10h?
+					</button>
+					<button (click)="setHora(15)" mat-raised-button color="accent">
+						15h?
+					</button>
+				</div>
 			</div>
 			
 			<img *ngIf="sse?.foto" [src]="sse?.foto" alt="{{ 'SSE ' + sse?.numero }}">
 			<button disabled *ngIf="!sse?.foto" class="noImageButton">SSE sem foto</button>
+			
 		</div>
 
 		<mat-form-field>
-			<mat-select (selectionChange)="onTipoDeServicoChange()" name="tds" [(ngModel)]="sse.tipoDeServico" placeholder="Solicitação">
+			<mat-select required (selectionChange)="onTipoDeServicoChange()" name="tds" [(ngModel)]="sse.tipoDeServico" placeholder="Solicitação">
 				<mat-option [value]="tds" *ngFor="let tds of tdss">RG{{tds.codigo}} - {{tds.descricao}}</mat-option>
 			</mat-select>
 		</mat-form-field>
@@ -46,7 +55,7 @@
 
 		<mat-form-field>
 			<mat-select name="urgencia" [(ngModel)]="sse.urgencia" placeholder="Nível de Prioridade">
-				<mat-option [value]="0">Normal</mat-option>
+				<mat-option required [value]="0">Normal</mat-option>
 				<mat-option [value]="1">Prioridade</mat-option>
 				<mat-option [value]="2">Urgente</mat-option>
 			</mat-select>
@@ -64,8 +73,8 @@
 			</div>
 			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='a'">
 				<div class="medida" *ngFor="let m of sse.medidas_area;let i=index">
-					<input (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_al_{{i}}" step="0.01" [(ngModel)]="m.l"> x
-					<input (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_ac_{{i}}" step="0.01" [(ngModel)]="m.c"> m²
+					<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_al_{{i}}" step="0.01" [(ngModel)]="m.l"> x
+					<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_ac_{{i}}" step="0.01" [(ngModel)]="m.c"> m²
 					<button color="warn" *ngIf="sse.medidas_area.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
 						<mat-icon>remove_circle</mat-icon>
 					</button>
@@ -73,7 +82,7 @@
 			</div>
 			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='l'">
 				<div class="medida" *ngFor="let m of sse.medidas_linear;let i=index">
-					<input (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_l_{{i}}" step="0.01" [(ngModel)]="m.v"> m
+					<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_l_{{i}}" step="0.01" [(ngModel)]="m.v"> m
 					<button color="warn" *ngIf="sse.medidas_linear.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
 						<mat-icon>remove_circle</mat-icon>
 					</button>
@@ -103,8 +112,4 @@
 		</div>
 
 	</form>
-	<pre>
-		{{bairrosExibidos | json}}
-	</pre>
 </div>
-<span>&nbsp;</span>

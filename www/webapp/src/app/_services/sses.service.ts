@@ -16,6 +16,7 @@ export class SsesService {
 	private url_getSses:string = 'api/sses';
 	private url_getSsesPendentes:string = 'api/sses/pendentes';
 	private url_updateSses:string = 'api/sses';
+	private url_createSses:string = 'api/sses';
 
 	// Método que carrega todas as SSEs
 	getAll():Observable<SSE[]>{
@@ -39,6 +40,11 @@ export class SsesService {
 	// Método que atualiza uma sse
 	update(sse:SSE){
 		return this.http.put(this.url_updateSses + '/' + sse.id,sse);
+	}
+
+	// Método que cria uma sse
+	create(sse:SSE){
+		return this.http.post(this.url_createSses,sse);
 	}
 
 	// Marca uma SSE como finalizada
