@@ -242,7 +242,7 @@ export class SseComponent implements OnInit {
 			this.sseResponse.dh_registrado = new Date(this.sseResponse.dh_registrado);
 			this.sseResponse.id *= 1;
 			this.sseResponse.foto = (this.sseResponse.foto ? this.sanitizer.bypassSecurityTrustResourceUrl(this.sseResponse.foto) : null);
-			this.sseResponse.urgente = (this.sseResponse.urgente == "1");
+			this.sseResponse.urgencia *= 1;
 			this.timestring = this.sseResponse.dh_recebido.toTimeString().substr(0, 2)
 				+ ':' +
 				this.sseResponse.dh_recebido.toTimeString().substr(3, 2);

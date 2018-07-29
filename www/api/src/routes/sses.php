@@ -129,7 +129,7 @@
 					id_tipo_de_servico,
 					dh_registrado,
 					dh_recebido,
-					urgente,
+					urgente as urgencia,
 					obs,
 					lat,
 					lng

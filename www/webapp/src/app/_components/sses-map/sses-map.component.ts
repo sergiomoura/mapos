@@ -7,7 +7,7 @@ import { TiposDeServicoService } from "../../_services/tipos-de-servico.service"
 import { TipoDeServico } from "../../_models/tipoDeServico";
 import { EquipesService } from '../../_services/equipes.service';
 import { Equipe } from '../../_models/equipe';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
 
 @Component({
