@@ -38,7 +38,7 @@
 					</thead>
 					<tbody *ngFor="let tarefa of sse.tarefas">
 						<tr>
-							<td rowspan="2">{{tarefa.equipe.sigla}}</td>
+							<td rowspan="2">{{tarefa.equipe?.sigla}}</td>
 							<td rowspan="2">{{tarefa.apoio?.sigla}}</td>
 							<td>P</td>
 							<td>{{tarefa.inicio_p | date:'dd/MM HH:mm'}}</td>
@@ -74,9 +74,9 @@
 						<mat-icon>block</mat-icon>Cancelar SSE
 				</button>
 
-				<!-- Botão de agendar equipe. Visível quando status não for finalizado (100) nem for cancelado(-100) -->
+				<!-- Botão de agendar equipe. Visível quando status não for finalizado (100) nem for cancelado(-100) nem for divergente (-1)-->
 				<button
-					*ngIf="sse.status!=100 && sse.status!= -100"
+					*ngIf="sse.status!=100 && sse.status!= -100 && sse.status != -1"
 					mat-raised-button
 					color="accent"
 					(click)="onAgendarClick(sse)">
