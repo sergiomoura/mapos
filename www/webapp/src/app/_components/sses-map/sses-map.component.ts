@@ -209,7 +209,34 @@ export class SsesMapComponent implements OnInit {
 				sse.markerFile += '-' + sse.urgencia;
 				sse.markerFile += '.svg';
 
-				
+				// parsing equipes e apoios das tarefas 
+				for (let i = 0; i < sse.tarefas.length; i++) {
+					
+					// Separando tarefa a tratar
+					const tarefa = sse.tarefas[i];
+					
+					// Parsing equipe encarregada pela tarefa
+					tarefa.equipe = this.equipes.find(
+						(e) => {
+							return e.id == tarefa.id_equipe;
+						}
+					)
+					delete tarefa.id_equipe;
+
+					// Parsing apoio encarregado pela tarefa
+					tarefa.apoio = this.equipes.find(
+						(e) => {
+							return e.id == tarefa.id_apoio;
+						}
+					)
+					delete tarefa.id_apoio;
+
+					// Parsing dates
+					tarefa.inicio_p = new Date(tarefa.inicio_p);
+					tarefa.final_p = new Date(tarefa.final_p);
+					tarefa.inicio_r = (tarefa.inicio_r == null ? null : new Date(tarefa.inicio_r));
+					tarefa.final_r = (tarefa.final_r == null ? null : new Date(tarefa.final_r));
+				}
 			}
 		}
 		this.sses = this.tmpSses;

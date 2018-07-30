@@ -10,7 +10,7 @@
 		[iconUrl]="'assets/' + sse.markerFile"
 		(markerClick)="onMarkerClick(infowindow)">
 		<agm-info-window [disableAutoPan]="true" #infowindow>
-			<div class="numero">SSE: {{sse?.numero}}</div>
+			<div class="numero">SSE: {{sse?.numero == null ? 'sem número' : sse?.numero}}</div>
 			<div class="endereco">{{sse?.endereco}}</div>
 			<div>RG{{sse?.tipoDeServico?.codigo}} - {{sse?.tipoDeServico?.descricao}}</div>
 			<div class="status">{{sse?.statusMessage}}</div>
@@ -20,11 +20,56 @@
 			</div>
 			<countdown *ngIf="sse.tempoRestante > 0" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
 			<div class="atrasado" *ngIf="sse.tempoRestante <= 0" >ATRASADA</div>
+			<div class="agendamentos" *ngIf="sse.tarefas.length > 0">
+				<div class="titulo">Agendamentos para SSE</div>
+				<table>
+					<thead>
+						<tr>
+							<td rowspan="2">Equipe</td>
+							<td rowspan="2">Apoio</td>
+							<td rowspan="2">PR</td>
+							<td colspan="2">Data / Hora</td>
+							<td rowspan="2">Ações</td>
+						</tr>
+						<tr>
+							<td>Início</td>
+							<td>Final</td>
+						</tr>
+					</thead>
+					<tbody *ngFor="let tarefa of sse.tarefas">
+						<tr>
+							<td rowspan="2">{{tarefa.equipe.sigla}}</td>
+							<td rowspan="2">{{tarefa.apoio?.sigla}}</td>
+							<td>P</td>
+							<td>{{tarefa.inicio_p | date:'dd/MM hh:mm'}}</td>
+							<td>{{tarefa.final_p | date:'dd/MM hh:mm'}}</td>
+							<td rowspan="2" class="bt-container">
+								<button title="Alterar Agendamento"><img src="assets/editar.svg"></button>
+								<button title="Cancelar Agendamento"><img src="assets/cancelar.svg"></button>
+							</td>
+						</tr>
+						<tr>
+							<td>R</td>
+							<td>{{tarefa.inicio_r ? (tarefa.inicio_r | date:'dd/MM hh:mm') : ''}}</td>
+							<td>{{tarefa.final_r ? (tarefa.final_r | date:'dd/MM hh:mm') : '' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<!--
 			<a *ngIf="sse.status == '100'" class="link" (click)="onReabrirClick(sse.id)">Reabrir SSE</a>
 			<a *ngIf="sse.status != '100'" class="link" (click)="onSetConcluidaClick(sse.id)">Marcar SSE como concluída</a>
 			<a *ngIf="sse.status != '100'" class="link" (click)="onAgendarClick(sse)">Agendar Tarefa para SSE</a>
-			<a class="link" (click)="goToSse(sse.id)">Ver SSE</a>
-
+			-->
+			<div class="controles-info-window">
+				<button mat-raised-button color="accent" (click)="goToSse(sse.id)" ><mat-icon>visibility</mat-icon>Ver SSE</button>
+				<button mat-raised-button color="accent" (click)="onCancelarSseClick(sse.id)" ><mat-icon>block</mat-icon>Cancelar SSE</button>
+				<button mat-raised-button color="accent" (click)="onAgendarClick(sse)" ><mat-icon>access_time</mat-icon>Agendar Equipe</button>
+				<button mat-raised-button color="accent" (click)="onFinalizarClick(sse)" ><mat-icon>done</mat-icon>Finalizar SSE</button>
+				<button mat-raised-button color="accent" (click)="onRetrabalhoClick(sse)" ><mat-icon>cached</mat-icon>Marcar como Retrabalho</button>
+				<button mat-raised-button color="accent" (click)="onRetrabalhoClick(sse)" ><mat-icon>done_all</mat-icon>Finalizar Retrabalho</button>
+			</div>
 	   	</agm-info-window>
 	</agm-marker>
 </agm-map>

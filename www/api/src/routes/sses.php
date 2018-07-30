@@ -342,7 +342,7 @@
 			$stmt->execute(array(
 				':endereco'				=> $sse->endereco,
 				':id_bairro'			=> $sse->bairro->id,
-				':numero'				=> $sse->numero	,
+				':numero'				=> ($sse->numero == '' ? null : $sse->numero),
 				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
 				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
 				':urgente'				=> $sse->urgencia,
@@ -480,7 +480,7 @@
 			$stmt->execute(array(
 				':endereco'				=> $sse->endereco,
 				':id_bairro'			=> $sse->bairro->id,
-				':numero'				=> $sse->numero	,
+				':numero'				=> (trim($sse->numero) == '' ? null : $sse->numero),
 				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
 				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
 				':urgente'				=> $sse->urgencia,

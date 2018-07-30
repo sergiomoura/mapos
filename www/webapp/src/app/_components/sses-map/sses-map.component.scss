@@ -1,18 +1,73 @@
 :host(){
 	agm-map {
 		height: calc(100vh - 56px);
-
-		agm-info-window {
+		
+		
+		.controles-info-window {
+			text-align: left;
+			margin-top: 10px;
+			button {
+				margin-right: 5px;
+				mat-icon {
+					margin-right:10px;
+				}
+			}
 		}
+
+		.agendamentos {
+			.titulo {
+				font-weight: bold;
+			}
+			
+			table{
+				width: 100%;
+				border-collapse: collapse;
+				margin: 10px 0 0 0;
+				td {
+					border: 1px solid #DEDEDE;
+					text-align: center;
+					padding: 2px;
+				}
+				
+				.bt-container{
+					button {
+						cursor: pointer;
+						width: 25px;
+						height: 25px;
+						margin: 2px;
+						img{
+							width: 20px;
+							position: relative;
+							left: -5px;
+						}
+					}
+				}
+			}
+		}
+		
 		.numero {
 			font-weight: bold;
+			margin: 10px 0;
+			font-size: 18px;
 		}
-		.link {
-			display: block;
-			text-align: right;
-			text-decoration: underline;
-			color: blue;
-			cursor: pointer;
+
+		.atrasado{
+			padding: 4px;
+			background-color: #F00;
+			color: #FFF;
+			text-align: center;
+			border-radius: 3px;
+			margin: 10px 0;
+		}
+
+		countdown {
+			padding: 4px;
+			background-color: #C80;
+			color: #FFF;
+			text-align: center;
+			border-radius: 3px;
+			margin: 10px 0;
+			display: block !important;
 		}
 	}
 
