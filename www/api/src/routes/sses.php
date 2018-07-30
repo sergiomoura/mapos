@@ -626,8 +626,8 @@
 			->write('Falha ao tentar marcar SSE como cancelada');
 		}
 
-		// Finalizando todas as tarefas da SSE que foram
-		$sql = 'UPDATE maxse_tarefas SET final_r=now() WHERE inicio_r is not null AND id=:id_sse';
+		// Finalizando todas as tarefas da SSE que estão sendo realizadas
+		$sql = 'UPDATE maxse_tarefas SET final_r=now() WHERE inicio_r IS NOT NULL and final_r IS NULL AND id_sse=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		
 		try {
@@ -645,7 +645,7 @@
 		}
 
 		// Removendo todas as tarefas que foram agendadas para esta sse
-		$sql = 'DELETE FROM maxse_tarefas WHERE inicio_r is null AND id=:id_sse';
+		$sql = 'DELETE FROM maxse_tarefas WHERE inicio_r IS NULL AND inicio_p IS NOT NULL AND id_sse=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		
 		try {
