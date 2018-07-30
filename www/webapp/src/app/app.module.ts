@@ -37,6 +37,7 @@ import { EditProdutoComponent } from './_components/edit-produto/edit-produto.co
 import { MovimentosComponent } from './_components/movimentos/movimentos.component';
 import { LancarNotaComponent } from './_components/lancar-nota/lancar-nota.component';
 import { EditMovimentoComponent } from './_components/edit-movimento/edit-movimento.component';
+import { FinalizarSseComponent } from './_components/finalizar-sse/finalizar-sse.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -59,7 +60,8 @@ import { EditMovimentoComponent } from './_components/edit-movimento/edit-movime
 		EditProdutoComponent,
 		MovimentosComponent,
 		LancarNotaComponent,
-		EditMovimentoComponent
+		EditMovimentoComponent,
+		FinalizarSseComponent
 	],
 	imports: [
 		BrowserModule,
@@ -77,7 +79,8 @@ import { EditMovimentoComponent } from './_components/edit-movimento/edit-movime
 		NovaTarefaComponent,
 		EditProdutoComponent,
 		LancarNotaComponent,
-		EditMovimentoComponent
+		EditMovimentoComponent,
+		FinalizarSseComponent
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

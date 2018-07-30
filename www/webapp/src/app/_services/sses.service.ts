@@ -48,8 +48,8 @@ export class SsesService {
 	}
 
 	// Marca uma SSE como finalizada
-	setFinalizada(id_sse:number):Observable<any>{
-		return this.http.patch('api/sses/' + id_sse + '/setFinalizada','');
+	setFinalizada(id_sse:number,tipoDeFinalizacao:string):Observable<any>{
+		return this.http.patch('api/sses/' + id_sse + '/setFinalizada',tipoDeFinalizacao);
 	}
 
 	// Marca uma SSE como Cancelada

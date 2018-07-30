@@ -10,6 +10,7 @@ import { Equipe } from '../../_models/equipe';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
 import { TarefaService } from '../../_services/tarefa.service';
+import { FinalizarSseComponent } from "../../_components/finalizar-sse/finalizar-sse.component";
 
 @Component({
 	selector: 'app-sses-map',
@@ -328,7 +329,6 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	onAlterarAgendamentoClick(sse,id_tarefa){
-		console.log(id_tarefa);
 		const dialogRef = this.dialog.open(NovaTarefaComponent, {
 			width: '800px',
 			data: {
@@ -342,6 +342,31 @@ export class SsesMapComponent implements OnInit {
 			result => {
 				if(result == 1){
 					this.getSses();
+				}
+			}
+		);
+	}
+
+	onFinalizarClick(sse){
+		const dialogRef = this.dialog.open(FinalizarSseComponent, {
+			width: '400px',
+			data: {
+				'id_sse':sse.id
+			}
+		});
+	
+		dialogRef.afterClosed().subscribe(
+			result => {
+				if(result == 1){
+					this.getSses();
+
+					// Exibindo snackbar de sucesso
+					this.snackBar.open(
+						'SSE finalizada com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
 				}
 			}
 		);

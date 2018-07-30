@@ -570,16 +570,84 @@
 		// Lendo argumentos
 		$id_sse = 1*$args['id_sse'];
 
+		// Interpretando o body
+		$finalizacaoTotal = ($req->getBody()->getContents() == 'parcial'? false : true);
+
+		// Recuperando dados da SSE
+		$sql = 'SELECT 
+					a.status,
+					b.id as id_tipo_de_servico,
+					b.medida 
+				FROM
+					maxse_sses a
+					inner join maxse_tipos_de_servico b on a.id_tipo_de_servico=b.id
+				WHERE a.id=:id_sse';
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $id_sse));
+		$sse = $stmt->fetch();
+
+		if ($sse === false) {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(404)
+			->write('SSE não encontrada');
+		}
+
+		// Determinando a quantidade de trabalho realizado na SSE com base em medida
+		switch ($sse->medida) {
+			case 'a':
+				$sql = 'SELECT sum(l*c) AS trabalho FROM maxse_medidas_area WHERE id_sse=:id_sse AND tipo="r"';
+				break;
+			
+			case 'l':
+				$sql = 'SELECT sum(v) AS trabalho FROM maxse_medidas_linear WHERE id_sse=:id_sse AND tipo="r"';
+				break;
+			
+			case 'u':
+				$sql = 'SELECT sum(n) AS trabalho FROM maxse_medidas_unidades WHERE id_sse=:id_sse AND tipo="r"';
+				break;
+			
+		}
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $id_sse));
+		$trabalho = 1*$stmt->fetch()->trabalho;
+
+		// Debitando 40% do valor caso finalização não seja parcial
+		if(!$finalizacaoTotal) {
+			$trabalho = $this->maxse['percentual_pago por_finalizacao_parcial'] * $trabalho;
+		}
+
+		// Determinando o valor do serviço de acordo com a faixa de cobrança do servico
+		$sql = 'SELECT
+					:trabalho*valor as valor_total
+				FROM
+					maxse000.maxse_faixas_de_tipos_de_servicos
+				WHERE
+					:trabalho>li
+					AND :trabalho<=ls
+					AND id_tipo_de_servico=:id_tipo;';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':trabalho' => $trabalho,
+				':id_tipo' => $sse->id_tipo_de_servico
+			)
+		);
+		$valor_total = $stmt->fetch()->valor_total;
+
 		// Iniciando transação
 		$this->db->beginTransaction();
 
 		// Preparando consulta
-		$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA") WHERE id=:id_sse';
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA"),valor_real=:vr WHERE id=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		
 		try {
 			$stmt->execute(array(
-				':id_sse' => $id_sse
+				':id_sse' => $id_sse,
+				':vr' => $valor_total
 			));	
 		} catch (Exception $e) {
 			// Algo deu errado. Rollback
