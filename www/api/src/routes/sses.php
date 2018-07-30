@@ -668,6 +668,47 @@
 		->withHeader('Content-Type','application/json');
 	});
 
+	$app->patch($api_root.'/sses/{id_sse}/setRetrabalho', function(Request $req, Response $res, $args = []){
+		
+		// Lendo argumentos
+		$id_sse = 1*$args['id_sse'];
+
+		// Verificando se SSE está finalizada
+		$sql = 'SELECT count(*) as n FROM maxse_sses WHERE id=:id_sse AND status=sseStatus("FINALIZADA")';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse'=>$id_sse));
+		$n = $stmt->fetch()->n;
+		if($n != '1'){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(403)
+			->write("Esta SSE não está como finalizada.");
+		}
+
+		// iniciando transação
+		$this->db->beginTransaction();
+
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("RETRABALHO") where id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(array(':id_sse'=>$id_sse));
+		} catch (Exception $e) {
+			// Falhou! Rolling back!
+			$this->db->rollback();
+			
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write("Falha ao tentar atualizar status da SSE para RETRABALHO: ".$e->getMessage());
+		}
+
+		// Tudo certo! Commit
+		$this->db->commit();
+
+		// Retornando resposta para usuário
+		return $res->withStatus(200);		
+	});
+
 	$app->patch($api_root.'/sses/{id_sse}/setCancelada', function(Request $req, Response $res, $args = []){
 		
 		// Lendo argumentos
