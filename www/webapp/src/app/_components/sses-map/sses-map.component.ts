@@ -9,6 +9,7 @@ import { EquipesService } from '../../_services/equipes.service';
 import { Equipe } from '../../_models/equipe';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
+import { TarefaService } from '../../_services/tarefa.service';
 
 @Component({
 	selector: 'app-sses-map',
@@ -23,7 +24,8 @@ export class SsesMapComponent implements OnInit {
 		private snackBar:MatSnackBar,
 		private router:Router,
 		private tdsService:TiposDeServicoService,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private tarefaService:TarefaService
 	) {}
 
 	sses:SSE[];
@@ -294,6 +296,33 @@ export class SsesMapComponent implements OnInit {
 				res => {
 					this.getSses();
 				}
+			)
+		}
+	}
+
+	onCancelarAgendamentoClick(id_tarefa){
+		let pergunta = 'Tem certeza que deseja cancelar agendamento?';
+		let ok = window.confirm(pergunta);
+		if(ok){
+			this.tarefaService.remove(id_tarefa).subscribe(
+				() => {
+					this.getSses();
+				},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao tentar cancelar agendamento',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+				}
+
 			)
 		}
 	}

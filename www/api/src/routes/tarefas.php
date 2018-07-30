@@ -1177,3 +1177,99 @@
 		return $res
 		->withStatus(200);
 	});
+
+	$app->delete($api_root.'/tarefas/{id}',function(Request $req, Response $res, $args = []){
+
+		// Lendo id da url
+		$id_tarefa = 1*$args['id'];
+
+		// Iniciando transação
+		$this->db->beginTransaction();
+
+		// Levantando o id da sse
+		$sql = 'SELECT id_sse FROM maxse_tarefas WHERE id=:id_tarefa';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_tarefa' => $id_tarefa));
+		$id_sse = $stmt->fetch()->id_sse;
+
+		// Recuperando tarefa da base de dados
+		$sql = 'DELETE FROM maxse_tarefas WHERE id=:id_tarefa';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(array(':id_tarefa' => $id_tarefa));
+		} catch (Exception $e) {
+			// Algo deu errado. Roll back e mandando o erro
+			$this->db->rollback();
+			
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar remover tarefa: '.$e->getMessage());
+		}
+
+		// ATUALIZANDO STATUS DA SSE COM BASE NAS SUAS TAREFAS
+		
+		// Levantando SE A sse POSSUI ALGUMA TAREFA
+		$sql = 'SELECT count(*) as n FROM maxse_tarefas WHERE id_sse=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse'=>$id_sse));
+		$n = $stmt->fetch()->n;
+		$status = '';
+
+		if($n == 0){
+			// Se a SSE não tem tarefa, o status é
+			$status = 'CADASTRADA';
+		} else {
+			// Levantando SE A sse POSSUI ALGUMA TAREFA sendo executada
+			$sql = 'SELECT count(*) as n FROM maxse_tarefas WHERE inicio_r is not null and final_r is null and id_sse=:id_sse';
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute(array(':id_sse'=>$id_sse));
+			$n = $stmt->fetch()->n;
+			if($n > 0) {
+				$status = 'EXECUTANDO';
+			} else {
+				// Levantando SE A sse POSSUI ALGUMA TAREFA sendo agendada
+				$sql = 'SELECT count(*) as n FROM maxse_tarefas WHERE inicio_p is not null and inicio_r is null and id_sse=:id_sse';
+				$stmt = $this->db->prepare($sql);
+				$stmt->execute(array(':id_sse'=>$id_sse));
+				$n = $stmt->fetch()->n;
+				if($n > 0) {
+					$status = 'AGENDADA';
+				} else {
+					$status = 'PENDENTE';
+				}
+			}
+		}
+
+		// Atualizando status de uma SSE
+		$sql = 'UPDATE maxse_sses SET status=sseStatus(:status) WHERE id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(
+				array(
+					':status' => $status,
+					':id_sse' => $id_sse
+				)
+			);
+			
+		} catch (Exception $e) {
+			// Errou! Rollback
+			$this->db->rollback();
+			
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar atualizar status da SSE: ');
+		}
+
+		// Chegou até aqui é COMMIT
+		$this->db->commit();
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json')
+		->write(json_encode($tarefa));
+
+	});
+	

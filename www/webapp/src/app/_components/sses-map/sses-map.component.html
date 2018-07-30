@@ -44,8 +44,8 @@
 							<td>{{tarefa.inicio_p | date:'dd/MM hh:mm'}}</td>
 							<td>{{tarefa.final_p | date:'dd/MM hh:mm'}}</td>
 							<td rowspan="2" class="bt-container">
-								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento"><img src="assets/editar.svg"></button>
-								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento"><img src="assets/cancelar.svg"></button>
+								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento" (click)="onAlterarAgendamentoClick(tarefa)"><img src="assets/editar.svg"></button>
+								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento" (click)="onCancelarAgendamentoClick(tarefa.id)"><img src="assets/cancelar.svg"></button>
 							</td>
 						</tr>
 						<tr>
