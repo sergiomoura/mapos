@@ -41,17 +41,17 @@
 							<td rowspan="2">{{tarefa.equipe.sigla}}</td>
 							<td rowspan="2">{{tarefa.apoio?.sigla}}</td>
 							<td>P</td>
-							<td>{{tarefa.inicio_p | date:'dd/MM hh:mm'}}</td>
-							<td>{{tarefa.final_p | date:'dd/MM hh:mm'}}</td>
+							<td>{{tarefa.inicio_p | date:'dd/MM HH:mm'}}</td>
+							<td>{{tarefa.final_p | date:'dd/MM HH:mm'}}</td>
 							<td rowspan="2" class="bt-container">
-								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento" (click)="onAlterarAgendamentoClick(tarefa)"><img src="assets/editar.svg"></button>
+								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento" (click)="onAlterarAgendamentoClick(sse,tarefa.id)"><img src="assets/editar.svg"></button>
 								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento" (click)="onCancelarAgendamentoClick(tarefa.id)"><img src="assets/cancelar.svg"></button>
 							</td>
 						</tr>
 						<tr>
 							<td>R</td>
-							<td>{{tarefa.inicio_r ? (tarefa.inicio_r | date:'dd/MM hh:mm') : ''}}</td>
-							<td>{{tarefa.final_r ? (tarefa.final_r | date:'dd/MM hh:mm') : '' }}</td>
+							<td>{{tarefa.inicio_r ? (tarefa.inicio_r | date:'dd/MM HH:mm') : ''}}</td>
+							<td>{{tarefa.final_r ? (tarefa.final_r | date:'dd/MM HH:mm') : '' }}</td>
 						</tr>
 					</tbody>
 				</table>

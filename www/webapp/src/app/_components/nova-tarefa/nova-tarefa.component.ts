@@ -4,10 +4,12 @@ import { SSE } from '../../_models/sse';
 import { Equipe } from '../../_models/equipe';
 import { Tarefa } from '../../_models/tarefa';
 import { TarefaService } from "../../_services/tarefa.service";
+import { format } from "date-fns";
 
 export interface DialogData {
 	sse: SSE;
 	equipes: Equipe[];
+	id_tarefa: number;
 }
 
 @Component({
@@ -28,8 +30,18 @@ export class NovaTarefaComponent implements OnInit {
 		private snackBar:MatSnackBar
 	) {
 		this.sse = data.sse;
+		if(data.id_tarefa){
+			this.tarefa = Object.assign({},(<any>this.sse).tarefas.find(
+				t => {
+					return t.id==data.id_tarefa;
+				}
+			));
+			this.tarefa.inicio_p = format(this.tarefa.inicio_p,'YYYY-MM-DDTHH:mm');
+			this.tarefa.final_p = format(this.tarefa.final_p,'YYYY-MM-DDTHH:mm');
+		} else {
+			this.tarefa = this.tarefaVazia();
+		}
 		this.equipes = data.equipes;
-		this.tarefa = this.tarefaVazia();
 	}
 
 	ngOnInit() {
@@ -51,33 +63,64 @@ export class NovaTarefaComponent implements OnInit {
 	}
 
 	onSalvarClick(){
-		this.tarefaService.create(this.tarefa).subscribe(
-			res => {
-				this.dialogRef.close(1);
-				
-				// Exibindo snackbar de sucesso
-				this.snackBar.open(
-					'SSE agendada com sucesso!',
-					undefined,
-					{
-						panelClass: ['snackbar-ok'],
-					});
-			},
-			err => {
-				// Exibindo snackbar de erro
-				this.snackBar
-				.open(
-					'Falha ao delegar a SSE para a equipe.',
-					'Fechar',
-					{
-						duration:0,
-						horizontalPosition:'left',
-						verticalPosition:'bottom',
-						panelClass: ['snackbar-error'],
-					}
-				);
-			}
-		)
+		if(this.tarefa.id == 0){
+			this.tarefaService.create(this.tarefa).subscribe(
+				res => {
+					this.dialogRef.close(1);
+					
+					// Exibindo snackbar de sucesso
+					this.snackBar.open(
+						'SSE agendada com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
+				},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao delegar a SSE para a equipe.',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+				}
+			)
+		} else {
+			this.tarefaService.update(this.tarefa).subscribe(
+				res => {
+					this.dialogRef.close(1);
+					
+					// Exibindo snackbar de sucesso
+					this.snackBar.open(
+						'Agendamento alterado com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
+				},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao tentar alterar agendamento.',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+				}
+			)
+		}
+		
 	}
 
 }

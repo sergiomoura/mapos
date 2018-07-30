@@ -356,7 +356,6 @@
 					final_r		= :final_r,
 					id_apoio	= :id_apoio,
 					id_equipe	= :id_equipe,
-					id_sse		= :id_sse,
 					inicio_p	= :inicio_p,
 					inicio_r	= :inicio_r
 				WHERE id = :id
@@ -369,7 +368,6 @@
 				':final_r' 		=> $tarefa->final_r,
 				':id_apoio' 	=> (isset($tarefa->apoio) ? $tarefa->apoio->id : null),
 				':id_equipe'	=> $tarefa->equipe->id,
-				':id_sse' 		=> $tarefa->id_sse,
 				':inicio_p' 	=> $tarefa->inicio_p,
 				':inicio_r' 	=> $tarefa->inicio_r,
 				':id' 			=> $tarefa->id

@@ -327,6 +327,26 @@ export class SsesMapComponent implements OnInit {
 		}
 	}
 
+	onAlterarAgendamentoClick(sse,id_tarefa){
+		console.log(id_tarefa);
+		const dialogRef = this.dialog.open(NovaTarefaComponent, {
+			width: '800px',
+			data: {
+				'sse':sse,
+				'id_tarefa': id_tarefa,
+				'equipes':this.equipes,
+			}
+		});
+	
+		dialogRef.afterClosed().subscribe(
+			result => {
+				if(result == 1){
+					this.getSses();
+				}
+			}
+		);
+	}
+
 	onReabrirClick(id_sse){
 		let pergunta = 'Tem certeza que deseja reabrir esta SSE?';
 		let ok = window.confirm(pergunta);
@@ -345,7 +365,6 @@ export class SsesMapComponent implements OnInit {
 			data: {
 				'sse': sse,
 				'equipes':this.equipes,
-
 			}
 		});
 	
