@@ -688,7 +688,7 @@
 		// iniciando transação
 		$this->db->beginTransaction();
 
-		$sql = 'UPDATE maxse_sses SET status=sseStatus("RETRABALHO") where id=:id_sse';
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("RETRABALHO"),ini_retrabalho=now() where id=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		try {
 			$stmt->execute(array(':id_sse'=>$id_sse));
