@@ -110,6 +110,15 @@
 						<mat-icon>done_all</mat-icon>Finalizar Retrabalho
 				</button>
 
+				<!-- Botão Reabrir SSE Cancelada. Visível somente quando o status é Canceladp (-100) -->
+				<button
+					*ngIf="sse.status == -100"
+					mat-raised-button
+					color="accent"
+					(click)="onReabrirClick(sse.id)">
+						<mat-icon>autorenew</mat-icon>Reabrir SSE
+				</button>
+
 			</div>
 	   	</agm-info-window>
 	</agm-marker>

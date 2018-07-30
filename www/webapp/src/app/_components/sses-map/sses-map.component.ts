@@ -257,6 +257,35 @@ export class SsesMapComponent implements OnInit {
 		this.openDialog(id_sse);
 	}
 
+	onCancelarSseClick(id_sse){
+		let pergunta = 'Tem certeza que deseja marcar esta SSE como CANCELADA?';
+		let ok = window.confirm(pergunta);
+		if(ok){
+			this.ssesService.setCancelada(id_sse).subscribe(
+				() => {
+					this.getSses();
+				},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao tentar cancelar SSE',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+
+					// Imprimindo erro no console
+					console.warn(err);
+				}
+			)
+		}
+	}
+
 	onSetConcluidaClick(id_sse){
 		let pergunta = 'Tem certeza que deseja marcar esta SSE como concluída?';
 		let ok = window.confirm(pergunta);

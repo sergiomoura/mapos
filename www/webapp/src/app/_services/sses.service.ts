@@ -52,6 +52,11 @@ export class SsesService {
 		return this.http.patch('api/sses/' + id_sse + '/setFinalizada','');
 	}
 
+	// Marca uma SSE como Cancelada
+	setCancelada(id_sse:number):Observable<any>{
+		return this.http.patch('api/sses/' + id_sse + '/setCancelada','');
+	}
+
 	// Reabrir uma SSE finalizada
 	reabrir(id_sse:number):Observable<any>{
 		return this.http.patch('api/sses/' + id_sse + '/reabrir','');

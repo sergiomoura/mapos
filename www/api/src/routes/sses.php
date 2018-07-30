@@ -600,20 +600,85 @@
 		->withHeader('Content-Type','application/json');
 	});
 
+	$app->patch($api_root.'/sses/{id_sse}/setCancelada', function(Request $req, Response $res, $args = []){
+		
+		// Lendo argumentos
+		$id_sse = 1*$args['id_sse'];
+
+		// Iniciando transação
+		$this->db->beginTransaction();
+
+		// Preparando consulta
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("CANCELADA") WHERE id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		
+		try {
+			$stmt->execute(array(
+				':id_sse' => $id_sse
+			));	
+		} catch (Exception $e) {
+			// Algo deu errado. Rollback
+			$this->db->rollback();
+
+			// Enviando erro
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar marcar SSE como cancelada');
+		}
+
+		// Finalizando todas as tarefas da SSE que foram
+		$sql = 'UPDATE maxse_tarefas SET final_r=now() WHERE inicio_r is not null AND id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		
+		try {
+			$stmt->execute(array(
+				':id_sse' => $id_sse
+			));	
+		} catch (Exception $e) {
+			// Algo deu errado. Rollback
+			$this->db->rollback();
+
+			// Enviando erro
+			return $res
+			->withStatus(500)
+			->write('Falha ao finalizar tarefas da sse');
+		}
+
+		// Removendo todas as tarefas que foram agendadas para esta sse
+		$sql = 'DELETE FROM maxse_tarefas WHERE inicio_r is null AND id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		
+		try {
+			$stmt->execute(array(
+				':id_sse' => $id_sse
+			));	
+		} catch (Exception $e) {
+			// Algo deu errado. Rollback
+			$this->db->rollback();
+
+			// Enviando erro
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar remover tarefas agendadas da SSE');
+		}
+
+		// Tudo certo. Comittando
+		$this->db->commit();
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json');
+	});
+
 	$app->patch($api_root.'/sses/{id_sse}/reabrir', function(Request $req, Response $res, $args = []){
 
 		/**
 		 * REABRE UMA SSE: DESCOBRE O STATUS DELA COM BASE NAS TAREFAS A ELA ATRIBUIDAS
 		 * FLUXO DE CHECAGEM:
 		 * Sse tem tarefas?
-		 * 	não: [VIRGEM]
-		 * 	sim:	Sse tem alguma tarefa divergente?
-		 * 			sim: [DIVERGENTE]
-		 * 			não: Sse tem tarefa sendo executada?
-		 * 				 sim: [EM EXECUÇÃO]	
-		 *               não: Sse tem alguma tarefa agendada?
-		 *                    sim: [AGENDADA]
-		 *                    não: [EXECUÇÃO CONCLUÍDA]		 * 
+		 * 	não: [CADASTRADA]
+		 * 	sim: [PENDENTE]
 		 */
 
 		// Lendo parâmetro
@@ -632,101 +697,25 @@
 		}
 
 		// Verificando se sse tem alguma tarefa associada - - - - - - - - - - - - - -
-			$sql = 'SELECT COUNT(*) as n FROM maxse_tarefas WHERE id_sse=:id_sse';
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute(
-				array(
-					':id_sse' => $id_sse
-				)
-			);
-			$n = $stmt->fetch()->n;
-			if($n == 0){
-				// 
-				$status = 'VIRGEM';
-				updateTo($status,$id_sse,$this->db);
+		$sql = 'SELECT COUNT(*) as n FROM maxse_tarefas WHERE id_sse=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_sse' => $id_sse
+			)
+		);
+		$n = $stmt->fetch()->n;
+		if($n == 0){
+			$status = 'CADASTRADA';
+		} else {
+			$status = 'PENDENTE';
+		}
+		updateTo($status,$id_sse,$this->db);
 
-				// Retornando resposta para usuário
-				return $res
-				->withStatus(200)
-				->withHeader('Content-Type','application/json')
-				->write('{"novoStatus":"'.$status.'"}');
-			}
-		// Fim de verificação VIRGEM
-
-		// Verificando se possui alguma tarefa divergente
-			$sql = 'SELECT COUNT(*) as n FROM maxse_tarefas WHERE divergente = 1 AND id_sse=:id_sse';
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute(
-				array(
-					':id_sse' => $id_sse
-				)
-			);
-			$n = $stmt->fetch()->n;
-			if($n > 0){
-				// 
-				$status = 'DIVERGENTE';
-				updateTo($status,$id_sse,$this->db);
-
-				// Retornando resposta para usuário
-				return $res
-				->withStatus(200)
-				->withHeader('Content-Type','application/json')
-				->write('{"novoStatus":"'.$status.'"}');
-			}
-		// Fim de verificação DIVERGENTE
-
-		// Verificando se possui alguma tarefa sendo executada
-			$sql = 'SELECT COUNT(*) as n FROM maxse_tarefas WHERE inicio_r IS NOT NULL AND final_r IS NULL AND id_sse=:id_sse';
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute(
-				array(
-					':id_sse' => $id_sse
-				)
-			);
-			$n = $stmt->fetch()->n;
-			if($n > 0){
-				// 
-				$status = 'EM_EXECUCAO';
-				updateTo($status,$id_sse,$this->db);
-
-				// Retornando resposta para usuário
-				return $res
-				->withStatus(200)
-				->withHeader('Content-Type','application/json')
-				->write('{"novoStatus":"'.$status.'"}');
-			}
-		// Fim de verificação EM_EXECUCAO
-
-		// Verificando se possui alguma tarefa AGENDADA
-			$sql = 'SELECT COUNT(*) as n FROM maxse_tarefas WHERE inicio_p IS NOT NULL AND inicio_r IS NULL AND id_sse=:id_sse';
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute(
-				array(
-					':id_sse' => $id_sse
-				)
-			);
-			$n = $stmt->fetch()->n;
-			if($n > 0){
-				// 
-				$status = 'AGENDADA';
-				updateTo($status,$id_sse,$this->db);
-
-				// Retornando resposta para usuário
-				return $res
-				->withStatus(200)
-				->withHeader('Content-Type','application/json')
-				->write('{"novoStatus":"'.$status.'"}');
-			} else {
-				// 
-				$status = 'EXECUCAO_CONCLUIDA';
-				updateTo($status,$id_sse,$this->db);
-
-				// Retornando resposta para usuário
-				return $res
-				->withStatus(200)
-				->withHeader('Content-Type','application/json')
-				->write('{"novoStatus":"'.$status.'"}');
-			}
-		// Fim de verificação AGENDADA
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json')
+		->write('{"novoStatus":"'.$status.'"}');
 	
 	});
