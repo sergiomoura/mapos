@@ -709,6 +709,47 @@
 		return $res->withStatus(200);		
 	});
 
+	$app->patch($api_root.'/sses/{id_sse}/finalizaRetrabalho', function(Request $req, Response $res, $args = []){
+		
+		// Lendo argumentos
+		$id_sse = 1*$args['id_sse'];
+
+		// Verificando se SSE está em RETRABALHO
+		$sql = 'SELECT count(*) as n FROM maxse_sses WHERE id=:id_sse AND status=sseStatus("RETRABALHO")';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse'=>$id_sse));
+		$n = $stmt->fetch()->n;
+		if($n != '1'){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(403)
+			->write("Esta SSE não está como retrabalho.");
+		}
+
+		// iniciando transação
+		$this->db->beginTransaction();
+
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA"),fim_retrabalho=now() where id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(array(':id_sse'=>$id_sse));
+		} catch (Exception $e) {
+			// Falhou! Rolling back!
+			$this->db->rollback();
+			
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write("Falha ao tentar finalizar retrabalho da SSE: ".$e->getMessage());
+		}
+
+		// Tudo certo! Commit
+		$this->db->commit();
+
+		// Retornando resposta para usuário
+		return $res->withStatus(200);		
+	});
+
 	$app->patch($api_root.'/sses/{id_sse}/setCancelada', function(Request $req, Response $res, $args = []){
 		
 		// Lendo argumentos

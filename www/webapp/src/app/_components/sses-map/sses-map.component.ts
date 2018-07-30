@@ -385,7 +385,6 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	onRetrabalhoClick(id_sse:number){
-		console.log(id_sse);
 		let pergunta:string = "Tem certeza que deseja marcar esta SSE como retrabalho?";
 		if(confirm(pergunta)){
 			this.ssesService.setRetrabalho(id_sse).subscribe(
@@ -397,6 +396,31 @@ export class SsesMapComponent implements OnInit {
 					this.snackBar
 					.open(
 						'Falha ao marcar SSE como retrabalho',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+				}
+			)
+		}
+	}
+
+	onFinalizarRetrabalhoClick(id_sse:number){
+		let pergunta:string = "Tem certeza que deseja finalizar o retrabalho desta SSE?";
+		if(confirm(pergunta)){
+			this.ssesService.finalizarRetrabalho(id_sse).subscribe(
+				() => {
+					this.getSses();
+				},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao finalizar retrabalho da sse',
 						'Fechar',
 						{
 							duration:0,
