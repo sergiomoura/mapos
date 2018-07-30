@@ -18,8 +18,8 @@
 			<div>
 				Equipe Atual: {{ sse.equipe ? ' [' + sse.equipe.sigla + '] - ' + sse.equipe.nome : ' NENHUMA'}}
 			</div>
-			<countdown *ngIf="sse.tempoRestante > 0" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
-			<div class="atrasado" *ngIf="sse.tempoRestante <= 0" >ATRASADA</div>
+			<countdown *ngIf="sse.tempoRestante > 0 && sse.status!= 100 && sse.status!= -100" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
+			<div class="atrasado" *ngIf="sse.tempoRestante <= 0 && sse.status!= 100 && sse.status!= -100" >ATRASADA</div>
 			<div class="agendamentos" *ngIf="sse.tarefas.length > 0">
 				<div class="titulo">Agendamentos para SSE</div>
 				<table>
@@ -44,8 +44,8 @@
 							<td>{{tarefa.inicio_p | date:'dd/MM hh:mm'}}</td>
 							<td>{{tarefa.final_p | date:'dd/MM hh:mm'}}</td>
 							<td rowspan="2" class="bt-container">
-								<button title="Alterar Agendamento"><img src="assets/editar.svg"></button>
-								<button title="Cancelar Agendamento"><img src="assets/cancelar.svg"></button>
+								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento"><img src="assets/editar.svg"></button>
+								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento"><img src="assets/cancelar.svg"></button>
 							</td>
 						</tr>
 						<tr>
@@ -63,12 +63,53 @@
 			<a *ngIf="sse.status != '100'" class="link" (click)="onAgendarClick(sse)">Agendar Tarefa para SSE</a>
 			-->
 			<div class="controles-info-window">
+				<!-- Botão de ver SSE - Sempre visível -->
 				<button mat-raised-button color="accent" (click)="goToSse(sse.id)" ><mat-icon>visibility</mat-icon>Ver SSE</button>
-				<button mat-raised-button color="accent" (click)="onCancelarSseClick(sse.id)" ><mat-icon>block</mat-icon>Cancelar SSE</button>
-				<button mat-raised-button color="accent" (click)="onAgendarClick(sse)" ><mat-icon>access_time</mat-icon>Agendar Equipe</button>
-				<button mat-raised-button color="accent" (click)="onFinalizarClick(sse)" ><mat-icon>done</mat-icon>Finalizar SSE</button>
-				<button mat-raised-button color="accent" (click)="onRetrabalhoClick(sse)" ><mat-icon>cached</mat-icon>Marcar como Retrabalho</button>
-				<button mat-raised-button color="accent" (click)="onRetrabalhoClick(sse)" ><mat-icon>done_all</mat-icon>Finalizar Retrabalho</button>
+
+				<!-- Botão de cancelar SSE. Visível se status for cadastrada (0), agendada (1) ou executando (2) -->
+				<button
+					*ngIf = "sse.status=='0' || sse.status=='1' || sse.status=='2'"
+					mat-raised-button color="accent"
+					(click)="onCancelarSseClick(sse.id)" >
+						<mat-icon>block</mat-icon>Cancelar SSE
+				</button>
+
+				<!-- Botão de agendar equipe. Visível quando status não for finalizado (100) nem for cancelado(-100) -->
+				<button
+					*ngIf="sse.status!=100 && sse.status!= -100"
+					mat-raised-button
+					color="accent"
+					(click)="onAgendarClick(sse)">
+						<mat-icon>access_time</mat-icon>Agendar Equipe
+				</button>
+
+				<!-- Botão Finalizar SSE. Visível somente quando o status é Pendente (3) -->
+				<button
+					*ngIf="sse.status == 3"
+					mat-raised-button
+					color="accent"
+					(click)="onFinalizarClick(sse)">
+						<mat-icon>done</mat-icon>Finalizar SSE
+				</button>
+
+				<!-- Botão Marcar como Retrabalho. Visível somente quando o status é Finalizado (100) -->
+				<button
+					*ngIf="sse.status == 100"
+					mat-raised-button
+					color="accent"
+					(click)="onRetrabalhoClick(sse)">
+						<mat-icon>cached</mat-icon>Marcar como Retrabalho
+				</button>
+
+				<!-- Botão Marcar retrabalho como finalizado. Visível somente quando o status é Retrabalho (-2) -->
+				<button
+					*ngIf="sse.status == -2"
+					mat-raised-button
+					color="accent"
+					(click)="onFinalizarRetrabalhoClick(sse)">
+						<mat-icon>done_all</mat-icon>Finalizar Retrabalho
+				</button>
+
 			</div>
 	   	</agm-info-window>
 	</agm-marker>

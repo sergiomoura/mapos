@@ -41,6 +41,12 @@
 							left: -5px;
 						}
 					}
+					button:disabled {
+						cursor: default;
+						img {
+							opacity: 0.5;
+						}
+					}
 				}
 			}
 		}

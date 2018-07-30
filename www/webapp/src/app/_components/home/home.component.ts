@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	) { }
 
 	ngOnInit() {
+		
 		// Iniciando o timer que atualiza o token
 		this.timerId = window.setInterval(()=>{this.authService.refresh();},this.IRDT);
 
