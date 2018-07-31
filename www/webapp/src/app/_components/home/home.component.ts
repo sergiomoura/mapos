@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Definição de timerId
 	private timerId:number;
 	private checkStockTimerId:number;
-	private IRDT:number = 10 * 60 * 1000; // Intervalo de Renovação Do Token (10 MINUTOS)
+	private IRDT:number = 5 * 60 * 1000; // Intervalo de Renovação Do Token (5 MINUTOS)
 	private IDCE:number = 5 * 60 * 1000; // Intervalo de Checagem do Estoque (5 MINUTOS)
 
 	constructor(
