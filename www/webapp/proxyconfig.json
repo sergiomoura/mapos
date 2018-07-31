@@ -1,9 +1,9 @@
 {
-    "/api": {
+    "/maxse/api": {
         "target": "http://localhost:8000/api/",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true,
-        "pathRewrite": {"^/api" : ""}
+        "pathRewrite": {"^/maxse/api" : ""}
     }
 }
