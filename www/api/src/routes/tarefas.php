@@ -493,10 +493,16 @@
 						a.final_p,
 						a.final_r,
 						a.divergente,
-						b.numero as numero_sse
+						b.numero as numero_sse,
+						b.endereco,
+						c.id as id_bairro,
+						c.nome as nome_bairro,
+						b.status,
+						b.urgente as urgencia
 					FROM
 						maxse_tarefas a
 						INNER JOIN maxse_sses b ON a.id_sse = b.id
+						INNER JOIN maxse_bairros c ON b.id_bairro=c.id
 					WHERE
 						a.id_equipe = :id_equipe
 						AND $restricoes

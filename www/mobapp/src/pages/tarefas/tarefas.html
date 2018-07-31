@@ -10,6 +10,7 @@
 		<button ion-item item-start *ngFor="let tarefa of tarefas" (click)="onTarefaClick(tarefa.id)">
 			<ion-icon name="calendar"></ion-icon>
 			<div class="title">SSE {{tarefa.numero_sse}}</div>
+			<div class="endereco">{{tarefa.endereco}} - {{tarefa.nome_bairro}}</div>
 			<table class="tempo">
 				<thead>
 					<tr>

@@ -1,16 +1,19 @@
 page-tarefas {
 	ion-content {
 		button {
-
+			background-color: aqua;
 			.title {
 				display: inline-block;
 				margin-left:10px;
+			}
+			.endereco{
+				margin: 10px;
 			}
 			.tempo{
 				font-size: 12px;
 				color:#666;
 				width: 100%;
-				margin-top: 5px;
+				margin-top: 10px;
 				
 				td {
 					padding: 5px;
