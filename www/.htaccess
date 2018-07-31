@@ -1,6 +1,6 @@
 ##### LOCAWEB - NAO REMOVER #####
-AddHandler php71-script .php
-suPHP_ConfigPath /home/maxse/
+#AddHandler php71-script .php
+#suPHP_ConfigPath /home/maxse/
 ##### LOCAWEB - NAO REMOVER #####
 
 #liberando os headers
@@ -14,14 +14,14 @@ SetEnvIf Authorization "(.+)" HTTP_AUTHORIZATION=$1
 	# Handle API Requests
 	RewriteCond %{REQUEST_FILENAME} !-d
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_URI} ^/api/
-	RewriteRule ^ /api/api/index.php [L]
+	RewriteCond %{REQUEST_URI} ^/maxse/api/
+	RewriteRule ^ /maxse/api/api/index.php [L]
 
 	# pure angular routes
 	RewriteBase /
 	RewriteRule ^index\.html$ - [L]
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule . /index.html [L]
+	RewriteRule . /maxse/index.html [L]
 
 </IfModule>

@@ -12,11 +12,11 @@ export class MovimentosService {
 		private http:HttpClient
 	) { }
 
-	private url_get:string = 'api/estoque/movimentos';
-	private url_update:string = 'api/estoque/movimentos';
-	private url_create:string = 'api/estoque/movimentos';
-	private url_delete:string = 'api/estoque/movimentos';
-	private url_createNf:string = 'api/estoque/nfs';
+	private url_get:string = '/maxse/api/estoque/movimentos';
+	private url_update:string = '/maxse/api/estoque/movimentos';
+	private url_create:string = '/maxse/api/estoque/movimentos';
+	private url_delete:string = '/maxse/api/estoque/movimentos';
+	private url_createNf:string = '/maxse/api/estoque/nfs';
 
 	get(){
 		return this.http.get(this.url_get)

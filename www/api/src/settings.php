@@ -19,10 +19,10 @@ return [
         ],
 
         'db-remote' => [
-            'host' => 'maxse000.mysql.dbaas.com.br',
-            'user' => 'maxse000',
-            'dbname' => 'maxse000',
-            'pass' => 'vaiplaneta'
+            'host' => 'mysql01-farm61.uni5.net',
+            'user' => 'acasamax',
+            'dbname' => 'acasamax',
+            'pass' => 'u6u8e6a2'
         ],
 
         'maxse' => [

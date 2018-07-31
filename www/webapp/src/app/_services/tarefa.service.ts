@@ -11,10 +11,10 @@ export class TarefaService {
 		private http:HttpClient
 	) { }
 
-	private url_get:string = '/api/tarefas';
-	private url_put:string = '/api/tarefas';
-	private url_post:string = '/api/tarefas';
-	private url_delete:string = '/api/tarefas';
+	private url_get:string = '/maxse/api/tarefas';
+	private url_put:string = '/maxse/api/tarefas';
+	private url_post:string = '/maxse/api/tarefas';
+	private url_delete:string = '/maxse/api/tarefas';
 
 	getById(id:number){
 		return this.http.get(this.url_get+'/'+id);

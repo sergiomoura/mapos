@@ -472,7 +472,7 @@
 
 		// Determinando restições a partir do GET
 		// TODO:
-		if(array_key_exists['doDia']){
+		if(array_key_exists('doDia',$_GET)){
 			$restricoes = "( (date(inicio_p)=date(now()) AND final_r IS NULL) OR date(final_r)=date(now()) )";
 		} else {
 			$restricoes = 'TRUE';

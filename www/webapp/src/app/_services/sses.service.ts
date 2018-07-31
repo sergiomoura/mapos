@@ -13,10 +13,10 @@ export class SsesService {
 	) {}
 	
 	// Definições de urls
-	private url_getSses:string = 'api/sses';
-	private url_getSsesPendentes:string = 'api/sses/pendentes';
-	private url_updateSses:string = 'api/sses';
-	private url_createSses:string = 'api/sses';
+	private url_getSses:string = '/maxse/api/sses';
+	private url_getSsesPendentes:string = '/maxse/api/sses/pendentes';
+	private url_updateSses:string = '/maxse/api/sses';
+	private url_createSses:string = '/maxse/api/sses';
 
 	// Método que carrega todas as SSEs
 	getAll():Observable<SSE[]>{

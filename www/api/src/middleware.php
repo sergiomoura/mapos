@@ -29,7 +29,7 @@ class CheckAuthMiddleware
             return $response->withStatus(200);
         }
         
-        if (array_key_exists('HTTP_AUTHORIZATION', $headers)){
+        if (array_key_exists('HTTP_AUTHORIZATION', $headers) && $headers['HTTP_AUTHORIZATION'][0]!=''){
             
             // Capturando o token do header HTTP_AUTHORIZATION;
             $token = str_replace('Bearer ','',$headers['HTTP_AUTHORIZATION'][0]);
@@ -43,7 +43,7 @@ class CheckAuthMiddleware
             if($id === false) {
                 return $response
                         ->withStatus(401)
-                        ->write("Token inválido");
+                        ->write("Token inválido - ");
             } else {
                 $response = $next($request, $response);
                 return $response;
@@ -53,7 +53,7 @@ class CheckAuthMiddleware
             
             // Checando se é uma tentativa de login
             $path = $request->getUri()->getPath();
-            if($path != '/login' && $path != 'login' && $path != '/api/login'){
+            if($path != '/login' && $path != 'login' && $path != '/api/login' && $path != '/maxse/api/login'){
 
                 // Não é login. Retornando com status 401
                 return $response

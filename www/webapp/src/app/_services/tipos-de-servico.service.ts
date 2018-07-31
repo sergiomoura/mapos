@@ -6,7 +6,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class TiposDeServicoService {
 
-  private getUrl:string = '/api/tdss';
+  private getUrl:string = '/maxse/api/tdss';
 
 	constructor(
 		private http:HttpClient

@@ -15,7 +15,7 @@ require __DIR__ . '/../vendor/autoload.php';
 session_start();
 
 // Definindo pathroot de acordo com servidor [local x remoto]
-$api_root = $_SERVER['SERVER_NAME'] == 'localhost' ? '' : '/api';
+$api_root = $_SERVER['SERVER_NAME'] == 'localhost' ? '' : '/maxse/api';
 
 // Carregando configurações
 $settings = require __DIR__ . '/../src/settings.php';

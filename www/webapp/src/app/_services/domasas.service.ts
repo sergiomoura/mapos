@@ -7,7 +7,7 @@ import { HttpClient } from "@angular/common/http";
 })
 export class DomasasService {
 
-	private getUrl:string = '/api/domasas';
+	private getUrl:string = '/maxse/api/domasas';
 
 	constructor(
 		private http:HttpClient

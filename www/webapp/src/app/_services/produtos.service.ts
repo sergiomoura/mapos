@@ -11,10 +11,10 @@ export class ProdutosService {
 		private http:HttpClient
 	) { }
 
-	private url_get:string = 'api/estoque/produtos';
-	private url_update:string = 'api/estoque/produtos';
-	private url_create:string = 'api/estoque/produtos';
-	private url_delete:string = 'api/estoque/produtos';
+	private url_get:string = '/maxse/api/estoque/produtos';
+	private url_update:string = '/maxse/api/estoque/produtos';
+	private url_create:string = '/maxse/api/estoque/produtos';
+	private url_delete:string = '/maxse/api/estoque/produtos';
 	
 	get(){
 		return this.http.get(this.url_get);

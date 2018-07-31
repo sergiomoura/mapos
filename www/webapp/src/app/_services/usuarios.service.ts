@@ -12,10 +12,10 @@ export class UsuariosService {
 	constructor(private http:HttpClient) { }
 
 	// Definição de urls
-	private url_getUsuarios:string = '/api/usuarios';
-	private url_getById:string = '/api/usuarios/'
-	private url_create:string = '/api/usuarios'
-	private url_update:string = '/api/usuarios/'
+	private url_getUsuarios:string = '/maxse/api/usuarios';
+	private url_getById:string = '/maxse/api/usuarios/'
+	private url_create:string = '/maxse/api/usuarios'
+	private url_update:string = '/maxse/api/usuarios/'
 
 	// Método que lista todos os usuários
 	getUsuarios():Observable<Usuario[]> {

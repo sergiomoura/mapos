@@ -289,18 +289,6 @@ export class SsesMapComponent implements OnInit {
 		}
 	}
 
-	onSetConcluidaClick(id_sse){
-		let pergunta = 'Tem certeza que deseja marcar esta SSE como concluída?';
-		let ok = window.confirm(pergunta);
-		if(ok){
-			this.ssesService.setFinalizada(id_sse).subscribe(
-				res => {
-					this.getSses();
-				}
-			)
-		}
-	}
-
 	onCancelarAgendamentoClick(id_tarefa){
 		let pergunta = 'Tem certeza que deseja cancelar agendamento?';
 		let ok = window.confirm(pergunta);

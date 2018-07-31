@@ -7,10 +7,12 @@ import { HttpClient } from "@angular/common/http";
 
 export class AuthService {
 
-	private loginUrl:string = '/api/login';
-	private refreshUrl:string = '/api/refresh';
+	private loginUrl:string = '/maxse/api/login';
+	private refreshUrl:string = '/maxse/api/refresh';
 
-	constructor(private http:HttpClient) { }
+	constructor(
+		private http:HttpClient
+	) { }
 	
 	// Método que realiza o login
 	login(username: string, password: string, from: string) {
