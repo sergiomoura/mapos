@@ -18,8 +18,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Definição de timerId
 	private timerId:number;
 	private checkStockTimerId:number;
-	private IRDT:number = 5 * 60 * 1000; // Intervalo de Renovação Do Token (5 MINUTOS)
-	private IDCE:number = 5 * 60 * 1000; // Intervalo de Checagem do Estoque (5 MINUTOS)
+	private IRDT:number = 1 * 60 * 1000; // Intervalo de Renovação Do Token (5 MINUTOS)
+	private IDCE:number = 1 * 60 * 1000; // Intervalo de Checagem do Estoque (5 MINUTOS)
 
 	constructor(
 		private authService:AuthService,
@@ -29,20 +29,25 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		
-		// Iniciando o timer que atualiza o token
+		// Iniciando o timer que atualiza o token a cada IRDT microsegundos
 		this.timerId = window.setInterval(()=>{this.authService.refresh();},this.IRDT);
 
-		// Iniciando o timer que checa o estoque
+		// Iniciando o timer que checa o estoque a cada IDCE + aleatório microsegundos
 		this.checkStockTimerId = window.setInterval(
 			() => {
-				this.prodService.get().subscribe(
-					estoque => {
-						this.checkStock(estoque);
+				window.setTimeout(
+					() => {
+						this.prodService.get().subscribe(
+							estoque => {
+								this.checkStock(estoque);
+							},
+							err => {
+								// Em caso de falha, imprime no console
+								console.warn(err);
+							}
+						)
 					},
-					err => {
-						// Em caso de falha, imprime no console
-						console.warn(err);
-					}
+					Math.round(Math.random()*10000+5000)
 				)
 			},this.IDCE
 		)

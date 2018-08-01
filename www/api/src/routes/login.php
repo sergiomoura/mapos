@@ -142,7 +142,7 @@ $app->get($api_root.'/refresh', function (Request $req,  Response $res, $args = 
 		// Atualizando a base com o novo token
 		$sql = 'UPDATE maxse_usuarios SET token=:token, validade_do_token=:valido_ate WHERE id=:id';
 		$stmt = $this->db->prepare($sql);
-		$stmt->execute(array(':token'=>$novoToken, ':valido_ate'=>$valido_ate->format('Y-m-d H-:i:s'), ':id'=>$rs->id));
+		$stmt->execute(array(':token'=>$novoToken, ':valido_ate'=>$valido_ate->format('Y-m-d H:i:s'), ':id'=>$rs->id));
 		
 		// Retornando para cliente
 		return $res->withStatus(200)
