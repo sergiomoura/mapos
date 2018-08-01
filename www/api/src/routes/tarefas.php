@@ -1111,7 +1111,27 @@
 				break;
 		}
 		
-		// Inserindo movimentos de saída no estoque
+		// Determinando o tipo de uma equipe
+		$sql = 'SELECT id_tipo FROM maxse_equipes WHERE id=:id_equipe';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_equipe' => $tarefa->equipe->id));
+		$id_tde = $stmt->fetch()->id_tipo;
+		
+		// Levantando quais são os produtos utilizados por uma equipe
+		$sql = 'SELECT id_produto FROM maxse_produtos_utilizados_por_tdes WHERE id_tde=:id_tde';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_tde' => $id_tde));
+		$ids_produtos_utilizados = array_map(function($a){return $a->id_produto;},$stmt->fetchAll());
+
+		// Criando vetor de gastos autorizados só com os produtos que são utilizados pela equipe executante da tarefa
+		$gastos_mp_autorizados = array();
+		for ($i=0; $i < sizeof($gastos_mp); $i++) { 
+			if(array_search($gastos_mp[$i]->id_produto,$ids_produtos_utilizados) !== false ){
+				array_push($gastos_mp_autorizados,$gastos_mp[$i]);
+			}
+		}
+
+		// Criando sql para inserir movimentos de saída no estoque
 		$sql = 'INSERT INTO estoque_movimentos (
 					id_produto,
 					dh,
@@ -1128,8 +1148,9 @@
 					:valor_unit
 				)';
 		$stmt = $this->db->prepare($sql);
-
-		foreach ($gastos_mp as $gasto_mp) {
+		
+		// Inserindo movimentos de saída na tebela de mobimentos
+		foreach ($gastos_mp_autorizados as $gasto_mp) {
 			try {
 				$stmt->execute(
 					array(
