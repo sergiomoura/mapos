@@ -25,9 +25,16 @@ table {
 
 	tbody td:nth-child(4){
 		color:blue;
+		text-align: right;
 	}
+
 	tbody td:nth-child(5){
 		color:red;
+		text-align: right;
+	}
+	
+	tbody td:nth-child(6){
+		text-align: right;
 	}
 	
 	tbody tr:last-child td{

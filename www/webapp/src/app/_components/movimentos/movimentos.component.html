@@ -19,12 +19,12 @@
 			<td>{{m.id}}</td>
 			<td>{{m.produto.nome}}</td>
 			<td>{{m.dh.toLocaleString()}}</td>
-			<td><span *ngIf="m.tipo ==  1">{{m.qtde}} {{m.produto.unidade}}</span></td>
-			<td><span *ngIf="m.tipo == -1">{{m.qtde}} {{m.produto.unidade}}</span></td>
-			<td>{{m.valor_unit | currency:'BRL':symbol:'1.2-2'}}</td>
+			<td><span *ngIf="m.tipo ==  1">{{m.qtde | number:'1.0-2' | numeroBr}} {{m.produto.unidade}}</span></td>
+			<td><span *ngIf="m.tipo == -1">{{m.qtde | number:'1.0-2' | numeroBr}} {{m.produto.unidade}}</span></td>
+			<td>{{m.valor_unit | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
 			<td>
-				<a *ngIf="m.tipo == -1" (click)="abrirTarefa()">{{m.id_referencia}}</a>
-				<a *ngIf="m.tipo ==  1" (click)="abrirNf()">{{m.id_referencia}}</a>
+				<a *ngIf="m.tipo == -1" (click)="abrirTarefa()">S {{m.id_referencia}}</a>
+				<a *ngIf="m.tipo ==  1" (click)="abrirNf()">E {{m.id_referencia}}</a>
 			</td>
 			<td>
 				<button mat-icon-button (click)="onEditClick(m)">

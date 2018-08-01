@@ -10,10 +10,10 @@
 			<input matInput type="text" disabled placeholder="Data/Hora" value="{{movimento.dh.toLocaleString()}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="number" step="0.01" name="qtde" min="0" [(ngModel)]="movimento.qtde"  placeholder="Quantidade">
+			<input matInput type="number" step="0.01" name="qtde" min="0" [(ngModel)]="movimento.qtde"  placeholder="Quantidade ({{movimento.produto.unidade}})">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="number" step="0.01" name="valor_unit" min="0" [(ngModel)]="movimento.valor_unit"  placeholder="Valor Unit">
+			<input matInput type="number" step="0.01" name="valor_unit" min="0" [(ngModel)]="movimento.valor_unit"  placeholder="Valor Unit (R$)">
 		</mat-form-field>
 	</div>
 	
