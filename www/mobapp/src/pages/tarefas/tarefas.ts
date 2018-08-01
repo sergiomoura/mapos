@@ -82,4 +82,8 @@ export class TarefasPage {
 		this.navCtrl.push(TarefaTabsPage,{'id_tarefa':id_tarefa});
 	}
 
+	onRefreshClick(){
+		this.getTarefas();
+	}
+
 }
