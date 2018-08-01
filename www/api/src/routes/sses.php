@@ -623,7 +623,7 @@
 		$sql = 'SELECT
 					:trabalho*valor as valor_total
 				FROM
-					maxse000.maxse_faixas_de_tipos_de_servicos
+					maxse_faixas_de_tipos_de_servicos
 				WHERE
 					:trabalho>li
 					AND :trabalho<=ls
