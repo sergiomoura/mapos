@@ -54,7 +54,11 @@ const routes:Routes = [
 					{
 						path:'movimentos',
 						component:MovimentosComponent
-					}
+					},
+					{
+						path: '**',
+						redirectTo: 'movimentos'
+					}	
 				]
 			},
 			{

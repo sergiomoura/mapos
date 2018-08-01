@@ -33,7 +33,7 @@ CREATE TABLE `estoque_movimentos` (
   PRIMARY KEY (`id`),
   KEY `fk_estoque_movimentos_1_idx` (`id_produto`),
   CONSTRAINT `fk_estoque_movimentos_1` FOREIGN KEY (`id_produto`) REFERENCES `estoque_produtos` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `estoque_movimentos` (
 
 LOCK TABLES `estoque_movimentos` WRITE;
 /*!40000 ALTER TABLE `estoque_movimentos` DISABLE KEYS */;
-INSERT INTO `estoque_movimentos` VALUES (27,3,'2018-07-28 21:11:45','1',1000.000000,30,25.00),(28,10,'2018-07-28 21:11:46','1',1000.000000,30,6000.00);
+INSERT INTO `estoque_movimentos` VALUES (27,3,'2018-07-28 21:11:45','1',1000.000000,30,25.00),(28,10,'2018-07-28 21:11:46','1',1000.000000,30,6000.00),(43,3,'2018-08-01 14:42:45','1',20.500000,34,30.50);
 /*!40000 ALTER TABLE `estoque_movimentos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -162,7 +162,7 @@ CREATE TABLE `estoque_nfs_entrada` (
   `numero` int(11) NOT NULL,
   `data` date DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -171,7 +171,7 @@ CREATE TABLE `estoque_nfs_entrada` (
 
 LOCK TABLES `estoque_nfs_entrada` WRITE;
 /*!40000 ALTER TABLE `estoque_nfs_entrada` DISABLE KEYS */;
-INSERT INTO `estoque_nfs_entrada` VALUES (15,254,'2001-01-26'),(16,255,'2018-07-19'),(17,5655,'2018-07-10'),(18,65455,'2018-07-24'),(19,2121,'2018-07-21'),(20,1,'2018-07-24'),(25,12000,'2018-10-07'),(26,1,'2018-07-23'),(27,2,'2018-07-24'),(28,2000,'2018-07-10'),(29,12131,'2018-07-28'),(30,1,'2018-07-28'),(31,36525,'2018-08-01'),(32,55565,'2018-08-01'),(33,5555,'2018-08-01');
+INSERT INTO `estoque_nfs_entrada` VALUES (15,254,'2001-01-26'),(16,255,'2018-07-19'),(17,5655,'2018-07-10'),(18,65455,'2018-07-24'),(19,2121,'2018-07-21'),(20,1,'2018-07-24'),(25,12000,'2018-10-07'),(26,1,'2018-07-23'),(27,2,'2018-07-24'),(28,2000,'2018-07-10'),(29,12131,'2018-07-28'),(30,1,'2018-07-28'),(31,36525,'2018-08-01'),(32,55565,'2018-08-01'),(33,5555,'2018-08-01'),(34,45554,'2018-08-15');
 /*!40000 ALTER TABLE `estoque_nfs_entrada` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,7 +201,7 @@ CREATE TABLE `estoque_produtos` (
 
 LOCK TABLES `estoque_produtos` WRITE;
 /*!40000 ALTER TABLE `estoque_produtos` DISABLE KEYS */;
-INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',100.000000,55300.080000,1000.000000,'2018-08-01 14:27:25',-100.000000000000000),(10,'CBUQ','T',0.000000,1000.500000,1000.000000,'2018-08-01 14:27:21',4809.619238476953908);
+INSERT INTO `estoque_produtos` VALUES (3,'Bica Corrida','m³',100.000000,55300.080000,1020.500000,'2018-08-01 14:42:45',-97.378490935815777),(10,'CBUQ','T',0.000000,1000.500000,1000.000000,'2018-08-01 14:27:21',4809.619238476953908);
 /*!40000 ALTER TABLE `estoque_produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -754,7 +754,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b61efb20e3878.06477165','2018-08-01 15:36:50',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b6162efc8b716.97754485','2018-08-01 05:36:15',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b615b942f5cd9.95158923','2018-08-01 05:04:52',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b61f1b962cf86.49309033','2018-08-01 15:45:29',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b6162efc8b716.97754485','2018-08-01 05:36:15',1,0,1,185),(80,'executor','$1$VnR9dohp$xYiBPS7EVRAr9RiHDhoSj.',NULL,NULL,2,0,1,186),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b615b942f5cd9.95158923','2018-08-01 05:04:52',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(88,'tulio','$1$I.87L8rA$tFa/lY/dSMTYaqkq1x4MT0',NULL,NULL,2,0,1,198);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -810,4 +810,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-01 14:37:24
+-- Dump completed on 2018-08-01 14:45:39
