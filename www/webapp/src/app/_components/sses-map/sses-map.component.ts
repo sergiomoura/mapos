@@ -422,6 +422,14 @@ export class SsesMapComponent implements OnInit {
 		}
 	}
 
+	onGridButtonClick(){
+		this.router.navigateByUrl('home/sses/grid')
+	}
+
+	onNovaSSEButtonClick(){
+		this.router.navigateByUrl('home/sse/0')
+	}
+
 	openDialog(sse): void {
 		const dialogRef = this.dialog.open(NovaTarefaComponent, {
 			width: '800px',

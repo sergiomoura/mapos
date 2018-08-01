@@ -118,6 +118,7 @@
 	   	</agm-info-window>
 	</agm-marker>
 </agm-map>
+
 <div class="legenda">
 	<div><img src="assets/marker-divergente-0.svg"><span>Divergente</span></div>
 	<div><img src="assets/marker-cadastrada-0.svg"><span>Cadastrada</span></div>
@@ -132,3 +133,18 @@
 	<div><img src="assets/marker-finalizada-1.svg"><span>Prioridade</span></div>
 	<div><img src="assets/marker-finalizada-2.svg"><span>Urgencia</span></div>
 </div>
+
+<mat-toolbar>
+	<mat-toolbar-row>
+		<span class="spacer"></span>
+		<button  matTooltip="Nova SSE" (click)="onNovaSSEButtonClick()">
+			<mat-icon>add</mat-icon>
+		</button>
+		<button  matTooltip="Grid" (click)="onGridButtonClick()">
+			<mat-icon>view_list</mat-icon>
+		</button>
+		<button  matTooltip="Filtrar SSEs Exibidas" (click)="toggleFiltros()">
+			<mat-icon>filter_list</mat-icon>
+		</button>
+	</mat-toolbar-row>
+</mat-toolbar>

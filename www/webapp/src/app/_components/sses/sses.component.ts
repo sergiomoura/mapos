@@ -14,16 +14,5 @@ export class SsesComponent implements OnInit {
 
 	ngOnInit() {
 	}
-
-	onGridButtonClick(){
-		this.router.navigateByUrl('home/sses/grid')
-	}
-
-	onMapButtonClick(){
-		this.router.navigateByUrl('home/sses/map')
-	}
-
-	onNovaSSEButtonClick(){
-		this.router.navigateByUrl('home/sse/0')
-	}
+	
 }

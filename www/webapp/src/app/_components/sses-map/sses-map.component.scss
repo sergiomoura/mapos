@@ -95,4 +95,24 @@
 			margin-right: 5px;
 		}
 	}
+
+	mat-toolbar {
+		background-color: rgba(0,0,0,0.5);
+		position: fixed;
+		left: 0;
+		top: 56px;
+		z-index: 1;
+		button {
+			background-color: transparent;
+			border: none;
+			cursor: pointer;
+			position: relative;
+			top: 8px;
+			color: #E0E0E0;
+			outline: none;
+			&:hover{
+				color:#FFF;
+			}
+		}
+	}
 }
