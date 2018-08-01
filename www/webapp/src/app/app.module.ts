@@ -38,6 +38,7 @@ import { MovimentosComponent } from './_components/movimentos/movimentos.compone
 import { LancarNotaComponent } from './_components/lancar-nota/lancar-nota.component';
 import { EditMovimentoComponent } from './_components/edit-movimento/edit-movimento.component';
 import { FinalizarSseComponent } from './_components/finalizar-sse/finalizar-sse.component';
+import { MoedaBrasilPipe } from './_pipes/moeda-brasil.pipe';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -61,7 +62,8 @@ import { FinalizarSseComponent } from './_components/finalizar-sse/finalizar-sse
 		MovimentosComponent,
 		LancarNotaComponent,
 		EditMovimentoComponent,
-		FinalizarSseComponent
+		FinalizarSseComponent,
+		MoedaBrasilPipe
 	],
 	imports: [
 		BrowserModule,
