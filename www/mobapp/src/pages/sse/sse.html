@@ -14,13 +14,13 @@
 			<button ion-button clear color="dark" (click)="rmFoto()"><ion-icon name="trash"></ion-icon></button>
 		</div>
 		<ion-item>
-			<ion-label floating>DOMASA</ion-label>
+			<ion-label floating>Informe DOMASA</ion-label>
 			<ion-select (ionChange)="onDomasaChange()" name="domasa" [(ngModel)]="domasaSelecionada">
 				<ion-option [value]="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</ion-option>
 			</ion-select>
 		</ion-item>
 		<ion-item>
-			<ion-label floating>Número</ion-label>
+			<ion-label floating>Informe Número</ion-label>
 			<ion-input name="numero"  [required]="sse?.urgencia!=2" type="number" [(ngModel)]="sse.numero"></ion-input>
 		</ion-item>
 		<ion-item>
@@ -32,8 +32,8 @@
 				<ion-label floating>Hora do Recebimento</ion-label>
 				<ion-datetime name="hora_recebido" required displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="sse.dh_recebido"></ion-datetime>
 			</ion-item>
-			<button ion-button color="secondary" small round (click)="onToggleHoraClick('10')">10h?</button>
 			<button ion-button color="secondary" small round (click)="onToggleHoraClick('15')">15h?</button>
+			<button ion-button color="secondary" small round (click)="onToggleHoraClick('10')">10h?</button>
 		</div>
 		<ion-item>
 			<ion-label floating>Tipo de Serviço</ion-label>
