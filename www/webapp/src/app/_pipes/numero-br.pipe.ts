@@ -1,14 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-	name: 'moedaBrasil'
+	name: 'numeroBr'
 })
-export class MoedaBrasilPipe implements PipeTransform {
+export class NumeroBrPipe implements PipeTransform {
 
 	transform(value: string): string {
 		
-		// Pondo o símbolo de reais com espaço
-		value = value.replace('R$', 'R$ ');
+		// Retornando nulo se null
+		if(value == null){
+			return null;
+		}
 
 		// Trocando '.' por "##";
 		value = value.replace('.',"##");
@@ -21,6 +23,7 @@ export class MoedaBrasilPipe implements PipeTransform {
 
 		// Retornando
 		return value;
+
 	}
 
 }
