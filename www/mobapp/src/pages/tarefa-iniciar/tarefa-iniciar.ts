@@ -198,11 +198,25 @@ export class TarefaIniciarPage {
 	}
 
 	salvarDivergencia() {
+		
+		// Setando o autorizadaPor para undefined caso executar com autorização==false
+		if(this.executarComAutorizacao == false){
+			this.tarefa.autorizadaPor = undefined;
+		}
+
+		// Fazendo requisição
 		this.tarefasProvider.setDivergente(this.tarefa).subscribe(
-			res => {
+			() => {
+				
+				// Salvando tarefa alterada no storage
 				this.storage.set('tarefaAtual',this.tarefa);
-				this.navCtrl.parent.select(0);
+
+				// Disparando evento tarefa:divergente 
 				this.events.publish('tarefa:divergente');
+
+				// Indo para a tela de info
+				this.navCtrl.parent.select(0);
+
 			},
 			err => {
 				// Exibindo toast de erro
@@ -213,6 +227,9 @@ export class TarefaIniciarPage {
 					closeButtonText: 'X'
 				});
 				toast.present();
+
+				// Imprimindo erro no console
+				console.warn(err);
 			}
 		)
 	}
@@ -376,7 +393,6 @@ export class TarefaIniciarPage {
 					{
 						text: 'Sim, está autorizado!',
 						handler: () => {
-							this.tarefa.inicio_r = null;
 							this.salvarDivergencia();
 						}
 					}

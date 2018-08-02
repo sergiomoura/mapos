@@ -837,14 +837,30 @@
 		// :::::::::OPERAÇÕES DE DB ::::::::
 		$this->db->beginTransaction();
 
+		// Determinando se o status vai ser DIVERGENTE em caso de não autorizada ou EXECUTANDO no caso de autorizada
+		$status = '';
+		$temAutorizacao = is_string($tarefa->autorizadaPor) && strlen($tarefa->autorizadaPor);
+
+		if ($tarefa->divergente === true && $temAutorizacao){
+			$status = 'EXECUTANDO';
+		} elseif ($tarefa->divergente === true) {
+			$status = 'DIVERGENTE';
+		} else {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(400)
+			->write('Tentando marcar como divergente sem dados suficientes.');
+		}
+
 		// Atualizando SSE (tipo_de_servico_r, status)
-		$sql = 'UPDATE maxse_sses SET id_tipo_de_servico_r=:tds_r, status=sseStatus("DIVERGENTE") where id=:id_sse';
+		$sql = 'UPDATE maxse_sses SET id_tipo_de_servico_r=:tds_r, status=sseStatus(:status) where id=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		try {
 			$stmt->execute(
 				array(
 					':tds_r' => $tarefa->sse->tipoDeServicoReal->id,
-					':id_sse' => $tarefa->sse->id
+					':id_sse' => $tarefa->sse->id,
+					':status' => $status
 				)
 			);
 		} catch (Exception $e) {
@@ -960,12 +976,14 @@
 		}
 		
 		// Atualizando tarefa (inicio_r, divergente)
-		$sql = 'UPDATE maxse_tarefas SET inicio_r=NULL, divergente=1, autorizadaPor=NULL WHERE id=:id_tarefa';
+		$sql = 'UPDATE maxse_tarefas SET inicio_r=NULL, divergente=1, inicio_r=:inicio_r, autorizadaPor=:autorizadaPor WHERE id=:id_tarefa';
 		$stmt = $this->db->prepare($sql);
 		try {
 			$stmt->execute(
 				array(
-					':id_tarefa' => $tarefa->id
+					':id_tarefa' => $tarefa->id,
+					':autorizadaPor' => $tarefa->autorizadaPor,
+					':inicio_r' => ($temAutorizacao ? date('Y-m-d H:i:s') : null)
 				)
 			);	
 		} catch (Exception $e) {

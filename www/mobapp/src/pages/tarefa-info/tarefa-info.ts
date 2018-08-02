@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams , ToastController } from 'ionic-angular';
-import { TarefasProvider } from '../../providers/tarefas/tarefas';
-import { LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams , ToastController, Events } from 'ionic-angular';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 import { Storage } from '@ionic/storage';
 
@@ -18,8 +16,30 @@ export class TarefaInfoPage {
 		public navCtrl: NavController,
 		public navParams: NavParams,
 		private launchNavigator: LaunchNavigator,
-		private storage:Storage
-	) {	}
+		private storage:Storage,
+		public events:Events
+	) {
+		// Subscribe para quando a tarefa for iniciada
+		this.events.subscribe('tarefa:iniciada',
+			() => {
+				this.getTarefa();
+			}
+		)
+
+		// Subscribe para quando a tarefa for registrada como divergente
+		this.events.subscribe('tarefa:divergente',
+			() => {
+				this.getTarefa();
+			}
+		)
+
+		// Subscribe para quando a tarefa for concluida
+		this.events.subscribe('tarefa:concluida',
+			() => {
+				this.getTarefa();
+			}
+		)
+	}
 
 	ionViewDidLoad() {
 	}
@@ -29,21 +49,15 @@ export class TarefaInfoPage {
 	}
 
 	getTarefa(){
-		let intervalo = window.setInterval(
-			() => {
-				this.storage.get('tarefaAtual').then(
-					(res) => {
-						if(res){
-							window.clearInterval(intervalo);
-							this.tarefa = res;
-						}
-					},
-					err => {
-						console.log('Não leu do storage');
-					}
-				)
+		this.storage.get('tarefaAtual').then(
+			(res) => {
+				if(res){
+					this.tarefa = res;
+				}
 			},
-			200
+			err => {
+				console.log('Não leu do storage');
+			}
 		)
 	}
 
