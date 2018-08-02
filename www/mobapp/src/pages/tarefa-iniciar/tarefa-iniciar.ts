@@ -21,10 +21,13 @@ export class TarefaIniciarPage {
 			tipoDeServicoReal: undefined,
 			tipoDeServicoPrev: undefined
 		},
-		fotos_inicio: []
+		fotos_inicio: [],
+		divergente:false
 	};
+
 	tiposDeServico: TipoDeServico[];
-	executarComAutorizacao: boolean = false;
+	executarComAutorizacao: boolean = undefined;
+	showDivergenteBox:boolean = false;
 
 	constructor(
 		public navCtrl: NavController,
@@ -43,6 +46,7 @@ export class TarefaIniciarPage {
 		this.provider.getTiposDeServico().subscribe(
 			res => {
 				this.tiposDeServico = <TipoDeServico[]>res;
+				this.getTarefa();
 			},
 			err => {
 				// Exibindo toast de erro
@@ -58,78 +62,70 @@ export class TarefaIniciarPage {
 	}
 
 	ionViewWillEnter() {
-		this.getTarefa()
 	}
 
 	getTarefa() {
-		let intervalo = window.setInterval(
-			() => {
-				this.storage.get('tarefaAtual').then(
-					(res) => {
-						if (res) {
-							window.clearInterval(intervalo);
+		this.storage.get('tarefaAtual').then(
+			(res) => {
 
-							// Transformando o tipo de res de Object para Any
-							let tmp = <any>res;
+				// Transformando o tipo de res de Object para Any
+				let tmp = <any>res;
 
-							// Parsing dates
-							tmp.final_p = (tmp.final_p == null ? null : new Date(tmp.final_p));
-							tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
-							tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
-							tmp.inicio_r = (tmp.inicio_r == null ? format(new Date(), 'YYYY-MM-DDTHH:mm:ss') : tmp.inicio_r.replace(' ', 'T'));
+				// Parsing dates
+				tmp.final_p = (tmp.final_p == null ? null : new Date(tmp.final_p));
+				tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
+				tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
+				tmp.inicio_r = (tmp.inicio_r == null ? format(new Date(), 'YYYY-MM-DDTHH:mm:ss') : tmp.inicio_r.replace(' ', 'T'));
 
-							// Parsing divergencia
-							tmp.divergente = tmp.divergente == '1';
+				// Atribuindo a propriedade pública tarefa
+				this.tarefa = tmp;
 
-							// Atribuindo a propriedade pública tarefa
-							this.tarefa = tmp;
+				// Calculando divergência da tarefa();
+				this.tarefa.divergente = (this.tarefa.divergente == "1");
 
-							// Copiando o tipo de serviço do previsto para o real.
-							if (this.tarefa.sse.tipoDeServicoReal == null) {
-								this.tarefa.sse.tipoDeServicoReal = this.tiposDeServico.find(
-									(tds) => {
-										return tds.id == this.tarefa.sse.tipoDeServicoPrev.id;
-									}
-								)
-							}
-
-							// Adicionando campo de medidas realizadas caso ele esteja vazio
-							let vetor = [];
-							switch (this.tarefa.sse.tipoDeServicoReal.medida) {
-								case 'a':
-									vetor = this.tarefa.sse.medidas_area.real;
-									break;
-
-								case 'l':
-									vetor = this.tarefa.sse.medidas_linear.real;
-									break;
-
-								case 'u':
-									vetor = this.tarefa.sse.medidas_unidades.real;
-									break;
-							}
-
-							if (vetor.length == 0) {
-								this.addMedida();
-							}
-
-							// Linkando o tipo de serviço a real a um elemento do vetor tipos de serviços
-							// para o select funcionar.
-							if (this.tarefa.sse.tipoDeServicoReal != undefined) {
-								this.tarefa.sse.tipoDeServicoReal = this.tiposDeServico.find(
-									(tds) => {
-										return tds.id == this.tarefa.sse.tipoDeServicoReal.id;
-									}
-								)
-							}
+				// Copiando o tipo de serviço do previsto para o real.
+				if (this.tarefa.sse.tipoDeServicoReal == null) {
+					this.tarefa.sse.tipoDeServicoReal = this.tiposDeServico.find(
+						(tds) => {
+							return tds.id == this.tarefa.sse.tipoDeServicoPrev.id;
 						}
-					},
-					err => {
-						console.log('Não leu do storage');
-					}
-				)
+					)
+				}
+
+				// Adicionando campo de medidas realizadas caso ele esteja vazio
+				let vetor = [];
+				switch (this.tarefa.sse.tipoDeServicoReal.medida) {
+					case 'a':
+						vetor = this.tarefa.sse.medidas_area.real;
+						break;
+
+					case 'l':
+						vetor = this.tarefa.sse.medidas_linear.real;
+						break;
+
+					case 'u':
+						vetor = this.tarefa.sse.medidas_unidades.real;
+						break;
+				}
+
+				if (vetor.length == 0) {
+					this.addMedida();
+				}
+
+				// Linkando o tipo de serviço a real a um elemento do vetor tipos de serviços
+				// para o select funcionar.
+				if (this.tarefa.sse.tipoDeServicoReal != undefined) {
+					this.tarefa.sse.tipoDeServicoReal = this.tiposDeServico.find(
+						(tds) => {
+							return tds.id == this.tarefa.sse.tipoDeServicoReal.id;
+						}
+					)
+				}
+				
 			},
-			200
+			err => {
+				console.log('Não leu do storage');
+			}
 		)
 	}
 
@@ -224,7 +220,7 @@ export class TarefaIniciarPage {
 	temDivergencia() {
 
 		// Verificando se real e previsto são do mesmo tipo de servico
-		if (this.tarefa.sse.tipoDeServicoReal.id != this.tarefa.sse.tipoDeServicoPrev.id) {
+		if (this.tarefa.sse.tipoDeServicoReal!=null && this.tarefa.sse.tipoDeServicoReal.id != this.tarefa.sse.tipoDeServicoPrev.id) {
 			return true;
 		}
 
@@ -325,16 +321,29 @@ export class TarefaIniciarPage {
 		if (medidas.length == 0) {
 			this.addMedida();
 		}
-
-		this.tarefa.divergente = this.temDivergencia();
 	}
 
-	onMedidaBlur(){
-		this.tarefa.divergente = this.temDivergencia();
-	}
+	onMedidaBlur(){}
 
 	onSalvarClick() {
 		
+		// Calculando divergencia da tarefa
+		this.tarefa.divergente = this.temDivergencia();
+		if(this.tarefa.divergente){
+			this.showDivergenteBox = true;
+			window.scroll(
+				{
+					top:0	
+				}
+			)
+			window.scrollTo(
+				{
+					top:0,
+				}
+			)
+			return;
+		}
+
 		let confirm = this.alertController.create(<AlertOptions>{
 			title: 'Deseja registrar que o serviço foi iniciado?',
 			message: 'Esta ação não poderá ser desfeita.',

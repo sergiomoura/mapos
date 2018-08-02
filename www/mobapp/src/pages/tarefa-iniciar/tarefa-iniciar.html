@@ -2,7 +2,24 @@
 	<ion-navbar color="primary">
 		<ion-title>Início de Exec. SSE {{tarefa?.sse?.numero}}</ion-title>
 		<ion-buttons end>
-			<button ion-button [disabled]="!form.valid || (tarefa.divergente && !tarefa.autorizadaPor) || (tarefa.divergente && !executarComAutorizacao) || tarefa.fotos_inicio.length==0 " (click)="onSalvarClick()"><ion-icon name="checkmark"></ion-icon></button>
+			<!-- BOTÃO QUE SALVA TAREFAS DIVERGENTES-->
+			<button
+				*ngIf="tarefa.divergente"
+				ion-button
+				[disabled]="!form.valid || (executarComAutorizacao && !tarefa.autorizadaPor) || executarComAutorizacao==undefined || tarefa.fotos_inicio.length==0"
+				(click)="onSalvarDivergenciaClick()">
+					<ion-icon name="done-all"></ion-icon>
+			</button>
+			
+			<!-- BOTÃO QUE SALVA TAREFAS NÃO DIVERGENTES-->
+			<button
+				*ngIf="!tarefa.divergente"
+				ion-button
+				[disabled]="!form.valid || tarefa.fotos_inicio.length==0"
+				(click)="onSalvarClick()">
+					<ion-icon name="checkmark"></ion-icon>
+			</button>
+
 		</ion-buttons>
 	</ion-navbar>
 	<div class="divergente" *ngIf="tarefa?.divergente">
@@ -12,6 +29,27 @@
 
 <ion-content padding>
 	<form #form="ngForm">
+		
+		<div class="container-autorizacao" *ngIf="showDivergenteBox">
+			<div>
+				As medidas/tipo de serviço estão diferentes do que foi previsto. A execução só pode ser iniciada com autorização. O que deseja fazer?
+				<ion-list radio-group [(ngModel)]="executarComAutorizacao" name="executarComAutorizacao" >
+					<ion-item>
+						<ion-label>Salvar com divergência</ion-label>
+						<ion-radio [value]="false"></ion-radio>
+					</ion-item>
+					<ion-item>
+						<ion-label>Executar com autorização</ion-label>
+						<ion-radio [value]="true"></ion-radio>
+					</ion-item>
+				</ion-list>
+				<ion-item *ngIf="executarComAutorizacao">
+					<ion-label>Autorizado por:</ion-label>
+					<ion-input required [(ngModel)]="tarefa.autorizadaPor" name="autorizadaPor"></ion-input>
+				</ion-item>
+			</div>
+		</div>
+
 		<ion-item>
 			<ion-label floating>Data do Início (Realizado)</ion-label>
 			<ion-datetime required name="data" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.inicio_r" ></ion-datetime>
@@ -64,8 +102,8 @@
 			
 			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal?.medida == 'a'">
 				<div *ngFor="let med of tarefa?.sse.medidas_area.real; let i=index;">
-					<ion-input (focusout)="onMedidaBlur()" type="number" required step="0.01" name="med_l_{{i}}" [(ngModel)]="med.l"></ion-input> x
-					<ion-input (focusout)="onMedidaBlur()" type="number" required step="0.01" name="med_c_{{i}}" [(ngModel)]="med.c"></ion-input> m²
+					<ion-input type="number" required step="0.01" name="med_l_{{i}}" [(ngModel)]="med.l"></ion-input> x
+					<ion-input type="number" required step="0.01" name="med_c_{{i}}" [(ngModel)]="med.c"></ion-input> m²
 					<button
 						*ngIf="tarefa?.sse.medidas_area.real.length > 1"
 						ion-button
@@ -80,7 +118,7 @@
 			
 			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal?.medida == 'l'">
 				<div *ngFor="let med of tarefa?.sse?.medidas_linear.real; let i=index;">
-					<ion-input (focusout)="onMedidaBlur()" type="number" required step="0.01" name="med_v_{{i}}" [(ngModel)]="med.v"></ion-input> m
+					<ion-input type="number" required step="0.01" name="med_v_{{i}}" [(ngModel)]="med.v"></ion-input> m
 					<button
 						*ngIf="tarefa?.sse?.medidas_linear.real.length > 1"
 						ion-button
@@ -95,7 +133,7 @@
 
 			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal?.medida == 'u'">
 				<div *ngFor="let med of tarefa?.sse?.medidas_unidades.real; let i=index;">
-					<ion-input (focusout)="onMedidaBlur()" type="number" required step="0.01" name="med_n_{{i}}" [(ngModel)]="med.n"></ion-input> m
+					<ion-input type="number" required step="0.01" name="med_n_{{i}}" [(ngModel)]="med.n"></ion-input> m
 					<button
 						*ngIf="tarefa?.sse.medidas_unidades.real.length > 1"
 						ion-button
@@ -106,27 +144,6 @@
 						<ion-icon name="trash"></ion-icon>
 					</button>
 				</div>
-			</div>
-		</div>
-
-		<div class="container-autorizacao" *ngIf="tarefa?.divergente">
-			<div>
-				As medidas/tipo de serviço estão diferentes do que foi previsto. A execução só pode ser iniciada com autorização. O que deseja fazer?
-				<ion-list radio-group [(ngModel)]="executarComAutorizacao" name="executarComAutorizacao" >
-					<ion-item>
-						<ion-label>Executar com autorização</ion-label>
-						<ion-radio [value]="true"></ion-radio>
-					</ion-item>
-					<ion-item>
-						<ion-label>Salvar com divergência</ion-label>
-						<ion-radio [value]="false" checked></ion-radio>
-					</ion-item>
-				</ion-list>
-				<ion-item *ngIf="executarComAutorizacao">
-					<ion-label>Autorizado por:</ion-label>
-					<ion-input required [(ngModel)]="tarefa.autorizadaPor" name="autorizadaPor"></ion-input>
-				</ion-item>
-				<button *ngIf="!executarComAutorizacao" ion-button color="secondary" [disabled]="tarefa.fotos_inicio.length==0" (click)="onSalvarDivergenciaClick()">Salvar com divergencia</button>
 			</div>
 		</div>
 	</form>
