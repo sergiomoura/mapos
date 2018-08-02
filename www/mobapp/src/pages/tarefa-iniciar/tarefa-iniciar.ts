@@ -343,7 +343,9 @@ export class TarefaIniciarPage {
 		}
 	}
 
-	onMedidaBlur(){}
+	onExecutarComAutorizacaoClick(){
+		this.tarefa.inicio_r = format(new Date(), 'YYYY-MM-DDTHH:mm:ss');
+	}
 
 	onSalvarClick() {
 		

@@ -36,11 +36,11 @@
 				<ion-list radio-group [(ngModel)]="executarComAutorizacao" name="executarComAutorizacao" >
 					<ion-item>
 						<ion-label>Salvar com divergência</ion-label>
-						<ion-radio [value]="false" (click)="tarefa.autorizadaPor = undefined; tarefa.inicio_r=undefined"></ion-radio>
+						<ion-radio [value]="false" (click)="tarefa.autorizadaPor = undefined"></ion-radio>
 					</ion-item>
 					<ion-item>
 						<ion-label>Executar com autorização</ion-label>
-						<ion-radio [value]="true"></ion-radio>
+						<ion-radio [value]="true" (click)="onExecutarComAutorizacaoClick()"></ion-radio>
 					</ion-item>
 				</ion-list>
 				<ion-item *ngIf="executarComAutorizacao">
