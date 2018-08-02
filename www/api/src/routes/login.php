@@ -45,7 +45,7 @@ $app->post($api_root.'/login', function (Request $req,  Response $res, $args = [
 				LEFT JOIN maxse_pessoas b on a.id_pessoa=b.id
 			WHERE a.username=:u and a.ativo=1';
 	$stmt = $this->db->prepare($sql);
-	$stmt->execute(array(':u' => strtolower($login->username)));
+	$stmt->execute(array(':u' => strtolower(trim($login->username))));
 	$user = $stmt->fetch();
 
 	// Se usuário existe

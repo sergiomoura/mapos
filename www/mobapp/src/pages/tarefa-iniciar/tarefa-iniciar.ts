@@ -82,6 +82,13 @@ export class TarefaIniciarPage {
 
 				// Calculando divergência da tarefa();
 				this.tarefa.divergente = (this.tarefa.divergente == "1");
+				if(this.tarefa.divergente){
+					this.showDivergenteBox = true;
+					console.log('tarefa é divergente!')
+					console.log('é para mostrar o box!')
+				} else {
+					console.log('tarefa não é divergente')
+				}
 
 				// Copiando o tipo de serviço do previsto para o real.
 				if (this.tarefa.sse.tipoDeServicoReal == null) {
