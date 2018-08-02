@@ -365,24 +365,43 @@ export class TarefaIniciarPage {
 	}
 
 	onSalvarDivergenciaClick() {
-		let confirm = this.alertController.create(<AlertOptions>{
-			title: 'Deseja registrar este serviço como divergente?',
-			message: 'Ele não será iniciado e você poderá se encaminhar para o início de um outro serviço. Ele somente pode ser iniciado com autorização.',
-			buttons: [
-				{
-					text: 'Não',
-					handler: () => { }
-				},
-				{
-					text: 'Sim',
-					handler: () => {
-						this.tarefa.inicio_r = null;
-						this.salvarDivergencia();
+		if(this.executarComAutorizacao){
+			let confirm = this.alertController.create(<AlertOptions>{
+				title: 'A execução do serviço está autorizado por ' + this.tarefa.autorizadaPor + '?',
+				buttons: [
+					{
+						text: 'Não',
+						handler: () => { }
+					},
+					{
+						text: 'Sim, está autorizado!',
+						handler: () => {
+							this.tarefa.inicio_r = null;
+							this.salvarDivergencia();
+						}
 					}
-				}
-			]
-		});
-
-		confirm.present();
+				]
+			});
+			confirm.present();
+		} else {
+			let confirm = this.alertController.create(<AlertOptions>{
+				title: 'Deseja registrar este serviço como divergente?',
+				message: 'Ele não será iniciado e você poderá se encaminhar para o início de um outro serviço. Ele somente pode ser iniciado com autorização.',
+				buttons: [
+					{
+						text: 'Não',
+						handler: () => { }
+					},
+					{
+						text: 'Sim',
+						handler: () => {
+							this.tarefa.inicio_r = null;
+							this.salvarDivergencia();
+						}
+					}
+				]
+			});
+			confirm.present();
+		}
 	}
 }
