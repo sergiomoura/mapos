@@ -1,10 +1,19 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import { ToastController } from 'ionic-angular';
-import { LoadingController } from 'ionic-angular';
-import { TarefasProvider } from "../../providers/tarefas/tarefas";
+import {
+			NavController,
+			NavParams,
+			AlertOptions,
+			Events,
+			ToastController,
+			LoadingController,
+			AlertController
+		} from 'ionic-angular';
+
 import { Tarefa } from "../../_models/tarefa";
-import { TarefaTabsPage } from "../tarefa-tabs/tarefa-tabs";
+import { TarefasProvider } from "../../providers/tarefas/tarefas";
+import { TarefaTabsPage } from "../../pages/tarefa-tabs/tarefa-tabs";
+
+import { Storage } from "@ionic/storage";
 
 @Component({
 	selector: 'page-tarefas',
@@ -17,7 +26,10 @@ export class TarefasPage {
 		public navParams: NavParams,
 		private tarefasProvider: TarefasProvider,
 		private toastController: ToastController,
-		private loadingConttroller: LoadingController
+		private loadingConttroller: LoadingController,
+		private alertController:AlertController,
+		private storage:Storage,
+		public events:Events
 	) {	}
 
 	public tarefas: Tarefa[];
@@ -29,6 +41,7 @@ export class TarefasPage {
 
 	ionViewWillEnter(){
 		this.getTarefas();
+		this.storage.remove('tarefaAtual');
 	}
 
 	getTarefas(){
@@ -79,7 +92,82 @@ export class TarefasPage {
 	}
 
 	onTarefaClick(id_tarefa:number){
-		this.navCtrl.push(TarefaTabsPage,{'id_tarefa':id_tarefa});
+
+		// Mostra carregando
+		let loading = this.loadingConttroller.create();
+		loading.setContent('Aguarde...').present();
+
+		this.tarefasProvider.getCompleteById(id_tarefa,true).subscribe(
+			res => {
+				this.storage.set('tarefaAtual',res).then(
+					()=>{
+
+						// Esconde carregando
+						loading.dismiss();
+
+						// Disparando evento que a tarefa foi carregada e salva no cel
+						this.events.publish('tarefa:carregada');
+
+						// Indo para página de tabs
+						this.navCtrl.push(TarefaTabsPage);
+					},
+					(y)=>{
+						// Esconde carregando
+						loading.dismiss();
+
+						// Exibindo toast de erro
+						const toast = this.toastController.create({
+							message: 'Falha ao tentar gravar a tarefa na memória do celular.',
+							duration: 0,
+							showCloseButton: true,
+							closeButtonText: 'X'
+						});
+						toast.present();
+					}
+				)
+			},
+			err => {
+				if(err.status == 410) {
+
+					// A tarefa não autorizada!
+
+					// Criando alerta
+					let confirm = this.alertController.create(<AlertOptions>{
+						title: 'Este serviço não está autorizado para sua equipe.',
+						message: 'Provavelmente ele foi delegado a outra equipe ou cancelado.',
+						buttons: [
+							{
+								text: 'Ok',
+								handler: () => { }
+							}
+						]
+					});
+					
+					// Exibindo alerta
+					confirm.present();
+
+					// Removendo tarefa da lista
+					this.tarefas.splice(
+						this.tarefas.findIndex(
+							(tf)=>{
+								return tf.id == id_tarefa;
+							}
+						),
+						1
+					)
+				} else {
+					// Exibindo toast de erro
+					const toast = this.toastController.create({
+						message: 'Falha ao tentar carregar o serviço. Tente novamente',
+						duration: 0,
+						showCloseButton: true,
+						closeButtonText: 'X',
+						dismissOnPageChange:true
+					});
+					toast.present();
+				}
+			}
+		)
 	}
 
 	onRefreshClick(){

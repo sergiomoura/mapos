@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Events, LoadingController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
@@ -34,7 +34,8 @@ export class TarefaConcluirPage {
 		private tarefasProvider:TarefasProvider,
 		private toastController: ToastController,
 		private alertController:AlertController,
-		public events:Events
+		public events:Events,
+		private loadingConttroller:LoadingController
 	) {
 		this.events.subscribe('tarefa:carregada',
 			() => {
@@ -110,8 +111,17 @@ export class TarefaConcluirPage {
 	}
 
 	salvarConclusao(){
+		
+		// Mostra carregando
+		let loading = this.loadingConttroller.create();
+		loading.setContent('Aguarde...').present();
+
 		this.tarefasProvider.setConcluida(this.tarefa).subscribe(
 			res => {
+
+				// Esconde carregando
+				loading.dismiss();
+
 				// Salvando tarefa no storage
 				this.storage.set('tarefaAtual',this.tarefa).then(
 					() => {
@@ -126,6 +136,10 @@ export class TarefaConcluirPage {
 				
 			},
 			err => {
+				
+				// Esconde carregando
+				loading.dismiss();
+
 				// Exibindo toast de erro
 				const toast = this.toastController.create({
 				message: 'Falha ao tentar concluir tarefa!',

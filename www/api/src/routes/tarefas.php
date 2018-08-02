@@ -92,7 +92,7 @@
 			if($ok !== '1') {
 				// Retornando erro para usuário
 				return $res
-				->withStatus(403)
+				->withStatus(410)
 				->write('Tarefa não autorizada para esta equipe');
 			}
 		}

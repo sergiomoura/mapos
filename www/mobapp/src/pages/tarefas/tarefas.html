@@ -13,7 +13,8 @@
 		<button
 			ion-item
 			item-start
-			*ngFor="let tarefa of tarefas" (click)="onTarefaClick(tarefa.id)"
+			*ngFor="let tarefa of tarefas"
+			(click)="onTarefaClick(tarefa.id)"
 			[ngClass]="{'executada': tarefa.final_r!=null, 'normal': tarefa.urgencia=='0', 'prioridade': tarefa.urgencia=='1', 'urgente': tarefa.urgencia=='2'}">
 			
 			<ion-icon name="calendar"></ion-icon>
