@@ -16,4 +16,8 @@ export class DomasasService {
 	get(){
 		return this.http.get(this.getUrl);
 	}
+
+	getFlat(){
+		return this.http.get(this.getUrl+'/flat');
+	}
 }

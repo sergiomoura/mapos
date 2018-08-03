@@ -40,3 +40,19 @@
 		->write(json_encode($domasas));
 
 	});
+
+	$app->get($api_root.'/domasas/flat',function(Request $req, Response $res, $args = []){
+
+		// Levantando tipos de equipe na base
+		$sql = 'SELECT id,codigo,nome,domasa FROM maxse_bairros ORDER BY nome';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		$bairros = $stmt->fetchAll();
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json')
+		->write(json_encode($bairros));
+
+	});

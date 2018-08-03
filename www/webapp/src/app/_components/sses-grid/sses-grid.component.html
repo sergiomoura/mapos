@@ -1,16 +1,160 @@
-<table>
-	<thead>
-		<tr>
-			<td>#</td>
-			<td>Data de Registro</td>
-			<td></td>
-		</tr>
-	</thead>
-	<tbody>
-		<tr *ngFor="let sse of sses">
-			<td>{{sse.numero}}</td>
-			<td>{{sse.dh_registrado|date:'dd/MM/yyyy - hh:mm:ss'}}</td>
-			<td><button (click)="onSseButtonClick(sse.id)">Abrir</button></td>
-		</tr>
-	</tbody>
-</table>
+<div class="container-80 top-gap padding">
+	<div class="container-filtro">
+		
+		<div class="container-selects">
+			<mat-form-field>
+				<mat-select [(ngModel)]="busca.equipes"  placeholder="Equipes" multiple>
+					<mat-option *ngFor="let equipe of equipes" [value]="equipe">[{{equipe.sigla}}] {{equipe.nome}}</mat-option>
+				</mat-select>
+			</mat-form-field>
+	
+			<mat-form-field>
+				<mat-select [(ngModel)]="busca.status"  placeholder="Status" multiple>
+					<mat-option value="CADASTRADA">Cadastradas</mat-option>
+					<mat-option value="AGENDADA">Agendadas</mat-option>
+					<mat-option value="EXECUTANDO">Executando</mat-option>
+					<mat-option value="PENDENTE">Pendentes</mat-option>
+					<mat-option value="FINALIZADA">Finalizadas</mat-option>
+					<mat-option value="DIVERGENTE">Divergentes</mat-option>
+					<mat-option value="CANCELADA">Canceladas</mat-option>
+					<mat-option value="RETRABALHO">Retrabalho</mat-option>
+				</mat-select>
+			</mat-form-field>
+	
+			<mat-form-field>
+				<mat-select [(ngModel)]="busca.prioridades"  placeholder="Nivel de Prioridade" multiple>
+					<mat-option [value]="0">Normal</mat-option>
+					<mat-option [value]="1">Prioridade</mat-option>
+					<mat-option [value]="2">Urgente</mat-option>
+				</mat-select>
+			</mat-form-field>
+		</div>
+
+		<div class="container-datas">
+			<mat-form-field>
+				<input matInput [max]="busca.agendadas_ate" [(ngModel)]="busca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
+				<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+				<mat-datepicker #picker1></mat-datepicker>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput [min]="busca.agendadas_de" [(ngModel)]="busca.agendadas_ate" [matDatepicker]="picker2" placeholder="Agendados até">
+				<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+				<mat-datepicker #picker2></mat-datepicker>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput [max]="busca.realizadas_ate" [(ngModel)]="busca.realizadas_de" [matDatepicker]="picker3" placeholder="Realizados de">
+				<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+				<mat-datepicker #picker3></mat-datepicker>
+			</mat-form-field>
+			<mat-form-field>
+				<input matInput [min]="busca.realizadas_de" [(ngModel)]="busca.realizadas_ate" [matDatepicker]="picker4" placeholder="Realizados até">
+				<mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+				<mat-datepicker #picker4></mat-datepicker>
+			</mat-form-field>
+		</div>
+
+		<div class="controles">
+			<button mat-raised-button color="accent" (click)="onResetCamposClick()">Resetar Campos</button>
+			<button mat-raised-button color="primary" class="bt-buscar" (click)="onBuscarClick()">Buscar</button>
+		</div>
+
+	</div>
+</div>
+
+<div class="resultados-container">
+	<table>
+		<thead>
+			<tr>
+				<td>ID</td>
+				<td>Status</td>
+				<td>Nº SSE</td>
+				<td>Data Recebimento SSE</td>
+				<td>Nº Domasa</td>
+				<td>Endereço</td>
+				<td>ID Bairro</td>
+				<td>Nome Bairro</td>
+				<td>Obs</td>
+				<td>Tot Medidas Prev</td>
+				<td>Tot Medidas Real</td>
+				<td>Dif. Medidas</td>
+				<td>Divergência?</td>
+				<td>TDS Prev</td>
+				<td>TDS Real</td>
+				<td>Dif. TDS</td>
+				<td>Divergência?</td>
+				<td>Classificação</td>
+				<td>Classificação (Alteração)</td>
+				<td>Prioridade</td>
+				<td>DL Execução</td>
+				<td>DL Garantia</td>
+				<td>Data Devolução</td>
+				<td>Em Garantia?</td>
+				<td>Cálculo Execução</td>
+				<td>Valor da SSE</td>
+			</tr>
+		</thead>
+		<tbody *ngFor="let sse of sses">
+			<tr>
+				<td>{{sse.id}}</td>
+				<td>{{sse.status}}</td>
+				<td>{{sse.numero}}</td>
+				<td>{{sse.dh_recebido | date:"dd/MM/yyyy"}}</td>
+				<td>{{sse.bairro?.domasa}}</td>
+				<td>{{sse.endereco}}</td>
+				<td>{{sse.bairro?.codigo}}</td>
+				<td>{{sse.bairro?.nome}}</td>
+				<td>{{sse.obs}}</td>
+				<td>Tot Medidas Prev</td>
+				<td>Tot Medidas Real</td>
+				<td>Dif. Medidas</td>
+				<td>Divergência?</td>
+				<td>TDS Prev</td>
+				<td>TDS Real</td>
+				<td>Dif. TDS</td>
+				<td>Divergência?</td>
+				<td>Classificação</td>
+				<td>Classificação (Alteração)</td>
+				<td>Prioridade</td>
+				<td>DL Execução</td>
+				<td>DL Garantia</td>
+				<td>Data Devolução</td>
+				<td>Em Garantia?</td>
+				<td>Cálculo Execução</td>
+				<td>Valor da SSE</td>
+			</tr>
+			<tr>
+				<td colspan="26">
+					<table>
+						<thead>
+							<td>Equipe</td>
+							<td>Apoio</td>
+							<td>Data Execução</td>
+							<td>Consumo</td>
+						</thead>
+						<tbody>
+							<td>EQP1 - Nome do Líder</td>
+							<td>EQAP</td>
+							<td>24/08/2018</td>
+							<td>
+								<ul>
+									<li>Bica Corrida: 1000m³</li>
+								</ul>
+							</td>
+						</tbody>
+						<tbody>
+							<td>EQP1 - Nome do Líder</td>
+							<td>EQAP</td>
+							<td>24/08/2018</td>
+							<td>
+								<ul>
+									<li>Bica Corrida: 1000m³</li>
+								</ul>
+							</td>
+						</tbody>
+					</table>
+				</td>
+			</tr>
+
+		</tbody>
+	</table>
+</div>

@@ -38,7 +38,7 @@ export class SsesMapComponent implements OnInit {
 		realizadas_de: undefined,
 		realizadas_ate: undefined
 	};
-	buscaPadrao = {
+	buscaPadrao:Busca = {
 		equipes : [],
 		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
 		prioridades: [0,1,2],
