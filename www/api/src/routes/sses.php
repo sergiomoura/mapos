@@ -682,7 +682,7 @@
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(
 			array(
-				':-0,01trabalho' => $trabalho,
+				':trabalho' => $trabalho,
 				':id_tipo' => $sse->tipoDeServico->id
 			)
 		);
@@ -694,7 +694,8 @@
 
 		try {
 			$stmt->execute(array(
-				':id_sse' => $idNovo
+				':id_sse' => $idNovo,
+				':valor' => $valor_total
 			));
 		} catch (Exception $e) {
 			// Erro. Rollback
@@ -703,7 +704,7 @@
 			// Retornando erro para usuário
 			return $res
 			->withStatus(500)
-			->write('Falha ao tentar gravar valores da sse');
+			->write('Falha ao tentar gravar valores da sse: '.$e->getMessage());
 		}
 		
 
