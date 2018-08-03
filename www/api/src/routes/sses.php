@@ -364,7 +364,7 @@
 		}
 
         $sse->lat = $output->results[0]->geometry->location->lat;
-        $sse->lng = $output->results[0]->geometry->location->lng;
+		$sse->lng = $output->results[0]->geometry->location->lng;
 
 		// Verificando se veio foto
 		if (!isset($sse->foto)) {
@@ -387,6 +387,9 @@
 			// clean up the file resource
 			fclose( $ifp ); 
 		}
+
+		// Começando transação
+		$this->db->beginTransaction();
 
 		// Atualizando dados báscos
 		$sql = 'UPDATE
@@ -419,6 +422,9 @@
 				':id'					=> $sse->id
 			));
 		} catch (Exception $e) {
+			// Voltando 
+			$this->db->rollback();
+
 			// Retornando erro para usuário
 			return $res
 			->withStatus(500)
@@ -440,13 +446,15 @@
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(':id' => $sse->id));
 		
-		// Determinando tabela na qual as medidas serão inseridas
+		// Determinando tabela na qual as medidas serão inseridas e calculando o trabalho
+		$trabalho = 0;
 		switch ($sse->tipoDeServico->medida) {
 			case 'a':
 				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo)
 						VALUES (:l,:c,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
 				for ($i=0; $i < sizeOf($sse->medidas_area); $i++) { 
+					$trabalho += $sse->medidas_area[$i]->l*$sse->medidas_area[$i]->c;
 					$stmt->execute(array(
 						':l' => $sse->medidas_area[$i]->l,
 						':c' => $sse->medidas_area[$i]->c,
@@ -460,6 +468,7 @@
 						VALUES (:v,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
 				for ($i=0; $i < sizeOf($sse->medidas_linear); $i++) { 
+					$trabalho += $sse->medidas_linear[$i]->v; 
 					$stmt->execute(array(
 						':v' => $sse->medidas_linear[$i]->v,
 						':id' => $sse->id
@@ -472,6 +481,7 @@
 						VALUES (:n,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
 				for ($i=0; $i < sizeOf($sse->medidas_unidades); $i++) { 
+					$trabalho += $sse->medidas_unidades[$i]->n; 
 					$stmt->execute(array(
 						':n' => $sse->medidas_unidades[$i]->n,
 						':id' => $sse->id
@@ -479,6 +489,44 @@
 				}
 				break;
 		}
+
+		// Chegou aqui! Bate o commit!
+		$this->db->commit();
+
+		// Determinando o valor do serviço de acordo com a faixa de cobrança do servico
+		$sql = 'SELECT
+					:trabalho*valor as valor_total
+				FROM
+					maxse_faixas_de_tipos_de_servicos
+				WHERE
+					:trabalho>li
+					AND :trabalho<=ls
+					AND id_tipo_de_servico=:id_tipo;';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':trabalho' => $trabalho,
+				':id_tipo' => $sse->tipoDeServico->id
+			)
+		);
+		$valor_total = $stmt->fetch()->valor_total;
+
+		// Atualizando o valor previsto e real da sse
+		$sql = 'UPDATE maxse_sses SET valor_prev=:valor, valor_real=:valor WHERE id=:id_sse ';
+		$stmt = $this->db->prepare($sql);
+		
+		try {
+			$stmt->execute(array(
+				':id_sse' => $sse->id,
+				':valor' => $valor_total
+			));
+		} catch (Exception $e) {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar gravar valores da sse: '.$e->getMessage());
+		}
+		
 
 		// Retornando resposta para usuário
 		return $res
