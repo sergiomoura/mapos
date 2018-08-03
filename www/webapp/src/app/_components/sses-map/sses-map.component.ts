@@ -37,6 +37,7 @@ export class SsesMapComponent implements OnInit {
 	markerAtual:any;
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
+	mostrandoFiltro:boolean = false;
 
 
 	ngOnInit() {
@@ -446,6 +447,10 @@ export class SsesMapComponent implements OnInit {
 				}
 			}
 		);
+	}
+
+	onFiltrarClick(){
+		this.mostrandoFiltro = !this.mostrandoFiltro;
 	}
 
 }

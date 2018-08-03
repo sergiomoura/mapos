@@ -134,6 +134,10 @@
 	<div><img src="assets/marker-finalizada-2.svg"><span>Urgencia</span></div>
 </div>
 
+<div class="container-filtro" *ngIf="!mostrandoFiltro">
+
+</div>
+
 <mat-toolbar>
 	<mat-toolbar-row>
 		<span class="spacer"></span>
@@ -143,7 +147,7 @@
 		<button  matTooltip="Grid" (click)="onGridButtonClick()">
 			<mat-icon>view_list</mat-icon>
 		</button>
-		<button  matTooltip="Filtrar SSEs Exibidas">
+		<button  matTooltip="Filtrar SSEs Exibidas" (click)="onFiltrarClick()">
 			<mat-icon>filter_list</mat-icon>
 		</button>
 	</mat-toolbar-row>

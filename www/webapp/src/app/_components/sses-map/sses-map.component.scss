@@ -85,6 +85,7 @@
 		padding: 10px 10px 0 10px;
 		background-color: rgba(255,255,255,0.5);
 		border-radius: 4px;
+		box-shadow: -2px 3px 7px rgba(0,0,0,0.3);
 
 		div {
 			margin: 0 0 10px 0;
@@ -96,12 +97,24 @@
 		}
 	}
 
+	.container-filtro {
+		background-color: rgba(255, 255, 255, 0.8);
+		position: fixed;
+		top: 120px;
+		right: 0px;
+		width: 600px;
+		height: calc(100vh - 120px);
+		border-radius: 0 0 0 4px;
+		box-shadow: -2px 3px 7px rgba(0,0,0,0.3);
+	}
+
 	mat-toolbar {
 		background-color: rgba(0,0,0,0.5);
 		position: fixed;
 		left: 0;
 		top: 56px;
 		z-index: 1;
+		box-shadow: -2px 3px 7px rgba(0,0,0,0.3);
 		button {
 			background-color: transparent;
 			border: none;
