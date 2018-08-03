@@ -91,6 +91,7 @@
 					valor_real,
 					id_tipo_de_servico as id_tds_p,
 					id_tipo_de_servico_r as id_tds_r,
+					prazo_final,
 					Y.id_equipe,
 					Y.inicio_p,
 					Y.final_p,
@@ -350,6 +351,21 @@
 			->write('Requisição mal formada');
 		}
 
+		// Calculando o prazo de entrega
+		if($sse->urgencia == 2 ){
+			// É URGÊNCIA! O prazo de entrega é o dia do recebimento
+			$prazo_final = new DateTime(substr($sse->dh_recebido,0,10));
+		} else {
+			// Não é urgência
+			$n_dias = floor($sse->tipoDeServico->prazo) + 1;
+			$dh_recebido = new DateTime(substr($sse->dh_recebido,0,10));
+			$dia_da_semana = $dh_recebido->format('N');
+			if($dia_da_semana + $n_dias >=7){
+				$n_dias ++;
+			}
+			$prazo_final = $dh_recebido->add(new DateInterval('P'.$n_dias.'D'));
+		}
+
 		// Determinando longitude e latitude do endereço
         $prepAddr = str_replace(' ','+',($sse->endereco.',Campinas,SP'));
         $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
@@ -404,7 +420,8 @@
 					urgente = :urgente,
 					obs = :obs,
 					lat = :lat,
-					lng = :lng
+					lng = :lng,
+					prazo_final = :prazo_final
 					WHERE id=:id
 				';
 		$stmt = $this->db->prepare($sql);
@@ -419,7 +436,8 @@
 				':obs'					=> $sse->obs,
 				':lat'					=> $sse->lat,
 				':lng'					=> $sse->lng,
-				':id'					=> $sse->id
+				':id'					=> $sse->id,
+				':prazo_final'			=> $prazo_final->format('Y-m-d')
 			));
 		} catch (Exception $e) {
 			// Voltando 
@@ -537,7 +555,7 @@
 	$app->post($api_root.'/sses', function(Request $req, Response $res, $args = []){
 		
 		// Lendo corpo da requisição
-		$sse = json_decode($req->getBody()->getContents());
+		$sse = json_decode($req->getBody()->getContents());		
 
 		// Verificando se o corpo da requisição possui um json válido
 		if(json_last_error() !== JSON_ERROR_NONE){
@@ -545,6 +563,21 @@
 			return $res
 			->withStatus(400)
 			->write('Requisição mal formada');
+		}
+		
+		// Calculando o prazo de entrega
+		if($sse->urgencia == 2 ){
+			// É URGÊNCIA! O prazo de entrega é o dia do recebimento
+			$prazo_final = new DateTime(substr($sse->dh_recebido,0,10));
+		} else {
+			// Não é urgência
+			$n_dias = floor($sse->tipoDeServico->prazo) + 1;
+			$dh_recebido = new DateTime(substr($sse->dh_recebido,0,10));
+			$dia_da_semana = $dh_recebido->format('N');
+			if($dia_da_semana + $n_dias >=7){
+				$n_dias ++;
+			}
+			$prazo_final = $dh_recebido->add(new DateInterval('P'.$n_dias.'D'));
 		}
 
 		// Determinando longitude e latitude do endereço
@@ -556,12 +589,12 @@
 		if($output->status != 'OK'){
 			// Retornando erro para usuário
 			return $res
-			->withStatus(400)
+			->withStatus(503)
 			->write('Falha ao recuperar coordenadas do endereço: '.$output->status);
 		}
 
         $sse->lat = $output->results[0]->geometry->location->lat;
-        $sse->lng = $output->results[0]->geometry->location->lng;
+		$sse->lng = $output->results[0]->geometry->location->lng;
 
 		// Iniciando transação
 		$this->db->beginTransaction();
@@ -578,7 +611,8 @@
 					urgente,
 					obs,
 					lat,
-					lng
+					lng,
+					prazo_final
 				) VALUES (
 					:endereco,
 					:id_bairro,
@@ -589,7 +623,8 @@
 					:urgente,
 					:obs,
 					:lat,
-					:lng
+					:lng,
+					:prazo_final
 				)';
 		
 		// Inserindo dados báscos
@@ -604,7 +639,8 @@
 				':urgente'				=> $sse->urgencia,
 				':obs'					=> $sse->obs,
 				':lat'					=> $sse->lat,
-				':lng'					=> $sse->lng
+				':lng'					=> $sse->lng,
+				':prazo_final'			=> $prazo_final->format('Y-m-d')
 			));
 		} catch (Exception $e) {
 			// Erro... voltando
