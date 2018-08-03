@@ -19,6 +19,16 @@ import { FinalizarSseComponent } from "../../_components/finalizar-sse/finalizar
 })
 export class SsesMapComponent implements OnInit {
 
+	sses:SSE[];
+	tmpSses:any[];
+	initial_lat:number = -22.916405805627686;
+	initial_lng:number = -47.067499388564215;
+	initial_zoom:number = 12;
+	markerAtual:any;
+	tdss:TipoDeServico[];
+	equipes:Equipe[];
+	mostrandoFiltro:boolean = false;
+	
 	constructor(
 		private equipesService:EquipesService,
 		private ssesService:SsesService,
@@ -29,15 +39,7 @@ export class SsesMapComponent implements OnInit {
 		private tarefaService:TarefaService
 	) {}
 
-	sses:SSE[];
-	tmpSses:any[];
-	initial_lat:number = -22.916405805627686;
-	initial_lng:number = -47.067499388564215;
-	initial_zoom:number = 12;
-	markerAtual:any;
-	tdss:TipoDeServico[];
-	equipes:Equipe[];
-	mostrandoFiltro:boolean = false;
+	
 
 
 	ngOnInit() {
