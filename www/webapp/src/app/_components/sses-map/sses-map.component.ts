@@ -7,6 +7,7 @@ import { TiposDeServicoService } from "../../_services/tipos-de-servico.service"
 import { TipoDeServico } from "../../_models/tipoDeServico";
 import { EquipesService } from '../../_services/equipes.service';
 import { Equipe } from '../../_models/equipe';
+import { Busca } from "../../_models/busca";
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
 import { TarefaService } from '../../_services/tarefa.service';
@@ -28,7 +29,16 @@ export class SsesMapComponent implements OnInit {
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
 	mostrandoFiltro:boolean = false;
-	
+	busca:Busca = {
+		equipes : [],
+		status : [-2,-1,0,1,2,3],
+		prioridades: [0,1,2],
+		agendadas_de: undefined,
+		agendadas_ate: undefined,
+		realizadas_de: undefined,
+		realizadas_ate: undefined
+	}
+
 	constructor(
 		private equipesService:EquipesService,
 		private ssesService:SsesService,
@@ -39,9 +49,6 @@ export class SsesMapComponent implements OnInit {
 		private tarefaService:TarefaService
 	) {}
 
-	
-
-
 	ngOnInit() {
 		this.getTiposDeServico();
 		this.getEquipes();
@@ -49,11 +56,12 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	getSses(){
-		this.ssesService.getAll().subscribe(
+		this.ssesService.getAll(this.busca).subscribe(
 			res => {
 				this.tmpSses = res;
 				this.parseSses();
 				this.markerAtual = undefined;
+				this.mostrandoFiltro = false;
 			},
 			err => {
 				// Exibindo snackbar de erro
@@ -257,6 +265,14 @@ export class SsesMapComponent implements OnInit {
 
 	goToSse(id) {
 		this.router.navigateByUrl('home/sse/'+id);
+	}
+
+	onBuscarClick(){
+		this.getSses();
+	}
+
+	onCancelarBuscaClick(){
+		this.mostrandoFiltro = false;
 	}
 
 	onAgendarClick(id_sse){

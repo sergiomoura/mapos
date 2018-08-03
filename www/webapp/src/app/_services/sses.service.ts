@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SSE } from '../_models/sse';
+import { Busca } from "../_models/busca";
+import { format } from "date-fns";
 
 @Injectable({
 	providedIn: 'root'
@@ -19,8 +21,39 @@ export class SsesService {
 	private url_createSses:string = '/maxse/api/sses';
 
 	// Método que carrega todas as SSEs
-	getAll():Observable<SSE[]>{
-		return this.http.get<SSE[]>(this.url_getSses);
+	getAll(busca?:Busca):Observable<SSE[]>{
+		
+		// Definindo queryString
+		let queryString:string = '';
+
+		if(busca){
+			
+			// Pegando só os ids das equipes
+			let ideqs:number[] = busca.equipes.map(
+				(equipe) => {
+					return equipe.id;
+				}
+			)
+	
+			// Definindo partes da queryString
+			let parts:string[] = [];
+			for (const key in busca) {
+				if (busca.hasOwnProperty(key)) {
+					if(busca[key] instanceof Date){
+						parts.push(key + "=" + format(busca[key], 'YYYY-MM-DD'));
+					} else if(key == "equipes"){
+						parts.push("equipes=" + ideqs.toString());
+					} else if(busca[key]!= undefined){
+						parts.push(key + "=" + busca[key].toString());
+					}
+				}
+			}
+
+			// Juntando partes da queryString
+			queryString = '?' + parts.join('&');
+		}
+
+		return this.http.get<SSE[]>(this.url_getSses + queryString);
 	}
 
 	// Retorna SSEs pendentes

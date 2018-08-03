@@ -137,69 +137,62 @@
 <div class="container-filtro" *ngIf="mostrandoFiltro">
 	
 	<mat-form-field>
-		<mat-select placeholder="Equipes" multiple>
-			<mat-option>Equipe 1</mat-option>
-			<mat-option>Equipe 2</mat-option>
-			<mat-option>Equipe 3</mat-option>
-			<mat-option>Equipe 4</mat-option>
-			<mat-option>Equipe 5</mat-option>
-			<mat-option>Equipe 6</mat-option>
-			<mat-option>Equipe 7</mat-option>
-			<mat-option>Equipe 8</mat-option>
-			<mat-option>Equipe 9</mat-option>
-			<mat-option>Equipe 9</mat-option>
+		<mat-select [(ngModel)]="busca.equipes"  placeholder="Equipes" multiple>
+			<mat-option *ngFor="let equipe of equipes" [value]="equipe">[{{equipe.sigla}}] {{equipe.nome}}</mat-option>
 		</mat-select>
 	</mat-form-field>
 
 	<mat-form-field>
-		<mat-select placeholder="Status" multiple>
-			<mat-option>Cadastradas</mat-option>
-			<mat-option>Agendadas</mat-option>
-			<mat-option>Executando</mat-option>
-			<mat-option>Pendentes</mat-option>
-			<mat-option>Finalizadas</mat-option>
-			<mat-option>Divergentes</mat-option>
-			<mat-option>Canceladas</mat-option>
-			<mat-option>Retrabalho</mat-option>
+		<mat-select [(ngModel)]="busca.status"  placeholder="Status" multiple>
+			<mat-option [value]="0">Cadastradas</mat-option>
+			<mat-option [value]="1">Agendadas</mat-option>
+			<mat-option [value]="2">Executando</mat-option>
+			<mat-option [value]="3">Pendentes</mat-option>
+			<mat-option [value]="100">Finalizadas</mat-option>
+			<mat-option [value]="-1">Divergentes</mat-option>
+			<mat-option [value]="-100">Canceladas</mat-option>
+			<mat-option [value]="-2">Retrabalho</mat-option>
 		</mat-select>
 	</mat-form-field>
 
 	<mat-form-field>
-		<mat-select placeholder="Nivel de Prioridade" multiple>
-			<mat-option value="0">Normal</mat-option>
-			<mat-option value="1">Prioridade</mat-option>
-			<mat-option value="2">Urgente</mat-option>
+		<mat-select [(ngModel)]="busca.prioridades"  placeholder="Nivel de Prioridade" multiple>
+			<mat-option [value]="0">Normal</mat-option>
+			<mat-option [value]="1">Prioridade</mat-option>
+			<mat-option [value]="2">Urgente</mat-option>
 		</mat-select>
 	</mat-form-field>
 
 	<div class="container-datas">
 		<mat-form-field>
-			<input matInput [matDatepicker]="picker1" placeholder="Agendadas entre">
+			<input matInput [max]="busca.agendadas_ate" [(ngModel)]="busca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
+			<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
 			<mat-datepicker #picker1></mat-datepicker>
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput [matDatepicker]="picker2" placeholder="Agendadas até">
+			<input matInput [min]="busca.agendadas_de" [(ngModel)]="busca.agendadas_ate" [matDatepicker]="picker2" placeholder="Agendados até">
+			<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
 			<mat-datepicker #picker2></mat-datepicker>
 		</mat-form-field>
 	</div>
 
 	<div class="container-datas">
 		<mat-form-field>
-			<input matInput [matDatepicker]="picker3" placeholder="Realizadas de">
+			<input matInput [max]="busca.realizadas_ate" [(ngModel)]="busca.realizadas_de" [matDatepicker]="picker3" placeholder="Realizados de">
+			<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
 			<mat-datepicker #picker3></mat-datepicker>
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput [matDatepicker]="picker4" placeholder="Realizadas até">
+			<input matInput [min]="busca.realizadas_de" [(ngModel)]="busca.realizadas_ate" [matDatepicker]="picker4" placeholder="Realizados até">
+			<mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
 			<mat-datepicker #picker4></mat-datepicker>
 		</mat-form-field>
 	</div>
 
 	<div class="controles">
-		<button mat-button color="primary">Cancelar</button>
-		<button mat-raised-button color="accent" class="bt-buscar">Buscar</button>
+		<button mat-button color="primary" (click)="onCancelarBuscaClick()">Cancelar</button>
+		<button mat-raised-button color="accent" class="bt-buscar" (click)="onBuscarClick()">Buscar</button>
 	</div>
-
-
 </div>
 
 <mat-toolbar>
