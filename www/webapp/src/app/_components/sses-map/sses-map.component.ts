@@ -29,6 +29,9 @@ export class SsesMapComponent implements OnInit {
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
 	mostrandoFiltro:boolean = false;
+	IRSSE:number = 60000; // Intervalo para recarregar sses: 1min
+	reload_sses_interval:number;
+
 	busca:Busca = {
 		equipes : [],
 		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
@@ -62,6 +65,21 @@ export class SsesMapComponent implements OnInit {
 		this.getTiposDeServico();
 		this.getEquipes();
 		this.getSses();
+
+		this.reload_sses_interval = window.setInterval(
+			() => {
+				window.setTimeout(
+					() => {
+						this.getSses();
+					}
+				), Math.round(Math.random()*2000)
+			}
+			,this.IRSSE
+		)
+	}
+
+	ngOnDestroy() {
+		window.clearInterval(this.reload_sses_interval);
 	}
 
 	getSses(){
