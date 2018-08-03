@@ -135,6 +135,70 @@
 </div>
 
 <div class="container-filtro" *ngIf="mostrandoFiltro">
+	
+	<mat-form-field>
+		<mat-select placeholder="Equipes" multiple>
+			<mat-option>Equipe 1</mat-option>
+			<mat-option>Equipe 2</mat-option>
+			<mat-option>Equipe 3</mat-option>
+			<mat-option>Equipe 4</mat-option>
+			<mat-option>Equipe 5</mat-option>
+			<mat-option>Equipe 6</mat-option>
+			<mat-option>Equipe 7</mat-option>
+			<mat-option>Equipe 8</mat-option>
+			<mat-option>Equipe 9</mat-option>
+			<mat-option>Equipe 9</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field>
+		<mat-select placeholder="Status" multiple>
+			<mat-option>Cadastradas</mat-option>
+			<mat-option>Agendadas</mat-option>
+			<mat-option>Executando</mat-option>
+			<mat-option>Pendentes</mat-option>
+			<mat-option>Finalizadas</mat-option>
+			<mat-option>Divergentes</mat-option>
+			<mat-option>Canceladas</mat-option>
+			<mat-option>Retrabalho</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field>
+		<mat-select placeholder="Nivel de Prioridade" multiple>
+			<mat-option value="0">Normal</mat-option>
+			<mat-option value="1">Prioridade</mat-option>
+			<mat-option value="2">Urgente</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<div class="container-datas">
+		<mat-form-field>
+			<input matInput [matDatepicker]="picker1" placeholder="Agendadas entre">
+			<mat-datepicker #picker1></mat-datepicker>
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput [matDatepicker]="picker2" placeholder="Agendadas até">
+			<mat-datepicker #picker2></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+	<div class="container-datas">
+		<mat-form-field>
+			<input matInput [matDatepicker]="picker3" placeholder="Realizadas de">
+			<mat-datepicker #picker3></mat-datepicker>
+		</mat-form-field>
+		<mat-form-field>
+			<input matInput [matDatepicker]="picker4" placeholder="Realizadas até">
+			<mat-datepicker #picker4></mat-datepicker>
+		</mat-form-field>
+	</div>
+
+	<div class="controles">
+		<button mat-button color="primary">Cancelar</button>
+		<button mat-raised-button color="accent" class="bt-buscar">Buscar</button>
+	</div>
+
 
 </div>
 

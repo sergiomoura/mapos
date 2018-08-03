@@ -102,10 +102,32 @@
 		position: fixed;
 		top: 120px;
 		right: 0px;
-		width: 600px;
+		width: 450px;
 		height: calc(100vh - 120px);
 		border-radius: 0 0 0 4px;
 		box-shadow: -2px 3px 7px rgba(0,0,0,0.3);
+		padding: 20px;
+
+		mat-form-field {
+			display: block;
+		}
+
+		.container-datas{
+			display: flex;
+			justify-content: space-between;
+			mat-form-field {
+				display: inline-block;
+				width:calc(50% - 5px);
+			}	
+		}
+
+		.controles{
+			display: flex;
+			justify-content: space-between;
+			.bt-buscar{
+				width:150px;
+			}
+		}
 	}
 
 	mat-toolbar {
