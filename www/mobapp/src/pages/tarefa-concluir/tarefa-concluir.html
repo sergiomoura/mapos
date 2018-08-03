@@ -16,12 +16,12 @@
 	<form #form="ngForm">
 		<ion-item>
 			<ion-label floating>Data da Conclusão (Realizado)</ion-label>
-			<ion-datetime required name="data" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.final_r"></ion-datetime>
+			<ion-datetime required name="data" [min]="tarefa.inicio_r"  max="2050" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.final_r"></ion-datetime>
 		</ion-item>
 
 		<ion-item>
 			<ion-label floating>Hora da Conclusão (Realizado)</ion-label>
-			<ion-datetime required name="hora" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.final_r" ></ion-datetime>
+			<ion-datetime required name="hora" [min]="tarefa.inicio_r" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.final_r" ></ion-datetime>
 		</ion-item>
 	</form>
 

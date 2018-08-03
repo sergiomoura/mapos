@@ -80,7 +80,7 @@
 
 		<ion-item>
 			<ion-label floating>Tipo de Servico a Realizar</ion-label>
-			<ion-select (ionChange)="onTipoDeServicoChange()" required name="tdsR" [(ngModel)]="tarefa.sse.tipoDeServicoReal" >
+			<ion-select [disabled]="medidasTravadas" (ionChange)="onTipoDeServicoChange()" required name="tdsR" [(ngModel)]="tarefa.sse.tipoDeServicoReal" >
 				<ion-option *ngFor="let tds of tiposDeServico" [value]="tds">RG{{tds.codigo}} {{tds.descricao}}</ion-option>
 			</ion-select>
 		</ion-item>
@@ -90,7 +90,7 @@
 			<div class="titulo">
 				Medidas Realizadas
 				<button
-					[disabled]="!tarefa.sse.tipoDeServicoReal"
+					[disabled]="!tarefa.sse.tipoDeServicoReal || medidasTravadas"
 					ion-button
 					small
 					color="dark"
@@ -102,9 +102,10 @@
 			
 			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal?.medida == 'a'">
 				<div *ngFor="let med of tarefa?.sse.medidas_area.real; let i=index;">
-					<ion-input type="number" required step="0.01" name="med_l_{{i}}" [(ngModel)]="med.l"></ion-input> x
-					<ion-input type="number" required step="0.01" name="med_c_{{i}}" [(ngModel)]="med.c"></ion-input> m²
+					<ion-input [disabled]="medidasTravadas" type="number" required step="0.01" name="med_l_{{i}}" [(ngModel)]="med.l"></ion-input> x
+					<ion-input [disabled]="medidasTravadas" type="number" required step="0.01" name="med_c_{{i}}" [(ngModel)]="med.c"></ion-input> m²
 					<button
+						[disabled]="medidasTravadas"
 						*ngIf="tarefa?.sse.medidas_area.real.length > 1"
 						ion-button
 						small
@@ -118,8 +119,9 @@
 			
 			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal?.medida == 'l'">
 				<div *ngFor="let med of tarefa?.sse?.medidas_linear.real; let i=index;">
-					<ion-input type="number" required step="0.01" name="med_v_{{i}}" [(ngModel)]="med.v"></ion-input> m
+					<ion-input [disabled]="medidasTravadas" type="number" required step="0.01" name="med_v_{{i}}" [(ngModel)]="med.v"></ion-input> m
 					<button
+						[disabled]="medidasTravadas"
 						*ngIf="tarefa?.sse?.medidas_linear.real.length > 1"
 						ion-button
 						small
@@ -133,8 +135,9 @@
 
 			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoReal?.medida == 'u'">
 				<div *ngFor="let med of tarefa?.sse?.medidas_unidades.real; let i=index;">
-					<ion-input type="number" required step="0.01" name="med_n_{{i}}" [(ngModel)]="med.n"></ion-input> m
+					<ion-input [disabled]="medidasTravadas" type="number" required step="0.01" name="med_n_{{i}}" [(ngModel)]="med.n"></ion-input> unid
 					<button
+						[disabled]="medidasTravadas"
 						*ngIf="tarefa?.sse.medidas_unidades.real.length > 1"
 						ion-button
 						small

@@ -149,6 +149,13 @@
 		$tarefa->sse = $sse;
 		unset($tarefa->id_sse);
 
+		// Levantando se é a primeira tarefa realizada da sse
+		$sql = 'SELECT COUNT(*) as n FROM maxse_tarefas WHERE id_sse=:id_sse AND final_r IS NOT NULL';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $tarefa->sse->id));
+		$n = $stmt->fetch()->n;
+		$tarefa->primeira = ($n == 0);
+
 		// Levantando tipo de servico previsto da sse;
 		$sql = 'SELECT
 					id,
@@ -1173,7 +1180,7 @@
 				$stmt->execute(
 					array(
 						':id_produto' => $gasto_mp->id_produto,
-						':dh' => $tarefa->final_r,
+						':dh' => str_replace('Z','',str_replace('T',' ',$tarefa->final_r)),
 						':qtde' => $gasto_mp->coef * $trabalho,
 						':id_referencia' => $tarefa->id,
 						':valor_unit' => $gasto_mp->valor_unit

@@ -28,6 +28,7 @@ export class TarefaIniciarPage {
 	tiposDeServico: TipoDeServico[];
 	executarComAutorizacao: boolean = undefined;
 	showDivergenteBox:boolean = false;
+	medidasTravadas = true;
 
 	constructor(
 		public navCtrl: NavController,
@@ -80,6 +81,10 @@ export class TarefaIniciarPage {
 				// Atribuindo a propriedade pública tarefa
 				this.tarefa = tmp;
 
+				// Travando medidas caso não seja a primeira tarefa. Destravando caso contrário
+				this.medidasTravadas = !this.tarefa.primeira;
+				
+
 				// Calculando divergência da tarefa();
 				this.tarefa.divergente = (this.tarefa.divergente == "1");
 				if(this.tarefa.divergente){
@@ -114,6 +119,8 @@ export class TarefaIniciarPage {
 				if (vetor.length == 0) {
 					this.addMedida();
 				}
+
+
 
 				// Linkando o tipo de serviço a real a um elemento do vetor tipos de serviços
 				// para o select funcionar.
@@ -238,6 +245,12 @@ export class TarefaIniciarPage {
 	}
 
 	temDivergencia() {
+
+		// Se as medidas estão travadas, é por que não é a primeira tarefa executada
+		// Se não é a primeira tarefa executada, não tem divergência
+		if(!this.tarefa.primeira){
+			return false;
+		}
 
 		// Verificando se real e previsto são do mesmo tipo de servico
 		if (this.tarefa.sse.tipoDeServicoReal!=null && this.tarefa.sse.tipoDeServicoReal.id != this.tarefa.sse.tipoDeServicoPrev.id) {
