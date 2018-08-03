@@ -670,6 +670,9 @@
 				break;
 		}
 
+		// Commit seguro pra não endoidar o mysql
+		$this->db->commit();
+
 		// Determinando o valor do serviço de acordo com a faixa de cobrança do servico
 		$sql = 'SELECT
 					:trabalho*valor as valor_total
@@ -688,7 +691,7 @@
 		);
 		$valor_total = $stmt->fetch()->valor_total;
 
-		// Atualizando o valor previsto da sse
+		// Atualizando o valor previsto e real da sse
 		$sql = 'UPDATE maxse_sses SET valor_prev=:valor, valor_real=:valor WHERE id=:id_sse ';
 		$stmt = $this->db->prepare($sql);
 
@@ -698,9 +701,6 @@
 				':valor' => $valor_total
 			));
 		} catch (Exception $e) {
-			// Erro. Rollback
-			$this->db->rollback();
-						
 			// Retornando erro para usuário
 			return $res
 			->withStatus(500)
