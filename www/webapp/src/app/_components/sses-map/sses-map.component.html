@@ -14,7 +14,7 @@
 			<div class="endereco">{{sse?.endereco}}</div>
 			<div>RG{{sse?.tipoDeServico?.codigo}} - {{sse?.tipoDeServico?.descricao}}</div>
 			<div class="status">{{sse?.statusMessage}}</div>
-			<div class="prazo">Prazo de entrega: {{sse?.prazoFinal?.toLocaleString()}}</div>
+			<div class="prazo">Prazo de entrega: {{sse?.prazoFinal?.toLocaleDateString()}}</div>
 			<div>
 				Equipe Atual: {{ sse.equipe ? ' [' + sse.equipe.sigla + '] - ' + sse.equipe.nome : ' NENHUMA'}}
 			</div>
@@ -29,6 +29,7 @@
 							<td rowspan="2">Apoio</td>
 							<td rowspan="2">PR</td>
 							<td colspan="2">Data / Hora</td>
+							<td rowspan="2">Divergência?</td>
 							<td rowspan="2">Ações</td>
 						</tr>
 						<tr>
@@ -43,6 +44,7 @@
 							<td>P</td>
 							<td>{{tarefa.inicio_p | date:'dd/MM HH:mm'}}</td>
 							<td>{{tarefa.final_p | date:'dd/MM HH:mm'}}</td>
+							<td>{{tarefa.divergente==1?'SIM':''}}</td>
 							<td rowspan="2" class="bt-container">
 								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento" (click)="onAlterarAgendamentoClick(sse,tarefa.id)"><img src="assets/editar.svg"></button>
 								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento" (click)="onCancelarAgendamentoClick(tarefa.id)"><img src="assets/cancelar.svg"></button>
@@ -52,6 +54,7 @@
 							<td>R</td>
 							<td>{{tarefa.inicio_r ? (tarefa.inicio_r | date:'dd/MM HH:mm') : ''}}</td>
 							<td>{{tarefa.final_r ? (tarefa.final_r | date:'dd/MM HH:mm') : '' }}</td>
+							<td>{{tarefa.autorizadaPor ? 'Aut. por: ' + tarefa.autorizadaPor :''}}</td>
 						</tr>
 					</tbody>
 				</table>
