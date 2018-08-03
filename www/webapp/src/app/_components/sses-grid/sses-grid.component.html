@@ -81,7 +81,6 @@
 				<td>TDS Prev</td>
 				<td>TDS Real</td>
 				<td>Dif. TDS</td>
-				<td>Divergência?</td>
 				<td>Classificação</td>
 				<td>Classificação (Alteração)</td>
 				<td>Prioridade</td>
@@ -108,13 +107,12 @@
 				<td>Tot Medidas Real</td>
 				<td>Dif. Medidas</td>
 				<td>Divergência?</td>
-				<td>TDS Prev</td>
-				<td>TDS Real</td>
-				<td>Dif. TDS</td>
-				<td>Divergência?</td>
+				<td>{{sse.tipoDeServicoPrev?.codigo}}</td>
+				<td>{{sse.tipoDeServicoReal?.codigo}}</td>
+				<td>{{sse.tipoDeServicoPrev?.id != sse.tipoDeServicoReal?.id ? 'Sim' : 'Não'}}</td>
 				<td>Classificação</td>
 				<td>Classificação (Alteração)</td>
-				<td>Prioridade</td>
+				<td>{{sse.urgencia == 0 ? 'Normal' : (sse.urgencia == 1 ? 'Prioridade' : 'Urgência')}}</td>
 				<td>DL Execução</td>
 				<td>DL Garantia</td>
 				<td>Data Devolução</td>
@@ -123,6 +121,7 @@
 				<td>Valor da SSE</td>
 			</tr>
 			<tr>
+				<!--
 				<td colspan="26">
 					<table>
 						<thead>
@@ -154,7 +153,7 @@
 					</table>
 				</td>
 			</tr>
-
+		-->
 		</tbody>
 	</table>
 </div>

@@ -171,14 +171,21 @@ export class SsesGridComponent implements OnInit {
 				)
 				delete sse.id_equipe;
 
-				// Parsing tipo de serviço
-				sse.tipoDeServico = this.tdss.find(
+				// Parsing tipo de serviço previsto
+				sse.tipoDeServicoPrev = this.tdss.find(
 					(tds) => {
-						return +tds.id == +sse.id_tipo_de_servico;
+						return +tds.id == +sse.id_tds_p;
 					}
 				)
-				delete sse.id_tipo_de_servico;
+				delete sse.id_tds_p;
 
+				// Parsing tipo de serviço real
+				sse.tipoDeServicoReal = this.tdss.find(
+					(tds) => {
+						return +tds.id == +sse.id_tds_r;
+					}
+				)
+				delete sse.id_tds_r;
 				// Pargsing bairro
 				sse.bairro = this.bairros.find(
 					(bairro) => {
@@ -188,61 +195,48 @@ export class SsesGridComponent implements OnInit {
 				delete sse.id_bairro;
 
 				// Determinando o prazo final
-				sse.prazoFinal = new Date(sse.dh_recebido.getTime());
-				sse.prazoFinal.setDate(+sse.prazoFinal.getDate() + (+sse.tipoDeServico.prazo));
+				// sse.prazoFinal = new Date(sse.dh_recebido.getTime());
+				// sse.prazoFinal.setDate(+sse.prazoFinal.getDate() + (+sse.tipoDeServico.prazo));
 				
 				// Determinando o tempo restante
-				sse.tempoRestante = (sse.prazoFinal.getTime() - (new Date()).getTime())/1000;
+				// sse.tempoRestante = (sse.prazoFinal.getTime() - (new Date()).getTime())/1000;
 	
 				// Determinando o nome do arquivo marker
-				sse.markerFile = 'marker-';
-				sse.statusMsg = '';
+				
 				switch (+sse.status) {
 					case -100:
-						sse.markerFile += 'cancelada';
 						sse.statusMessage = 'Cancelada';
 						break;
 
 					case -2:
-						sse.markerFile += 'retrabalho';
 						sse.statusMessage = 'Retrabalho';
 						break;
 
 					case -1:
-						sse.markerFile += 'divergente';
 						sse.statusMessage = 'Divergente';
 						break;
 					
 					case 0:
-						sse.markerFile += 'cadastrada';
-						sse.statusMessage = 'Cadastrada - aguardando ação do programador.';
+						sse.statusMessage = 'Cadastrada';
 						break;
 	
 					case 1:
-						sse.markerFile += 'agendada'
 						sse.statusMessage = 'Agendada';
 						break;
 					
 					case 2:
-						sse.markerFile += 'executando';
 						sse.statusMessage = 'Executando';
 						break;
 					
 					case 3:
-						sse.markerFile += 'pendente'
-						sse.statusMessage = 'Pendente - aguardando ação do programador.';
+						sse.statusMessage = 'Pendente';
 						break;
 					
 					case 100:
-						sse.markerFile += 'finalizada'
 						sse.statusMessage = 'Finalizada';
 						break;
 				}
 				
-				
-				sse.markerFile += '-' + sse.urgencia;
-				sse.markerFile += '.svg';
-
 				// parsing equipes e apoios das tarefas 
 				for (let i = 0; i < sse.tarefas.length; i++) {
 					

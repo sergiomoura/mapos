@@ -86,6 +86,8 @@
 					obs,
 					lat,
 					lng,
+					id_tipo_de_servico as id_tds_p,
+					id_tipo_de_servico_r as id_tds_r,
 					Y.id_equipe,
 					Y.inicio_p,
 					Y.final_p,
