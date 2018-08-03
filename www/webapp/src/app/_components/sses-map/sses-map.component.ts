@@ -280,6 +280,10 @@ export class SsesMapComponent implements OnInit {
 		this.getSses();
 	}
 
+	onAtualizarClick(){
+		this.getSses();
+	}
+
 	onResetCamposClick(){
 		this.busca = this.buscaPadrao;
 	}
