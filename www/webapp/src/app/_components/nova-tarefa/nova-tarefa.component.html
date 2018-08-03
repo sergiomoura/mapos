@@ -39,6 +39,7 @@
 					required
 					type="datetime-local"
 					name="inicio_p"
+					[min]="agora"
 					[(ngModel)]="tarefa.inicio_p"
 					placeholder="Início Previsto">
 			</mat-form-field>
@@ -55,7 +56,12 @@
 
 			<div class="controles">
 				<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
-				<button [disabled]="!formNovaTarefa.valid" mat-raised-button color="primary" (click)="onSalvarClick()">Salvar</button>
+				
+				<button
+					[disabled]="!formNovaTarefa.valid || tarefa.final_p <= tarefa.inicio_p || tarefa.inicio_p < agora"
+					mat-raised-button
+					color="primary"
+					(click)="onSalvarClick()">Salvar</button>
 			</div>
 		</form>
 	</div>

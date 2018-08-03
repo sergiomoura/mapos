@@ -22,7 +22,7 @@ export class NovaTarefaComponent implements OnInit {
 	sse:SSE;
 	equipes:Equipe[];
 	tarefa:Tarefa;
-
+	agora:string =  format(new Date(),'YYYY-MM-DDTHH:mm');
 	constructor(
 		public dialogRef: MatDialogRef<NovaTarefaComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
