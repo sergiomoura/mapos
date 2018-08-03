@@ -515,6 +515,9 @@
         $sse->lat = $output->results[0]->geometry->location->lat;
         $sse->lng = $output->results[0]->geometry->location->lng;
 
+		// Iniciando transação
+		$this->db->beginTransaction();
+
 		// Definindo string de consulta
 		$sql = 'INSERT INTO maxse_sses
 				(
@@ -556,6 +559,9 @@
 				':lng'					=> $sse->lng
 			));
 		} catch (Exception $e) {
+			// Erro... voltando
+			$this->db->rollback();
+
 			// Retornando erro para usuário
 			return $res
 			->withStatus(500)
@@ -586,18 +592,31 @@
 			fclose( $ifp ); 
 		}
 		
-		// Determinando tabela na qual as medidas serão inseridas
+		// Determinando tabela na qual as medidas serão inseridas e calculando o volume de trabalho
+		$trabalho = 0;
 		switch ($sse->tipoDeServico->medida) {
 			case 'a':
 				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo)
 						VALUES (:l,:c,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas_area); $i++) { 
-					$stmt->execute(array(
-						':l' => $sse->medidas_area[$i]->l,
-						':c' => $sse->medidas_area[$i]->c,
-						':id' => $idNovo
-					));
+				for ($i=0; $i < sizeOf($sse->medidas_area); $i++) {
+					$trabalho += $sse->medidas_area[$i]->l * $sse->medidas_area[$i]->c;
+
+					try {
+						$stmt->execute(array(
+							':l' => $sse->medidas_area[$i]->l,
+							':c' => $sse->medidas_area[$i]->c,
+							':id' => $idNovo
+						));
+					} catch (Exception $e) {
+						// Erro. Rollback
+						$this->db->rollback();
+						
+						// Retornando erro para usuário
+						return $res
+						->withStatus(500)
+						->write('Falha ao tentar gravar medidas de área da sse');
+					}
 				}
 				break;
 			
@@ -606,10 +625,22 @@
 						VALUES (:v,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
 				for ($i=0; $i < sizeOf($sse->medidas_linear); $i++) { 
-					$stmt->execute(array(
-						':v' => $sse->medidas_linear[$i]->v,
-						':id' => $idNovo
-					));
+					$trabalho += $sse->medidas_linear[$i]->v;
+
+					try {
+						$stmt->execute(array(
+							':v' => $sse->medidas_linear[$i]->v,
+							':id' => $idNovo
+						));
+					} catch (Exception $e) {
+						// Erro. Rollback
+						$this->db->rollback();
+						
+						// Retornando erro para usuário
+						return $res
+						->withStatus(500)
+						->write('Falha ao tentar gravar medidas de cumprimento sse');
+					}
 				}
 				break;
 			
@@ -618,13 +649,63 @@
 						VALUES (:n,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
 				for ($i=0; $i < sizeOf($sse->medidas_unidades); $i++) { 
-					$stmt->execute(array(
-						':n' => $sse->medidas_unidades[$i]->n,
-						':id' => $idNovo
-					));
+					$trabalho += $sse->medidas_unidades[$i]->n;
+
+					try {
+						$stmt->execute(array(
+							':n' => $sse->medidas_unidades[$i]->n,
+							':id' => $idNovo
+						));
+					} catch (Exception $e) {
+						// Erro. Rollback
+						$this->db->rollback();
+						
+						// Retornando erro para usuário
+						return $res
+						->withStatus(500)
+						->write('Falha ao tentar gravar medidas unitárias sse');
+					}
+					
 				}
 				break;
 		}
+
+		// Determinando o valor do serviço de acordo com a faixa de cobrança do servico
+		$sql = 'SELECT
+					:trabalho*valor as valor_total
+				FROM
+					maxse_faixas_de_tipos_de_servicos
+				WHERE
+					:trabalho>li
+					AND :trabalho<=ls
+					AND id_tipo_de_servico=:id_tipo;';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':-0,01trabalho' => $trabalho,
+				':id_tipo' => $sse->tipoDeServico->id
+			)
+		);
+		$valor_total = $stmt->fetch()->valor_total;
+
+		// Atualizando o valor previsto da sse
+		$sql = 'UPDATE maxse_sses SET valor_prev=:valor, valor_real=:valor WHERE id=:id_sse ';
+		$stmt = $this->db->prepare($sql);
+
+		try {
+			$stmt->execute(array(
+				':id_sse' => $idNovo
+			));
+		} catch (Exception $e) {
+			// Erro. Rollback
+			$this->db->rollback();
+						
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar gravar valores da sse');
+		}
+		
 
 		// Retornando resposta para usuário
 		return $res
