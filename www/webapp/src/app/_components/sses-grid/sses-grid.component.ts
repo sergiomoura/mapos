@@ -195,14 +195,12 @@ export class SsesGridComponent implements OnInit {
 				delete sse.id_bairro;
 
 				// Determinando o prazo final
-				// sse.prazoFinal = new Date(sse.dh_recebido.getTime());
-				// sse.prazoFinal.setDate(+sse.prazoFinal.getDate() + (+sse.tipoDeServico.prazo));
+				sse.prazoFinal = new Date(sse.prazo_final+'T00:00:00');
 				
 				// Determinando o tempo restante
-				// sse.tempoRestante = (sse.prazoFinal.getTime() - (new Date()).getTime())/1000;
+				sse.tempoRestante = (sse.prazoFinal.getTime() - (new Date()).getTime())/1000;
 	
 				// Determinando o nome do arquivo marker
-				
 				switch (+sse.status) {
 					case -100:
 						sse.statusMessage = 'Cancelada';

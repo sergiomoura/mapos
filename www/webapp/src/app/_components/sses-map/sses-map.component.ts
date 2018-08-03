@@ -194,9 +194,10 @@ export class SsesMapComponent implements OnInit {
 					}
 				)
 				delete this.tmpSses[i].id_tipo_de_servico;
+				
 				// Determinando o prazo final
-				sse.prazoFinal = new Date(sse.dh_recebido.getTime());
-				sse.prazoFinal.setDate(+sse.prazoFinal.getDate() + (+sse.tipoDeServico.prazo));
+				sse.prazoFinal = new Date(sse.prazo_final+'T00:00:00');
+				
 				
 				// Determinando o tempo restante
 				sse.tempoRestante = (sse.prazoFinal.getTime() - (new Date()).getTime())/1000;
