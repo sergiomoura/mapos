@@ -320,6 +320,18 @@ export class TarefaIniciarPage {
 		confirm.present();
 	}
 
+	onMedidasBlur(){
+		// Quando altera o campo de medidas, se for divergente, recalcula divergência
+		if(this.tarefa.divergente){
+			this.tarefa.divergente = this.temDivergencia();
+
+			// Caso não seja mais divergente, esconde o box
+			if(!this.tarefa.divergente){
+				this.showDivergenteBox = false;
+			}
+		}
+	}
+
 	onCameraClick() {
 		const options: CameraOptions = {
 			quality: 60,

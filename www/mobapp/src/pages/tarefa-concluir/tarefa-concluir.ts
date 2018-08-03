@@ -128,11 +128,12 @@ export class TarefaConcluirPage {
 
 						// Disparando evento de tarefa concluida
 						this.events.publish('tarefa:concluida');
+						
+						// Movendo para tab inicial
+						this.navCtrl.parent.select(0);
 					}
 				)
 
-				// Movendo para tab inicial
-				this.navCtrl.parent.select(0);
 				
 			},
 			err => {
