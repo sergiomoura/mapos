@@ -29,7 +29,7 @@ export class SsesMapComponent implements OnInit {
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
 	mostrandoFiltro:boolean = false;
-	IRSSE:number = 60000; // Intervalo para recarregar sses: 1min
+	IRSSE:number = 300000; // Intervalo para recarregar sses: 5min
 	reload_sses_interval:number;
 
 	busca:Busca = {
