@@ -81,27 +81,28 @@ export class SsesService {
 	}
 
 	// Marca uma SSE como finalizada
-	setFinalizada(id_sse:number,tipoDeFinalizacao:string):Observable<any>{
-		return this.http.patch('api/sses/' + id_sse + '/setFinalizada',tipoDeFinalizacao);
+	setFinalizada(id_sse:number,tipoDeFinalizacao:string,data_devolucao:Date):Observable<any>{
+		let dados:{'tipo':string,'data_devolucao':string} = {'tipo':tipoDeFinalizacao,'data_devolucao':format(data_devolucao,'YYYY-MM-DD')}
+		return this.http.patch(this.url_getSses + '/' + id_sse + '/setFinalizada',dados);
 	}
 
 	// Marca uma SSE como retrabalho
 	setRetrabalho(id_sse:number):Observable<any>{
-		return this.http.patch('api/sses/' + id_sse + '/setRetrabalho','');
+		return this.http.patch(this.url_getSses + '/' + id_sse + '/setRetrabalho','');
 	}
 
 	// Finaliza o retrabalho de uma SSE
 	finalizarRetrabalho(id_sse):Observable<any>{
-		return this.http.patch('api/sses/' + id_sse + '/finalizaRetrabalho','');
+		return this.http.patch(this.url_getSses + '/' + id_sse + '/finalizaRetrabalho','');
 	}
 
 	// Marca uma SSE como Cancelada
 	setCancelada(id_sse:number):Observable<any>{
-		return this.http.patch('api/sses/' + id_sse + '/setCancelada','');
+		return this.http.patch(this.url_getSses + '/' + id_sse + '/setCancelada','');
 	}
 
 	// Reabrir uma SSE finalizada
 	reabrir(id_sse:number):Observable<any>{
-		return this.http.patch('api/sses/' + id_sse + '/reabrir','');
+		return this.http.patch(this.url_getSses + '/' + id_sse + '/reabrir','');
 	}
 }

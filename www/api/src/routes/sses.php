@@ -86,6 +86,7 @@
 					obs,
 					lat,
 					lng,
+					data_devolucao,
 					id_tipo_de_servico as id_tds_p,
 					id_tipo_de_servico_r as id_tds_r,
 					Y.id_equipe,
@@ -634,8 +635,12 @@
 		// Lendo argumentos
 		$id_sse = 1*$args['id_sse'];
 
-		// Interpretando o body
-		$finalizacaoTotal = ($req->getBody()->getContents() == 'parcial'? false : true);
+		$dados = json_decode($req->getBody()->getContents());
+		
+
+		// Interpretando os dados enviados
+		$finalizacaoTotal = ($dados->tipo == 'parcial'? false : true);
+		$data_devolucao = $dados->data_devolucao;
 
 		// Recuperando dados da SSE
 		$sql = 'SELECT 
@@ -705,13 +710,14 @@
 		$this->db->beginTransaction();
 
 		// Preparando consulta
-		$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA"),valor_real=:vr WHERE id=:id_sse';
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA"),valor_real=:vr,data_devolucao=:data_devolucao WHERE id=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		
 		try {
 			$stmt->execute(array(
 				':id_sse' => $id_sse,
-				':vr' => $valor_total
+				':vr' => $valor_total,
+				':data_devolucao' => $data_devolucao
 			));	
 		} catch (Exception $e) {
 			// Algo deu errado. Rollback

@@ -15,7 +15,8 @@ export interface DialogData {
 export class FinalizarSseComponent implements OnInit {
 
 	tipoDeFinalizacao:string = 'total';
-
+	data_devolucao:Date = undefined;
+	max_data_devolucao:Date = new Date();
 	constructor(
 		public dialogRef: MatDialogRef<FinalizarSseComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -24,7 +25,7 @@ export class FinalizarSseComponent implements OnInit {
 	) {	}
 
 	onSalvarClick(){
-		this.sseService.setFinalizada(this.data.id_sse, this.tipoDeFinalizacao)
+		this.sseService.setFinalizada(this.data.id_sse, this.tipoDeFinalizacao, this.data_devolucao)
 		.subscribe(
 			() => {
 				this.dialogRef.close(1);
