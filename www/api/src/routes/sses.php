@@ -4,9 +4,10 @@
 	use Slim\Http\Response;
 
 	$app->get($api_root.'/sses',function(Request $req, Response $res, $args = []){
-		
+
+		// DETERMINANDO CONDIÇÕES DE STATUS = = = = = = = = = = = = = = = = = = = =
 		// Verificando os status requeridos
-		if(array_key_exists('status',$_GET)){
+		if(array_key_exists('status',$_GET) && $_GET['status']!=''){
 			$status_requerido = explode(',',$_GET['status']);
 		} else {
 			$status_requerido = array();
@@ -18,8 +19,61 @@
 		} else {
 			$cndStatus = 'status=sseStatus("' . implode($status_requerido, '") OR status=sseStatus("') .'")';
 		}
+
+		// DETERMINANDO CONDIÇÕES DE EQUIPES = = = = = = = = = = = = = = = = = = = =
+		// Verificando as equipes requeridas
+		if(array_key_exists('equipes',$_GET) && $_GET['equipes']!= ''){
+			$equipes_requeridas = explode(',',$_GET['equipes']);
+		} else {
+			$equipes_requeridas = array();
+		}
+		// Determinando condição sobre equipes requeridas
+		if(sizeof($equipes_requeridas) == 0) {
+			$cndEquipes = 'TRUE';
+		} else {
+			$cndEquipes = 'id_equipe=' . implode($equipes_requeridas, ' OR id_equipe=');
+		}
+
+		// DETERMINANDO CONDIÇÕES DE PRIORIDADES = = = = = = = = = = = = = = = = = =
+		// Verificando os prioridades requeridas
+		if(array_key_exists('prioridades',$_GET) && $_GET['prioridades']!= ''){
+			$prioridades_requeridas = explode(',',$_GET['prioridades']);
+		} else {
+			$prioridades_requeridas = array();
+		}
+		// Determinando condição sobre equipes requeridas
+		if(sizeof($prioridades_requeridas) == 0) {
+			$cndPrioridade = 'TRUE';
+		} else {
+			$cndPrioridade = 'urgente=' . implode($prioridades_requeridas, ' OR urgente=');
+		}
+
+		// DETERMINANDO CONDIÇÃO DE DATA
+		if(array_key_exists('agendadas_de',$_GET) && $_GET['agendadas_de']!= ''){
+			$cndAgendadasDe = 'inicio_p >= "'.$_GET['agendadas_de'] .'"';
+		} else {
+			$cndAgendadasDe = TRUE;
+		}
+
+		if(array_key_exists('agendadas_ate',$_GET) && $_GET['agendadas_ate']!= ''){
+			$cndAgendadasAte = 'inicio_p <= "'.$_GET['agendadas_ate'].' 23:59:59"';
+		} else {
+			$cndAgendadasAte = TRUE;
+		}
+
+		if(array_key_exists('realizadas_de',$_GET) && $_GET['realizadas_de']!= ''){
+			$cndRealizadasDe = 'final_r >= "'.$_GET['realizadas_de'] .'"';
+		} else {
+			$cndRealizadasDe = TRUE;
+		}
+
+		if(array_key_exists('realizadas_ate',$_GET) && $_GET['realizadas_ate']!= ''){
+			$cndRealizadasAte = 'final_r <= "'.$_GET['realizadas_ate'].' 23:59:59"';
+		} else {
+			$cndRealizadasAte = TRUE;
+		}
 		
-		// Levantando tipos de equipe na base
+		// Levantando SSES na base
 		$sql = "SELECT
 					id,
 					endereco,
@@ -45,9 +99,17 @@
 					(SELECT B.id_sse,B.id_equipe,B.inicio_p,B.final_p,B.inicio_r,B.final_r,B.id_apoio FROM
 				(SELECT max(id) as id,id_sse FROM maxse_tarefas group by id_sse) A
 				INNER JOIN maxse_tarefas B on A.id=B.id) Y on X.id=Y.id_sse
-				WHERE $cndStatus
+				WHERE
+					($cndStatus) AND
+					($cndEquipes) AND
+					($cndPrioridade) AND
+					($cndAgendadasDe) AND
+					($cndAgendadasAte) AND
+					($cndRealizadasDe) AND
+					($cndRealizadasAte)
 				ORDER BY
 					dh_registrado DESC";
+		
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		$sses = $stmt->fetchAll();

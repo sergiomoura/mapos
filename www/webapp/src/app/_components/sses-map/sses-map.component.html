@@ -144,14 +144,14 @@
 
 	<mat-form-field>
 		<mat-select [(ngModel)]="busca.status"  placeholder="Status" multiple>
-			<mat-option [value]="0">Cadastradas</mat-option>
-			<mat-option [value]="1">Agendadas</mat-option>
-			<mat-option [value]="2">Executando</mat-option>
-			<mat-option [value]="3">Pendentes</mat-option>
-			<mat-option [value]="100">Finalizadas</mat-option>
-			<mat-option [value]="-1">Divergentes</mat-option>
-			<mat-option [value]="-100">Canceladas</mat-option>
-			<mat-option [value]="-2">Retrabalho</mat-option>
+			<mat-option value="CADASTRADA">Cadastradas</mat-option>
+			<mat-option value="AGENDADA">Agendadas</mat-option>
+			<mat-option value="EXECUTANDO">Executando</mat-option>
+			<mat-option value="PENDENTE">Pendentes</mat-option>
+			<mat-option value="FINALIZADA">Finalizadas</mat-option>
+			<mat-option value="DIVERGENTE">Divergentes</mat-option>
+			<mat-option value="CANCELADA">Canceladas</mat-option>
+			<mat-option value="RETRABALHO">Retrabalho</mat-option>
 		</mat-select>
 	</mat-form-field>
 
@@ -191,8 +191,10 @@
 
 	<div class="controles">
 		<button mat-button color="primary" (click)="onCancelarBuscaClick()">Cancelar</button>
-		<button mat-raised-button color="accent" class="bt-buscar" (click)="onBuscarClick()">Buscar</button>
+		<button mat-raised-button color="accent" (click)="onResetCamposClick()">Resetar Campos</button>
+		<button mat-raised-button color="primary" class="bt-buscar" (click)="onBuscarClick()">Buscar</button>
 	</div>
+
 </div>
 
 <mat-toolbar>

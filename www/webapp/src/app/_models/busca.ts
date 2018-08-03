@@ -2,7 +2,7 @@ import { Equipe } from "./equipe";
 
 export interface Busca {
 	equipes?: Equipe[],
-	status?: number[],
+	status?: string[],
 	prioridades?: number[],
 	agendadas_de?: Date,
 	agendadas_ate?: Date,

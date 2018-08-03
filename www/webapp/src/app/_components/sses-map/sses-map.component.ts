@@ -31,7 +31,16 @@ export class SsesMapComponent implements OnInit {
 	mostrandoFiltro:boolean = false;
 	busca:Busca = {
 		equipes : [],
-		status : [-2,-1,0,1,2,3],
+		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
+		prioridades: [0,1,2],
+		agendadas_de: undefined,
+		agendadas_ate: undefined,
+		realizadas_de: undefined,
+		realizadas_ate: undefined
+	};
+	buscaPadrao = {
+		equipes : [],
+		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
 		prioridades: [0,1,2],
 		agendadas_de: undefined,
 		agendadas_ate: undefined,
@@ -269,6 +278,10 @@ export class SsesMapComponent implements OnInit {
 
 	onBuscarClick(){
 		this.getSses();
+	}
+
+	onResetCamposClick(){
+		this.busca = this.buscaPadrao;
 	}
 
 	onCancelarBuscaClick(){
