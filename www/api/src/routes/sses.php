@@ -87,6 +87,8 @@
 					lat,
 					lng,
 					data_devolucao,
+					valor_prev,
+					valor_real,
 					id_tipo_de_servico as id_tds_p,
 					id_tipo_de_servico_r as id_tds_r,
 					Y.id_equipe,

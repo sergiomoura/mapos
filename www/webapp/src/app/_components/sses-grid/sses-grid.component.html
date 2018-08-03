@@ -118,7 +118,7 @@
 				<td>{{sse.data_devolucao}}</td>
 				<td>Em Garantia?</td>
 				<td>Cálculo Execução</td>
-				<td>Valor da SSE</td>
+				<td>{{sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
 			</tr>
 			<tr>
 				<!--
