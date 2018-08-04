@@ -31,4 +31,5 @@ export class TarefaService {
 	remove(id:number) {
 		return this.http.delete(this.url_delete+'/'+id);
 	}
+
 }

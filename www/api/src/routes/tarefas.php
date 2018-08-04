@@ -397,11 +397,57 @@
 		$tarefa = json_decode($req->getBody()->getContents());
 
 		// CHECK 1: VERIFICANDO SE A EQUIPE ESTÁ DISPONÍVEL NESSE HORÁRIO
-
+		$sql = 'SELECT
+					COUNT(*) AS n
+				FROM
+					maxse_tarefas
+				WHERE
+					inicio_p <= :inicio_p AND
+					final_p >= :inicio_p AND
+					final_r IS NULL AND
+					id_equipe=:id_equipe';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':inicio_p' => $tarefa->inicio_p,
+				':id_equipe' => $tarefa->equipe->id
+			)
+		);
+		$n = $stmt->fetch()->n;
+		if($n > 0){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(410)
+			->write('Equipe está indisponível para este horário.');
+		}
+		
 		// CHECK 2: VERIFICANDO SE EXISTE ALGUMA EQUIPE TRABALHANDO NESTA SSE ESTE HORÁRIO
 
 		// CHECK 3: VERIFICANDO SE A EQUIPE JÁ EXECUTOU TAREFA NESTA SSE E NÃO É UM RETRABALHO.
-		
+		$sql = 'SELECT
+					count(*) as n
+				FROM
+					maxse_tarefas a
+					INNER JOIN maxse_sses b ON a.id_sse=b.id
+				WHERE
+					a.id_equipe=:id_equipe AND
+					a.id_sse=:id_sse AND
+					b.status!=sseStatus("RETRABALHO")';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_sse' => $tarefa->sse->id,
+				':id_equipe' => $tarefa->equipe->id
+			)
+		);
+		$n = $stmt->fetch()->n;
+		if($n>0){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(413)
+			->write('A equipe já executou uma taarefa para esta SSE e não é um retrabalho');
+		}
+
 		// Begin transaction
 		$this->db->beginTransaction();
 		
