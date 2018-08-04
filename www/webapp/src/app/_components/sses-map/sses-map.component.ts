@@ -24,7 +24,7 @@ export class SsesMapComponent implements OnInit {
 	tmpSses:any[];
 	initial_lat:number = -22.916405805627686;
 	initial_lng:number = -47.067499388564215;
-	initial_zoom:number = 12;
+	initial_zoom:number = 11;
 	markerAtual:any;
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
