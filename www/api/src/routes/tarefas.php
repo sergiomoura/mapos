@@ -395,6 +395,12 @@
 	$app->post($api_root.'/tarefas',function(Request $req, Response $res, $args = []){
 
 		$tarefa = json_decode($req->getBody()->getContents());
+
+		// CHECK 1: VERIFICANDO SE A EQUIPE ESTÁ DISPONÍVEL NESSE HORÁRIO
+
+		// CHECK 2: VERIFICANDO SE EXISTE ALGUMA EQUIPE TRABALHANDO NESTA SSE ESTE HORÁRIO
+
+		// CHECK 3: VERIFICANDO SE A EQUIPE JÁ EXECUTOU TAREFA NESTA SSE E NÃO É UM RETRABALHO.
 		
 		// Begin transaction
 		$this->db->beginTransaction();
@@ -1080,25 +1086,64 @@
 		// :::::::::OPERAÇÕES DE DB ::::::::
 		$this->db->beginTransaction();
 
-		// Atualizando SSE (tipo_de_servico_r, status)
-		$sql = 'UPDATE maxse_sses SET status=sseStatus("PENDENTE") where id=:id_sse';
-		$stmt = $this->db->prepare($sql);
-		try {
-			$stmt->execute(
-				array(
-					':id_sse' => $tarefa->sse->id
-				)
-			);
-		} catch (Exception $e) {
-			
-			// Falhou! Rollback
-			$this->db->rollback();
+		// Verificando se a SSE está com retrabalho em aberto
+		$sql = 'SELECT
+					(!isnull(ini_retrabalho) AND isnull(fim_retrabalho)) as eRetrabalho
+				FROM
+					maxse_sses
+				WHERE 
+					id=:id_sse';
 
-			// Retornando erro para usuário
-			return $res
-			->withStatus(500)
-			->write('Falha ao tentar atualizar SSE: '.$e->getMessage());
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_sse' => $tarefa->sse->id
+			)
+		);
+		$eRetrabalho = ($stmt->fetch()->eRetrabalho == 1);
+
+		// Atualizando SSE (tipo_de_servico_r, status)
+		if (ehRetrabalho) {
+			$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA"), fim_retrabalho=:fim_retrabalho WHERE id=:id_sse';
+			$stmt = $this->db->prepare($sql);
+			try {
+				$stmt->execute(
+					array(
+						':id_sse' => $tarefa->sse->id,
+						':fim_retrabalho' => str_replace('Z','',str_replace('T',' ',$tarefa->final_r))
+					)
+				);
+			} catch (Exception $e) {
+				
+				// Falhou! Rollback
+				$this->db->rollback();
+
+				// Retornando erro para usuário
+				return $res
+				->withStatus(500)
+				->write('Falha ao tentar atualizar SSE (RETRABALHO): '.$e->getMessage());
+			}
+		} else {
+			$sql = 'UPDATE maxse_sses SET status=sseStatus("PENDENTE") WHERE id=:id_sse';
+			$stmt = $this->db->prepare($sql);
+			try {
+				$stmt->execute(
+					array(
+						':id_sse' => $tarefa->sse->id
+					)
+				);
+			} catch (Exception $e) {
+				
+				// Falhou! Rollback
+				$this->db->rollback();
+
+				// Retornando erro para usuário
+				return $res
+				->withStatus(500)
+				->write('Falha ao tentar atualizar SSE: '.$e->getMessage());
+			}
 		}
+		
 		
 		// Levantando o gasto com matéria prima
 		$sql = 'SELECT
