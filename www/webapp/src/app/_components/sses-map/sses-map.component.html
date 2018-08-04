@@ -14,7 +14,8 @@
 			<div class="endereco">{{sse?.endereco}}</div>
 			<div>RG{{sse?.tipoDeServico?.codigo}} - {{sse?.tipoDeServico?.descricao}}</div>
 			<div class="status">{{sse?.statusMessage}}</div>
-			<div class="prazo">Prazo de entrega: {{sse?.prazoFinal?.toLocaleDateString()}}</div>
+			<div class="prazo">Data de Recebimento: {{sse?.dh_recebido?.toLocaleDateString()}}</div>
+			<div class="prazo">Prazo de Conclusão: {{sse?.prazoFinal?.toLocaleDateString()}}</div>
 			<div>
 				Equipe Atual: {{ sse.equipe ? ' [' + sse.equipe.sigla + '] - ' + sse.equipe.nome : ' NENHUMA'}}
 			</div>

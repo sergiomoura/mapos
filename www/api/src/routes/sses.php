@@ -357,7 +357,7 @@
 			$prazo_final = new DateTime(substr($sse->dh_recebido,0,10));
 		} else {
 			// Não é urgência
-			$n_dias = floor($sse->tipoDeServico->prazo) + 1;
+			$n_dias = floor($sse->tipoDeServico->prazo);
 			$dh_recebido = new DateTime(substr($sse->dh_recebido,0,10));
 			$dia_da_semana = $dh_recebido->format('N');
 			if($dia_da_semana + $n_dias >=7){
@@ -571,7 +571,7 @@
 			$prazo_final = new DateTime(substr($sse->dh_recebido,0,10));
 		} else {
 			// Não é urgência
-			$n_dias = floor($sse->tipoDeServico->prazo) + 1;
+			$n_dias = floor($sse->tipoDeServico->prazo);
 			$dh_recebido = new DateTime(substr($sse->dh_recebido,0,10));
 			$dia_da_semana = $dh_recebido->format('N');
 			if($dia_da_semana + $n_dias >=7){
