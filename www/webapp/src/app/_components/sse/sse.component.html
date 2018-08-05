@@ -38,7 +38,7 @@
 		</div>
 
 		<mat-form-field>
-			<mat-select required (selectionChange)="onTipoDeServicoChange()" name="tds" [(ngModel)]="sse.tipoDeServico" placeholder="Solicitação">
+			<mat-select required (selectionChange)="onTipoDeServicoChange()" name="tds" [(ngModel)]="sse.tipoDeServicoPrev" placeholder="Solicitação">
 				<mat-option [value]="tds" *ngFor="let tds of tdss">RG{{tds.codigo}} - {{tds.descricao}}</mat-option>
 			</mat-select>
 		</mat-form-field>
@@ -65,44 +65,95 @@
 			<textarea name="obs" [(ngModel)]="sse.obs" matInput placeholder="Observações"></textarea>
 		</mat-form-field>
 
-		<div class="medidas">
-			<div class="label">Medidas
-				<button mat-icon-button (click)="onAddMedidaClick()">
-					<mat-icon>add</mat-icon>
-				</button>
-			</div>
-			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='a'">
-				<div class="medida" *ngFor="let m of sse.medidas_area;let i=index">
-					<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_al_{{i}}" step="0.01" [(ngModel)]="m.l"> x
-					<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_ac_{{i}}" step="0.01" [(ngModel)]="m.c"> m²
-					<button color="warn" *ngIf="sse.medidas_area.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
-						<mat-icon>remove_circle</mat-icon>
+		<div class="container-medidas">
+			<div class="medidas previstas">
+				<div class="label">Medidas Previstas
+					<button mat-icon-button (click)="onAddMedidaClick()">
+						<mat-icon>add</mat-icon>
 					</button>
 				</div>
-			</div>
-			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='l'">
-				<div class="medida" *ngFor="let m of sse.medidas_linear;let i=index">
-					<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_l_{{i}}" step="0.01" [(ngModel)]="m.v"> m
-					<button color="warn" *ngIf="sse.medidas_linear.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
-						<mat-icon>remove_circle</mat-icon>
-					</button>
+				<div class="medidas-container" *ngIf="sse.tipoDeServicoPrev?.medida=='a'">
+					<div class="medida" *ngFor="let m of sse.medidas_area.prev;let i=index">
+						<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_al_{{i}}_p" step="0.01" [(ngModel)]="m.l"> x
+						<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_ac_{{i}}_p" step="0.01" [(ngModel)]="m.c"> m²
+						<button color="warn" *ngIf="sse.medidas_area.prev.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
+							<mat-icon>remove_circle</mat-icon>
+						</button>
+					</div>
 				</div>
-			</div>
-			<div class="medidas-container" *ngIf="sse.tipoDeServico?.medida=='u'">
-				<div class="medida" *ngFor="let m of sse.medidas_unidades;let i=index">
-					<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_u_{{i}}" step="1"
-					 [(ngModel)]="m.n"> unid
-					<button color="warn" *ngIf="sse.medidas_unidades.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
-						<mat-icon>remove_circle</mat-icon>
-					</button>
+				<div class="medidas-container" *ngIf="sse.tipoDeServicoPrev?.medida=='l'">
+					<div class="medida" *ngFor="let m of sse.medidas_linear.prev;let i=index">
+						<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_l_{{i}}_p" step="0.01" [(ngModel)]="m.v"> m
+						<button color="warn" *ngIf="sse.medidas_linear.prev.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
+							<mat-icon>remove_circle</mat-icon>
+						</button>
+					</div>
 				</div>
-			</div>
+				<div class="medidas-container" *ngIf="sse.tipoDeServicoPrev?.medida=='u'">
+					<div class="medida" *ngFor="let m of sse.medidas_unidades.prev;let i=index">
+						<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_u_{{i}}_p" step="1"
+						 [(ngModel)]="m.n"> unid
+						<button color="warn" *ngIf="sse.medidas_unidades.prev.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
+							<mat-icon>remove_circle</mat-icon>
+						</button>
+					</div>
+				</div>
 
+				<mat-form-field>
+					<mat-select required (selectionChange)="onTipoDeServicoChange()" name="tds2" [(ngModel)]="sse.tipoDeServicoPrev" placeholder="Tipo de Serviço Previsto">
+						<mat-option [value]="tds" *ngFor="let tds of tdss">RG{{tds.codigo}} - {{tds.descricao}}</mat-option>
+					</mat-select>
+				</mat-form-field>
+	
+				<mat-form-field>
+					<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Previsto" [(ngModel)]="medidaTotal">
+				</mat-form-field>
+			</div>
+			<div class="medidas realizadas">
+					<div class="label">Medidas Realizadas
+						<button mat-icon-button (click)="onAddMedidaClick()">
+							<mat-icon>add</mat-icon>
+						</button>
+					</div>
+					<div class="medidas-container" *ngIf="sse.tipoDeServicoReal?.medida=='a'">
+						<div class="medida" *ngFor="let m of sse.medidas_area.real;let i=index">
+							<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_al_{{i}}_p" step="0.01" [(ngModel)]="m.l"> x
+							<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_ac_{{i}}_p" step="0.01" [(ngModel)]="m.c"> m²
+							<button color="warn" *ngIf="sse.medidas_area.real.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
+								<mat-icon>remove_circle</mat-icon>
+							</button>
+						</div>
+					</div>
+					<div class="medidas-container" *ngIf="sse.tipoDeServicoReal?.medida=='l'">
+						<div class="medida" *ngFor="let m of sse.medidas_linear.real;let i=index">
+							<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_l_{{i}}_p" step="0.01" [(ngModel)]="m.v"> m
+							<button color="warn" *ngIf="sse.medidas_linear.real.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
+								<mat-icon>remove_circle</mat-icon>
+							</button>
+						</div>
+					</div>
+					<div class="medidas-container" *ngIf="sse.tipoDeServicoReal?.medida=='u'">
+						<div class="medida" *ngFor="let m of sse.medidas_unidades.real;let i=index">
+							<input required (keyup)="onInputMedidaChange()" (click)="onInputMedidaChange()" type="number" name="medida_u_{{i}}_p" step="1"
+								[(ngModel)]="m.n"> unid
+							<button color="warn" *ngIf="sse.medidas_unidades.real.length>1" mat-icon-button (click)="onRemoveMedidaClick(i)">
+								<mat-icon>remove_circle</mat-icon>
+							</button>
+						</div>
+					</div>
+
+					<mat-form-field>
+						<mat-select required (selectionChange)="onTipoDeServicoChange()" name="tds2" [(ngModel)]="sse.tipoDeServicoReal" placeholder="Tipo de Serviço Realizado">
+							<mat-option [value]="tds" *ngFor="let tds of tdss">RG{{tds.codigo}} - {{tds.descricao}}</mat-option>
+						</mat-select>
+					</mat-form-field>
+		
+					<mat-form-field>
+						<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Previsto" [(ngModel)]="medidaTotal">
+					</mat-form-field>
+			</div>
 		</div>
 
-		<mat-form-field>
-			<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total" [(ngModel)]="medidaTotal">
-		</mat-form-field>
 
 		<div class="controles">
 			<button mat-raised-button disabled color="accent">Cancelar</button>

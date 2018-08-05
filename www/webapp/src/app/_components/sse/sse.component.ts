@@ -246,12 +246,26 @@ export class SseComponent implements OnInit {
 			this.timestring = this.sseResponse.dh_recebido.toTimeString().substr(0, 2)
 				+ ':' +
 				this.sseResponse.dh_recebido.toTimeString().substr(3, 2);
-			this.sseResponse.tipoDeServico = this.tdss.find(
+			
+			// Parsing tipo de servico previsto
+			this.sseResponse.tipoDeServicoPrev = this.tdss.find(
 				(t) => {
-					return 1 * t.id == 1 * this.sseResponse.id_tipo_de_servico
+					return 1 * t.id == 1 * this.sseResponse.id_tipo_de_servico_p
 				}
 			);
-			delete this.sseResponse.id_tipo_de_servico;
+			delete this.sseResponse.id_tipo_de_servico_p;
+			
+			// Parsing tipo de serviço real
+			if(this.sseResponse.id_tipo_de_servico_r) {
+				this.sseResponse.tipoDeServicoReal = this.tdss.find(
+					(t) => {
+						return 1 * t.id == 1 * this.sseResponse.id_tipo_de_servico_r
+					}
+				);
+			} else {
+				this.sseResponse.tipoDeServicoReal = null;
+			}
+			delete this.sseResponse.id_tipo_de_servico_r
 
 			// Procurando a domasa do bairro
 			let i: number = 0;

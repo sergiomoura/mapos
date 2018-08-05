@@ -13,14 +13,24 @@ export class SSE{
 	endereco:string;
 	numero:string;
 	bairro:Bairro;
-	tipoDeServico:TipoDeServico;
+	tipoDeServicoReal:TipoDeServico;
+	tipoDeServicoPrev:TipoDeServico;
 	dh_registrado:Date;
 	dh_recebido:Date;
 	obs:string;
 	urgencia:NiveisDeUrgencia;
-	medidas_area:any[];	
-	medidas_linear:any[];
-	medidas_unidades:any[];
+	medidas_area:{
+		'prev':any[];
+		'real':any[];
+	};	
+	medidas_linear:{
+		'prev':any[];
+		'real':any[];
+	};
+	medidas_unidades:{
+		'prev':any[];
+		'real':any[];
+	};
 	foto:SafeUrl;
 	lat:number;
 	lng:number;
