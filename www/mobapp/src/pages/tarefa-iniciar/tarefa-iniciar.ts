@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Events } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Events, Content } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
@@ -25,10 +25,13 @@ export class TarefaIniciarPage {
 		divergente:false
 	};
 
+	@ViewChild(Content) content: Content;
+
 	tiposDeServico: TipoDeServico[];
 	executarComAutorizacao: boolean = undefined;
 	showDivergenteBox:boolean = false;
-	medidasTravadas = true;
+	medidasTravadas:boolean = true;
+	autorizadaPorTravado:boolean = false;
 
 	constructor(
 		public navCtrl: NavController,
@@ -80,10 +83,16 @@ export class TarefaIniciarPage {
 
 				// Atribuindo a propriedade pública tarefa
 				this.tarefa = tmp;
-
+				
 				// Travando medidas caso não seja a primeira tarefa. Destravando caso contrário
 				this.medidasTravadas = !this.tarefa.primeira;
 				
+				// Se a tarefa JÁ ESTIVER autorizada, O AUTORIZADA POR aparece travado e 
+				if(this.tarefa.autorizadaPor){
+					this.autorizadaPorTravado = true;
+					this.executarComAutorizacao = true;
+					this.medidasTravadas = true;
+				}
 
 				// Calculando divergência da tarefa();
 				this.tarefa.divergente = (this.tarefa.divergente == "1");
@@ -378,16 +387,7 @@ export class TarefaIniciarPage {
 		this.tarefa.divergente = this.temDivergencia();
 		if(this.tarefa.divergente){
 			this.showDivergenteBox = true;
-			window.scroll(
-				{
-					top:0	
-				}
-			)
-			window.scrollTo(
-				{
-					top:0,
-				}
-			)
+			this.content.scrollToTop();
 			return;
 		}
 

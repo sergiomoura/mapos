@@ -390,6 +390,40 @@ export class SsesMapComponent implements OnInit {
 		);
 	}
 
+	onAutorizarClick(id_sse){
+		let autorizadaPor:string = window.prompt("Quem está autorizando a tarefa?").trim();
+		if(autorizadaPor){
+			this.ssesService.setAutorizada(id_sse,autorizadaPor).subscribe(
+				res => {
+					// Recarregando sses
+					this.getSses();
+					
+					// Exibindo snackbar de sucesso
+					this.snackBar.open(
+						'SSE Autorizada com sucesso ',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
+				},
+				err => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao autorizar a SSE',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+				}
+			)
+		}
+	}
+
 	onFinalizarClick(sse){
 		const dialogRef = this.dialog.open(FinalizarSseComponent, {
 			width: '400px',

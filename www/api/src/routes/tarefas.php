@@ -1132,6 +1132,13 @@
 		// :::::::::OPERAÇÕES DE DB ::::::::
 		$this->db->beginTransaction();
 
+		// Verificando se a SSE tem alguma outra tarefa agendada além desta
+		$sql = 'SELECT count(*) as n FROM maxse_tarefas WHERE final_r IS NULL AND id_sse=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $tarefa->sse->id));
+		$n = $stmt->fetch()->n;
+		$temOutroAgendamento = ($n>1);
+
 		// Verificando se a SSE está com retrabalho em aberto
 		$sql = 'SELECT
 					(!isnull(ini_retrabalho) AND isnull(fim_retrabalho)) as eRetrabalho
@@ -1141,15 +1148,30 @@
 					id=:id_sse';
 
 		$stmt = $this->db->prepare($sql);
-		$stmt->execute(
-			array(
-				':id_sse' => $tarefa->sse->id
-			)
-		);
+		$stmt->execute(array(':id_sse' => $tarefa->sse->id));
 		$eRetrabalho = ($stmt->fetch()->eRetrabalho == 1);
 
 		// Atualizando SSE (tipo_de_servico_r, status)
-		if (ehRetrabalho) {
+		if($temOutroAgendamento) {
+			$sql = 'UPDATE maxse_sses SET status=sseStatus("AGENDADA") WHERE id=:id_sse';
+			$stmt = $this->db->prepare($sql);
+			try {
+				$stmt->execute(
+					array(
+						':id_sse' => $tarefa->sse->id
+					)
+				);
+			} catch (Exception $e) {
+				
+				// Falhou! Rollback
+				$this->db->rollback();
+
+				// Retornando erro para usuário
+				return $res
+				->withStatus(500)
+				->write('Falha ao tentar atualizar SSE (NOVO AGENDAMENTO): '.$e->getMessage());
+			}
+		} elseif ($eRetrabalho) {
 			$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA"), fim_retrabalho=:fim_retrabalho WHERE id=:id_sse';
 			$stmt = $this->db->prepare($sql);
 			try {
@@ -1189,7 +1211,6 @@
 				->write('Falha ao tentar atualizar SSE: '.$e->getMessage());
 			}
 		}
-		
 		
 		// Levantando o gasto com matéria prima
 		$sql = 'SELECT

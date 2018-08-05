@@ -1059,6 +1059,46 @@
 		->withHeader('Content-Type','application/json');
 	});
 
+	$app->patch($api_root.'/sses/{id_sse}/setAutorizada', function(Request $req, Response $res, $args = []){
+		
+		// Lendo o conteúdo do body
+		$dados = json_decode($req->getBody()->getContents());
+
+		// Verificando se a sse tem mais de uma tarefa divergente. NÃO É PRA TER NUNCA, mais só pra garantir.
+		$sql = 'SELECT count(*) as n FROM maxse_tarefas WHERE id_sse=:id_sse AND divergente=1';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $dados->id_sse));
+		if($stmt->fetch()->n > 1){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('SSE está com mais de uma tarefa divergente!');
+		}
+
+		// Começando transação
+		$this->db->beginTransaction();
+
+		// Autorizando na tarefa
+		$sql = 'UPDATE maxse_tarefas SET autorizadaPor=:autorizadaPor WHERE id_sse=:id_sse AND divergente=1';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':autorizadaPor' => $dados->autorizadaPor,
+				':id_sse' => $dados->id_sse,
+
+			)
+		);
+
+		// Alterando a sse para o status adequado
+		$sql = 'UPDATE maxse_sses SET status=sseStatus("AGENDADA") WHERE id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $dados->id_sse));
+		
+		// Se chegou até aqui, commita
+		$this->db->commit();
+
+	});
+
 	$app->patch($api_root.'/sses/{id_sse}/reabrir', function(Request $req, Response $res, $args = []){
 
 		/**

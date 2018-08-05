@@ -83,7 +83,7 @@ export class NovaTarefaComponent implements OnInit {
 					if(err == 'Gone'){
 						msg = 'Equipe já está agendada para este horário.'
 					} else if(err = 'Request Entity Too Large') {
-						msg = 'Equipe já está tem ou teve um agendamento para esta SSE.'
+						msg = 'Equipe já tem ou teve um agendamento para esta SSE.'
 					} else {
 					 	msg = 'Falha ao agendar a SSE para a equipe.'
 					}

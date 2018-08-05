@@ -105,4 +105,9 @@ export class SsesService {
 	reabrir(id_sse:number):Observable<any>{
 		return this.http.patch(this.url_getSses + '/' + id_sse + '/reabrir','');
 	}
+
+	setAutorizada(id_sse:number, autorizadaPor:string){
+		let dados:{id_sse:number,autorizadaPor:string} = {id_sse:id_sse,autorizadaPor:autorizadaPor};
+		return this.http.patch(this.url_getSses + '/' + id_sse + '/setAutorizada',dados);
+	}
 }
