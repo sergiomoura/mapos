@@ -28,8 +28,15 @@
 	padding: 20px 0 20px 0;
 	margin-top: 20px;
 	border-top: 1px solid #CCC;
-	table{
+	.tb-resultados{
 		border-collapse: collapse;
+		thead > tr > td {
+			background-color: #212121;
+			color:#FFF;
+		}
+		tbody td:nth-child(6) {
+			text-align: left;
+		}
 		td {
 			padding: 3px 5px;
 			border: 1px solid #000;
