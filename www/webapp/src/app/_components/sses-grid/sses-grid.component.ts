@@ -10,6 +10,7 @@ import { Equipe } from "../../_models/equipe";
 import { TiposDeServicoService } from "../../_services/tipos-de-servico.service";
 import { EquipesService } from "../../_services/equipes.service";
 import { DomasasService } from '../../_services/domasas.service';
+import { format, addYears, isBefore, differenceInDays} from 'date-fns';
 
 @Component({
 	selector: 'app-sses',
@@ -24,7 +25,7 @@ export class SsesGridComponent implements OnInit {
 	bairros:Bairro[];
 	busca:Busca = {
 		equipes : [],
-		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
+		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE','FINALIZADA'],
 		prioridades: [0,1,2],
 		agendadas_de: undefined,
 		agendadas_ate: undefined,
@@ -197,44 +198,127 @@ export class SsesGridComponent implements OnInit {
 				// Determinando o prazo final
 				sse.prazoFinal = new Date(sse.prazo_final+'T00:00:00');
 				
-				// Determinando o tempo restante
-				sse.tempoRestante = (sse.prazoFinal.getTime() - (new Date()).getTime())/1000;
-	
-				// Determinando o nome do arquivo marker
-				switch (+sse.status) {
-					case -100:
-						sse.statusMessage = 'Cancelada';
+				// Calculando o total das medidas previstas
+				sse.total_prev = 0;
+				sse.unid_prev = '';
+				switch (sse.tipoDeServicoPrev.medida) {
+					case 'a':
+						for (let i = 0; i < sse.medidas_area.prev.length; i++) {
+							const m = sse.medidas_area.prev[i];
+							sse.total_prev += m.l * m.c;
+						}
+						sse.unid_prev = 'm²';
+						break;
+					
+					case 'l':
+						for (let i = 0; i < sse.medidas_linear.prev.length; i++) {
+							const m = sse.medidas_linear.prev[i];
+							sse.total_prev += (1*m.v);
+						}
+						sse.unid_prev = 'm';
+						break;
+					
+					case 'u':
+						for (let i = 0; i < sse.medidas_unidades.prev.length; i++) {
+							const m = sse.medidas_unidades.prev[i];
+							sse.total_prev += (1*m.n);
+						}
+						sse.unid_prev = 'unid';
 						break;
 
-					case -2:
-						sse.statusMessage = 'Retrabalho';
-						break;
-
-					case -1:
-						sse.statusMessage = 'Divergente';
-						break;
-					
-					case 0:
-						sse.statusMessage = 'Cadastrada';
-						break;
-	
-					case 1:
-						sse.statusMessage = 'Agendada';
-						break;
-					
-					case 2:
-						sse.statusMessage = 'Executando';
-						break;
-					
-					case 3:
-						sse.statusMessage = 'Pendente';
-						break;
-					
-					case 100:
-						sse.statusMessage = 'Finalizada';
+					default:
 						break;
 				}
+
+				// Calculando o total das medidas reais
+				if(sse.tipoDeServicoReal) {
+					sse.total_real = 0;
+					sse.unid_real = '';
+					switch (sse.tipoDeServicoReal.medida) {
+						case 'a':
+							for (let i = 0; i < sse.medidas_area.real.length; i++) {
+								const m = sse.medidas_area.real[i];
+								sse.total_real += m.l * m.c;
+							}
+							sse.unid_real = 'm²';
+							break;
+						
+						case 'l':
+							for (let i = 0; i < sse.medidas_linear.real.length; i++) {
+								const m = sse.medidas_linear.real[i];
+								sse.total_real += (1*m.v);
+							}
+							sse.unid_real = 'm';
+							break;
+						
+						case 'u':
+							for (let i = 0; i < sse.medidas_unidades.real.length; i++) {
+								const m = sse.medidas_unidades.real[i];
+								sse.total_real += (1*m.n);
+							}
+							sse.unid_real = 'unid';
+							break;
+	
+						default:
+							break;
+					}
+				} else {
+					sse.total_real = '';
+					sse.unid_real = '';
+				}
+
+				// Calculando dif_medidas
+				sse.dif_medidas = sse.total_real == '' ? '' : (Math.round( (sse.total_prev - sse.total_real) *10000)/10000);
+
+				// Calculando se label divergencia
+				if(sse.dif_medidas === ''){
+					sse.label_divergencia = '';
+				} else if (+sse.dif_medidas === 0){
+					sse.label_divergencia = 'Não';
+				} else {
+					sse.label_divergencia = 'Sim';
+				}
+
+				// Calculando label dif tipo de servico
+				if (!sse.tipoDeServicoReal) {
+					sse.label_dif_tds = ''
+				} else if(sse.tipoDeServicoReal.id != sse.tipoDeServicoPrev.id) {
+					sse.label_dif_tds = 'Sim'
+				} else {
+					sse.label_dif_tds = 'Não'
+				}
+
+				// Calculando label urgencia
+				sse.label_urgencia = (sse.urgencia == 0 ? 'Normal' : (sse.urgencia == 1 ? 'Prioridade' : 'Urgência'));
+
+				// Calculando a data da devolução e label_data_devolução				
+				if(sse.data_devolucao){
+					sse.dataDevolucao = new Date(sse.data_devolucao+'T00:00:00');
+					sse.label_data_devolucao = format(sse.dataDevolucao,'DD/MM/YYYY');
+				} else {
+					sse.dataDevolucao = null;
+					sse.label_data_devolucao = '' 
+				}
+
+				// Calculando data limite de garantia
+				if(sse.dataDevolucao){
+					sse.dlGarantia = addYears(sse.dataDevolucao,1);
+					sse.label_dl_garantia = format(sse.dlGarantia,'DD/MM/YYYY');
+					sse.label_em_garantia = isBefore(new Date(),sse.dlGarantia) ? 'Sim' : 'Não';
+				} else {
+					sse.dlGarantia = null;
+					sse.label_dl_garantia = '';
+					sse.label_em_garantia = '';
+				}
+
+				// Calculando cálculo de execução dataDevolucao - prazoFinal
+				if(sse.dataDevolucao){
+					sse.calc_exec = differenceInDays(sse.dataDevolucao,sse.prazoFinal);
+				} else {
+					sse.calc_exec = '';
+				}
 				
+					
 				// parsing equipes e apoios das tarefas 
 				for (let i = 0; i < sse.tarefas.length; i++) {
 					

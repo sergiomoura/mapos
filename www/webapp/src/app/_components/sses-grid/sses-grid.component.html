@@ -85,8 +85,8 @@
 				<td>Classificação (Alteração)</td>
 				<td>Prioridade</td>
 				<td>DL Execução</td>
-				<td>DL Garantia</td>
 				<td>Data Devolução</td>
+				<td>DL Garantia</td>
 				<td>Em Garantia?</td>
 				<td>Cálculo Execução</td>
 				<td>Valor da SSE</td>
@@ -103,21 +103,21 @@
 				<td>{{sse.bairro?.codigo}}</td>
 				<td>{{sse.bairro?.nome}}</td>
 				<td>{{sse.obs}}</td>
-				<td>Tot Medidas Prev</td>
-				<td>Tot Medidas Real</td>
-				<td>Dif. Medidas</td>
-				<td>Divergência?</td>
+				<td>{{sse.total_prev}} {{sse.unid_prev}}</td>
+				<td>{{sse.total_real}} {{sse.unid_real}}</td>
+				<td>{{sse.dif_medidas}}</td>
+				<td>{{sse.label_divergencia}}</td>
 				<td>{{sse.tipoDeServicoPrev?.codigo}}</td>
 				<td>{{sse.tipoDeServicoReal?.codigo}}</td>
-				<td>{{sse.tipoDeServicoPrev?.id != sse.tipoDeServicoReal?.id ? 'Sim' : 'Não'}}</td>
+				<td>{{sse.label_dif_tds}}</td>
 				<td>Classificação</td>
 				<td>Classificação (Alteração)</td>
-				<td>{{sse.urgencia == 0 ? 'Normal' : (sse.urgencia == 1 ? 'Prioridade' : 'Urgência')}}</td>
+				<td>{{sse.label_urgencia}}</td>
 				<td>{{sse.prazoFinal | date:'dd/MM/yyyy'}}</td>
-				<td>DL Garantia</td>
-				<td>{{sse.data_devolucao}}</td>
-				<td>Em Garantia?</td>
-				<td>Cálculo Execução</td>
+				<td>{{sse.label_data_devolucao}}</td>
+				<td>{{sse.label_dl_garantia}}</td>
+				<td>{{sse.label_em_garantia}}</td>
+				<td>{{sse.calc_exec}}</td>
 				<td>{{sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
 			</tr>
 			<tr>

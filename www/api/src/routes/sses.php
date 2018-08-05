@@ -161,6 +161,96 @@
 			}
 		}
 
+		// Para cada SSE, recuperando as medidas de área previstas
+		$sql = 'SELECT
+					l,c
+				FROM
+					maxse_medidas_area
+				WHERE
+					id_sse=:id_sse AND tipo="p"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$sse->medidas_area = new stdClass();
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_area->prev = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas de área realizadas
+		$sql = 'SELECT
+					l,c
+				FROM
+					maxse_medidas_area
+				WHERE
+					id_sse=:id_sse AND tipo="r"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_area->real = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas lineares previstas
+		$sql = 'SELECT
+					v
+				FROM
+					maxse_medidas_linear
+				WHERE
+					id_sse=:id_sse AND tipo="p"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$sse->medidas_linear = new stdClass();
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_linear->prev = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas lineares realizadas
+		$sql = 'SELECT
+					v
+				FROM
+					maxse_medidas_linear
+				WHERE
+					id_sse=:id_sse AND tipo="r"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_linear->real = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas unitarias previstas
+		$sql = 'SELECT
+					n
+				FROM
+					maxse_medidas_unidades
+				WHERE
+					id_sse=:id_sse AND tipo="p"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$sse->medidas_unidades = new stdClass();
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_unidades->prev = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas unitarias realizadas
+		$sql = 'SELECT
+					n
+				FROM
+					maxse_medidas_unidades
+				WHERE
+					id_sse=:id_sse AND tipo="r"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_unidades->real = $stmt->fetchAll();
+		}
+
+
+		
+
 		// Retornando resposta para usuário
 		return $res
 		->withStatus(200)
