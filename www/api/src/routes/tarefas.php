@@ -97,7 +97,6 @@
 			}
 		}
 
-
 		// Recuperando tarefa da base de dados
 		$sql = 'SELECT
 					id,
@@ -109,7 +108,9 @@
 					final_p,
 					final_r,
 					divergente,
-					autorizadaPor
+					autorizadaPor,
+					obs_ini,
+					obs_fim
 				FROM maxse_tarefas
 				WHERE id=:id';
 		$stmt = $this->db->prepare($sql);
@@ -640,7 +641,7 @@
 			->withStatus(410)
 			->write('Tarefa está cancelada ou não está autorizada para esta equipe');
 		}
-		
+
 		// :::::::: OPERAÇÕES DE FS ::::::::
 		
 		// RENOMEANDO FOTOS ANTIGAS
@@ -824,8 +825,8 @@
 				->write('Tipo de medida desconhecido');
 		}
 		
-		// Atualizando tarefa (inicio_r, divergente)
-		$sql = 'UPDATE maxse_tarefas SET inicio_r=:inicio_r, divergente=:divergente, autorizadaPor=:autorizadaPor WHERE id=:id_tarefa';
+		// Atualizando tarefa (inicio_r, divergente, obs)
+		$sql = 'UPDATE maxse_tarefas SET inicio_r=:inicio_r, divergente=:divergente, autorizadaPor=:autorizadaPor, obs_ini=:obs_ini WHERE id=:id_tarefa';
 		$stmt = $this->db->prepare($sql);
 		try {
 			$stmt->execute(
@@ -833,7 +834,9 @@
 					':inicio_r' => str_replace('Z','',str_replace('T',' ',$tarefa->inicio_r)),
 					':divergente' => $tarefa->divergente ? 1 : 0,
 					':autorizadaPor' => $tarefa->autorizadaPor,
+					':obs_ini' => $tarefa->obs_ini,
 					':id_tarefa' => $tarefa->id
+
 				)
 			);	
 		} catch (Exception $e) {

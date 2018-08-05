@@ -149,6 +149,11 @@
 				</div>
 			</div>
 		</div>
+
+		<ion-item>
+			<ion-label floating>Observações:</ion-label>
+			<ion-input required [(ngModel)]="tarefa.obs_ini" name="obs_ini" [disabled]="autorizadaPorTravado"></ion-input>
+		</ion-item>
 	</form>
 
 	<div class="container-fotos">
