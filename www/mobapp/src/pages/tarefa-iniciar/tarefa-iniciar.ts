@@ -8,6 +8,7 @@ import { TipoDeServico } from '../../_models/tipoDeServico';
 import { AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { format } from "date-fns";
+import { TarefasPage } from '../tarefas/tarefas';
 
 @IonicPage()
 @Component({
@@ -379,6 +380,11 @@ export class TarefaIniciarPage {
 
 	onExecutarComAutorizacaoClick(){
 		this.tarefa.inicio_r = format(new Date(), 'YYYY-MM-DDTHH:mm:ss');
+	}
+
+	onBackClick(){
+		console.log('Clicou no back');
+		console.dir(this.navCtrl.parent.parent._root);
 	}
 
 	onSalvarClick() {

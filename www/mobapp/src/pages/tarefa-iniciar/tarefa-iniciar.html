@@ -1,7 +1,16 @@
 <ion-header>
-	<ion-navbar color="primary">
-		<ion-title>Início de Exec. SSE {{tarefa?.sse?.numero}}</ion-title>
+	<ion-navbar	color="primary">
+		
+		<ion-title>
+			Iniciar SSE {{tarefa?.sse?.numero}}</ion-title>
 		<ion-buttons end>
+			
+			<button
+				ion-button
+				icon-only
+				(click)="onBackClick()">
+					<ion-icon name="arrow-back"></ion-icon>
+			</button>
 			<!-- BOTÃO QUE SALVA TAREFAS DIVERGENTES-->
 			<button
 				*ngIf="tarefa.divergente"

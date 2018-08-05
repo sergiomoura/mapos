@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { Storage } from "@ionic/storage";
-import { TarefasProvider } from "../../providers/tarefas/tarefas";
 
 @IonicPage()
 @Component({
