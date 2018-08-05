@@ -11,7 +11,6 @@
 	</div>
 </ion-header>
 
-
 <ion-content padding>
 	<form #form="ngForm">
 		<ion-item>
@@ -22,6 +21,11 @@
 		<ion-item>
 			<ion-label floating>Hora da Conclusão (Realizado)</ion-label>
 			<ion-datetime required name="hora" [min]="tarefa.inicio_r" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.final_r" ></ion-datetime>
+		</ion-item>
+
+		<ion-item>
+			<ion-label floating>Observações:</ion-label>
+			<ion-input required [(ngModel)]="tarefa.obs_fim" name="obs_fim"></ion-input>
 		</ion-item>
 	</form>
 

@@ -1065,14 +1065,15 @@
 		}
 		
 		// Atualizando tarefa (inicio_r, divergente)
-		$sql = 'UPDATE maxse_tarefas SET inicio_r=NULL, divergente=1, inicio_r=:inicio_r, autorizadaPor=:autorizadaPor WHERE id=:id_tarefa';
+		$sql = 'UPDATE maxse_tarefas SET inicio_r=NULL, divergente=1, inicio_r=:inicio_r, autorizadaPor=:autorizadaPor, obs_ini=:obs_ini WHERE id=:id_tarefa';
 		$stmt = $this->db->prepare($sql);
 		try {
 			$stmt->execute(
 				array(
 					':id_tarefa' => $tarefa->id,
 					':autorizadaPor' => $tarefa->autorizadaPor,
-					':inicio_r' => ($temAutorizacao ? date('Y-m-d H:i:s') : null)
+					':inicio_r' => ($temAutorizacao ? date('Y-m-d H:i:s') : null),
+					':obs_ini' => $tarefa->obs_ini
 				)
 			);	
 		} catch (Exception $e) {
@@ -1340,12 +1341,13 @@
 		}
 
 		// Atualizando tarefa (inicio_r, divergente)
-		$sql = 'UPDATE maxse_tarefas SET final_r=:final_r WHERE id=:id_tarefa';
+		$sql = 'UPDATE maxse_tarefas SET final_r=:final_r, obs_fim=:obs_fim WHERE id=:id_tarefa';
 		$stmt = $this->db->prepare($sql);
 		try {
 			$stmt->execute(
 				array(
 					':final_r' => str_replace('Z','',str_replace('T',' ',$tarefa->final_r)),
+					':obs_fim' => $tarefa->obs_fim,
 					':id_tarefa' => $tarefa->id
 				)
 			);	
