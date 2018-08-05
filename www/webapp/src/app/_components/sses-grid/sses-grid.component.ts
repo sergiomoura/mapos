@@ -382,7 +382,15 @@ export class SsesGridComponent implements OnInit {
 	
 	onSseButtonClick(id){
 		this.router.navigateByUrl('/home/sse/' + id);
-	}	
+	}
+
+	onNovaSSEButtonClick(){
+		this.router.navigateByUrl('home/sse/0');
+	}
+
+	onMapButtonClick(){
+		this.router.navigateByUrl('home/sses/map');
+	}
 
 	private parseSsesResponse(res):SSE[]{
 		for (let i = 0; i < res.length; i++) {

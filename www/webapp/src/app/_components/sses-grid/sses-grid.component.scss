@@ -47,3 +47,20 @@
 		}
 	}
 }
+
+mat-toolbar {
+	background-color: rgba(0,0,0,0.5);
+	box-shadow: -2px 3px 7px rgba(0,0,0,0.3);
+	button {
+		background-color: transparent;
+		border: none;
+		cursor: pointer;
+		position: relative;
+		top: 8px;
+		color: #E0E0E0;
+		outline: none;
+		&:hover{
+			color:#FFF;
+		}
+	}
+}
