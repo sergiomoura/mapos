@@ -5,6 +5,7 @@ import { SsesService } from "../../_services/sses.service";
 
 export interface DialogData {
 	id_sse: number;
+	data_conclusao: Date;
 }
 
 @Component({
@@ -16,13 +17,15 @@ export class FinalizarSseComponent implements OnInit {
 
 	tipoDeFinalizacao:string = 'total';
 	data_devolucao:Date = undefined;
-	max_data_devolucao:Date = new Date();
+	min_data_devolucao:Date = undefined;
 	constructor(
 		public dialogRef: MatDialogRef<FinalizarSseComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
 		private sseService:SsesService,
 		private snackBar:MatSnackBar
-	) {	}
+	) {
+		this.min_data_devolucao = new Date(data.data_conclusao);
+	}
 
 	onSalvarClick(){
 		this.sseService.setFinalizada(this.data.id_sse, this.tipoDeFinalizacao, this.data_devolucao)

@@ -428,7 +428,8 @@ export class SsesMapComponent implements OnInit {
 		const dialogRef = this.dialog.open(FinalizarSseComponent, {
 			width: '400px',
 			data: {
-				'id_sse':sse.id
+				'id_sse':sse.id,
+				'data_conclusao':<Date>sse.final_r
 			}
 		});
 	
