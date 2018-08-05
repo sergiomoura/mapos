@@ -1032,14 +1032,12 @@
 			->write('Falha ao finalizar tarefas da sse');
 		}
 
-		// Removendo todas as tarefas que foram agendadas para esta sse
-		$sql = 'DELETE FROM maxse_tarefas WHERE inicio_r IS NULL AND inicio_p IS NOT NULL AND id_sse=:id_sse';
+		// Iniciando e Finalizando todas as tarefas que não foram iniciadas
+		$sql = 'UPDATE maxse_tarefas SET inicio_r=now(), final_r=now() WHERE inicio_r IS NULL AND id_sse=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		
 		try {
-			$stmt->execute(array(
-				':id_sse' => $id_sse
-			));	
+			$stmt->execute(array(':id_sse' => $id_sse));
 		} catch (Exception $e) {
 			// Algo deu errado. Rollback
 			$this->db->rollback();

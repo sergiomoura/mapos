@@ -65,9 +65,9 @@
 				<!-- Botão de ver SSE - Sempre visível -->
 				<button mat-raised-button color="accent" (click)="goToSse(sse.id)" ><mat-icon>visibility</mat-icon>Ver SSE</button>
 
-				<!-- Botão de cancelar SSE. Visível se status for cadastrada (0), agendada (1) ou executando (2) -->
+				<!-- Botão de cancelar SSE. Visível se status for cadastrada (0), agendada (1), executando (2) ou  divergente(-1) -->
 				<button
-					*ngIf = "sse.status=='0' || sse.status=='1' || sse.status=='2'"
+					*ngIf = "sse.status=='0' || sse.status=='1' || sse.status=='2' || sse.status=='-1'"
 					mat-raised-button color="accent"
 					(click)="onCancelarSseClick(sse.id)" >
 						<mat-icon>block</mat-icon>Cancelar SSE

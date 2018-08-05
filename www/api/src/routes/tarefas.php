@@ -614,6 +614,33 @@
 		// Lendo a tarefa na requisição
 		$tarefa = json_decode($req->getBody()->getContents());
 		
+		// Verificando o status atual da SSE. Só pode ser dada como iniciada se estiver AGENDADA e com agendamento para essa equipe
+		$sql = 'SELECT
+					count(*) as n
+				FROM
+					maxse_tarefas a INNER JOIN
+					maxse_sses b on a.id_sse=b.id
+				WHERE
+					a.id=:id_tarefa AND
+					a.id_equipe=:id_equipe AND
+					b.status=sseStatus("AGENDADA")';
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_tarefa' => $tarefa->id,
+				':id_equipe' => $tarefa->equipe->id
+			)
+		);
+		$n = $stmt->fetch()->n;
+
+		if($n == 0){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(410)
+			->write('Tarefa está cancelada ou não está autorizada para esta equipe');
+		}
+		
 		// :::::::: OPERAÇÕES DE FS ::::::::
 		
 		// RENOMEANDO FOTOS ANTIGAS
