@@ -26,6 +26,28 @@
 			$tds->prazo *= 1;
 		}
 
+		// Levantando as faixas de cada um dos tipos de serviço
+		$sql = 'SELECT
+					label,
+					li,
+					ls
+				FROM
+					maxse_faixas_de_tipos_de_servicos
+				WHERE
+					id_tipo_de_servico = :id_tds';
+		$stmt = $this->db->prepare($sql);
+		foreach ($tdss as $tds) {
+			$stmt->execute(array(':id_tds' => $tds->id));
+			$tds->faixas = array_map(
+				function($f) {
+					$f->li *= 1;
+					$f->ls *= 1;
+					return $f;
+				},
+				$stmt->fetchAll()
+			);
+		}
+
 		// Retornando resposta para usuário
 		return $res
 		->withStatus(200)

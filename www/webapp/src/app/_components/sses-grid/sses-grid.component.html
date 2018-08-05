@@ -62,7 +62,7 @@
 </div>
 
 <div class="resultados-container">
-	<table>
+	<table class="resultados">
 		<thead>
 			<tr>
 				<td>ID</td>
@@ -74,6 +74,8 @@
 				<td>ID Bairro</td>
 				<td>Nome Bairro</td>
 				<td>Obs</td>
+				<td>Agendado para</td>
+				<td>Realizado em</td>
 				<td>Tot Medidas Prev</td>
 				<td>Tot Medidas Real</td>
 				<td>Dif. Medidas</td>
@@ -103,6 +105,8 @@
 				<td>{{sse.bairro?.codigo}}</td>
 				<td>{{sse.bairro?.nome}}</td>
 				<td>{{sse.obs}}</td>
+				<td>{{sse.inicio_p | date:"dd/MM/yyyy"}}</td>
+				<td>{{sse.final_r | date:"dd/MM/yyyy"}}</td>
 				<td>{{sse.total_prev}} {{sse.unid_prev}}</td>
 				<td>{{sse.total_real}} {{sse.unid_real}}</td>
 				<td>{{sse.dif_medidas}}</td>
@@ -110,8 +114,8 @@
 				<td>{{sse.tipoDeServicoPrev?.codigo}}</td>
 				<td>{{sse.tipoDeServicoReal?.codigo}}</td>
 				<td>{{sse.label_dif_tds}}</td>
-				<td>Classificação</td>
-				<td>Classificação (Alteração)</td>
+				<td>{{sse.faixaPrev?.label}} ({{sse.faixaPrev?.li}} < X {{ +sse.faixaPrev?.ls == infinito ? '' : '≤ ' + sse.faixaPrev?.ls}})</td>
+				<td>{{sse.faixa_real_label}}</td>
 				<td>{{sse.label_urgencia}}</td>
 				<td>{{sse.prazoFinal | date:'dd/MM/yyyy'}}</td>
 				<td>{{sse.label_data_devolucao}}</td>
@@ -120,10 +124,10 @@
 				<td>{{sse.calc_exec}}</td>
 				<td>{{sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
 			</tr>
-			<tr>
-				<!--
-				<td colspan="26">
-					<table>
+			<!-- <tr>
+				
+				<td colspan="25">
+					<table class="tarefas">
 						<thead>
 							<td>Equipe</td>
 							<td>Apoio</td>
@@ -135,9 +139,7 @@
 							<td>EQAP</td>
 							<td>24/08/2018</td>
 							<td>
-								<ul>
-									<li>Bica Corrida: 1000m³</li>
-								</ul>
+								<div>Bica Corrida: 1000m³</div>
 							</td>
 						</tbody>
 						<tbody>
@@ -145,15 +147,13 @@
 							<td>EQAP</td>
 							<td>24/08/2018</td>
 							<td>
-								<ul>
-									<li>Bica Corrida: 1000m³</li>
-								</ul>
+								<div>Bica Corrida: 1000m³</div>
 							</td>
 						</tbody>
 					</table>
 				</td>
-			</tr>
-		-->
+
+			</tr> -->
 		</tbody>
 	</table>
 </div>

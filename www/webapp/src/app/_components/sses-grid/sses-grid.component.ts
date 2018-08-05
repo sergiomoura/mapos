@@ -41,6 +41,7 @@ export class SsesGridComponent implements OnInit {
 		realizadas_de: undefined,
 		realizadas_ate: undefined
 	}
+	infinito:number = 2000000000;
 
 	constructor(
 		private ssesService:SsesService,
@@ -163,6 +164,10 @@ export class SsesGridComponent implements OnInit {
 				// Parsing escalares
 				sse.dh_registrado = new Date(sse.dh_registrado);
 				sse.dh_recebido = new Date(sse.dh_recebido);
+				sse.inicio_p = sse.inicio_p ? new Date(sse.inicio_p) : null;
+				sse.final_p = sse.final_p ? new Date(sse.final_p) : null;
+				sse.inicio_r = sse.inicio_r ? new Date(sse.inicio_r) : null;
+				sse.final_r = sse.final_r ? new Date(sse.final_r) : null;
 				
 				// Paring Equipe
 				sse.equipe = this.equipes.find(
@@ -316,6 +321,29 @@ export class SsesGridComponent implements OnInit {
 					sse.calc_exec = differenceInDays(sse.dataDevolucao,sse.prazoFinal);
 				} else {
 					sse.calc_exec = '';
+				}
+
+				// Calculando faixa de tipo de trabalho que esta sse se encontra (prev)
+				sse.faixaPrev = sse.tipoDeServicoPrev.faixas.find(
+					(f) => {
+						return sse.total_prev <= f.ls && sse.total_prev > f.li;
+					}
+				)
+
+				// Calculando faixa de tipo de trabalho que esta sse se encontra (real)
+				if(sse.tipoDeServicoReal) {
+					sse.faixaReal = sse.tipoDeServicoReal.faixas.find(
+						(f) => {
+							return sse.total_real <= f.ls && sse.total_real > f.li;
+						}
+					)
+					sse.faixa_real_label =
+						sse.faixaReal.label + ' (' +
+						(sse.faixaReal.ls == this.infinito ? sse.faixaReal.li + ' < X' : sse.faixaReal.li + ' < X ≤ ' + sse.faixaReal.ls) +
+						')'
+				} else {
+					sse.faixaReal = null;
+					sse.faixa_real_label = '';
 				}
 				
 					
