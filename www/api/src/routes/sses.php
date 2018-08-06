@@ -317,6 +317,7 @@
 					dh_registrado,
 					dh_recebido,
 					urgente as urgencia,
+					status,
 					obs,
 					lat,
 					lng
@@ -411,7 +412,7 @@
 				// Retornando erro para usuário
 				return $res
 				->withStatus(500)
-				->write("Tipo de medida desconhecido.");
+				->write("(P) Tipo de medida desconhecido  [" . $tds_p->medida .']');
 				break;
 		}
 
@@ -446,9 +447,9 @@
 
 			default:
 				// Retornando erro para usuário
-				return $res
-				->withStatus(500)
-				->write("Tipo de medida desconhecido.");
+				$sse->medidas_area->real =  array();
+				$sse->medidas_linear->real = array();
+				$sse->medidas_unidades->real = array();
 				break;
 		}
 
@@ -551,7 +552,7 @@
 				':endereco'				=> $sse->endereco,
 				':id_bairro'			=> $sse->bairro->id,
 				':numero'				=> ($sse->numero == '' ? null : $sse->numero),
-				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
+				':id_tipo_de_servico'	=> $sse->tipoDeServicoPrev->id,
 				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
 				':urgente'				=> $sse->urgencia,
 				':obs'					=> $sse->obs,
@@ -571,32 +572,32 @@
 		}
 		
 		// Removendo medidas de area da sse
-		$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse=:id';
+		$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse=:id AND tipo="p"';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(':id' => $sse->id));
 		
 		// Removendo medidas de comprimento da sse
-		$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse=:id';
+		$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse=:id AND tipo="p"';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(':id' => $sse->id));
 		
 		// Removendo medidas de area da sse
-		$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse=:id';
+		$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse=:id AND tipo="p"';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(':id' => $sse->id));
 		
 		// Determinando tabela na qual as medidas serão inseridas e calculando o trabalho
 		$trabalho = 0;
-		switch ($sse->tipoDeServico->medida) {
+		switch ($sse->tipoDeServicoPrev->medida) {
 			case 'a':
 				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo)
 						VALUES (:l,:c,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas_area); $i++) { 
-					$trabalho += $sse->medidas_area[$i]->l*$sse->medidas_area[$i]->c;
+				for ($i=0; $i < sizeOf($sse->medidas_area->prev); $i++) { 
+					$trabalho += $sse->medidas_area->prev[$i]->l*$sse->medidas_area->prev[$i]->c;
 					$stmt->execute(array(
-						':l' => $sse->medidas_area[$i]->l,
-						':c' => $sse->medidas_area[$i]->c,
+						':l' => $sse->medidas_area->prev[$i]->l,
+						':c' => $sse->medidas_area->prev[$i]->c,
 						':id' => $sse->id
 					));
 				}
@@ -606,10 +607,10 @@
 				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo)
 						VALUES (:v,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas_linear); $i++) { 
-					$trabalho += $sse->medidas_linear[$i]->v; 
+				for ($i=0; $i < sizeOf($sse->medidas_linear->prev); $i++) { 
+					$trabalho += $sse->medidas_linear->prev[$i]->v; 
 					$stmt->execute(array(
-						':v' => $sse->medidas_linear[$i]->v,
+						':v' => $sse->medidas_linear->prev[$i]->v,
 						':id' => $sse->id
 					));
 				}
@@ -619,10 +620,10 @@
 				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo)
 						VALUES (:n,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas_unidades); $i++) { 
-					$trabalho += $sse->medidas_unidades[$i]->n; 
+				for ($i=0; $i < sizeOf($sse->medidas_unidades->prev); $i++) { 
+					$trabalho += $sse->medidas_unidades->prev[$i]->n; 
 					$stmt->execute(array(
-						':n' => $sse->medidas_unidades[$i]->n,
+						':n' => $sse->medidas_unidades->prev[$i]->n,
 						':id' => $sse->id
 					));
 				}

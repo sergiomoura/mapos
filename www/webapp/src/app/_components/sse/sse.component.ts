@@ -41,10 +41,12 @@ export class SseComponent implements OnInit {
 	public tdss: TipoDeServico[];
 	public domasaSelecionada: Domasa;
 	private sseResponse: any;
-	public medidaTotal: number;
+	public medidaPrevTotal: number;
 	public timestring: string;
 	public bairros:Bairro[] = [];
 	public bairrosExibidos:Bairro[] = [];
+	public camposDeCadstroTravados:boolean = true;
+	public camposDeMedidasReaisTravados: boolean = true;
 
 	ngOnInit() {
 		this.getDomasas();
@@ -167,7 +169,15 @@ export class SseComponent implements OnInit {
 	private updateSse() {
 		return this.ssesService.update(this.sse).subscribe(
 			res => {
-				this.location.back();
+				// this.location.back();
+
+				// Exibindo snackbar de sucesso
+				this.snackBar.open(
+					'SSE alterada com sucesso!',
+					undefined,
+					{
+						panelClass: ['snackbar-ok'],
+					});
 			},
 			err => {
 				// Exibindo snackbar de erro
@@ -232,10 +242,15 @@ export class SseComponent implements OnInit {
 		this.timestring = s + ':00';
 	}
 
-
 	parseSse() {
 
 		if (this.sseResponse && this.domasas && this.tdss) {
+
+			// Determinando se os campos devem ou não estar travados (somente para o status CADASTRADO)
+			this.camposDeCadstroTravados = (this.sseResponse.status != "0"); 
+
+			// Determinando se os campos de medida reais devem estar travados ou não
+			this.camposDeMedidasReaisTravados = true;
 
 			// Parsing escalares
 			this.sseResponse.dh_recebido = new Date(this.sseResponse.dh_recebido);
@@ -286,58 +301,62 @@ export class SseComponent implements OnInit {
 
 			this.sse = <SSE>this.sseResponse;
 
-			this.calculaMedidaTotal();
+			this.calculaMedidaPrevTotal();
 
 			// Colocando campo a mais caso um vetor de medidas esteja vazio
-			if (this.sse.medidas_area.length == 0) {
-				this.sse.medidas_area.push({ l: '', c: '' });
+			if (this.sse.medidas_area.prev.length == 0) {
+				this.sse.medidas_area.prev.push({ l: '', c: '' });
 			}
-			if (this.sse.medidas_linear.length == 0) {
-				this.sse.medidas_linear.push({ v: '' });
+			if (this.sse.medidas_linear.prev.length == 0) {
+				this.sse.medidas_linear.prev.push({ v: '' });
 			}
-			if (this.sse.medidas_unidades.length == 0) {
-				this.sse.medidas_unidades.push({ n: '' });
+			if (this.sse.medidas_unidades.prev.length == 0) {
+				this.sse.medidas_unidades.prev.push({ n: '' });
 			}
 		}
 	}
 
-	onInputMedidaChange() {
-		this.calculaMedidaTotal();
+	onImageClick(){
+		
 	}
 
-	onTipoDeServicoChange() {
-		this.calculaMedidaTotal();
+	onInputMedidaPrevChange() {
+		this.calculaMedidaPrevTotal();
 	}
 
-	onRemoveMedidaClick(i) {
-		switch (this.sse.tipoDeServico.medida) {
+	onTipoDeServicoPrevChange() {
+		this.calculaMedidaPrevTotal();
+	}
+
+	onRemoveMedidaPrevClick(i) {
+		switch (this.sse.tipoDeServicoPrev.medida) {
 			case 'a':
-				this.sse.medidas_area.splice(i, 1);
+				this.sse.medidas_area.prev.splice(i, 1);
 				break;
 
 			case 'l':
-				this.sse.medidas_linear.splice(i, 1);
+				this.sse.medidas_linear.prev.splice(i, 1);
 				break;
 
 			case 'u':
-				this.sse.medidas_unidades.splice(i, 1);
+				this.sse.medidas_unidades.prev.splice(i, 1);
 				break;
 		}
-		this.calculaMedidaTotal();
+		this.calculaMedidaPrevTotal();
 	}
 
-	onAddMedidaClick() {
-		switch (this.sse.tipoDeServico.medida) {
+	onAddMedidaPrevClick() {
+		switch (this.sse.tipoDeServicoPrev.medida) {
 			case 'a':
-				this.sse.medidas_area.push({ l: '', c: '' });
+				this.sse.medidas_area.prev.push({ l: '', c: '' });
 				break;
 
 			case 'l':
-				this.sse.medidas_linear.push({ v: '' });
+				this.sse.medidas_linear.prev.push({ v: '' });
 				break;
 
 			case 'u':
-				this.sse.medidas_unidades.push({ n: '' });
+				this.sse.medidas_unidades.prev.push({ n: '' });
 				break;
 		}
 	}
@@ -368,31 +387,31 @@ export class SseComponent implements OnInit {
 		}
 	}
 
-	calculaMedidaTotal() {
+	calculaMedidaPrevTotal() {
 
 		let total: number = 0;
 
-		if(this.sse.tipoDeServico){
-			if (this.sse.tipoDeServico.medida == 'a') {
-				for (let i = 0; i < this.sse.medidas_area.length; i++) {
-					total += (1 * this.sse.medidas_area[i].l) * (1 * this.sse.medidas_area[i].c);
+		if(this.sse.tipoDeServicoPrev){
+			if (this.sse.tipoDeServicoPrev.medida == 'a') {
+				for (let i = 0; i < this.sse.medidas_area.prev.length; i++) {
+					total += (1 * this.sse.medidas_area.prev[i].l) * (1 * this.sse.medidas_area.prev[i].c);
 				}
 			}
 	
-			if (this.sse.tipoDeServico.medida == 'l') {
-				for (let i = 0; i < this.sse.medidas_linear.length; i++) {
-					total += (1 * this.sse.medidas_linear[i].v);
+			if (this.sse.tipoDeServicoPrev.medida == 'l') {
+				for (let i = 0; i < this.sse.medidas_linear.prev.length; i++) {
+					total += (1 * this.sse.medidas_linear.prev[i].v);
 				}
 			}
 	
-			if (this.sse.tipoDeServico.medida == 'u') {
-				for (let i = 0; i < this.sse.medidas_unidades.length; i++) {
-					total += (1 * this.sse.medidas_unidades[i].n);
+			if (this.sse.tipoDeServicoPrev.medida == 'u') {
+				for (let i = 0; i < this.sse.medidas_unidades.prev.length; i++) {
+					total += (1 * this.sse.medidas_unidades.prev[i].n);
 				}
 			}
-			this.medidaTotal = total;
+			this.medidaPrevTotal = total;
 		} else {
-			this.medidaTotal = 0;
+			this.medidaPrevTotal = 0;
 		}
 	}
 }
