@@ -18,8 +18,20 @@
 		<agm-marker
 			*ngFor="let tarefa of tarefas"
 			[latitude]="tarefa.lat"
-			[longitude]="tarefa.lng"
-			(markerClick)="onMarkerClick($event,tarefa.id)">
+			[longitude]="tarefa.lng">
+			
+			<agm-info-window [disableAutoPan]="false" #infowindow>
+				<div>SSE {{tarefa.numero_sse}}</div>
+				<div>Início Previsto:{{tarefa.inicio_p | date:'dd/MM/yyyy HH:mm'}}</div>
+				<div>Final Previsto:{{tarefa.inicio_p | date:'dd/MM/yyyy HH:mm'}}</div>
+				<div class="buttons-container">
+					<button ion-button (click)="onTarefaClick(tarefa.id)" *ngIf="tarefa.status_trf==1">Ver SSE</button>
+					<button ion-button disabled *ngIf="tarefa.status_trf==-1">Ainda Idisponível</button>
+					<button ion-button disabled *ngIf="tarefa.status_trf==2">Em execução</button>
+					<button ion-button disabled *ngIf="tarefa.status_trf==3">Finalizada</button>
+				</div>
+			</agm-info-window>
+			
 		</agm-marker>
 	
 	</agm-map>

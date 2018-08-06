@@ -6,6 +6,7 @@ import { SsesPage } from '../sses/sses';
 import { ToastController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 import { TarefasPage } from '../tarefas/tarefas';
+import { SsesMapaPage } from '../sses-mapa/sses-mapa';
 
 @Component({
 	selector: 'page-login',
@@ -54,8 +55,8 @@ export class LoginPage {
 							this.navCtrl.push(SsesPage);
 							this.navCtrl.setRoot(SsesPage);
 						} else if(acessoApp == "2") {
-							this.navCtrl.push(TarefasPage);
-							this.navCtrl.setRoot(TarefasPage);
+							this.navCtrl.push(SsesMapaPage);
+							this.navCtrl.setRoot(SsesMapaPage);
 						}
 					}
 				)

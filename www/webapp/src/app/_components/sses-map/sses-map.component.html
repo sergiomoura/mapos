@@ -9,7 +9,7 @@
 		[longitude]="sse.lng"
 		[iconUrl]="'assets/' + sse.markerFile"
 		(markerClick)="onMarkerClick(infowindow)">
-		<agm-info-window [disableAutoPan]="true" #infowindow>
+		<agm-info-window [disableAutoPan]="false" #infowindow>
 			<div class="numero">SSE: {{sse?.numero == null ? 'sem número' : sse?.numero}}</div>
 			<div class="endereco">{{sse?.endereco}}</div>
 			<div>RG{{sse?.tipoDeServico?.codigo}} - {{sse?.tipoDeServico?.descricao}}</div>

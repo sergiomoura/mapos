@@ -69,7 +69,28 @@
 			)
 		);
 		$tarefas = $stmt->fetchAll();
-		 
+		
+		// Para cada tarefa, verifica se há tarefas da
+		// mesma sse ainda não executadas agendadas para antes dela
+		$sql = 'SELECT COUNT(*) as n FROM maxse_tarefas WHERE id_sse=:id_sse AND inicio_p<:inicio_p AND final_r IS NULL';
+		$stmt = $this->db->prepare($sql);
+		foreach ($tarefas as $tarefa) {
+			$stmt->execute(
+				array(
+					':id_sse' => $tarefa->id_sse,
+					':inicio_p' => $tarefa->inicio_p
+				)
+			);
+			$n = $stmt->fetch()->n;
+
+			// Determinando status_trf
+			if($n == 0) {
+				$tarefa->status_trf = $tarefa->status;
+			} else {
+				$tarefa->status_trf = -1;
+			}
+		}
+		
 
 		// Retornando resposta para usuário
 		return $res
@@ -77,7 +98,7 @@
 		->withHeader('Content-Type','application/json')
 		->write(json_encode($tarefas));
 	});
-	
+
 	$app->get($api_root.'/tarefas/{id}',function(Request $req, Response $res, $args = []){
 
 		// Lendo id da url

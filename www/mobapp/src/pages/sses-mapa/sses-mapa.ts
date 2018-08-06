@@ -93,6 +93,7 @@ export class SsesMapaPage {
 	onMarkerClick(evt,id_tarefa){
 		this.onTarefaClick(id_tarefa);
 	}
+	
 	onTarefaClick(id_tarefa:number){
 		
 		// Mostra carregando
