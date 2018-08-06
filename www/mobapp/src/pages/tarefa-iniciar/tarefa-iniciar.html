@@ -5,12 +5,6 @@
 			Iniciar SSE {{tarefa?.sse?.numero}}</ion-title>
 		<ion-buttons end>
 			
-			<button
-				ion-button
-				icon-only
-				(click)="onBackClick()">
-					<ion-icon name="arrow-back"></ion-icon>
-			</button>
 			<!-- BOTÃO QUE SALVA TAREFAS DIVERGENTES-->
 			<button
 				*ngIf="tarefa.divergente"

@@ -28,6 +28,9 @@ import { TarefaTabsPageModule } from '../pages/tarefa-tabs/tarefa-tabs.module';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
+import { AgmCoreModule } from '@agm/core';
+import { SsesMapaPage } from '../pages/sses-mapa/sses-mapa';
+import { SsesMapaPageModule } from '../pages/sses-mapa/sses-mapa.module';
 
 @NgModule({
 	declarations: [
@@ -36,7 +39,8 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 		LoginPage,
 		SsesPage,
 		SsePage,
-		TarefasPage
+		TarefasPage,
+		SsesMapaPage
 	],
 	imports: [
 		BrowserModule,
@@ -47,7 +51,8 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 		SelectSearchableModule,
 		TarefaPageModule,
 		TarefaTabsPageModule,
-		IonicImageViewerModule
+		IonicImageViewerModule,
+		AgmCoreModule.forRoot({apiKey: 'AIzaSyDXsRrkVQvgfWbs4OOYKLsNYomChNS8a5o'})
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -57,7 +62,8 @@ import { IonicImageViewerModule } from 'ionic-img-viewer';
 		SsesPage,
 		SsePage,
 		TarefasPage,
-		TarefaTabsPage
+		TarefaTabsPage,
+		SsesMapaPage
 	],
 	providers: [
 		StatusBar,

@@ -1,0 +1,26 @@
+<ion-header>
+	<ion-toolbar color="primary">
+		<ion-title>Tarefas</ion-title>
+		<ion-buttons end>
+			<button ion-button (click)="onListClick()"><ion-icon name="list"></ion-icon></button>
+			<button ion-button (click)="onRefreshClick()"><ion-icon name="refresh"></ion-icon></button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+	<agm-map
+		[latitude]="lat_inicial"
+		[longitude]="lng_inicial"
+		[zoom]="initial_zoom">
+		
+		<agm-marker
+			*ngFor="let tarefa of tarefas"
+			[latitude]="tarefa.lat"
+			[longitude]="tarefa.lng"
+			(markerClick)="onMarkerClick($event,tarefa.id)">
+		</agm-marker>
+	
+	</agm-map>
+</ion-content>

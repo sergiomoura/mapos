@@ -3,6 +3,81 @@
 	use Slim\Http\Request;
 	use Slim\Http\Response;
 
+
+	$app->get($api_root.'/tarefas/daEquipe', function(Request $req, Response $res, $args = []){
+
+		// Capturando o token do header HTTP_AUTHORIZATION;
+		$token = str_replace('Bearer ','',$req->getHeaders()['HTTP_AUTHORIZATION'][0]);
+
+		// Verificano se usuário é  líder de equipe
+		$sql = 'SELECT
+					a.id_equipe
+				FROM
+					maxse_membros a
+					inner join maxse_usuarios b on a.id_pessoa=b.id_pessoa
+				WHERE token=:token';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':token' => $token
+			)
+		);
+		$rs = $stmt->fetch();
+		if($rs === false){
+			// Retornando erro para usuário
+			return $res
+			->withStatus(403)
+			->write('Somente para líderes de equipe');
+		}
+		$id_equipe = $rs->id_equipe;
+		
+		$sql = 'SELECT
+					a.id,
+					a.id_sse,
+					a.id_equipe,
+					a.id_apoio,
+					a.inicio_p,
+					a.inicio_r,
+					a.final_p,
+					a.final_r,
+					a.divergente,
+					b.numero as numero_sse,
+					b.endereco,
+					b.lat,
+					b.lng,
+					c.id as id_bairro,
+					c.nome as nome_bairro,
+					b.status,
+					b.urgente as urgencia
+				FROM
+					maxse_tarefas a
+					INNER JOIN maxse_sses b ON a.id_sse = b.id
+					INNER JOIN maxse_bairros c ON b.id_bairro=c.id
+				WHERE
+					(
+						b.status = sseStatus("AGENDADA") OR
+						b.status = sseStatus("EXECUTANDO") OR
+						b.status = sseStatus("PENDENTE") AND DATE((a.final_r))=DATE(NOW())
+					) AND
+					a.id_equipe = :id_equipe
+				ORDER BY inicio_p ASC';
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_equipe' => $id_equipe
+			)
+		);
+		$tarefas = $stmt->fetchAll();
+		 
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json')
+		->write(json_encode($tarefas));
+	});
+	
 	$app->get($api_root.'/tarefas/{id}',function(Request $req, Response $res, $args = []){
 
 		// Lendo id da url
@@ -555,6 +630,8 @@
 						a.divergente,
 						b.numero as numero_sse,
 						b.endereco,
+						b.lat,
+						b.lng,
 						c.id as id_bairro,
 						c.nome as nome_bairro,
 						b.status,
@@ -600,7 +677,14 @@
 
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute();
-			$tarefas = $stmt->fetchAll();
+			$tarefas = array_map(
+				function($t){
+					$t->lat *= 1;
+					$t->lng *= 1;
+					return $t;
+				},
+				$stmt->fetchAll()
+			);
 		}
 
 		// Retornando resposta para usuário

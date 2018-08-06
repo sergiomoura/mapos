@@ -18,6 +18,10 @@ export class TarefasProvider {
 		return this.http.get(this.urls.tarefas+'?doDia');
 	}
 
+	getDaEquipe(){
+		return this.http.get(this.urls.tarefas+'/daEquipe');
+	}
+
 	getCompleteById(id_tarefa:number, comFotos?:boolean){
 		if(comFotos){
 			return this.http.get(this.urls.tarefas+'/'+id_tarefa+'/all?comFotos=1');

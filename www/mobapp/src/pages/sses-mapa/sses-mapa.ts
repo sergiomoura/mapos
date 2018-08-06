@@ -1,26 +1,23 @@
 import { Component } from '@angular/core';
-import {
-			NavController,
-			NavParams,
-			AlertOptions,
-			Events,
-			ToastController,
-			LoadingController,
-			AlertController
-		} from 'ionic-angular';
-
-import { Tarefa } from "../../_models/tarefa";
-import { TarefasProvider } from "../../providers/tarefas/tarefas";
-import { TarefaTabsPage } from "../../pages/tarefa-tabs/tarefa-tabs";
-
-import { Storage } from "@ionic/storage";
-import { SsesMapaPage } from '../sses-mapa/sses-mapa';
-
+import { NavController, NavParams, ToastController, LoadingController, AlertController, Events, AlertOptions } from 'ionic-angular';
+import { TarefasProvider } from '../../providers/tarefas/tarefas';
+import { Storage } from '@ionic/storage';
+import { Tarefa } from '../../_models/tarefa';
+import { TarefaTabsPage } from '../tarefa-tabs/tarefa-tabs';
+import { TarefasPage } from '../tarefas/tarefas';
 @Component({
-	selector: 'page-tarefas',
-	templateUrl: 'tarefas.html',
+	selector: 'page-sses-mapa',
+	templateUrl: 'sses-mapa.html',
 })
-export class TarefasPage {
+
+export class SsesMapaPage {
+
+	lat_inicial:number = -22.916405805627686;
+	lng_inicial:number = -47.067499388564215;
+	initial_zoom:number = 11;
+	markerAtual:any;
+	public tarefas: Tarefa[];
+	private tmpTarefas: any[];
 
 	constructor(
 		public navCtrl: NavController,
@@ -31,10 +28,9 @@ export class TarefasPage {
 		private alertController:AlertController,
 		private storage:Storage,
 		public events:Events
-	) {	}
+	) {
+	}
 
-	public tarefas: Tarefa[];
-	private tmpTarefas: any[];
 
 	ionViewDidLoad() {
 		
@@ -87,13 +83,18 @@ export class TarefasPage {
 			tarefa.inicio_r = (tarefa.inicio_r == null ? null : new Date(tarefa.inicio_r));
 			tarefa.final_p = (tarefa.final_p == null ? null : new Date(tarefa.final_p))	;
 			tarefa.final_r = (tarefa.final_r == null ? null : new Date(tarefa.final_r))	;
+			tarefa.lat *= 1;
+			tarefa.lng *= 1;
 			tarefa.divergente = (tarefa.divergente == 1);
 		}
 		this.tarefas = this.tmpTarefas;
 	}
 
+	onMarkerClick(evt,id_tarefa){
+		this.onTarefaClick(id_tarefa);
+	}
 	onTarefaClick(id_tarefa:number){
-
+		
 		// Mostra carregando
 		let loading = this.loadingConttroller.create();
 		loading.setContent('Aguarde...').present();
@@ -171,12 +172,12 @@ export class TarefasPage {
 		)
 	}
 
-	onMapClick(){
-		this.navCtrl.push(SsesMapaPage);
-	}
-
 	onRefreshClick(){
 		this.getTarefas();
+	}
+
+	onListClick(){
+		this.navCtrl.push(TarefasPage)
 	}
 
 }
