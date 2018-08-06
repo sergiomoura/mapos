@@ -37,7 +37,7 @@
 		</div>
 		<ion-item>
 			<ion-label floating>Tipo de Serviço</ion-label>
-			<ion-select name="tipo" required [(ngModel)]="sse.tipoDeServico" (ionChange)="onTipoDeSevicoChange()">
+			<ion-select name="tipo" required [(ngModel)]="sse.tipoDeServicoPrev" (ionChange)="onTipoDeSevicoChange()">
 				<ion-option [value]="tds" *ngFor="let tds of tiposDeServico">RG{{tds.codigo}}</ion-option>
 			</ion-select>
 		</ion-item>
@@ -80,7 +80,7 @@
 		<div class="medidas-container">
 			<span class="title">Medidas</span>
 			<button
-				[disabled]="sse.tipoDeServico == null"
+				[disabled]="sse.tipoDeServicoPrev == null"
 				ion-button
 				small
 				color="dark"
@@ -88,8 +88,8 @@
 				(click)="addMedida()">
 				<ion-icon name="add"></ion-icon>
 			</button>
-			<div class="medidas-area" *ngIf="sse.tipoDeServico?.medida=='a'">
-				<div *ngFor="let med of sse.medidas_area; let i=index">
+			<div class="medidas-area" *ngIf="sse.tipoDeServicoPrev?.medida=='a'">
+				<div *ngFor="let med of sse.medidas_area.prev; let i=index">
 					<ion-input type="number" required (ionChange)="onMedidaChange()" step="0.01" name="med_l_{{i}}" [(ngModel)]="med.l"></ion-input> x
 					<ion-input type="number" required (ionChange)="onMedidaChange()" step="0.01" name="med_c_{{i}}" [(ngModel)]="med.c"></ion-input> {{unidade}}
 					<button
@@ -102,8 +102,8 @@
 					</button>
 				</div>
 			</div>
-			<div class="medidas-comprimento" *ngIf="sse.tipoDeServico?.medida=='l'">
-				<div *ngFor="let med of sse.medidas_linear; let i=index">
+			<div class="medidas-comprimento" *ngIf="sse.tipoDeServicoPrev?.medida=='l'">
+				<div *ngFor="let med of sse.medidas_linear.prev; let i=index">
 					<ion-input type="number" required (ionChange)="onMedidaChange()" step="0.01"  name="med_v_{{i}}" [(ngModel)]="med.v"></ion-input> {{unidade}}
 					<button
 						ion-button
@@ -115,8 +115,8 @@
 					</button>
 				</div>
 			</div>
-			<div class="medidas-unidade" *ngIf="sse.tipoDeServico?.medida=='u'">
-				<div *ngFor="let med of sse.medidas_unidades;let i=index">
+			<div class="medidas-unidade" *ngIf="sse.tipoDeServicoPrev?.medida=='u'">
+				<div *ngFor="let med of sse.medidas_unidades.prev;let i=index">
 					<ion-input type="number" required (ionChange)="onMedidaChange()" step="1"  name="med_n_{{i}}" [(ngModel)]="med.n"></ion-input> {{unidade}}
 					<button
 						ion-button

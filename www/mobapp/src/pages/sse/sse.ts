@@ -108,14 +108,13 @@ export class SsePage {
 		res.dh_recebido = (new Date(res.dh_recebido)).toISOString();
 		res.dh_registrado = (new Date(res.dh_registrado)).toISOString();
 		res.id *= 1;
-		res.urgente = (res.urgente == "1");
+		res.urgencia *= 1;
 		
-		let tds = this.tiposDeServico.find(
+		res.tipoDeServicoPrev = this.tiposDeServico.find(
 			(a) => {
-				return res.id_tipo_de_servico == a.id;
+				return res.id_tipo_de_servico_p	== a.id;
 			}
 		);
-		res.tipoDeServico = tds;
 
 		// Procurando a domasa do bairro
 		let i:number = 0;
@@ -152,16 +151,16 @@ export class SsePage {
 
 		// adicionando campo de medidas
 		let vetor:any[];
-		switch (this.sse.tipoDeServico.medida) {
+		switch (this.sse.tipoDeServicoPrev.medida) {
 			case 'a':
-				vetor = this.sse.medidas_area;
+				vetor = this.sse.medidas_area.prev;
 				break;
 			
 			case 'l':
-				vetor = this.sse.medidas_linear;
+				vetor = this.sse.medidas_linear.prev;
 				break;
 			case 'u':
-				vetor = this.sse.medidas_unidades;
+				vetor = this.sse.medidas_unidades.prev;
 				break;
 		}
 		if(vetor.length == 0){
@@ -325,13 +324,14 @@ export class SsePage {
 			endereco:'',
 			numero:'',
 			bairro:null,
-			tipoDeServico:null,
+			tipoDeServicoPrev:null,
+			tipoDeServicoReal:null,
 			dh_registrado:null,
 			dh_recebido: format(new Date(),'YYYY-MM-DDT10:00:00'),
 			urgencia:0,
-			medidas_area:<any[]>[],
-			medidas_linear:<any[]>[],
-			medidas_unidades:<any[]>[]
+			medidas_area:{real:[],prev:[]},
+			medidas_linear:{real:[],prev:[]},
+			medidas_unidades:{real:[],prev:[]}
 		}
 	}
 
@@ -339,20 +339,20 @@ export class SsePage {
 		
 		let total = 0;
 		
-		if(sse.tipoDeServico.medida == 'a'){
+		if(sse.tipoDeServicoPrev.medida == 'a'){
 			// Medidas de área: somando
-			for (let i = 0; i < sse.medidas_area.length; i++) {
-				total += ((1*sse.medidas_area[i].l) * (1*sse.medidas_area[i].c));
+			for (let i = 0; i < sse.medidas_area.prev.length; i++) {
+				total += ((1*sse.medidas_area.prev[i].l) * (1*sse.medidas_area.prev[i].c));
 			}
-		} else if(sse.tipoDeServico.medida == 'l'){
+		} else if(sse.tipoDeServicoPrev.medida == 'l'){
 			// Medidas de comprimento: somando
-			for (let i = 0; i < sse.medidas_linear.length; i++) {
-				total += 1*sse.medidas_linear[i].v;
+			for (let i = 0; i < sse.medidas_linear.prev.length; i++) {
+				total += 1*sse.medidas_linear.prev[i].v;
 			}
 		} else {
 			// Medidas de unidade: somando
-			for (let i = 0; i < sse.medidas_unidades.length; i++) {
-				total += 1*sse.medidas_unidades[i].n;
+			for (let i = 0; i < sse.medidas_unidades.prev.length; i++) {
+				total += 1*sse.medidas_unidades.prev[i].n;
 			}
 		}
 
@@ -360,10 +360,10 @@ export class SsePage {
 		return Math.round(total*100)/100;
 	}
 
-	getUnidade(sse):string{
-		if(sse.tipoDeServico.medida == 'a'){
+	getUnidade(sse:SSE):string{
+		if(sse.tipoDeServicoPrev.medida == 'a'){
 			return 'm²';
-		} else if(sse.tipoDeServico.medida == 'l'){
+		} else if(sse.tipoDeServicoPrev.medida == 'l'){
 			return 'm';
 		} else {
 			return 'unid';
@@ -371,17 +371,17 @@ export class SsePage {
 	}
 
 	addMedida(){
-		switch (this.sse.tipoDeServico.medida) {
+		switch (this.sse.tipoDeServicoPrev.medida) {
 			case 'a':
-				this.sse.medidas_area.push({'l':null,'c':null});
+				this.sse.medidas_area.prev.push({'l':null,'c':null});
 				break;
 			
 			case 'l':
-				this.sse.medidas_linear.push({'v':null});
+				this.sse.medidas_linear.prev.push({'v':null});
 				break;
 			
 			case 'u':
-				this.sse.medidas_unidades.push({'n':null});
+				this.sse.medidas_unidades.prev.push({'n':null});
 				break;
 
 			default:
@@ -390,17 +390,17 @@ export class SsePage {
 	}
 
 	rmMedida(i:number){
-		switch (this.sse.tipoDeServico.medida) {
+		switch (this.sse.tipoDeServicoPrev.medida) {
 			case 'a':
-				this.sse.medidas_area.splice(i,1);
+				this.sse.medidas_area.prev.splice(i,1);
 				break;
 			
 			case 'l':
-				this.sse.medidas_linear.splice(i,1);
+				this.sse.medidas_linear.prev.splice(i,1);
 				break;
 			
 			case 'u':
-				this.sse.medidas_unidades.splice(i,1);
+				this.sse.medidas_unidades.prev.splice(i,1);
 				break;
 		}
 	}

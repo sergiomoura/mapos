@@ -7,13 +7,14 @@ export class SSE{
 	endereco:string;
 	numero:string;
 	bairro:Bairro;
-	tipoDeServico:TipoDeServico;
+	tipoDeServicoPrev:TipoDeServico;
+	tipoDeServicoReal:TipoDeServico;
 	dh_registrado:string;
 	dh_recebido:string;
 	obs:string;
 	urgencia:number;
-	medidas_area:any[];	
-	medidas_linear:any[];
-	medidas_unidades:any[];
+	medidas_area:{prev:any[];real:any[]};	
+	medidas_linear:{prev:any[];real:any[]};
+	medidas_unidades:{prev:any[];real:any[]};
 	foto:SafeUrl;
 }
