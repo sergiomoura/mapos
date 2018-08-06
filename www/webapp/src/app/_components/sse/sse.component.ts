@@ -169,8 +169,6 @@ export class SseComponent implements OnInit {
 	private updateSse() {
 		return this.ssesService.update(this.sse).subscribe(
 			res => {
-				// this.location.back();
-
 				// Exibindo snackbar de sucesso
 				this.snackBar.open(
 					'SSE alterada com sucesso!',
@@ -199,7 +197,17 @@ export class SseComponent implements OnInit {
 	private createSse() {
 		return this.ssesService.create(this.sse).subscribe(
 			res => {
-				this.location.back();
+				// Zerando campos
+				this.sseVazia();
+
+				// Exibindo snackbar de sucesso
+				this.snackBar.open(
+					'SSE cadastrada com sucesso',
+					undefined,
+					{
+						panelClass: ['snackbar-ok'],
+					});
+
 			},
 			err => {
 				// Exibindo snackbar de erro
@@ -225,15 +233,15 @@ export class SseComponent implements OnInit {
 		sse.dh_recebido.setHours(10);
 		sse.dh_recebido.setMinutes(0);
 		sse.endereco = '';
-		sse.tipoDeServico = undefined;
+		sse.tipoDeServicoPrev = undefined;
+		sse.tipoDeServicoReal = undefined;
 		sse.numero = '';
 		sse.foto = null;
-		sse.medidas_area = [];
-		sse.medidas_linear = [];
-		sse.medidas_unidades = [];
+		sse.medidas_area = {'real':[],'prev':[]};
+		sse.medidas_linear = {'real':[],'prev':[]};
+		sse.medidas_unidades = {'real':[],'prev':[]};
 		sse.urgencia=0;
-
-
+		sse.status=0;
 		this.sseResponse = sse;
 		this.parseSse();
 	}

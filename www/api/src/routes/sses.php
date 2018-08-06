@@ -465,27 +465,30 @@
 		
 		// Lendo corpo da requisição
 		$sse = json_decode($req->getBody()->getContents());
-
+		
 		if(json_last_error() !== JSON_ERROR_NONE){
 			// Retornando erro para usuário
 			return $res
 			->withStatus(400)
 			->write('Requisição mal formada');
 		}
+		
+		// Parsing dh_recebido
+		$sse->dh_recebido = DateTime::createFromFormat('Y-m-d\TH:iO',substr($sse->dh_recebido,0,16).'+00:00');
+		$sse->dh_recebido = $sse->dh_recebido->sub(new DateInterval('P0DT3H'));
 
 		// Calculando o prazo de entrega
 		if($sse->urgencia == 2 ){
 			// É URGÊNCIA! O prazo de entrega é o dia do recebimento
-			$prazo_final = new DateTime(substr($sse->dh_recebido,0,10));
+			$prazo_final = $sse->dh_recebido;
 		} else {
 			// Não é urgência
 			$n_dias = floor($sse->tipoDeServico->prazo);
-			$dh_recebido = new DateTime(substr($sse->dh_recebido,0,10));
-			$dia_da_semana = $dh_recebido->format('N');
+			$dia_da_semana = $sse->dh_recebido->format('N');
 			if($dia_da_semana + $n_dias >=7){
 				$n_dias ++;
 			}
-			$prazo_final = $dh_recebido->add(new DateInterval('P'.$n_dias.'D'));
+			$prazo_final = $sse->dh_recebido->add(new DateInterval('P'.$n_dias.'D'));
 		}
 
 		// Determinando longitude e latitude do endereço
@@ -553,7 +556,7 @@
 				':id_bairro'			=> $sse->bairro->id,
 				':numero'				=> ($sse->numero == '' ? null : $sse->numero),
 				':id_tipo_de_servico'	=> $sse->tipoDeServicoPrev->id,
-				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
+				':dh_recebido'			=> $sse->dh_recebido->format('Y-m-d H:i:s'),
 				':urgente'				=> $sse->urgencia,
 				':obs'					=> $sse->obs,
 				':lat'					=> $sse->lat,
@@ -687,19 +690,22 @@
 			->write('Requisição mal formada');
 		}
 		
+		// Parsing dh_recebido
+		$sse->dh_recebido = DateTime::createFromFormat('Y-m-d\TH:iO',substr($sse->dh_recebido,0,16).'+00:00');
+		$sse->dh_recebido = $sse->dh_recebido->sub(new DateInterval('P0DT3H'));
+
 		// Calculando o prazo de entrega
 		if($sse->urgencia == 2 ){
 			// É URGÊNCIA! O prazo de entrega é o dia do recebimento
-			$prazo_final = new DateTime(substr($sse->dh_recebido,0,10));
+			$prazo_final = $sse->dh_recebido;
 		} else {
 			// Não é urgência
 			$n_dias = floor($sse->tipoDeServico->prazo);
-			$dh_recebido = new DateTime(substr($sse->dh_recebido,0,10));
-			$dia_da_semana = $dh_recebido->format('N');
+			$dia_da_semana = $sse->dh_recebido->format('N');
 			if($dia_da_semana + $n_dias >=7){
 				$n_dias ++;
 			}
-			$prazo_final = $dh_recebido->add(new DateInterval('P'.$n_dias.'D'));
+			$prazo_final = $sse->dh_recebido->add(new DateInterval('P'.$n_dias.'D'));
 		}
 
 		// Determinando longitude e latitude do endereço
@@ -756,8 +762,8 @@
 				':endereco'				=> $sse->endereco,
 				':id_bairro'			=> $sse->bairro->id,
 				':numero'				=> (trim($sse->numero) == '' ? null : $sse->numero),
-				':id_tipo_de_servico'	=> $sse->tipoDeServico->id,
-				':dh_recebido'			=> str_replace('Z','',str_replace('.000Z','',$sse->dh_recebido)),
+				':id_tipo_de_servico'	=> $sse->tipoDeServicoPrev->id,
+				':dh_recebido'			=> $sse->dh_recebido->format('Y-m-d H:i:s'),
 				':urgente'				=> $sse->urgencia,
 				':obs'					=> $sse->obs,
 				':lat'					=> $sse->lat,
@@ -800,18 +806,18 @@
 		
 		// Determinando tabela na qual as medidas serão inseridas e calculando o volume de trabalho
 		$trabalho = 0;
-		switch ($sse->tipoDeServico->medida) {
+		switch ($sse->tipoDeServicoPrev->medida) {
 			case 'a':
 				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo)
 						VALUES (:l,:c,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas_area); $i++) {
-					$trabalho += $sse->medidas_area[$i]->l * $sse->medidas_area[$i]->c;
+				for ($i=0; $i < sizeOf($sse->medidas_area->prev); $i++) {
+					$trabalho += $sse->medidas_area->prev[$i]->l * $sse->medidas_area->prev[$i]->c;
 
 					try {
 						$stmt->execute(array(
-							':l' => $sse->medidas_area[$i]->l,
-							':c' => $sse->medidas_area[$i]->c,
+							':l' => $sse->medidas_area->prev[$i]->l,
+							':c' => $sse->medidas_area->prev[$i]->c,
 							':id' => $idNovo
 						));
 					} catch (Exception $e) {
@@ -830,12 +836,12 @@
 				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo)
 						VALUES (:v,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas_linear); $i++) { 
-					$trabalho += $sse->medidas_linear[$i]->v;
+				for ($i=0; $i < sizeOf($sse->medidas_linear->prev); $i++) { 
+					$trabalho += $sse->medidas_linear->prev[$i]->v;
 
 					try {
 						$stmt->execute(array(
-							':v' => $sse->medidas_linear[$i]->v,
+							':v' => $sse->medidas_linear->prev[$i]->v,
 							':id' => $idNovo
 						));
 					} catch (Exception $e) {
@@ -854,12 +860,12 @@
 				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo)
 						VALUES (:n,:id,\'p\')';
 				$stmt = $this->db->prepare($sql);
-				for ($i=0; $i < sizeOf($sse->medidas_unidades); $i++) { 
-					$trabalho += $sse->medidas_unidades[$i]->n;
+				for ($i=0; $i < sizeOf($sse->medidas_unidades->prev); $i++) { 
+					$trabalho += $sse->medidas_unidades->prev[$i]->n;
 
 					try {
 						$stmt->execute(array(
-							':n' => $sse->medidas_unidades[$i]->n,
+							':n' => $sse->medidas_unidades->prev[$i]->n,
 							':id' => $idNovo
 						));
 					} catch (Exception $e) {
