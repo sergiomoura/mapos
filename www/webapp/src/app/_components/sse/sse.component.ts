@@ -336,6 +336,7 @@ export class SseComponent implements OnInit {
 			this.sse = <SSE>this.sseResponse;
 
 			this.calculaMedidaPrevTotal();
+			this.calculaMedidaRealTotal();
 
 			// Colocando campo a mais caso um vetor de medidas esteja vazio
 			if (this.sse.medidas_area.prev.length == 0) {
@@ -446,6 +447,34 @@ export class SseComponent implements OnInit {
 			this.medidaPrevTotal = total;
 		} else {
 			this.medidaPrevTotal = 0;
+		}
+	}
+
+	calculaMedidaRealTotal() {
+
+		let total: number = 0;
+
+		if(this.sse.tipoDeServicoReal){
+			if (this.sse.tipoDeServicoReal.medida == 'a') {
+				for (let i = 0; i < this.sse.medidas_area.real.length; i++) {
+					total += (1 * this.sse.medidas_area.real[i].l) * (1 * this.sse.medidas_area.real[i].c);
+				}
+			}
+	
+			if (this.sse.tipoDeServicoReal.medida == 'l') {
+				for (let i = 0; i < this.sse.medidas_linear.real.length; i++) {
+					total += (1 * this.sse.medidas_linear.real[i].v);
+				}
+			}
+	
+			if (this.sse.tipoDeServicoReal.medida == 'u') {
+				for (let i = 0; i < this.sse.medidas_unidades.real.length; i++) {
+					total += (1 * this.sse.medidas_unidades.real[i].n);
+				}
+			}
+			this.medidaRealTotal = total;
+		} else {
+			this.medidaRealTotal = 0;
 		}
 	}
 }

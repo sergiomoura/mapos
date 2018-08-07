@@ -155,7 +155,7 @@
 				</mat-form-field>
 
 				<mat-form-field>
-					<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Previsto" [(ngModel)]="medidaRealTotal" [disabled]="camposDeMedidasReaisTravados">
+					<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Realizado" [(ngModel)]="medidaRealTotal" >
 				</mat-form-field>
 				
 			</div>
@@ -163,7 +163,7 @@
 
 		<div class="controles">
 			<button mat-raised-button disabled color="accent">Cancelar</button>
-			<button mat-raised-button color="primary" [disabled]="!sseForm.valid" (click)="onSalvarClick()">Salvar Alterações</button>
+			<button mat-raised-button color="primary" [disabled]="!sseForm.valid || sseForm.pristine" (click)="onSalvarClick()">Salvar Alterações</button>
 		</div>
 
 	</form>
