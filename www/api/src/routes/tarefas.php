@@ -57,7 +57,8 @@
 					(
 						b.status = sseStatus("AGENDADA") OR
 						b.status = sseStatus("EXECUTANDO") OR
-						b.status = sseStatus("PENDENTE") AND DATE((a.final_r))=DATE(NOW())
+						b.status = sseStatus("DIVERGENTE") OR
+						(b.status = sseStatus("PENDENTE") AND DATE((a.final_r))=DATE(NOW()))
 					) AND
 					a.id_equipe = :id_equipe
 				ORDER BY inicio_p ASC';
@@ -84,10 +85,8 @@
 			$n = $stmt->fetch()->n;
 
 			// Determinando status_trf
-			if($n == 0) {
-				$tarefa->status_trf = $tarefa->status;
-			} else {
-				$tarefa->status_trf = -1;
+			if($n > 0) {
+				$tarefa->status = -10; // <= Tarefa ainda indisponível
 			}
 		}
 		

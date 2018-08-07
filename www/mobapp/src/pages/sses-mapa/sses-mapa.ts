@@ -86,12 +86,51 @@ export class SsesMapaPage {
 			tarefa.lat *= 1;
 			tarefa.lng *= 1;
 			tarefa.divergente = (tarefa.divergente == 1);
+			tarefa.markerFile = 'marker-'
+			switch (tarefa.status) {
+				
+				case -1:
+					tarefa.markerFile += 'divergente-'
+					break;
+				
+				case -10:
+					tarefa.markerFile += 'indisponivel-'
+					break;
+
+				case '1':
+					tarefa.markerFile += 'agendada-'
+					break;
+
+				case '2':
+					tarefa.markerFile += 'executando-'
+					break;
+
+				case '3':
+					tarefa.markerFile += 'finalizada-'
+					break;
+			
+				default:
+					console.warn('status de tarefa não previsto'+tarefa.status);
+					tarefa.markerFile += 'agendada-'
+					break;
+			}
+			tarefa.markerFile += tarefa.urgencia + '.svg'
 		}
 		this.tarefas = this.tmpTarefas;
 	}
 
-	onMarkerClick(evt,id_tarefa){
-		this.onTarefaClick(id_tarefa);
+	onMarkerClick(infowindow){
+		// if (this.markerAtual) {
+		// 	this.markerAtual.close();
+		// }
+		// this.markerAtual = infowindow;
+	}
+
+	onMapClick(evt){
+		if (this.markerAtual) {
+			this.markerAtual.close();
+		}
+		this.markerAtual = undefined;
 	}
 	
 	onTarefaClick(id_tarefa:number){
@@ -114,7 +153,7 @@ export class SsesMapaPage {
 						// Indo para página de tabs
 						this.navCtrl.push(TarefaTabsPage);
 					},
-					(y)=>{
+					()=>{
 						// Esconde carregando
 						loading.dismiss();
 

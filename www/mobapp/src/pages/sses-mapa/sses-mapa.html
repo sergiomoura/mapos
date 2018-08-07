@@ -13,22 +13,49 @@
 	<agm-map
 		[latitude]="lat_inicial"
 		[longitude]="lng_inicial"
-		[zoom]="initial_zoom">
+		[zoom]="initial_zoom"
+		(mapClick)="onMapClick($event)">
 		
 		<agm-marker
 			*ngFor="let tarefa of tarefas"
 			[latitude]="tarefa.lat"
-			[longitude]="tarefa.lng">
+			[longitude]="tarefa.lng"
+			[iconUrl]="'assets/imgs/' + tarefa.markerFile"
+			(markerClick)="onMarkerClick(infowindow)">
 			
 			<agm-info-window [disableAutoPan]="false" #infowindow>
 				<div>SSE {{tarefa.numero_sse}}</div>
 				<div>Início Previsto:{{tarefa.inicio_p | date:'dd/MM/yyyy HH:mm'}}</div>
 				<div>Final Previsto:{{tarefa.inicio_p | date:'dd/MM/yyyy HH:mm'}}</div>
 				<div class="buttons-container">
-					<button ion-button (click)="onTarefaClick(tarefa.id)" *ngIf="tarefa.status_trf==1">Ver SSE</button>
-					<button ion-button disabled *ngIf="tarefa.status_trf==-1">Ainda Idisponível</button>
-					<button ion-button disabled *ngIf="tarefa.status_trf==2">Em execução</button>
-					<button ion-button disabled *ngIf="tarefa.status_trf==3">Finalizada</button>
+					
+					<!-- Botão de agendada -->
+					<button
+						*ngIf="tarefa.status == 1"
+						ion-button (click)="onTarefaClick(tarefa.id)">Ver SSE</button>
+
+					<!-- Botão caso indisponível-->
+					<button
+						*ngIf="tarefa.status==-10"
+						ion-button disabled>Ainda Idisponível</button>
+
+					<!-- Botão caso em execução-->
+					<button
+						*ngIf="tarefa.status==2"
+						ion-button
+						(click)="onTarefaClick(tarefa.id)" >Em execução</button>
+
+					<!-- Botão caso em Divergente-->
+					<button
+						*ngIf="tarefa.status==-1"
+						ion-button
+						(click)="onTarefaClick(tarefa.id)" >Com divergência</button>
+
+					<!-- Botão caso finalizada-->
+					<button
+						*ngIf="tarefa.status==3"
+						(click)="onTarefaClick(tarefa.id)"
+						ion-button >Finalizada</button>
 				</div>
 			</agm-info-window>
 			
