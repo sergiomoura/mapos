@@ -208,7 +208,7 @@ export class SsesMapComponent implements OnInit {
 				
 				
 				// Determinando o tempo restante (17 horas do dia fo prazo final)
-				sse.tempoRestante = (sse.prazoFinal.getTime() - (7*60*60*1000) - (new Date()).getTime())/1000;
+				sse.tempoRestante = (sse.prazoFinal.getTime() + (17*60*60*1000) - (new Date()).getTime())/1000;
 	
 				// Determinando o nome do arquivo marker
 				sse.markerFile = 'marker-';
