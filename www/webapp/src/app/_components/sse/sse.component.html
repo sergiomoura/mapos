@@ -116,7 +116,7 @@
 					<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Previsto" [(ngModel)]="medidaPrevTotal">
 				</mat-form-field>
 			</div>
-			<div class="medidas realizadas">
+			<div class="medidas realizadas" *ngIf="sse.tipoDeServicoReal">
 				<div class="label">Medidas Realizadas
 					<button mat-icon-button [disabled]="camposDeMedidasReaisTravados">
 						<mat-icon>add</mat-icon>
@@ -148,17 +148,16 @@
 					</div>
 				</div>
 
-				<!-- <mat-form-field>
-					<mat-select (selectionChange)="onTipoDeServicoChange()" name="tds2" [(ngModel)]="sse.tipoDeServicoReal" placeholder="Tipo de Serviço Realizado" [disabled]="camposDeMedidasReaisTravados">
+				<mat-form-field>
+					<mat-select name="tds2" [(ngModel)]="sse.tipoDeServicoReal" placeholder="Tipo de Serviço Realizado" [disabled]="true">
 						<mat-option [value]="tds" *ngFor="let tds of tdss">RG{{tds.codigo}} - {{tds.descricao}}</mat-option>
 					</mat-select>
-				</mat-form-field> -->
-
-				<!--
-				<mat-form-field>
-					<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Previsto" [(ngModel)]="medidaTotal" [disabled]="camposDeMedidasReaisTravados">
 				</mat-form-field>
-				-->
+
+				<mat-form-field>
+					<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Previsto" [(ngModel)]="medidaRealTotal" [disabled]="camposDeMedidasReaisTravados">
+				</mat-form-field>
+				
 			</div>
 		</div>
 

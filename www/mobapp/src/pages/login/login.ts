@@ -5,7 +5,6 @@ import { Storage } from "@ionic/storage";
 import { SsesPage } from '../sses/sses';
 import { ToastController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
-import { TarefasPage } from '../tarefas/tarefas';
 import { SsesMapaPage } from '../sses-mapa/sses-mapa';
 
 @Component({

@@ -22,7 +22,6 @@ export class TarefaConcluirPage {
 			tipoDeServicoPrev:undefined
 		}
 	};
-	private tmpTarefa:any;
 	produtos:Produto[];
 
 	constructor(
@@ -68,7 +67,7 @@ export class TarefaConcluirPage {
 				}
 			},
 			err => {
-				console.log('Não leu do storage');
+				console.log('Não leu do storage: ' + err);
 			}
 		)
 	}

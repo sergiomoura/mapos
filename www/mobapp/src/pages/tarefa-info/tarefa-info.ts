@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams , ToastController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams , Events } from 'ionic-angular';
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 import { Storage } from '@ionic/storage';
 

@@ -8,7 +8,6 @@ import { TipoDeServico } from '../../_models/tipoDeServico';
 import { AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { format } from "date-fns";
-import { TarefasPage } from '../tarefas/tarefas';
 
 @IonicPage()
 @Component({

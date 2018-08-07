@@ -42,6 +42,7 @@ export class SseComponent implements OnInit {
 	public domasaSelecionada: Domasa;
 	private sseResponse: any;
 	public medidaPrevTotal: number;
+	public medidaRealTotal: number;
 	public timestring: string;
 	public bairros:Bairro[] = [];
 	public bairrosExibidos:Bairro[] = [];
@@ -171,7 +172,7 @@ export class SseComponent implements OnInit {
 			res => {
 				// Voltando para o mapa
 				this.router.navigateByUrl("/home/sses/map");
-				
+
 				// Exibindo snackbar de sucesso
 				this.snackBar.open(
 					'SSE alterada com sucesso!',
