@@ -475,21 +475,22 @@
 		// Parsing dh_recebido
 		$sse->dh_recebido = DateTime::createFromFormat('Y-m-d\TH:iO',substr($sse->dh_recebido,0,16).'+00:00');
 		$sse->dh_recebido = $sse->dh_recebido->sub(new DateInterval('P0DT3H'));
-
+		
 		// Calculando o prazo de entrega
 		if($sse->urgencia == 2 ){
 			// É URGÊNCIA! O prazo de entrega é o dia do recebimento
 			$prazo_final = $sse->dh_recebido;
 		} else {
 			// Não é urgência
-			$n_dias = floor($sse->tipoDeServico->prazo);
+			$n_dias = floor($sse->tipoDeServicoPrev->prazo);
 			$dia_da_semana = $sse->dh_recebido->format('N');
 			if($dia_da_semana + $n_dias >=7){
 				$n_dias ++;
 			}
-			$prazo_final = $sse->dh_recebido->add(new DateInterval('P'.$n_dias.'D'));
+			$prazo_final = DateTime::createFromFormat('Y-m-d H:i',$sse->dh_recebido->format('Y-m-d H:i'));
+			$prazo_final->add(new DateInterval('P'.$n_dias.'D'));
 		}
-
+		
 		// Determinando longitude e latitude do endereço
         $prepAddr = str_replace(' ','+',($sse->endereco.',Campinas,SP'));
         $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
@@ -648,7 +649,7 @@
 		$stmt->execute(
 			array(
 				':trabalho' => $trabalho,
-				':id_tipo' => $sse->tipoDeServico->id
+				':id_tipo' => $sse->tipoDeServicoPrev->id
 			)
 		);
 		$valor_total = $stmt->fetch()->valor_total;
@@ -691,7 +692,7 @@
 		
 		// Parsing dh_recebido
 		$sse->dh_recebido = DateTime::createFromFormat('Y-m-d\TH:iO',substr($sse->dh_recebido,0,16).'+00:00');
-		$sse->dh_recebido = $sse->dh_recebido->sub(new DateInterval('P0DT3H'));
+		$sse->dh_recebido = $sse->dh_recebido->sub(new DateInterval('P0DT3H')); // <- Resolvendo o fuso horário
 
 		// Calculando o prazo de entrega
 		if($sse->urgencia == 2 ){
@@ -699,12 +700,13 @@
 			$prazo_final = $sse->dh_recebido;
 		} else {
 			// Não é urgência
-			$n_dias = floor($sse->tipoDeServico->prazo);
+			$n_dias = floor($sse->tipoDeServicoPrev->prazo);
 			$dia_da_semana = $sse->dh_recebido->format('N');
 			if($dia_da_semana + $n_dias >=7){
 				$n_dias ++;
 			}
-			$prazo_final = $sse->dh_recebido->add(new DateInterval('P'.$n_dias.'D'));
+			$prazo_final = DateTime::createFromFormat('Y-m-d H:i',$sse->dh_recebido->format('Y-m-d H:i'));
+			$prazo_final->add(new DateInterval('P'.$n_dias.'D'));
 		}
 
 		// Determinando longitude e latitude do endereço
@@ -897,7 +899,7 @@
 		$stmt->execute(
 			array(
 				':trabalho' => $trabalho,
-				':id_tipo' => $sse->tipoDeServico->id
+				':id_tipo' => $sse->tipoDeServicoPrev->id
 			)
 		);
 		$valor_total = $stmt->fetch()->valor_total;

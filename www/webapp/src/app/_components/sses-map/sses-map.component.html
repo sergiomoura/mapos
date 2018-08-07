@@ -12,7 +12,7 @@
 		<agm-info-window [disableAutoPan]="false" #infowindow>
 			<div class="numero">SSE: {{sse?.numero == null ? 'sem número' : sse?.numero}}</div>
 			<div class="endereco">{{sse?.endereco}}</div>
-			<div>RG{{sse?.tipoDeServico?.codigo}} - {{sse?.tipoDeServico?.descricao}}</div>
+			<div>RG{{sse?.tipoDeServicoPrev?.codigo}} - {{sse?.tipoDeServicoPrev?.descricao}}</div>
 			<div class="status">{{sse?.statusMessage}}</div>
 			<div class="prazo">Data de Recebimento: {{sse?.dh_recebido?.toLocaleDateString()}}</div>
 			<div class="prazo">Prazo de Conclusão: {{sse?.prazoFinal?.toLocaleDateString()}}</div>
