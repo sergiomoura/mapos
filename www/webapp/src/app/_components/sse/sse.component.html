@@ -55,11 +55,12 @@
 			<input required name="endereco" [(ngModel)]="sse.endereco" matInput placeholder="Endereço" [disabled]="camposDeCadstroTravados">
 		</mat-form-field>
 
-		<mat-form-field>
-			<mat-select (selectionChange)="onBairrosChange()" required placeholder="Bairro" name="bairro" [(ngModel)]="sse.bairro" [disabled]="camposDeCadstroTravados">
-				<mat-option [value]="bairro" *ngFor="let bairro of bairrosExibidos">{{bairro.codigo}} - {{bairro.nome}}</mat-option>
-			</mat-select>
-		</mat-form-field>
+		<div class="container-bairro">
+			<label for="bairro">Bairro *</label>
+			<select name="bairro" id="bairro" [(ngModel)]="id_bairro_selecionado" [disabled]="camposDeCadstroTravados" required (change)="onBairrosChange()">
+				<option [value]="bairro.id" *ngFor="let bairro of bairrosExibidos">{{bairro.codigo}} - {{bairro.nome}}</option>
+			</select>
+		</div>
 
 		<mat-form-field>
 			<mat-select name="urgencia" [(ngModel)]="sse.urgencia" placeholder="Nível de Prioridade" [disabled]="camposDeCadstroTravados">
@@ -163,7 +164,7 @@
 
 		<div class="controles">
 			<button mat-raised-button disabled color="accent">Cancelar</button>
-			<button mat-raised-button color="primary" [disabled]="!sseForm.valid || sseForm.pristine" (click)="onSalvarClick()">Salvar Alterações</button>
+			<button mat-raised-button color="primary" [disabled]="!sseForm.valid || sseForm.pristine || id_bairro_selecionado==0" (click)="onSalvarClick()">Salvar Alterações</button>
 		</div>
 
 	</form>

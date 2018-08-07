@@ -26,6 +26,35 @@
 			mat-form-field {
 				display: block;
 			}
+
+			.container-bairro {
+				margin-bottom: 36px;
+
+				label {
+					display: block;
+					color: #727273;
+				}
+				select{
+					display: block;
+					display: block;
+					width: 100%;
+					padding: 10px;
+					border: none;
+					border-bottom: 1px solid #8c8c8c;
+					background-color: transparent;
+					outline: none;
+					cursor: pointer;
+					font-size: 16px;
+					option {
+						padding: 12px;
+						font-size: 18px;
+					}
+				}
+				select:focus{
+					border-bottom: 2px solid #212121;
+
+				}
+			}
 			.container-hora-recebida{
 				display: flex;
 				mat-form-field {

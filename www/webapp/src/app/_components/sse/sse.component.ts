@@ -11,7 +11,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Bairro } from '../../_models/bairro';
 import { FormControl, NgForm } from '@angular/forms';
 import { format } from "date-fns";
-import { Location } from '@angular/common';
 
 @Component({
 	selector: 'app-sse',
@@ -28,8 +27,7 @@ export class SseComponent implements OnInit {
 		private tdsService: TiposDeServicoService,
 		private snackBar: MatSnackBar,
 		private sanitizer: DomSanitizer,
-		private router: Router,
-		private location: Location
+		private router: Router
 	) {	}
 
 	sse: SSE = <SSE>{
@@ -48,7 +46,7 @@ export class SseComponent implements OnInit {
 	public bairrosExibidos:Bairro[] = [];
 	public camposDeCadstroTravados:boolean = true;
 	public camposDeMedidasReaisTravados: boolean = true;
-
+	public id_bairro_selecionado = undefined;
 	ngOnInit() {
 		this.getDomasas();
 		this.getTiposDeServico();
@@ -316,6 +314,7 @@ export class SseComponent implements OnInit {
 			}
 			delete this.sseResponse.id_tipo_de_servico_r
 
+
 			// Procurando a domasa do bairro
 			let i: number = 0;
 			let achou: boolean = false;
@@ -331,6 +330,9 @@ export class SseComponent implements OnInit {
 				}
 				i++
 			}
+
+			// Atualizando o id_bairro_selecionado para o select funcionar
+			this.id_bairro_selecionado = this.sseResponse.id_bairro;
 			delete this.sseResponse.id_bairro;
 
 			this.sse = <SSE>this.sseResponse;
@@ -397,28 +399,52 @@ export class SseComponent implements OnInit {
 	}
 
 	onDomasaChange(){
-		this.bairrosExibidos = this.domasaSelecionada.bairros;
+		this.bairrosExibidos = Object.assign([],this.domasaSelecionada.bairros);
+		this.bairrosExibidos.unshift(
+			{
+				id:0,
+				nome:'Selecione um bairro',
+				codigo:'',
+				domasa:this.domasaSelecionada.id
+			}
+		)
+		this.id_bairro_selecionado = this.bairrosExibidos[0].id;
+		this.sse.bairro = this.bairros.find(
+			(b) => {
+				return b.id == this.id_bairro_selecionado;
+			}
+		)
 	}
 
 	onBairrosChange(){
-		// Buscando domasa do bairro
-		let i = 0;
-		let achou = false;
-		let bairro:Bairro;
-		while (i<this.domasas.length && !achou) {
-			
-			bairro = this.domasas[i].bairros.find(
-				(b) => {
-					return b.id == this.sse.bairro.id;
-				}
-			)
-			achou = (bairro != undefined);
-
-			if (achou) {
-				this.domasaSelecionada = this.domasas[i];
+		
+		// Encontrando o bairro selecionado
+		this.sse.bairro = this.bairros.find(
+			(b) => {
+				return b.id == this.id_bairro_selecionado;
 			}
+		)
 
-			i++;
+		if(this.id_bairro_selecionado != 0) {
+			// Buscando domasa do bairro
+			let i = 0;
+			let achou = false;
+			let bairro:Bairro;
+			while (i<this.domasas.length && !achou) {
+				
+				bairro = this.domasas[i].bairros.find(
+					(b) => {
+						return b.id == this.sse.bairro.id;
+					}
+				)
+				achou = (bairro != undefined);
+	
+				if (achou) {
+					this.domasaSelecionada = this.domasas[i];
+				}
+	
+				i++;
+			}
 		}
 	}
 
