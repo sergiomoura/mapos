@@ -178,10 +178,18 @@ export class SseComponent implements OnInit {
 					});
 			},
 			err => {
+
+				// Declarando mensagem a exibir no snackbar
+				let msg:string;
+				if(err == 'Service Unavailable'){
+					msg = 'Falha ao recuperar coordenadas do endereço. Verifique o endereço ou tente mais tarde.'
+				} else {
+					msg = 'Falha ao tentar atualizar SSE: ' + err;
+				}
 				// Exibindo snackbar de erro
 				this.snackBar
 				.open(
-					'Falha ao tentar atualizar SSE',
+					msg,
 					'Fechar',
 					{
 						duration:0,
@@ -210,10 +218,18 @@ export class SseComponent implements OnInit {
 
 			},
 			err => {
+				// Declarando mensagem a exibir no snackbar
+				let msg:string;
+				if(err == 'Service Unavailable'){
+					msg = 'Falha ao recuperar coordenadas do endereço. Verifique o endereço ou tente mais tarde.'
+				} else {
+					msg = 'Falha ao tentar atualizar SSE: ' + err;
+				}
+
 				// Exibindo snackbar de erro
 				this.snackBar
 				.open(
-					'Falha ao tentar criar SSE',
+					msg,
 					'Fechar',
 					{
 						duration:0,
