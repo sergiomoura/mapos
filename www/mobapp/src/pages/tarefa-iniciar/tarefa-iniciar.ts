@@ -352,6 +352,7 @@ export class TarefaIniciarPage {
 		this.camera.getPicture(options).then(
 			(imageData) => {
 				this.tarefa.fotos_inicio.push(this.sanitizer.bypassSecurityTrustUrl('data:image/jpeg;base64,' + imageData));
+				this.content.scrollToBottom();
 			},
 			(err) => { }
 		);
