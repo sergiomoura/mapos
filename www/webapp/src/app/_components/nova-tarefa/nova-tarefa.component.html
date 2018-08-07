@@ -8,7 +8,7 @@
 			<input matInput type="text" disabled placeholder="Endereço" value="{{sse.endereco}}">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="text" disabled placeholder="Solicitação" value="{{'RG' + sse.tipoDeServico.codigo + '-' + sse.tipoDeServico.descricao}}">
+			<input matInput type="text" disabled placeholder="Solicitação" value="{{'RG' + sse.tipoDeServicoPrev.codigo + '-' + sse.tipoDeServicoPrev.descricao}}">
 		</mat-form-field>
 		<mat-form-field>
 			<input matInput type="text" disabled placeholder="Recebida em" value="{{sse.dh_recebido.toLocaleString()}}">

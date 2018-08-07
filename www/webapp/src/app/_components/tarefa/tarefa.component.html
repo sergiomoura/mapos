@@ -29,7 +29,7 @@
 			<input matInput type="text" readonly placeholder="Endereço" [(ngModel)]="sse.endereco">
 		</mat-form-field>
 		<mat-form-field>
-			<input matInput type="text" readonly placeholder="Solicitação" value="RG{{sse.tipoDeServico?.codigo}} - {{sse.tipoDeServico.descricao}}">
+			<input matInput type="text" readonly placeholder="Solicitação" value="RG{{sse.tipoDeServicoPrev?.codigo}} - {{sse.tipoDeServicoPrev?.descricao}}">
 		</mat-form-field>
 		<mat-form-field>
 			<input matInput type="text" readonly placeholder="Recebida em" value="{{sse.dh_recebido.toLocaleString()}}">

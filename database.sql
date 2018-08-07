@@ -588,7 +588,7 @@ CREATE TABLE `maxse_tarefas` (
   CONSTRAINT `fk_maxse_tarefas_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_3` FOREIGN KEY (`id_apoio`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=95 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -790,7 +790,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b6871a6d2d3b1.22913588','2018-08-06 14:04:54',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b680165689c01.74385086','2018-08-06 06:05:57',1,0,1,185),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b687156ec2869.60340498','2018-08-06 14:03:34',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(90,'executor','$1$AJYPo8aj$N.Fln3Vslx2s0dzprxv.B/','5b66c881796428.96588239','2018-08-05 07:50:57',2,0,1,202),(91,'tulio','$1$wZSp24yk$RvuYxgJj0U7Un9KYVQ2hD0','5b66cc37cc00e5.72944086','2018-08-05 08:06:47',2,0,1,205);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b693021f11042.26768117','2018-08-07 03:37:37',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b680165689c01.74385086','2018-08-06 06:05:57',1,0,1,185),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b687156ec2869.60340498','2018-08-06 14:03:34',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(90,'executor','$1$AJYPo8aj$N.Fln3Vslx2s0dzprxv.B/','5b66c881796428.96588239','2018-08-05 07:50:57',2,0,1,202),(91,'tulio','$1$wZSp24yk$RvuYxgJj0U7Un9KYVQ2hD0','5b66cc37cc00e5.72944086','2018-08-05 08:06:47',2,0,1,205);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -846,4 +846,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-06 13:05:27
+-- Dump completed on 2018-08-07  2:38:26

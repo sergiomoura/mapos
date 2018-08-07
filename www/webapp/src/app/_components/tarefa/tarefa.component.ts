@@ -25,7 +25,7 @@ export class TarefaComponent implements OnInit {
 		endereco:'',
 		dh_recebido:new Date(),
 		dh_registrado:new Date(),
-		tipoDeServico: {
+		tipoDeServicoPrev: {
 			codigo:'',
 			descricao:''
 		}
@@ -121,7 +121,7 @@ export class TarefaComponent implements OnInit {
 
 				// Calculando prazo de entrega
 				this.prazoDeEntrega = new Date(this.sse.dh_recebido.getTime());
-				this.prazoDeEntrega.setDate(this.prazoDeEntrega.getDate()+this.sse.tipoDeServico.prazo);
+				this.prazoDeEntrega.setDate(this.prazoDeEntrega.getDate()+this.sse.tipoDeServicoPrev.prazo);
 
 				// Calculando o tempo restante
 				this.tempoRestante = (this.prazoDeEntrega.getTime() - (new Date()).getTime())/1000;

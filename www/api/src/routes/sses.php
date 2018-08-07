@@ -79,7 +79,6 @@
 					endereco,
 					id_bairro,
 					numero,
-					id_tipo_de_servico,
 					dh_registrado,
 					dh_recebido,
 					urgente as urgencia,

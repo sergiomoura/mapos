@@ -187,13 +187,21 @@ export class SsesMapComponent implements OnInit {
 				)
 				delete this.tmpSses[i].id_equipe;
 
-				// Parsing tipo de serviço
-				sse.tipoDeServico = this.tdss.find(
+				// Parsing tipo de serviço previsto
+				sse.tipoDeServicoPrev = this.tdss.find(
 					(tds) => {
-						return +tds.id == +this.tmpSses[i].id_tipo_de_servico;
+						return +tds.id == +this.tmpSses[i].id_tds_p;
 					}
 				)
-				delete this.tmpSses[i].id_tipo_de_servico;
+				delete this.tmpSses[i].id_tds_p;
+
+				// Parsing tipo de serviço real
+				sse.tipoDeServicoReal = this.tdss.find(
+					(tds) => {
+						return +tds.id == +this.tmpSses[i].id_tds_r;
+					}
+				)
+				delete this.tmpSses[i].id_tds_r;
 				
 				// Determinando o prazo final
 				sse.prazoFinal = new Date(sse.prazo_final+'T00:00:00');
