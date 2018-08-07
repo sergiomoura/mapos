@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { SSE } from '../../_models/sse';
 import { Domasa } from "../../_models/domasa";
@@ -9,7 +9,7 @@ import { MatSnackBar } from '@angular/material';
 import { TipoDeServico } from '../../_models/tipoDeServico';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Bairro } from '../../_models/bairro';
-import { FormControl } from '@angular/forms';
+import { FormControl, NgForm } from '@angular/forms';
 import { format } from "date-fns";
 import { Location } from '@angular/common';
 
@@ -30,13 +30,13 @@ export class SseComponent implements OnInit {
 		private sanitizer: DomSanitizer,
 		private router: Router,
 		private location: Location
-	) { }
+	) {	}
 
 	sse: SSE = <SSE>{
 		foto: null,
 		numero: '',
 	};
-
+	@ViewChild('sseForm')form:NgForm;
 	public domasas: Domasa[];
 	public tdss: TipoDeServico[];
 	public domasaSelecionada: Domasa;
@@ -169,6 +169,9 @@ export class SseComponent implements OnInit {
 	private updateSse() {
 		return this.ssesService.update(this.sse).subscribe(
 			res => {
+				// Voltando para o mapa
+				this.router.navigateByUrl("/home/sses/map");
+				
 				// Exibindo snackbar de sucesso
 				this.snackBar.open(
 					'SSE alterada com sucesso!',
@@ -207,6 +210,10 @@ export class SseComponent implements OnInit {
 			res => {
 				// Zerando campos
 				this.sseVazia();
+				this.domasaSelecionada = undefined;
+				this.form.reset();
+				window.scrollTo(0,0);
+				
 
 				// Exibindo snackbar de sucesso
 				this.snackBar.open(
@@ -248,10 +255,12 @@ export class SseComponent implements OnInit {
 		sse.dh_recebido = new Date();
 		sse.dh_recebido.setHours(10);
 		sse.dh_recebido.setMinutes(0);
+		this.timestring = format(sse.dh_recebido,'HH:mm');
 		sse.endereco = '';
 		sse.tipoDeServicoPrev = undefined;
 		sse.tipoDeServicoReal = undefined;
 		sse.numero = '';
+		sse.bairro = undefined;
 		sse.foto = null;
 		sse.medidas_area = {'real':[],'prev':[]};
 		sse.medidas_linear = {'real':[],'prev':[]};
