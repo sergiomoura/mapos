@@ -10,7 +10,15 @@
 				</mat-form-field>
 		
 				<mat-form-field>
-					<input [required]="sse.urgencia!=2" [disabled]="sse.urgencia!=2 && camposDeCadstroTravados" name="numero" [(ngModel)]="sse.numero" matInput placeholder="SSE Número">
+					<input
+						pattern="[0-9]{7}"
+						maxlength="7"
+						[required]="sse.urgencia!=2"
+						[disabled]="sse.urgencia!=2 && camposDeCadstroTravados"
+						name="numero"
+						[(ngModel)]="sse.numero"
+						matInput
+						placeholder="SSE Número">
 				</mat-form-field>
 		
 				<mat-form-field>
