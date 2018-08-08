@@ -350,6 +350,33 @@ export class SseComponent implements OnInit {
 			if (this.sse.medidas_unidades.prev.length == 0) {
 				this.sse.medidas_unidades.prev.push({ n: '' });
 			}
+
+			// parsing tarefas
+			for (let i = 0; i < this.sse.tarefas.length; i++) {
+				const tarefa = this.sse.tarefas[i];
+				tarefa.inicio_p = new Date(tarefa.inicio_p);
+				tarefa.final_p = new Date(tarefa.final_p);
+				tarefa.inicio_r = (tarefa.inicio_r ? new Date(tarefa.inicio_r) : null);
+				tarefa.final_r = (tarefa.final_r ? new Date(tarefa.final_r) : null);
+
+				// Calculando duração prevista
+				let s:number = Math.floor((tarefa.final_p.getTime() - tarefa.inicio_p.getTime())/1000);
+				let h:number = Math.floor(s/3600);
+				s -= h*3600;
+				let m:number = Math.floor(s/60);
+				tarefa.duracao_p = h+'h '+m+'min';
+
+				// Calculando duração real
+				if(tarefa.final_r){
+					s = Math.floor((tarefa.final_r.getTime() - tarefa.inicio_r.getTime())/1000);
+					h = Math.floor(s/3600);
+					s -= h*3600;
+					m = Math.floor(s/60);
+					tarefa.duracao_r = h+'h '+m+'min';
+				} else {
+					tarefa.duracao_r = null;
+				}
+			}
 		}
 	}
 

@@ -448,6 +448,52 @@
 
 	});
 
+	$app->get($api_root.'/tarefas/{id}/fotos/{momento}/{id_foto}',function(Request $req, Response $res, $args = []){
+		
+		// Lendo id da tarefa
+		$id_tarefa = 1*$args['id'];
+
+		// Lendo o id da foto
+		$id_foto = 1*$args['id_foto'];
+		
+		// Lendo momento
+		if($args['momento'] == 'ini'){
+			$momento = 'ini';
+		} elseif($args['momento'] == 'fim') {
+			$momento = 'fim';
+		} else {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(400)
+			->write('Url mal formada');
+		}
+
+		// Definindo o caminho da imagem requerida
+		$caminho = $this->maxse['caminho_para_fotos_tarefas'].$id_tarefa.'/'.$momento.'-'.$id_foto.'.jpg';
+
+		// Verificando existência do arquivo
+		if(file_exists($caminho)){
+
+			// Lendo arquivo
+			$data = file_get_contents($caminho);
+	
+			// Retornando imagem para o cliente
+			return $res
+			->withStatus(200)
+			->withHeader('Content-Type','image/jpg')
+			->write($data);
+
+		} else {
+
+			// Retornando erro para usuário
+			return $res
+			->withStatus(404)
+			->write('Imagem '.$caminho.' não encontrada');
+			
+		}
+
+	});
+
 	$app->put($api_root.'/tarefas/{id}',function(Request $req, Response $res, $args = []){
 
 		$tarefa = json_decode($req->getBody()->getContents());

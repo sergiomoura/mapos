@@ -168,4 +168,56 @@
 		</div>
 
 	</form>
+	<div class="container-tarefas" *ngIf="sse.tarefas?.length > 0">
+		<h1>Serviços Realizados/Agendados</h1>
+	
+		<div class="servico" *ngFor="let tarefa of sse.tarefas">
+			
+			<table class="horarios">
+				<thead>
+					<tr>
+						<td></td>
+						<td>Início</td>
+						<td>Final</td>
+						<td>Duração</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>Previsto</td>
+						<td>{{tarefa.inicio_p | date: "dd/MM/yyyy à's' HH:mm"}}</td>
+						<td>{{tarefa.final_p | date: "dd/MM/yyyy à's' HH:mm"}}</td>
+						<td>{{tarefa.duracao_p}}</td>
+					</tr>
+					<tr>
+						<td>Realizado</td>
+						<td>{{tarefa.inicio_r | date: "dd/MM/yyyy à's' HH:mm"}}</td>
+						<td>{{tarefa.final_r | date: "dd/MM/yyyy à's' HH:mm"}}</td>
+						<td>{{tarefa.duracao_r}}</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="equipe">Equipe: {{tarefa.equipe_sigla}} - {{tarefa.equipe_nome}} ({{tarefa.equipe_tipo_nome}})</div>
+			<div class="divergencia" *ngIf="tarefa.divergente=='1'">
+				Divergência {{ tarefa.autorizadaPor==null? 'não autorizada.' : 'autorizada por ' + tarefa.autorizadaPor }}
+			</div>
+			<div class="container-descricao">
+				<div class="descricao inicio">
+					<h3>Início</h3>
+					<div class="obs">{{tarefa.obs_ini}}</div>
+					<div class="fotos">
+						<img *ngFor="let foto of tarefa.fotos.ini" [src]="foto">
+					</div>
+				</div>
+				<div class="descricao fim">
+					<h3>Conclusão</h3>
+					<div class="obs">{{tarefa.obs_fim}}</div>
+					<div class="fotos">
+						<img *ngFor="let foto of tarefa.fotos.ini" [src]="foto">
+					</div>
+				</div>
+			</div>
+		</div>
+	
+	</div>
 </div>

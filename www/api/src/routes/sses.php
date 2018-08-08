@@ -452,6 +452,67 @@
 				break;
 		}
 
+		// Levantando tarefas associadas a esta sse
+		$sql = 'SELECT
+					a.id,
+					a.inicio_p,
+					a.final_p,
+					a.inicio_r,
+					a.final_r,
+					a.divergente,
+					a.autorizadaPor,
+					a.obs_ini,
+					a.obs_fim,
+					b.nome as equipe_nome,
+					b.sigla as equipe_sigla,
+					c.nome as equipe_tipo_nome
+				FROM
+					maxse_tarefas a
+					INNER JOIN maxse_equipes b ON a.id_equipe=b.id
+					INNER JOIN maxse_tipos_de_equipe c ON b.id_tipo=c.id
+				WHERE
+					a.id_sse = :id_sse';
+
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $sse->id));
+		$sse->tarefas = $stmt->fetchAll();
+		$root = '/maxse/api';
+		
+		// Gerando url das fotos das tarefas
+		foreach ($sse->tarefas as $tarefa) {
+			// URL no formato: $api_root/tarefas/{id}/fotos/{momento}/{pos}
+			
+			// Determinando caminho da pasta das fotos da tarefa
+			$pasta = $this->maxse['caminho_para_fotos_tarefas'].$tarefa->id;
+			
+			// Listando conteúdo das pastas
+			$fotos = scandir($pasta);
+			
+			// Removenod o . e o ..
+			array_shift($fotos);
+			array_shift($fotos);
+
+			// Criando arrays de fotos
+			$tarefa->fotos = new stdClass();
+			$tarefa->fotos->ini = array();
+			$tarefa->fotos->fim = array();
+			
+			// Classificando arquivos e salvando as urls no array
+			for ($i=0; $i < sizeof($fotos); $i++) { 
+				
+				$tipo = substr($fotos[$i],0,3);
+				$id = substr($fotos[$i],4,strlen($fotos[$i])-8);
+				
+				if($tipo == 'ini'){
+					$url = $root."/tarefas/".$tarefa->id.'/fotos/ini/'.$id;
+					array_push($tarefa->fotos->ini,$url);
+				} elseif ($tipo == 'fim') {
+					$url = $root."/tarefas/".$tarefa->id.'/fotos/fim/'.$id;
+					array_push($tarefa->fotos->fim,$url);
+				}
+			}
+		}
+
 		// Retornando resposta para usuário
 		return $res
 		->withStatus(200)

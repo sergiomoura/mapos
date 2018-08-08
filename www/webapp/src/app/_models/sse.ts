@@ -36,4 +36,5 @@ export class SSE{
 	lng:number;
 	status:number;
 	prazoFinal:Date;
+	tarefas?:any[];
 }
