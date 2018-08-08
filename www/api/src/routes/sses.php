@@ -486,22 +486,24 @@
 			foreach ($sse->tarefas as $tarefa) {
 				// URL no formato: $api_root/tarefas/{id}/fotos/{momento}/{pos}
 				
-				// Removenod o . e o ..
-				array_shift($fotos);
-				array_shift($fotos);
-	
-				// Criando arrays de fotos
-				$tarefa->fotos = new stdClass();
-				$tarefa->fotos->ini = array();
-				$tarefa->fotos->fim = array();
-
+				
 				// Determinando caminho da pasta das fotos da tarefa
 				$pasta = $this->maxse['caminho_para_fotos_tarefas'].$tarefa->id;
-	
+				
 				// Verificando existência da pasta
 				if(file_exists($pasta)) {
+					
 					// Listando conteúdo das pastas
 					$fotos = scandir($pasta);
+
+					// Removenod o . e o ..
+					array_shift($fotos);
+					array_shift($fotos);
+		
+					// Criando arrays de fotos
+					$tarefa->fotos = new stdClass();
+					$tarefa->fotos->ini = array();
+					$tarefa->fotos->fim = array();
 					
 					// Classificando arquivos e salvando as urls no array
 					for ($i=0; $i < sizeof($fotos); $i++) { 
