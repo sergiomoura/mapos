@@ -204,16 +204,22 @@
 			<div class="container-descricao">
 				<div class="descricao inicio">
 					<h3>Início</h3>
-					<div class="obs">{{tarefa.obs_ini}}</div>
+					<div class="obs">
+						Observações: {{tarefa.obs_ini}}
+					</div>
 					<div class="fotos">
-						<img *ngFor="let foto of tarefa.fotos.ini" [src]="foto">
+						<h4>Fotos</h4>
+						<img *ngFor="let foto of tarefa.fotos?.ini" [src]="foto">
 					</div>
 				</div>
 				<div class="descricao fim">
 					<h3>Conclusão</h3>
-					<div class="obs">{{tarefa.obs_fim}}</div>
+					<div class="obs">
+						Observações: {{tarefa.obs_fim}}
+					</div>
 					<div class="fotos">
-						<img *ngFor="let foto of tarefa.fotos.ini" [src]="foto">
+						<h4>Fotos</h4>
+						<img *ngFor="let foto of tarefa.fotos?.fim" [src]="foto">
 					</div>
 				</div>
 			</div>

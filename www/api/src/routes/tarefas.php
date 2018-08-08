@@ -41,13 +41,13 @@
 					a.final_p,
 					a.final_r,
 					a.divergente,
+					a.autorizadaPor,
 					b.numero as numero_sse,
 					b.endereco,
 					b.lat,
 					b.lng,
 					c.id as id_bairro,
 					c.nome as nome_bairro,
-					b.status,
 					b.urgente as urgencia
 				FROM
 					maxse_tarefas a
@@ -86,7 +86,15 @@
 
 			// Determinando status_trf
 			if($n > 0) {
-				$tarefa->status = -10; // <= Tarefa ainda indisponível
+				$tarefa->status = "-10"; // <= Tarefa ainda indisponível
+			} elseif($tarefa->divergente && is_null($tarefa->autorizadaPor)){
+				$tarefa->status = "-1";
+			} elseif (is_null($tarefa->inicio_r)) {
+				$tarefa->status = "1";
+			} elseif ($tarefa->inicio_r && is_null($tarefa->final_r)) {
+				$tarefa->status = "2";
+			} elseif ($tarefa->inicio_r && $tarefa->final_r) {
+				$tarefa->status = "3";
 			}
 		}
 		
@@ -489,7 +497,7 @@
 			return $res
 			->withStatus(404)
 			->write('Imagem '.$caminho.' não encontrada');
-			
+
 		}
 
 	});

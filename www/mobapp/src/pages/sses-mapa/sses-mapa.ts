@@ -89,11 +89,11 @@ export class SsesMapaPage {
 			tarefa.markerFile = 'marker-'
 			switch (tarefa.status) {
 				
-				case -1:
+				case '-1':
 					tarefa.markerFile += 'divergente-'
 					break;
 				
-				case -10:
+				case '-10':
 					tarefa.markerFile += 'indisponivel-'
 					break;
 
@@ -110,7 +110,7 @@ export class SsesMapaPage {
 					break;
 			
 				default:
-					console.warn('status de tarefa não previsto'+tarefa.status);
+					console.warn('status de tarefa não previsto: '+tarefa.status);
 					tarefa.markerFile += 'agendada-'
 					break;
 			}

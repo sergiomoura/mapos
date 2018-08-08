@@ -471,7 +471,10 @@
 					INNER JOIN maxse_equipes b ON a.id_equipe=b.id
 					INNER JOIN maxse_tipos_de_equipe c ON b.id_tipo=c.id
 				WHERE
-					a.id_sse = :id_sse';
+					a.id_sse = :id_sse
+				ORDER BY 
+					a.inicio_r
+				';
 
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(':id_sse' => $sse->id));
@@ -490,6 +493,11 @@
 				// Determinando caminho da pasta das fotos da tarefa
 				$pasta = $this->maxse['caminho_para_fotos_tarefas'].$tarefa->id;
 				
+				// Criando arrays de fotos
+				$tarefa->fotos = new stdClass();
+				$tarefa->fotos->ini = array();
+				$tarefa->fotos->fim = array();
+				
 				// Verificando existência da pasta
 				if(file_exists($pasta)) {
 					
@@ -499,11 +507,6 @@
 					// Removenod o . e o ..
 					array_shift($fotos);
 					array_shift($fotos);
-		
-					// Criando arrays de fotos
-					$tarefa->fotos = new stdClass();
-					$tarefa->fotos->ini = array();
-					$tarefa->fotos->fim = array();
 					
 					// Classificando arquivos e salvando as urls no array
 					for ($i=0; $i < sizeof($fotos); $i++) { 

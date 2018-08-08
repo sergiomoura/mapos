@@ -2,7 +2,22 @@ page-sses-mapa {
 	ion-content {
 		agm-map {
 			height: calc(100vh - 56px);
+			
+			.numero{
+				font-weight: bold;
+				font-size: 16px;
+				margin-bottom: 5px;
+			}
+	
+			.endereco{
+				margin-bottom: 5px;
+			}
+	
+			.buttons-container{
+				margin-top: 5px;
+			}
 		}
+
 	}
 	.buttons-container{
 		text-align: center

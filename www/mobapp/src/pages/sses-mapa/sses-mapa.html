@@ -24,9 +24,10 @@
 			(markerClick)="onMarkerClick(infowindow)">
 			
 			<agm-info-window [disableAutoPan]="false" #infowindow>
-				<div>SSE {{tarefa.numero_sse}}</div>
+				<div class="numero">SSE {{tarefa.numero_sse}}</div>
+				<div class="endereco">{{tarefa.endereco}}</div>
 				<div>Início Previsto:{{tarefa.inicio_p | date:'dd/MM/yyyy HH:mm'}}</div>
-				<div>Final Previsto:{{tarefa.inicio_p | date:'dd/MM/yyyy HH:mm'}}</div>
+				<div>Final Previsto:{{tarefa.final_p | date:'dd/MM/yyyy HH:mm'}}</div>
 				<div class="buttons-container">
 					
 					<!-- Botão de agendada -->
@@ -37,7 +38,7 @@
 					<!-- Botão caso indisponível-->
 					<button
 						*ngIf="tarefa.status==-10"
-						ion-button disabled>Ainda Idisponível</button>
+						ion-button disabled>Ainda Indisponível</button>
 
 					<!-- Botão caso em execução-->
 					<button
