@@ -171,7 +171,7 @@
 	<div class="container-tarefas" *ngIf="sse.tarefas?.length > 0">
 		<h1>Serviços Agendados/Realizados</h1>
 	
-		<div class="servico" *ngFor="let tarefa of sse.tarefas">
+		<div class="servico" *ngFor="let tarefa of sse.tarefas;let index_tarefa=index">
 			
 			<table class="horarios">
 				<thead>
@@ -209,7 +209,7 @@
 					</div>
 					<div class="fotos">
 						<h4>Fotos</h4>
-						<img *ngFor="let foto of tarefa.fotos?.ini" [src]="foto">
+						<img *ngFor="let foto of tarefa.fotos?.ini; let i=index" [src]="foto" (click)="onFotoClick(index_tarefa,'ini',i)" >
 					</div>
 				</div>
 				<div class="descricao fim">
@@ -219,7 +219,7 @@
 					</div>
 					<div class="fotos">
 						<h4>Fotos</h4>
-						<img *ngFor="let foto of tarefa.fotos?.fim" [src]="foto">
+						<img *ngFor="let foto of tarefa.fotos?.fim; let i=index" [src]="foto" (click)="onFotoClick(index_tarefa,'fim',i)">
 					</div>
 				</div>
 			</div>

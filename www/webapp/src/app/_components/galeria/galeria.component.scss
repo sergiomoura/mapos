@@ -1,0 +1,28 @@
+:host(){
+	
+	.display {
+		width:100%;
+		img{
+			width: 100%;
+			max-height: 800px;
+		}
+	}
+
+	.thumbs-container {
+		
+		width: 100%;
+		overflow-y: auto;
+		height: 90px;
+		display: flex;
+		img {
+			height: 90px;
+			margin-right: 10px;
+			cursor: pointer;
+			display: inline-block;
+		}
+		img:last-child {
+			margin-right: 0px;
+		}
+
+	}
+}

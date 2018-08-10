@@ -5,12 +5,13 @@ import { Domasa } from "../../_models/domasa";
 import { SsesService } from '../../_services/sses.service';
 import { DomasasService } from "../../_services/domasas.service";
 import { TiposDeServicoService } from "../../_services/tipos-de-servico.service";
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { TipoDeServico } from '../../_models/tipoDeServico';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Bairro } from '../../_models/bairro';
 import { FormControl, NgForm } from '@angular/forms';
 import { format } from "date-fns";
+import { GaleriaComponent } from '../galeria/galeria.component';
 
 @Component({
 	selector: 'app-sse',
@@ -27,7 +28,8 @@ export class SseComponent implements OnInit {
 		private tdsService: TiposDeServicoService,
 		private snackBar: MatSnackBar,
 		private sanitizer: DomSanitizer,
-		private router: Router
+		private router: Router,
+		public dialog: MatDialog
 	) {	}
 
 	sse: SSE = <SSE>{
@@ -486,6 +488,24 @@ export class SseComponent implements OnInit {
 				i++;
 			}
 		}
+	}
+
+	onFotoClick(index_tarefa:number,tipo:string,i:number){
+		let fotos:SafeUrl[];
+		if(tipo=='ini'){
+			fotos = this.sse.tarefas[index_tarefa].fotos.ini;
+		} else if(tipo == 'fim') {
+			fotos = this.sse.tarefas[index_tarefa].fotos.fim;
+		}
+		const dialogRef = this.dialog.open(GaleriaComponent, {
+			width: '800px',
+			data: {
+				'start_index':i,
+				'fotos':fotos
+			}
+		});
+	
+		
 	}
 
 	calculaMedidaPrevTotal() {

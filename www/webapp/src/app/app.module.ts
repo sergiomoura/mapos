@@ -27,6 +27,8 @@ import { SsesGridComponent } from './_components/sses-grid/sses-grid.component';
 import { SseComponent } from './_components/sse/sse.component';
 import { TarefaComponent } from './_components/tarefa/tarefa.component';
 import { NovaTarefaComponent } from './_components/nova-tarefa/nova-tarefa.component';
+import { GaleriaComponent } from './_components/galeria/galeria.component';
+
 
 import { FocusDirective } from './_directives/focus.directive';
 
@@ -65,7 +67,8 @@ import { NumeroBrPipe } from './_pipes/numero-br.pipe';
 		EditMovimentoComponent,
 		FinalizarSseComponent,
 		MoedaBrasilPipe,
-		NumeroBrPipe
+		NumeroBrPipe,
+		GaleriaComponent
 	],
 	imports: [
 		BrowserModule,
@@ -84,7 +87,8 @@ import { NumeroBrPipe } from './_pipes/numero-br.pipe';
 		EditProdutoComponent,
 		LancarNotaComponent,
 		EditMovimentoComponent,
-		FinalizarSseComponent
+		FinalizarSseComponent,
+		GaleriaComponent
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
