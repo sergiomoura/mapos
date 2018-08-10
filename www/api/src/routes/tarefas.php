@@ -73,17 +73,25 @@
 		
 		// Para cada tarefa, verifica se há tarefas da
 		// mesma sse ainda não executadas agendadas para antes dela
-		$sql = 'SELECT COUNT(*) as n FROM maxse_tarefas WHERE id_sse=:id_sse AND inicio_p<:inicio_p AND final_r IS NULL';
+		$sql = 'SELECT
+					COUNT(*) as n
+				FROM
+					maxse_tarefas
+				WHERE
+					id_sse=:id_sse AND
+					id<>:id_tarefa AND
+					inicio_p<:inicio_p AND
+					final_r IS NULL';
 		$stmt = $this->db->prepare($sql);
-		foreach ($tarefas as $tarefa) {
+		foreach ($tarefas as $tarefa) {			
 			$stmt->execute(
 				array(
 					':id_sse' => $tarefa->id_sse,
-					':inicio_p' => $tarefa->inicio_p
+					':inicio_p' => $tarefa->inicio_p,
+					':id_tarefa' => $tarefa->id
 				)
 			);
 			$n = $stmt->fetch()->n;
-
 			// Determinando status_trf
 			if($n > 0) {
 				$tarefa->status = "-10"; // <= Tarefa ainda indisponível
@@ -1294,7 +1302,7 @@
 		}
 		
 		// Salvando fotos novas
-		foreach ($tarefa->fotos_inicio as $i => $foto) {
+		foreach ($tarefa->fotos_fim as $i => $foto) {
 			$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
 			$data = base64_decode($data);
 

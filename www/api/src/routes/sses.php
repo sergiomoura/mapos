@@ -510,16 +510,24 @@
 					
 					// Classificando arquivos e salvando as urls no array
 					for ($i=0; $i < sizeof($fotos); $i++) { 
-						
+
+						// Determinando se é do tipo final ou inicial
 						$tipo = substr($fotos[$i],0,3);
-						$id = substr($fotos[$i],4,strlen($fotos[$i])-8);
+						
+						// lendo conteúdo de arquivo
+						$data = file_get_contents($pasta.'/'.$fotos[$i]);
+
+						// encodando para base64
+						$data = base64_encode($data);
+
+						// adicionando cabeçalho base64
+						$data = 'data:image/jpeg;base64,'.$data;
+
 						
 						if($tipo == 'ini'){
-							$url = $root."/tarefas/".$tarefa->id.'/fotos/ini/'.$id;
-							array_push($tarefa->fotos->ini,$url);
+							array_push($tarefa->fotos->ini,$data);
 						} elseif ($tipo == 'fim') {
-							$url = $root."/tarefas/".$tarefa->id.'/fotos/fim/'.$id;
-							array_push($tarefa->fotos->fim,$url);
+							array_push($tarefa->fotos->fim,$data);
 						}
 					}
 				}

@@ -377,6 +377,17 @@ export class SseComponent implements OnInit {
 					} else {
 						tarefa.duracao_r = null;
 					}
+
+					// Parsing fotos do inicio
+					for (let i = 0; i < tarefa.fotos.ini.length; i++) {
+						tarefa.fotos.ini[i] = this.sanitizer.bypassSecurityTrustResourceUrl(tarefa.fotos.ini[i]);
+					}
+
+					// Parsing fotos do final
+					for (let i = 0; i < tarefa.fotos.fim.length; i++) {
+						tarefa.fotos.fim[i] = this.sanitizer.bypassSecurityTrustResourceUrl(tarefa.fotos.fim[i]);
+					}
+
 				}
 			}
 		}
