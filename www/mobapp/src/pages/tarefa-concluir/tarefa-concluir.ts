@@ -77,7 +77,9 @@ export class TarefaConcluirPage {
 			quality: 60,
 			destinationType: this.camera.DestinationType.DATA_URL,
 			encodingType: this.camera.EncodingType.JPEG,
-			mediaType: this.camera.MediaType.PICTURE
+			mediaType: this.camera.MediaType.PICTURE,
+			targetHeight: 1024,
+			targetWidth: 1024
 		}
 
 		this.camera.getPicture(options).then(
