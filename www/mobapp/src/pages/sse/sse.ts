@@ -172,6 +172,17 @@ export class SsePage {
 		this.sse.dh_recebido = format(new Date(),'YYYY-MM-DDT'+s+':00:00');
 	}
 
+	onNumeroKeypress(evt:KeyboardEvent){
+		evt.preventDefault();
+		console.log(evt);
+		const  maxlength:number = +evt.srcElement.attributes.getNamedItem('maxlength').value;
+		if(evt.key.match(/^[0|1|2|3|4|5|6|7|8|9]{1}$/)){
+			if(this.sse.numero.length < maxlength) {
+				this.sse.numero += evt.key;
+			}
+		}
+	}
+
 	onMedidaChange(){
 		this.medidaTotal = this.calculaTotal(this.sse);
 	}

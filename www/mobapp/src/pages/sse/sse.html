@@ -21,7 +21,16 @@
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Informe Número</ion-label>
-			<ion-input name="numero"  [required]="sse?.urgencia!=2" type="number" [(ngModel)]="sse.numero"></ion-input>
+			<ion-input
+				name="numero"
+				[required]="sse?.urgencia!=2"
+				type="number"
+				[(ngModel)]="sse.numero"
+				max="9999999"
+				pattern="^[0-9]{7}$"
+				maxlength="7"
+				(keypress)="onNumeroKeypress($event)"
+				></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Data do Recebimento</ion-label>
