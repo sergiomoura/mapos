@@ -8,6 +8,16 @@ import { TipoDeServico } from '../../_models/tipoDeServico';
 import { AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import { format } from "date-fns";
+import { Tarefa } from '../../_models/tarefa';
+
+enum tipoPR {
+	'prev','real'
+}
+
+export interface medida{
+	valor:number;
+	unidade: string;
+}
 
 @IonicPage()
 @Component({
@@ -16,13 +26,46 @@ import { format } from "date-fns";
 })
 export class TarefaIniciarPage {
 
-	tarefa: any = {
-		sse: {
-			tipoDeServicoReal: undefined,
-			tipoDeServicoPrev: undefined
-		},
+	tarefa: Tarefa = {
+		id:0,
+		apoio:undefined,
+		autorizadaPor:undefined,
+		equipe:undefined,
+		divergente:false,
+		final_p:undefined,
+		final_r:undefined,
+		fotos_fim: [],
 		fotos_inicio: [],
-		divergente:false
+		inicio_p:undefined,
+		inicio_r:undefined,
+		obs_fim:undefined,
+		obs_ini:undefined,
+		primeira:undefined,
+		sse: {
+			tipoDeServicoReal:undefined,
+			tipoDeServicoPrev:undefined,
+			bairro:undefined,
+			dh_recebido:undefined,
+			dh_registrado:undefined,
+			endereco:undefined,
+			foto:undefined,
+			id:undefined,
+			medidas_area:{
+				prev:[],
+				real:[]
+			},
+			medidas_linear:{
+				prev:[],
+				real:[]
+			},
+			medidas_unidades:{
+				prev:[],
+				real:[]
+			},
+			numero:undefined,
+			obs:undefined,
+			urgencia:undefined
+		}		
 	};
 
 	@ViewChild(Content) content: Content;
@@ -32,6 +75,10 @@ export class TarefaIniciarPage {
 	showDivergenteBox:boolean = false;
 	medidasTravadas:boolean = true;
 	autorizadaPorTravado:boolean = false;
+	totalMedidasReal:medida;
+	totalMedidasPrev:medida;
+	inicio_r_string:string;
+	final_r_string:string;
 
 	constructor(
 		public navCtrl: NavController,
@@ -76,13 +123,19 @@ export class TarefaIniciarPage {
 				let tmp = <any>res;
 
 				// Parsing dates
-				tmp.final_p = (tmp.final_p == null ? null : new Date(tmp.final_p));
+				tmp.final_p = new Date(tmp.final_p);
 				tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
-				tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
-				tmp.inicio_r = (tmp.inicio_r == null ? format(new Date(), 'YYYY-MM-DDTHH:mm:ss') : tmp.inicio_r.replace(' ', 'T'));
+				tmp.inicio_p = new Date(tmp.inicio_p);
+				tmp.inicio_r = (tmp.inicio_r == null ? new Date() : tmp.inicio_r.replace(' ', 'T'));
 
+				// Parsing booleans
+				tmp.divergente = (tmp.divergente == "1");
+				
 				// Atribuindo a propriedade pública tarefa
 				this.tarefa = tmp;
+				
+				// Calculando o total previsto
+				this.totalMedidasPrev = this.calculaTotal(tipoPR.prev);
 				
 				// Travando medidas caso não seja a primeira tarefa. Destravando caso contrário
 				this.medidasTravadas = !this.tarefa.primeira;
@@ -95,7 +148,7 @@ export class TarefaIniciarPage {
 				}
 
 				// Calculando divergência da tarefa();
-				this.tarefa.divergente = (this.tarefa.divergente == "1");
+				
 				if(this.tarefa.divergente){
 					this.showDivergenteBox = true;
 				}
@@ -191,12 +244,52 @@ export class TarefaIniciarPage {
 		}
 	}
 
+	calculaTotal(tipo:tipoPR):medida{
+		
+		let total:number = 0;
+		let unidade:string = '';
+		let tds = (tipo == tipoPR.prev ? this.tarefa.sse.tipoDeServicoPrev : this.tarefa.sse.tipoDeServicoReal)
+		let vetorDeMedidas:any[];
+
+		// Calculando tipo de medidas previstas
+		switch (tds.medida) {
+			case 'a':
+				unidade = 'm²';
+				vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_area.prev : this.tarefa.sse.medidas_area.real);
+				for (let index = 0; index < vetorDeMedidas.length; index++) {
+					const m = vetorDeMedidas[index];
+					total += m.l * m.c;
+				}
+				break;
+			
+			case 'l':
+				unidade = 'm';
+				vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_linear.prev : this.tarefa.sse.medidas_linear.real);
+				for (let index = 0; index < this.tarefa.sse.medidas_linear[tipo].length; index++) {
+					const m = vetorDeMedidas[index];
+					total += m.v;
+				}
+				break;
+			
+			case 'u':
+				unidade = 'unid';
+				vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_unidades.prev : this.tarefa.sse.medidas_unidades.real);
+				for (let index = 0; index < this.tarefa.sse.medidas_unidades[tipo].length; index++) {
+					const m = vetorDeMedidas[index];
+					total += m.n;
+				}
+				break;
+		}
+		return {'valor':total,'unidade':unidade}
+	}
+
 	rmMedida(i) {
 		let medidas = this.getVetorDeMedidasReal();
 		medidas.splice(i, 1);
 	}
 
 	salvarInicio() {
+		this.tarefa.inicio_r = new Date(this.inicio_r_string);
 		this.tarefasProvider.setIniciada(this.tarefa).subscribe(
 			res => {
 				this.storage.set('tarefaAtual',this.tarefa);
@@ -381,7 +474,8 @@ export class TarefaIniciarPage {
 	}
 
 	onExecutarComAutorizacaoClick(){
-		this.tarefa.inicio_r = format(new Date(), 'YYYY-MM-DDTHH:mm:ss');
+		this.tarefa.inicio_r = new Date();
+		this.inicio_r_string = format(new Date(), 'YYYY-MM-DDTHH:mm:ss');
 	}
 
 	onBackClick(){
@@ -450,6 +544,7 @@ export class TarefaIniciarPage {
 						text: 'Sim',
 						handler: () => {
 							this.tarefa.inicio_r = null;
+							this.inicio_r_string = null;
 							this.salvarDivergencia();
 						}
 					}

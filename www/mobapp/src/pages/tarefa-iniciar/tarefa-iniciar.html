@@ -55,12 +55,12 @@
 
 		<ion-item>
 			<ion-label floating>Data do Início (Realizado)</ion-label>
-			<ion-datetime [required]="!(tarefa.divergente && !executarComAutorizacao)" name="data" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.inicio_r" ></ion-datetime>
+			<ion-datetime [required]="!(tarefa.divergente && !executarComAutorizacao)" name="data" displayFormat="DD MMM YYYY" [(ngModel)]="inicio_r_string" ></ion-datetime>
 		</ion-item>
 
 		<ion-item>
 			<ion-label floating>Hora do Início (Realizado)</ion-label>
-			<ion-datetime [required]="!(tarefa.divergente && !executarComAutorizacao)" name="hora" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.inicio_r"></ion-datetime>
+			<ion-datetime [required]="!(tarefa.divergente && !executarComAutorizacao)" name="hora" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="inicio_r_string"></ion-datetime>
 		</ion-item>
 
 		<ion-item>
@@ -78,6 +78,9 @@
 			</div>
 			<div class="medidas" *ngIf="tarefa?.sse?.tipoDeServicoPrev?.medida == 'u'">
 				<div *ngFor="let m of tarefa?.sse.medidas_unidades.prev">{{m.n}} unid</div>
+			</div>
+			<div class="medidas">
+				<div>Total: {{totalMedidasPrev?.valor + ' ' + totalMedidasPrev?.unidade}}</div>
 			</div>
 		</div>
 
