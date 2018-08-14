@@ -136,6 +136,9 @@ export class TarefaIniciarPage {
 				
 				// Calculando o total previsto
 				this.totalMedidasPrev = this.calculaTotal(tipoPR.prev);
+
+				// Calculando o total realizado
+				this.totalMedidasReal = this.calculaTotal(tipoPR.real);
 				
 				// Travando medidas caso não seja a primeira tarefa. Destravando caso contrário
 				this.medidasTravadas = !this.tarefa.primeira;
@@ -242,6 +245,8 @@ export class TarefaIniciarPage {
 				this.tarefa.sse.medidas_unidades.real.push({ 'n': null, 'tipo': 'r' });
 				break;
 		}
+
+		this.totalMedidasReal = this.calculaTotal(tipoPR.real);
 	}
 
 	calculaTotal(tipo:tipoPR):medida{
@@ -286,6 +291,8 @@ export class TarefaIniciarPage {
 	rmMedida(i) {
 		let medidas = this.getVetorDeMedidasReal();
 		medidas.splice(i, 1);
+
+		this.totalMedidasReal = this.calculaTotal(tipoPR.real);
 	}
 
 	salvarInicio() {
@@ -432,6 +439,9 @@ export class TarefaIniciarPage {
 				this.showDivergenteBox = false;
 			}
 		}
+
+		// Recalculando o total de medidas real
+		this.totalMedidasReal = this.calculaTotal(tipoPR.real);
 	}
 
 	onCameraClick() {
