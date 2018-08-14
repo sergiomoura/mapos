@@ -52,6 +52,10 @@ export class TarefaInfoPage {
 		this.storage.get('tarefaAtual').then(
 			(res) => {
 				if(res){
+					res.inicio_p = new Date(res.inicio_p);
+					res.final_p = new Date(res.final_p);
+					res.inicio_r = (res.inicio_r ? new Date(res.inicio_p) : null);
+					res.final_r = (res.final_r ? new Date(res.final_p) : null);
 					this.tarefa = res;
 				}
 			},
