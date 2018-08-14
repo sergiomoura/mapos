@@ -107,10 +107,8 @@
 			} elseif ($tarefa->inicio_r && $tarefa->final_r) {
 				$tarefa->status = "3";
 			}
-			
 		}
 		
-
 		// Retornando resposta para usuário
 		return $res
 		->withStatus(200)

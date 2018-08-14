@@ -169,6 +169,10 @@ export class SsesMapaPage {
 				)
 			},
 			err => {
+				// Esconde o carregando
+				loading.dismiss();
+
+				// Tratando o erro
 				if(err.status == 410) {
 
 					// A tarefa não autorizada!
