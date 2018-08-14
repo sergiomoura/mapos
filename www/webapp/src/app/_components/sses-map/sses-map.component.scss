@@ -23,12 +23,24 @@
 				width: 100%;
 				border-collapse: collapse;
 				margin: 10px 0 0 0;
+				thead {
+					td {
+						background-color: #333333;
+						color:#FFF;
+						border: 1px solid #666666;
+					}
+				}
 				td {
 					border: 1px solid #DEDEDE;
 					text-align: center;
 					padding: 2px;
 				}
 				
+				.atual td{
+					background-color: #cc8800;
+					color: #FFF;
+				}
+
 				.bt-container{
 					button {
 						cursor: pointer;

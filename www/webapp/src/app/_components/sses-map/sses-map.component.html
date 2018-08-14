@@ -16,9 +16,6 @@
 			<div class="status">{{sse?.statusMessage}}</div>
 			<div class="prazo">Data de Recebimento: {{sse?.dh_recebido?.toLocaleDateString()}}</div>
 			<div class="prazo">Prazo de Conclusão: {{sse?.prazoFinal?.toLocaleDateString()}}</div>
-			<div>
-				Equipe Atual: {{ sse.equipe ? ' [' + sse.equipe.sigla + '] - ' + sse.equipe.nome : ' NENHUMA'}}
-			</div>
 			<countdown *ngIf="sse.tempoRestante > 0 && sse.status!= 100 && sse.status!= -100" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
 			<div class="atrasado" *ngIf="sse.tempoRestante <= 0 && sse.status!= 100 && sse.status!= -100" >ATRASADA</div>
 			<div class="agendamentos" *ngIf="sse.tarefas.length > 0">
@@ -39,7 +36,7 @@
 						</tr>
 					</thead>
 					<tbody *ngFor="let tarefa of sse.tarefas">
-						<tr>
+						<tr [ngClass]="{'atual': tarefa.inicio_r && !tarefa.final_r}">
 							<td rowspan="2">{{tarefa.equipe?.sigla}}</td>
 							<td rowspan="2">{{tarefa.apoio?.sigla}}</td>
 							<td>P</td>
@@ -51,7 +48,7 @@
 								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento" (click)="onCancelarAgendamentoClick(tarefa.id)"><img src="assets/cancelar.svg"></button>
 							</td>
 						</tr>
-						<tr>
+						<tr [ngClass]="{'atual': tarefa.inicio_r && !tarefa.final_r}">
 							<td>R</td>
 							<td>{{tarefa.inicio_r ? (tarefa.inicio_r | date:'dd/MM HH:mm') : ''}}</td>
 							<td>{{tarefa.final_r ? (tarefa.final_r | date:'dd/MM HH:mm') : '' }}</td>
