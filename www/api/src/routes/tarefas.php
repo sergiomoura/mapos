@@ -92,18 +92,22 @@
 				)
 			);
 			$n = $stmt->fetch()->n;
+
 			// Determinando status_trf
-			if($n > 0) {
-				$tarefa->status = "-10"; // <= Tarefa ainda indisponível
-			} elseif($tarefa->divergente && is_null($tarefa->autorizadaPor)){
-				$tarefa->status = "-1";
-			} elseif (is_null($tarefa->inicio_r)) {
-				$tarefa->status = "1";
+			if (is_null($tarefa->inicio_r)) {
+				if($tarefa->divergente && is_null($tarefa->autorizadaPor)){
+					$tarefa->status = "-1";
+				} elseif($n > 0) {
+					$tarefa->status = "-10";
+				} else {
+					$tarefa->status = "1";
+				}
 			} elseif ($tarefa->inicio_r && is_null($tarefa->final_r)) {
 				$tarefa->status = "2";
 			} elseif ($tarefa->inicio_r && $tarefa->final_r) {
 				$tarefa->status = "3";
 			}
+			
 		}
 		
 
