@@ -149,13 +149,14 @@
 		}
 	}
 
-	mat-toolbar {
+	.menu {
 		background-color: rgba(0,0,0,0.5);
 		position: fixed;
-		left: 0;
+		right: 0;
 		top: 56px;
 		z-index: 1;
 		box-shadow: -2px 3px 7px rgba(0,0,0,0.3);
+		
 		button {
 			background-color: transparent;
 			border: none;

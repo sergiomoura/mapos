@@ -2,6 +2,7 @@
 	[latitude]="initial_lat"
 	[longitude]="initial_lng"
 	[zoom]="initial_zoom"
+	[mapTypeControl]="true"
 	(mapClick)="onMapClick($event)">
 	<agm-marker
 		*ngFor="let sse of sses"
@@ -207,7 +208,7 @@
 
 </div>
 
-<mat-toolbar>
+<div class="menu">
 	<mat-toolbar-row>
 		<span class="spacer"></span>
 		<button  matTooltip="Atualizar SSEs" (click)="onAtualizarClick()">
@@ -223,4 +224,4 @@
 			<mat-icon>filter_list</mat-icon>
 		</button>
 	</mat-toolbar-row>
-</mat-toolbar>
+</div>
