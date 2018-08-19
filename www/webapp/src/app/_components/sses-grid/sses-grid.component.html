@@ -79,6 +79,11 @@
 	<table class="tb-resultados">
 		<thead>
 			<tr>
+				<td colspan="27">Dados da SSE</td>
+				<td colspan="4">Dados do 1º Serviço</td>
+				<td colspan="4">Dados do 2º Serviço</td>
+			</tr>
+			<tr>
 				<td>ID</td>
 				<td>Status</td>
 				<td>Nº SSE</td>
@@ -106,6 +111,14 @@
 				<td>Em Garantia?</td>
 				<td>Cálculo Execução</td>
 				<td>Valor da SSE</td>
+				<td>Equipe</td>
+				<td>Apoio</td>
+				<td>Data da Execução</td>
+				<td>Consumo</td>
+				<td>Equipe</td>
+				<td>Apoio</td>
+				<td>Data da Execução</td>
+				<td>Consumo</td>
 			</tr>
 		</thead>
 		<tbody *ngFor="let sse of sses">
@@ -137,37 +150,28 @@
 				<td>{{sse.label_em_garantia}}</td>
 				<td>{{sse.calc_exec}}</td>
 				<td>{{sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
-			</tr>
-			<!-- <tr>
-				
-				<td colspan="25">
-					<table class="tarefas">
-						<thead>
-							<td>Equipe</td>
-							<td>Apoio</td>
-							<td>Data Execução</td>
-							<td>Consumo</td>
-						</thead>
-						<tbody>
-							<td>EQP1 - Nome do Líder</td>
-							<td>EQAP</td>
-							<td>24/08/2018</td>
-							<td>
-								<div>Bica Corrida: 1000m³</div>
-							</td>
-						</tbody>
-						<tbody>
-							<td>EQP1 - Nome do Líder</td>
-							<td>EQAP</td>
-							<td>24/08/2018</td>
-							<td>
-								<div>Bica Corrida: 1000m³</div>
-							</td>
-						</tbody>
-					</table>
+				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].equipe ? sse.tarefas[0].equipe.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].apoio ? sse.tarefas[0].apoio.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].final_r ? (sse.tarefas[0].final_r|date:'dd/MM/yyyy') : ''}}</td>
+				<td>
+					<ul *ngIf="sse.tarefas.length > 0 && sse.tarefas[0].consumos.length > 0">
+						<li *ngFor="let c of sse.tarefas[0].consumos">
+							{{c.nome}} : {{c.qtde}} {{c.unidade}}
+						</li>
+					</ul>
 				</td>
-
-			</tr> -->
+				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].equipe ? sse.tarefas[1].equipe.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].apoio ? sse.tarefas[1].apoio.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].final_r ? (sse.tarefas[1].final_r|date:'dd/MM/yyyy') : ''}}</td>
+				<td>
+					<ul *ngIf="sse.tarefas.length > 1 && sse.tarefas[1].consumos.length > 1">
+						<li *ngFor="let c of sse.tarefas[1].consumos">
+							{{c.nome}} : {{c.qtde}} {{c.unidade}}
+						</li>
+					</ul>
+				</td>
+			</tr>
+			
 		</tbody>
 	</table>
 </div>

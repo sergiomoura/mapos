@@ -169,14 +169,6 @@ export class SsesGridComponent implements OnInit {
 				sse.inicio_r = sse.inicio_r ? new Date(sse.inicio_r) : null;
 				sse.final_r = sse.final_r ? new Date(sse.final_r) : null;
 				
-				// Paring Equipe
-				sse.equipe = this.equipes.find(
-					(e) => {
-						return +(e.id) == +(sse.id_equipe);
-					}
-				)
-				delete sse.id_equipe;
-
 				// Parsing tipo de serviço previsto
 				sse.tipoDeServicoPrev = this.tdss.find(
 					(tds) => {

@@ -156,7 +156,27 @@
 				// Não há tarefas para esta SSE
 				$sse->tarefas = array();
 			} else {
+				// Há tarefas para esta SSE
 				$sse->tarefas = $tarefas;
+			}
+		}
+
+		// Para cada sse, levanta o consumo de cada uma de suas tarefas
+		foreach ($sses as $sse) {
+			foreach ($sse->tarefas as $tarefa) {
+				$sql = 'SELECT
+							round(a.qtde,2) as qtde,
+							b.nome,
+							b.unidade
+						FROM
+							estoque_movimentos a
+						INNER JOIN
+							estoque_produtos b ON a.id_produto=b.id
+						WHERE
+							a.id_referencia=:id_tarefa';
+				$stmt = $this->db->prepare($sql);
+				$stmt->execute(array(':id_tarefa' => $tarefa->id));
+				$tarefa->consumos = $stmt->fetchAll();
 			}
 		}
 

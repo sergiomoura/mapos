@@ -30,7 +30,23 @@
 	border-top: 1px solid #CCC;
 	.tb-resultados{
 		border-collapse: collapse;
-		thead > tr > td {
+		thead > tr:nth-child(1) {
+			td:nth-child(1) {
+				background-color: #565656;
+				color:#FFF;
+			}
+
+			td:nth-child(2) {
+				background-color: #1800ae;
+				color:#FFF;
+			}
+
+			td:nth-child(3) {
+				background-color: #188f00;
+				color:#FFF;
+			}
+		}
+		thead > tr:nth-child(2) > td {
 			background-color: #212121;
 			color:#FFF;
 		}
