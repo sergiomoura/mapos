@@ -81,12 +81,15 @@ export class SsesGridComponent implements OnInit {
 	}
 
 	getSses(){
+		this.evtService.mostrarCarregando();
 		this.ssesService.getAll(this.busca).subscribe(
 			res => {
+				this.evtService.esconderCarregando();
 				this.tmpSses = res;
 				this.parseSses();
 			},
 			err => {
+				this.evtService.esconderCarregando();
 				// Exibindo snackbar de erro
 				this.snackBar
 				.open(

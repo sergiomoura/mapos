@@ -110,14 +110,24 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	getSses(){
+		// Mostrar carregando
+		this.evtService.mostrarCarregando();
+
+		// Fazendo requisição
 		this.ssesService.getAll(this.busca).subscribe(
 			res => {
+				// esconde carregando
+				this.evtService.esconderCarregando();
+
 				this.tmpSses = res;
 				this.parseSses();
 				this.markerAtual = undefined;
 				this.mostrandoFiltro = false;
 			},
 			err => {
+				// esconde carregando
+				this.evtService.esconderCarregando();
+
 				// Exibindo snackbar de erro
 				this.snackBar
 				.open(

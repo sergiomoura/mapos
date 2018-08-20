@@ -4,6 +4,7 @@ import { MatSidenav } from "@angular/material";
 import { AuthService } from "../../_services/auth.service";
 import { Router } from '@angular/router';
 import { EventsService } from '../../_services/events.service';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-home',
@@ -19,8 +20,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 	// Definição de timerId
 	private timerId:number;
 	private checkStockTimerId:number;
-	private IRDT:number = 1 * 60 * 1000; // Intervalo de Renovação Do Token (5 MINUTOS)
-	private IDCE:number = 1 * 60 * 1000; // Intervalo de Checagem do Estoque (5 MINUTOS)
+	private IRDT:number = 1 * 60 * 1000; // Intervalo de Renovação Do Token (1 MINUTOS)
+	private IDCE:number = 1 * 60 * 1000; // Intervalo de Checagem do Estoque (1 MINUTOS)
+	private subscriptions:Subscription[] = [];
+	public carregando:boolean = false;
 
 	constructor(
 		private authService:AuthService,
@@ -28,7 +31,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 		private router:Router,
 		private evtService:EventsService
 
-	) { }
+	) {	}
 
 	ngOnInit() {
 		
@@ -54,6 +57,32 @@ export class HomeComponent implements OnInit, OnDestroy {
 				)
 			},this.IDCE
 		)
+
+		// Escutando evento de mostrar carregando
+		this.subscriptions.push(
+			this.evtService.mostrarCarrgando$.subscribe(
+				() => {
+					window.setTimeout(
+						() => {
+							this.carregando = true
+						},100
+					);
+				}
+			)
+		);
+
+		// Escutando evento de esconder carregando
+		this.subscriptions.push(
+			this.evtService.esconderCarrgando$.subscribe(
+				() => {
+					window.setTimeout(
+						() => {
+							this.carregando = false
+						},100
+					);
+				}
+			)
+		);
 	}
 
 	ngOnDestroy(): void {
@@ -62,6 +91,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 		// Interrompendo o timer que checa o estoque
 		window.clearInterval(this.checkStockTimerId);
+
+		// Saindo de todas as subscrições
+		for (let i = 0; i < this.subscriptions.length; i++) {
+			this.subscriptions[i].unsubscribe;
+		}
 	}
 
 	toggleSideNav(){

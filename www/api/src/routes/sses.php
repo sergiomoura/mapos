@@ -4,7 +4,7 @@
 	use Slim\Http\Response;
 
 	$app->get($api_root.'/sses',function(Request $req, Response $res, $args = []){
-
+		
 		// DETERMINANDO CONDIÇÕES DE STATUS = = = = = = = = = = = = = = = = = = = =
 		// Verificando os status requeridos
 		if(array_key_exists('status',$_GET) && $_GET['status']!=''){
