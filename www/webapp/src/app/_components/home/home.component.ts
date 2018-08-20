@@ -3,6 +3,7 @@ import { ProdutosService } from "../../_services/produtos.service";
 import { MatSidenav } from "@angular/material";
 import { AuthService } from "../../_services/auth.service";
 import { Router } from '@angular/router';
+import { EventsService } from '../../_services/events.service';
 
 @Component({
 	selector: 'app-home',
@@ -24,7 +25,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 	constructor(
 		private authService:AuthService,
 		private prodService:ProdutosService,
-		private router:Router
+		private router:Router,
+		private evtService:EventsService
+
 	) { }
 
 	ngOnInit() {
@@ -87,6 +90,26 @@ export class HomeComponent implements OnInit, OnDestroy {
 				this.router.navigateByUrl('home/estoque/produtos');
 			}
 		}
+	}
+
+	onAtualizarClick() {
+		this.evtService.reloadClicked();
+	}
+
+	onNovaSSEButtonClick(){
+		this.router.navigateByUrl('home/sse/0')
+	}
+
+	onGridButtonClick(){
+		this.router.navigateByUrl('home/sses/grid')
+	}
+
+	onFiltrarClick(){
+		this.evtService.filterClicked();
+	}
+
+	onMapButtonClick(){
+		this.router.navigateByUrl('home/sses/map');
 	}
 
 }

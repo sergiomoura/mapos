@@ -112,10 +112,10 @@
 	.container-filtro {
 		background-color: rgba(255, 255, 255, 0.8);
 		position: fixed;
-		top: 120px;
+		top: 64px;
 		right: 0px;
 		width: 450px;
-		height: calc(100vh - 120px);
+		height: calc(100vh - 64px);
 		border-radius: 0 0 0 4px;
 		box-shadow: -2px 3px 7px rgba(0,0,0,0.3);
 		padding: 20px;
@@ -145,28 +145,6 @@
 			justify-content: space-between;
 			.bt-buscar{
 				width:150px;
-			}
-		}
-	}
-
-	.menu {
-		background-color: rgba(0,0,0,0.5);
-		position: fixed;
-		right: 0;
-		top: 56px;
-		z-index: 1;
-		box-shadow: -2px 3px 7px rgba(0,0,0,0.3);
-		
-		button {
-			background-color: transparent;
-			border: none;
-			cursor: pointer;
-			position: relative;
-			top: 8px;
-			color: #E0E0E0;
-			outline: none;
-			&:hover{
-				color:#FFF;
 			}
 		}
 	}

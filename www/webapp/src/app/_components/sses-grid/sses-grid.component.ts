@@ -11,6 +11,8 @@ import { TiposDeServicoService } from "../../_services/tipos-de-servico.service"
 import { EquipesService } from "../../_services/equipes.service";
 import { DomasasService } from '../../_services/domasas.service';
 import { format, addYears, isBefore, differenceInDays} from 'date-fns';
+import { Subscription } from 'rxjs';
+import { EventsService } from '../../_services/events.service';
 
 @Component({
 	selector: 'app-sses',
@@ -42,6 +44,7 @@ export class SsesGridComponent implements OnInit {
 		realizadas_ate: undefined
 	}
 	infinito:number = 2000000000;
+	subscriptions:Subscription[] = [];
 
 	constructor(
 		private ssesService:SsesService,
@@ -49,7 +52,8 @@ export class SsesGridComponent implements OnInit {
 		private router:Router,
 		private tdsService:TiposDeServicoService,
 		private equipesService:EquipesService,
-		private domasaSerive:DomasasService
+		private domasaSerive:DomasasService,
+		private evtService:EventsService
 	){}
 
 	ngOnInit() {
@@ -57,6 +61,15 @@ export class SsesGridComponent implements OnInit {
 		this.getTiposDeServico();
 		this.getEquipes();
 		this.getBairros();
+
+		// Subscrevendo ao observavel de evento reload clicked
+		this.subscriptions.push(
+			this.evtService.reloadClicked$.subscribe(
+				() => {
+					this.getSses();
+				}
+			)
+		)
 	}
 
 	onBuscarClick(){
@@ -374,14 +387,6 @@ export class SsesGridComponent implements OnInit {
 	
 	onSseButtonClick(id){
 		this.router.navigateByUrl('/home/sse/' + id);
-	}
-
-	onNovaSSEButtonClick(){
-		this.router.navigateByUrl('home/sse/0');
-	}
-
-	onMapButtonClick(){
-		this.router.navigateByUrl('home/sses/map');
 	}
 
 	private parseSsesResponse(res):SSE[]{

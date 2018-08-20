@@ -12,6 +12,8 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
 import { TarefaService } from '../../_services/tarefa.service';
 import { FinalizarSseComponent } from "../../_components/finalizar-sse/finalizar-sse.component";
+import { EventsService } from '../../_services/events.service';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-sses-map',
@@ -31,6 +33,7 @@ export class SsesMapComponent implements OnInit {
 	mostrandoFiltro:boolean = false;
 	IRSSE:number = 300000; // Intervalo para recarregar sses: 5min
 	reload_sses_interval:number;
+	subscriptions:Subscription[] = [];
 
 	busca:Busca = {
 		equipes : [],
@@ -58,7 +61,8 @@ export class SsesMapComponent implements OnInit {
 		private router:Router,
 		private tdsService:TiposDeServicoService,
 		public dialog: MatDialog,
-		private tarefaService:TarefaService
+		private tarefaService:TarefaService,
+		private evtService:EventsService
 	) {}
 
 	ngOnInit() {
@@ -76,10 +80,33 @@ export class SsesMapComponent implements OnInit {
 			}
 			,this.IRSSE
 		)
+
+		// Subscrevendo ao observavel de evento reload clicked
+		this.subscriptions.push(
+			this.evtService.reloadClicked$.subscribe(
+				() => {
+					this.getSses();
+				}
+			)
+		)
+
+		// Subscrevendo ao observavel de evento filter clicked
+		this.subscriptions.push(
+			this.evtService.filterClicked$.subscribe(
+				() => {
+					this.mostrandoFiltro = !this.mostrandoFiltro;
+				}
+			)
+		)
 	}
 
 	ngOnDestroy() {
 		window.clearInterval(this.reload_sses_interval);
+		
+		// Unsubscribing from all subscriptions
+		for (let i = 0; i < this.subscriptions.length; i++) {
+			this.subscriptions[i].unsubscribe();
+		}
 	}
 
 	getSses(){
@@ -307,10 +334,6 @@ export class SsesMapComponent implements OnInit {
 		this.getSses();
 	}
 
-	onAtualizarClick(){
-		this.getSses();
-	}
-
 	onResetCamposClick(){
 		this.busca = this.buscaPadrao;
 	}
@@ -520,14 +543,6 @@ export class SsesMapComponent implements OnInit {
 		}
 	}
 
-	onGridButtonClick(){
-		this.router.navigateByUrl('home/sses/grid')
-	}
-
-	onNovaSSEButtonClick(){
-		this.router.navigateByUrl('home/sse/0')
-	}
-
 	openDialog(sse): void {
 		const dialogRef = this.dialog.open(NovaTarefaComponent, {
 			width: '800px',
@@ -544,10 +559,6 @@ export class SsesMapComponent implements OnInit {
 				}
 			}
 		);
-	}
-
-	onFiltrarClick(){
-		this.mostrandoFiltro = !this.mostrandoFiltro;
 	}
 
 }
