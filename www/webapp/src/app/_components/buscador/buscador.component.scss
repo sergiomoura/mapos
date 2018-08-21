@@ -1,0 +1,28 @@
+.container{
+	
+	padding: 20px;
+	
+	mat-form-field {
+		display: block !important;
+	}
+	
+	
+	.container-datas{
+		display: flex;
+		justify-content: space-between;
+
+		.mat-form-field {
+			display: inline-block;
+			width:calc(50% - 5px);
+		}	
+	}
+	
+	.controles{
+		display: flex;
+		justify-content: space-between;
+
+		.bt-buscar{
+			width:150px;
+		}
+	}
+}

@@ -1,209 +1,156 @@
-<agm-map
-	[latitude]="initial_lat"
-	[longitude]="initial_lng"
-	[zoom]="initial_zoom"
-	[mapTypeControl]="true"
-	(mapClick)="onMapClick($event)">
-	<agm-marker
-		*ngFor="let sse of sses"
-		[latitude]="sse.lat"
-		[longitude]="sse.lng"
-		[iconUrl]="'assets/' + sse.markerFile"
-		(markerClick)="onMarkerClick(infowindow)">
-		<agm-info-window [disableAutoPan]="false" #infowindow>
-			<div class="numero">SSE: {{sse?.numero == null ? 'sem número' : sse?.numero}}</div>
-			<div class="endereco">{{sse?.endereco}}</div>
-			<div>RG{{sse?.tipoDeServicoPrev?.codigo}} - {{sse?.tipoDeServicoPrev?.descricao}}</div>
-			<div class="status">{{sse?.statusMessage}}</div>
-			<div class="prazo">Data de Recebimento: {{sse?.dh_recebido?.toLocaleDateString()}}</div>
-			<div class="prazo">Prazo de Conclusão: {{sse?.prazoFinal?.toLocaleDateString()}}</div>
-			<countdown *ngIf="sse.tempoRestante > 0 && sse.status!= 100 && sse.status!= -100" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
-			<div class="atrasado" *ngIf="sse.tempoRestante <= 0 && sse.status!= 100 && sse.status!= -100" >ATRASADA</div>
-			<div class="agendamentos" *ngIf="sse.tarefas.length > 0">
-				<div class="titulo">Agendamentos para SSE</div>
-				<table>
-					<thead>
-						<tr>
-							<td rowspan="2">Equipe</td>
-							<td rowspan="2">Apoio</td>
-							<td rowspan="2">PR</td>
-							<td colspan="2">Data / Hora</td>
-							<td rowspan="2">Divergência?</td>
-							<td rowspan="2">Ações</td>
-						</tr>
-						<tr>
-							<td>Início</td>
-							<td>Final</td>
-						</tr>
-					</thead>
-					<tbody *ngFor="let tarefa of sse.tarefas">
-						<tr [ngClass]="{'atual': tarefa.inicio_r && !tarefa.final_r}">
-							<td rowspan="2">{{tarefa.equipe?.sigla}}</td>
-							<td rowspan="2">{{tarefa.apoio?.sigla}}</td>
-							<td>P</td>
-							<td>{{tarefa.inicio_p | date:'dd/MM HH:mm'}}</td>
-							<td>{{tarefa.final_p | date:'dd/MM HH:mm'}}</td>
-							<td>{{tarefa.divergente==1?'SIM':''}}</td>
-							<td rowspan="2" class="bt-container">
-								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento" (click)="onAlterarAgendamentoClick(sse,tarefa.id)"><img src="assets/editar.svg"></button>
-								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento" (click)="onCancelarAgendamentoClick(tarefa.id)"><img src="assets/cancelar.svg"></button>
-							</td>
-						</tr>
-						<tr [ngClass]="{'atual': tarefa.inicio_r && !tarefa.final_r}">
-							<td>R</td>
-							<td>{{tarefa.inicio_r ? (tarefa.inicio_r | date:'dd/MM HH:mm') : ''}}</td>
-							<td>{{tarefa.final_r ? (tarefa.final_r | date:'dd/MM HH:mm') : '' }}</td>
-							<td>{{tarefa.autorizadaPor ? 'Aut. por: ' + tarefa.autorizadaPor :''}}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			
-			<div class="controles-info-window">
-				<!-- Botão de ver SSE - Sempre visível -->
-				<button mat-raised-button color="accent" (click)="goToSse(sse.id)" ><mat-icon>visibility</mat-icon>Ver SSE</button>
+<mat-sidenav-container>
 
-				<!-- Botão de cancelar SSE. Visível se status for cadastrada (0), agendada (1), executando (2) ou  divergente(-1) -->
-				<button
-					*ngIf = "sse.status=='0' || sse.status=='1' || sse.status=='2' || sse.status=='-1'"
-					mat-raised-button color="accent"
-					(click)="onCancelarSseClick(sse.id)" >
-						<mat-icon>block</mat-icon>Cancelar SSE
-				</button>
+	<mat-sidenav #sidenav position="end" mode="side">
+		<app-buscador #buscador (ssesCarregadas)="onSsesCarregadas($event)" [auto]="true"></app-buscador>
+	</mat-sidenav>
 
-				<!-- Botão de agendar equipe. Visível quando status não for finalizado (100) nem for cancelado(-100) nem for divergente (-1)-->
-				<button
-					*ngIf="sse.status!=100 && sse.status!= -100 && sse.status != -1"
-					mat-raised-button
-					color="accent"
-					(click)="onAgendarClick(sse)">
-						<mat-icon>access_time</mat-icon>Agendar Equipe
-				</button>
-
-				<!-- Botão Finalizar SSE. Visível somente quando o status é Pendente (3) -->
-				<button
-					*ngIf="sse.status == 3"
-					mat-raised-button
-					color="accent"
-					(click)="onFinalizarClick(sse)">
-						<mat-icon>done</mat-icon>Finalizar SSE
-				</button>
-
-				<!-- Botão Marcar como Retrabalho. Visível somente quando o status é Finalizado (100) -->
-				<button
-					*ngIf="sse.status == 100"
-					mat-raised-button
-					color="accent"
-					(click)="onRetrabalhoClick(sse.id)">
-						<mat-icon>cached</mat-icon>Marcar como Retrabalho
-				</button>
-
-				<!-- Botão Marcar retrabalho como finalizado. Visível somente quando o status é Retrabalho (-2) -->
-				<button
-					*ngIf="sse.status == -2"
-					mat-raised-button
-					color="accent"
-					(click)="onFinalizarRetrabalhoClick(sse.id)">
-						<mat-icon>done_all</mat-icon>Finalizar Retrabalho
-				</button>
-
-				<!-- Botão Reabrir SSE Cancelada. Visível somente quando o status é Canceladp (-100) -->
-				<button
-					*ngIf="sse.status == -100"
-					mat-raised-button
-					color="accent"
-					(click)="onReabrirClick(sse.id)">
-						<mat-icon>autorenew</mat-icon>Reabrir SSE
-				</button>
-
-				<!-- Botão de Autorizar Execução. Visível somente quando o status é Divergente (-1) -->
-				<button
-					*ngIf="sse.status == -1"
-					mat-raised-button
-					color="accent"
-					(click)="onAutorizarClick(sse.id)">
-						<mat-icon>lock_open</mat-icon>Autorizar Execução
-				</button>
-
-			</div>
-	   	</agm-info-window>
-	</agm-marker>
-</agm-map>
-
-<div class="legenda">
-	<div><img src="assets/marker-divergente-0.svg"><span>Divergente</span></div>
-	<div><img src="assets/marker-cadastrada-0.svg"><span>Cadastrada</span></div>
-	<div><img src="assets/marker-agendada-0.svg"><span>Agendada</span></div>
-	<div><img src="assets/marker-executando-0.svg"><span>Executando</span></div>
-	<div><img src="assets/marker-pendente-0.svg"><span>Pendente</span></div>
-	<div><img src="assets/marker-finalizada-0.svg"><span>Finalizada</span></div>
-	<div><img src="assets/marker-cancelada-0.svg"><span>Cancelada</span></div>
-	<div><img src="assets/marker-retrabalho-0.svg"><span>Retrabalho</span></div>
-	<div class="separador">Níveis de Prioridade</div>
-	<div><img src="assets/marker-finalizada-0.svg"><span>Normal</span></div>
-	<div><img src="assets/marker-finalizada-1.svg"><span>Prioridade</span></div>
-	<div><img src="assets/marker-finalizada-2.svg"><span>Urgencia</span></div>
-</div>
-
-<div class="container-filtro" *ngIf="mostrandoFiltro">
+	<mat-sidenav-content>
+			<agm-map
+			[latitude]="initial_lat"
+			[longitude]="initial_lng"
+			[zoom]="initial_zoom"
+			[mapTypeControl]="true"
+			(mapClick)="onMapClick($event)">
+			<agm-marker
+				*ngFor="let sse of sses"
+				[latitude]="sse.lat"
+				[longitude]="sse.lng"
+				[iconUrl]="'assets/' + sse.markerFile"
+				(markerClick)="onMarkerClick(infowindow)">
+				<agm-info-window [disableAutoPan]="false" #infowindow>
+					<div class="numero">SSE: {{sse?.numero == null ? 'sem número' : sse?.numero}}</div>
+					<div class="endereco">{{sse?.endereco}}</div>
+					<div>RG{{sse?.tipoDeServicoPrev?.codigo}} - {{sse?.tipoDeServicoPrev?.descricao}}</div>
+					<div class="status">{{sse?.statusMessage}}</div>
+					<div class="prazo">Data de Recebimento: {{sse?.dh_recebido?.toLocaleDateString()}}</div>
+					<div class="prazo">Prazo de Conclusão: {{sse?.prazoFinal?.toLocaleDateString()}}</div>
+					<countdown *ngIf="sse.tempoRestante > 0 && sse.status!= 100 && sse.status!= -100" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>
+					<div class="atrasado" *ngIf="sse.tempoRestante <= 0 && sse.status!= 100 && sse.status!= -100" >ATRASADA</div>
+					<div class="agendamentos" *ngIf="sse.tarefas.length > 0">
+						<div class="titulo">Agendamentos para SSE</div>
+						<table>
+							<thead>
+								<tr>
+									<td rowspan="2">Equipe</td>
+									<td rowspan="2">Apoio</td>
+									<td rowspan="2">PR</td>
+									<td colspan="2">Data / Hora</td>
+									<td rowspan="2">Divergência?</td>
+									<td rowspan="2">Ações</td>
+								</tr>
+								<tr>
+									<td>Início</td>
+									<td>Final</td>
+								</tr>
+							</thead>
+							<tbody *ngFor="let tarefa of sse.tarefas">
+								<tr [ngClass]="{'atual': tarefa.inicio_r && !tarefa.final_r}">
+									<td rowspan="2">{{tarefa.equipe?.sigla}}</td>
+									<td rowspan="2">{{tarefa.apoio?.sigla}}</td>
+									<td>P</td>
+									<td>{{tarefa.inicio_p | date:'dd/MM HH:mm'}}</td>
+									<td>{{tarefa.final_p | date:'dd/MM HH:mm'}}</td>
+									<td>{{tarefa.divergente==1?'SIM':''}}</td>
+									<td rowspan="2" class="bt-container">
+		-content								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento" (click)="onAlterarAgendamentoClick(sse,tarefa.id)"><img src="assets/editar.svg"></button>
+		-content								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento" (click)="onCancelarAgendamentoClick(tarefa.id)"><img src="assets/cancelar.svg"></button>
+									</td>
+								</tr>
+								<tr [ngClass]="{'atual': tarefa.inicio_r && !tarefa.final_r}">
+									<td>R</td>
+									<td>{{tarefa.inicio_r ? (tarefa.inicio_r | date:'dd/MM HH:mm') : ''}}</td>
+									<td>{{tarefa.final_r ? (tarefa.final_r | date:'dd/MM HH:mm') : '' }}</td>
+									<td>{{tarefa.autorizadaPor ? 'Aut. por: ' + tarefa.autorizadaPor :''}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="controles-info-window">
+						<!-- Botão de ver SSE - Sempre visível -->
+						<button mat-raised-button color="accent" (click)="goToSse(sse.id)" ><mat-icon>visibility</mat-icon>Ver SSE</button>
+		
+						<!-- Botão de cancelar SSE. Visível se status for cadastrada (0), agendada (1), executando (2) ou  divergente(-1) -->
+						<button
+							*ngIf = "sse.status=='0' || sse.status=='1' || sse.status=='2' || sse.status=='-1'"
+							mat-raised-button color="accent"
+							(click)="onCancelarSseClick(sse.id)" >
+								<mat-icon>block</mat-icon>Cancelar SSE
+						</button>
+		
+						<!-- Botão de agendar equipe. Visível quando status não for finalizado (100) nem for cancelado(-100) nem for divergente (-1)-->
+						<button
+							*ngIf="sse.status!=100 && sse.status!= -100 && sse.status != -1"
+							mat-raised-button
+							color="accent"
+							(click)="onAgendarClick(sse)">
+								<mat-icon>access_time</mat-icon>Agendar Equipe
+						</button>
+		
+						<!-- Botão Finalizar SSE. Visível somente quando o status é Pendente (3) -->
+						<button
+							*ngIf="sse.status == 3"
+							mat-raised-button
+							color="accent"
+							(click)="onFinalizarClick(sse)">
+								<mat-icon>done</mat-icon>Finalizar SSE
+						</button>
+		
+						<!-- Botão Marcar como Retrabalho. Visível somente quando o status é Finalizado (100) -->
+						<button
+							*ngIf="sse.status == 100"
+							mat-raised-button
+							color="accent"
+							(click)="onRetrabalhoClick(sse.id)">
+								<mat-icon>cached</mat-icon>Marcar como Retrabalho
+						</button>
+		
+						<!-- Botão Marcar retrabalho como finalizado. Visível somente quando o status é Retrabalho (-2) -->
+						<button
+							*ngIf="sse.status == -2"
+							mat-raised-button
+							color="accent"
+							(click)="onFinalizarRetrabalhoClick(sse.id)">
+								<mat-icon>done_all</mat-icon>Finalizar Retrabalho
+						</button>
+		
+						<!-- Botão Reabrir SSE Cancelada. Visível somente quando o status é Canceladp (-100) -->
+						<button
+							*ngIf="sse.status == -100"
+							mat-raised-button
+							-content				color="accent"
+							(click)="onReabrirClick(sse.id)">
+								<mat-icon>autorenew</mat-icon>Reabrir SSE
+						</button>
+		
+						<!-- Botão de Autorizar Execução. Visível somente quando o status é Divergente (-1) -->
+						<button
+							*ngIf="sse.status == -1"
+							mat-raised-button
+							color="accent"
+							(click)="onAutorizarClick(sse.id)">
+								<mat-icon>lock_open</mat-icon>Autorizar Execução
+						</button>
+		
+					</div>
+				   </agm-info-window>
+			</agm-marker>
+		</agm-map>
+		
+		<div class="legenda">
+			<div><img src="assets/marker-divergente-0.svg"><span>Divergente</span></div>
+			<div><img src="assets/marker-cadastrada-0.svg"><span>Cadastrada</span></div>
+			<div><img src="assets/marker-agendada-0.svg"><span>Agendada</span></div>
+			<div><img src="assets/marker-executando-0.svg"><span>Executando</span></div>
+			<div><img src="assets/marker-pendente-0.svg"><span>Pendente</span></div>
+			<div><img src="assets/marker-finalizada-0.svg"><span>Finalizada</span></div>
+			<div><img src="assets/marker-cancelada-0.svg"><span>Cancelada</span></div>
+			<div><img src="assets/marker-retrabalho-0.svg"><span>Retrabalho</span></div>
+			<div class="separador">Níveis de Prioridade</div>
+			<div><img src="assets/marker-finalizada-0.svg"><span>Normal</span></div>
+			<div><img src="assets/marker-finalizada-1.svg"><span>Prioridade</span></div>
+			<div><img src="assets/marker-finalizada-2.svg"><span>Urgencia</span></div>
+		</div>
+	</mat-sidenav-content>
 	
-	<mat-form-field>
-		<mat-select [(ngModel)]="busca.equipes"  placeholder="Equipes" multiple>
-			<mat-option *ngFor="let equipe of equipes" [value]="equipe">[{{equipe.sigla}}] {{equipe.nome}}</mat-option>
-		</mat-select>
-	</mat-form-field>
-
-	<mat-form-field>
-		<mat-select [(ngModel)]="busca.status"  placeholder="Status" multiple>
-			<mat-option value="CADASTRADA">Cadastradas</mat-option>
-			<mat-option value="AGENDADA">Agendadas</mat-option>
-			<mat-option value="EXECUTANDO">Executando</mat-option>
-			<mat-option value="PENDENTE">Pendentes</mat-option>
-			<mat-option value="FINALIZADA">Finalizadas</mat-option>
-			<mat-option value="DIVERGENTE">Divergentes</mat-option>
-			<mat-option value="CANCELADA">Canceladas</mat-option>
-			<mat-option value="RETRABALHO">Retrabalho</mat-option>
-		</mat-select>
-	</mat-form-field>
-
-	<mat-form-field>
-		<mat-select [(ngModel)]="busca.prioridades"  placeholder="Nivel de Prioridade" multiple>
-			<mat-option [value]="0">Normal</mat-option>
-			<mat-option [value]="1">Prioridade</mat-option>
-			<mat-option [value]="2">Urgente</mat-option>
-		</mat-select>
-	</mat-form-field>
-
-	<div class="container-datas">
-		<mat-form-field>
-			<input matInput [max]="busca.agendadas_ate" [(ngModel)]="busca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
-			<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-			<mat-datepicker #picker1></mat-datepicker>
-		</mat-form-field>
-		<mat-form-field>
-			<input matInput [min]="busca.agendadas_de" [(ngModel)]="busca.agendadas_ate" [matDatepicker]="picker2" placeholder="Agendados até">
-			<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-			<mat-datepicker #picker2></mat-datepicker>
-		</mat-form-field>
-	</div>
-
-	<div class="container-datas">
-		<mat-form-field>
-			<input matInput [max]="busca.realizadas_ate" [(ngModel)]="busca.realizadas_de" [matDatepicker]="picker3" placeholder="Realizados de">
-			<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-			<mat-datepicker #picker3></mat-datepicker>
-		</mat-form-field>
-		<mat-form-field>
-			<input matInput [min]="busca.realizadas_de" [(ngModel)]="busca.realizadas_ate" [matDatepicker]="picker4" placeholder="Realizados até">
-			<mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-			<mat-datepicker #picker4></mat-datepicker>
-		</mat-form-field>
-	</div>
-
-	<div class="controles">
-		<button mat-button color="primary" (click)="onCancelarBuscaClick()">Cancelar</button>
-		<button mat-raised-button color="accent" (click)="onResetCamposClick()">Resetar Campos</button>
-		<button mat-raised-button color="primary" class="bt-buscar" (click)="onBuscarClick()">Buscar</button>
-	</div>
-
-</div>
+</mat-sidenav-container>

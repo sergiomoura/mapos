@@ -42,6 +42,7 @@ import { EditMovimentoComponent } from './_components/edit-movimento/edit-movime
 import { FinalizarSseComponent } from './_components/finalizar-sse/finalizar-sse.component';
 import { MoedaBrasilPipe } from './_pipes/moeda-brasil.pipe';
 import { NumeroBrPipe } from './_pipes/numero-br.pipe';
+import { BuscadorComponent } from './_components/buscador/buscador.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -68,7 +69,8 @@ import { NumeroBrPipe } from './_pipes/numero-br.pipe';
 		FinalizarSseComponent,
 		MoedaBrasilPipe,
 		NumeroBrPipe,
-		GaleriaComponent
+		GaleriaComponent,
+		BuscadorComponent
 	],
 	imports: [
 		BrowserModule,
