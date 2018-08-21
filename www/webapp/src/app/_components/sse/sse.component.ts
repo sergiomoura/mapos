@@ -493,52 +493,23 @@ export class SseComponent implements OnInit {
 		}
 	}
 
-	onImageSelected(evt) {
+	onImageSelected(evt){
+		// Lendo o arquivo
+		let file:File = <File>evt.target.files[0];
+
+		// Criando o file
+		let reader:FileReader = new FileReader();
+
+		// Criando o handler para quando o file reader acabar de ler o arquivo
+		reader.onloadend = () => {
+			this.sse.foto = this.sanitizer.bypassSecurityTrustUrl(<string>reader.result);
+		}
 		
-		// Fazendo pergunta de confirmação
-		let pergunta:string = "Tem certeza que deseja alterar a imagem da SSE?"
-		if(window.confirm(pergunta)){
-
-			// Confirmado!
-
-			// Atribuindo arquivo selecionado a propriedade local
-			this.selectedImage = <File>evt.target.files[0];
-
-			let fd = new FormData();
-			fd.append('image',this.selectedImage,this.selectedImage.name);
-
-			// Fazendo requisição para atualizar imagem da sse
-			this.ssesService.updateImage(this.sse.id, fd).subscribe(
-				() => {
-					this.getSse();
-				},
-				(err) => {
-					// Exibindo snackbar de erro
-					this.snackBar
-					.open(
-						'Falha ao alterar imagem. Verifique se o tamanho do arquivo não é maior do que o permitido.',
-						'Fechar',
-						{
-							duration:0,
-							horizontalPosition:'left',
-							verticalPosition:'bottom',
-							panelClass: ['snackbar-error'],
-						}
-					);
-					// Impimindo o erro no console
-					console.error(err);
-				}
-			)
+		// Lendo o arquivo
+		if(file){
+			reader.readAsDataURL(file);
 		} else {
-			
-			// Usuário cancelou!
-			
-			// Limpando a propriedade local
-			this.selectedImage = null;
-
-			// Limpando o input file
-			this.inputImage.nativeElement.value = '';
-			
+			this.sse.foto = null;
 		}
 	}
 

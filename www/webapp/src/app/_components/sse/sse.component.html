@@ -45,9 +45,16 @@
 				<button (click)="inputFile.click()" mat-mini-fab>
 					<mat-icon>attach_file</mat-icon>
 				</button>
-				<input style="display:none" type="file" (change)="onImageSelected($event)" #inputFile>
 			</div>
-			<button *ngIf="!sse?.foto" class="noImageButton">SSE sem foto. Clique para selecionar arquivo.</button>
+			<button *ngIf="!sse?.foto" class="noImageButton" (click)="inputFile.click()">SSE sem foto. Clique para selecionar arquivo.</button>
+			<input
+				name="inputFile"
+				[(ngModel)]="inputImageFile" 
+				style="display:none"
+				type="file"
+				accept=".jpg,.jpeg"
+				(change)="onImageSelected($event)"
+				#inputFile>
 		</div>
 
 		<mat-form-field>
@@ -169,7 +176,12 @@
 
 		<div class="controles">
 			<button mat-raised-button disabled color="accent">Cancelar</button>
-			<button mat-raised-button color="primary" [disabled]="!sseForm.valid || sseForm.pristine || id_bairro_selecionado==0" (click)="onSalvarClick()">Salvar Alterações</button>
+			<button
+				mat-raised-button
+				color="primary"
+				[disabled]="!sseForm.valid || !sse.foto || sseForm.pristine || id_bairro_selecionado==0" (click)="onSalvarClick()">
+				Salvar Alterações
+			</button>
 		</div>
 
 	</form>
