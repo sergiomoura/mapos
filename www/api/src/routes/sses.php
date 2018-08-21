@@ -1376,3 +1376,31 @@
 		->write('{"novoStatus":"'.$status.'"}');
 	
 	});
+
+	$app->post($api_root.'/sses/{id}/imagem', function(Request $req, Response $res, $args = []){
+		
+		// Lendo o id da sse
+		$id_sse = 1*$args['id'];
+
+		// Definindo o caminho do arquivo que guardará a imagem
+		$caminho = $this->maxse['caminho_para_fotos_sse'].$id_sse.'.jpg';
+		if($_FILES['image']['error'] === UPLOAD_ERR_OK){
+			$ok = move_uploaded_file($_FILES['image']['tmp_name'],$caminho);
+			if($ok) {
+				// Retornando resposta para usuário
+				return $res
+				->withStatus(200);
+			} else {
+				// Retornando erro para usuário
+				return $res
+				->withStatus(500)
+				->write('Falha ao tentar salvar arquivo no servidor.');
+			}
+		} else {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha no upload. Verifique se o tamanho do arquivo enviado não é maior que o permitido.');
+		}
+		
+	});

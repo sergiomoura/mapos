@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { SSE } from '../../_models/sse';
 import { Domasa } from "../../_models/domasa";
@@ -38,6 +38,7 @@ export class SseComponent implements OnInit {
 		numero: '',
 	};
 	@ViewChild('sseForm')form:NgForm;
+	@ViewChild('inputFile')inputImage:ElementRef;
 	public domasas: Domasa[];
 	public tdss: TipoDeServico[];
 	public domasaSelecionada: Domasa;
@@ -50,6 +51,7 @@ export class SseComponent implements OnInit {
 	public camposDeCadstroTravados:boolean = true;
 	public camposDeMedidasReaisTravados: boolean = true;
 	public id_bairro_selecionado = undefined;
+	public selectedImage:File = null;
 
 	ngOnInit() {
 		this.getDomasas();
@@ -488,6 +490,55 @@ export class SseComponent implements OnInit {
 	
 				i++;
 			}
+		}
+	}
+
+	onImageSelected(evt) {
+		
+		// Fazendo pergunta de confirmação
+		let pergunta:string = "Tem certeza que deseja alterar a imagem da SSE?"
+		if(window.confirm(pergunta)){
+
+			// Confirmado!
+
+			// Atribuindo arquivo selecionado a propriedade local
+			this.selectedImage = <File>evt.target.files[0];
+
+			let fd = new FormData();
+			fd.append('image',this.selectedImage,this.selectedImage.name);
+
+			// Fazendo requisição para atualizar imagem da sse
+			this.ssesService.updateImage(this.sse.id, fd).subscribe(
+				() => {
+					this.getSse();
+				},
+				(err) => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao alterar imagem. Verifique se o tamanho do arquivo não é maior do que o permitido.',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+					// Impimindo o erro no console
+					console.error(err);
+				}
+			)
+		} else {
+			
+			// Usuário cancelou!
+			
+			// Limpando a propriedade local
+			this.selectedImage = null;
+
+			// Limpando o input file
+			this.inputImage.nativeElement.value = '';
+			
 		}
 	}
 

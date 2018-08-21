@@ -42,12 +42,12 @@
 			
 			<div class="container-foto" *ngIf="sse?.foto">
 				<img [src]="sse?.foto" alt="{{ 'SSE ' + sse?.numero }}" (click)="onImageClick()">
-				<button mat-mini-fab>
-					<mat-icon>delete</mat-icon>
+				<button (click)="inputFile.click()" mat-mini-fab>
+					<mat-icon>attach_file</mat-icon>
 				</button>
+				<input style="display:none" type="file" (change)="onImageSelected($event)" #inputFile>
 			</div>
 			<button *ngIf="!sse?.foto" class="noImageButton">SSE sem foto. Clique para selecionar arquivo.</button>
-			
 		</div>
 
 		<mat-form-field>
