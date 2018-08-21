@@ -52,8 +52,8 @@
 									<td>{{tarefa.final_p | date:'dd/MM HH:mm'}}</td>
 									<td>{{tarefa.divergente==1?'SIM':''}}</td>
 									<td rowspan="2" class="bt-container">
-		-content								<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento" (click)="onAlterarAgendamentoClick(sse,tarefa.id)"><img src="assets/editar.svg"></button>
-		-content								<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento" (click)="onCancelarAgendamentoClick(tarefa.id)"><img src="assets/cancelar.svg"></button>
+										<button [disabled]="tarefa.inicio_r" title="Alterar Agendamento" (click)="onAlterarAgendamentoClick(sse,tarefa.id)"><img src="assets/editar.svg"></button>
+										<button [disabled]="tarefa.inicio_r" title="Cancelar Agendamento" (click)="onCancelarAgendamentoClick(tarefa.id)"><img src="assets/cancelar.svg"></button>
 									</td>
 								</tr>
 								<tr [ngClass]="{'atual': tarefa.inicio_r && !tarefa.final_r}">
@@ -152,5 +152,5 @@
 			<div><img src="assets/marker-finalizada-2.svg"><span>Urgencia</span></div>
 		</div>
 	</mat-sidenav-content>
-	
+
 </mat-sidenav-container>
