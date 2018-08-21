@@ -36,6 +36,11 @@ export class ListaFiltravelComponent{
 		}
 	}
 
+	onFilterClick(){
+		this.filtro = '';
+		this.onFilterKey();
+	}
+
 	onItemClick(id_sse:number){
 		this.itemClick.emit(id_sse);
 	}
