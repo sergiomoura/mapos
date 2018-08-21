@@ -14,11 +14,20 @@
 				.left {
 					flex-grow: 1;
 				};
+				.container-foto {
+					position: relative;
+					button {
+						position: absolute;
+						bottom: 10px;
+						right: 10px;
+					}
+				}
 				img, .noImageButton {
 					height: 247px;
 					margin-left: 20px;
 					border: 1px solid #DEDEDE;
 					background-color: #DEDEDE;
+					cursor: pointer;
 				}
 				.noImageButton{
 					width: 180px;

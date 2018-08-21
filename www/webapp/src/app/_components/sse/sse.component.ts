@@ -9,9 +9,10 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { TipoDeServico } from '../../_models/tipoDeServico';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Bairro } from '../../_models/bairro';
-import { FormControl, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { format } from "date-fns";
 import { GaleriaComponent } from '../galeria/galeria.component';
+import { FotoModalComponent } from "../foto-modal/foto-modal.component";
 
 @Component({
 	selector: 'app-sse',
@@ -49,17 +50,12 @@ export class SseComponent implements OnInit {
 	public camposDeCadstroTravados:boolean = true;
 	public camposDeMedidasReaisTravados: boolean = true;
 	public id_bairro_selecionado = undefined;
+
 	ngOnInit() {
 		this.getDomasas();
 		this.getTiposDeServico();
 		this.getSse();
 	}
-
-	  /** control for the selected bank */
-	  public bankCtrl: FormControl = new FormControl();
-
-	  /** control for the MatSelect filter keyword */
-	  public bankFilterCtrl: FormControl = new FormControl();
 
 	getSse() {
 		let id = this.route.snapshot.paramMap.get('id');
@@ -396,7 +392,12 @@ export class SseComponent implements OnInit {
 	}
 
 	onImageClick(){
-		
+		const dialogRef = this.dialog.open(FotoModalComponent, {
+			width: '750px',
+			data: {
+				'foto':this.sse.foto
+			}
+		});
 	}
 
 	onInputMedidaPrevChange() {
@@ -504,8 +505,6 @@ export class SseComponent implements OnInit {
 				'fotos':fotos
 			}
 		});
-	
-		
 	}
 
 	calculaMedidaPrevTotal() {

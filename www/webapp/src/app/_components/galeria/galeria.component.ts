@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { SafeUrl } from '@angular/platform-browser';
 import { MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
@@ -12,7 +12,7 @@ export interface DialogData {
 	templateUrl: './galeria.component.html',
 	styleUrls: ['./galeria.component.scss']
 })
-export class GaleriaComponent implements OnInit {
+export class GaleriaComponent {
 
 	index_exibido:number;
 
@@ -21,10 +21,6 @@ export class GaleriaComponent implements OnInit {
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
 	) {
 		this.index_exibido = data.start_index;
-	}
-
-	ngOnInit() {
-		
 	}
 
 	onThumbClick(i:number){

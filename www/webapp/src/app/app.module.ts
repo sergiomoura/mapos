@@ -44,6 +44,7 @@ import { MoedaBrasilPipe } from './_pipes/moeda-brasil.pipe';
 import { NumeroBrPipe } from './_pipes/numero-br.pipe';
 import { BuscadorComponent } from './_components/buscador/buscador.component';
 import { ListaFiltravelComponent } from './_components/lista-filtravel/lista-filtravel.component';
+import { FotoModalComponent } from './_components/foto-modal/foto-modal.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -72,7 +73,8 @@ import { ListaFiltravelComponent } from './_components/lista-filtravel/lista-fil
 		NumeroBrPipe,
 		GaleriaComponent,
 		BuscadorComponent,
-		ListaFiltravelComponent
+		ListaFiltravelComponent,
+		FotoModalComponent
 	],
 	imports: [
 		BrowserModule,
@@ -92,7 +94,8 @@ import { ListaFiltravelComponent } from './_components/lista-filtravel/lista-fil
 		LancarNotaComponent,
 		EditMovimentoComponent,
 		FinalizarSseComponent,
-		GaleriaComponent
+		GaleriaComponent,
+		FotoModalComponent
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

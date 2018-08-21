@@ -40,8 +40,13 @@
 				</div>
 			</div>
 			
-			<img *ngIf="sse?.foto" [src]="sse?.foto" alt="{{ 'SSE ' + sse?.numero }}" (click)="onImageClick(sse?.foto)">
-			<button disabled *ngIf="!sse?.foto" class="noImageButton">SSE sem foto</button>
+			<div class="container-foto" *ngIf="sse?.foto">
+				<img [src]="sse?.foto" alt="{{ 'SSE ' + sse?.numero }}" (click)="onImageClick()">
+				<button mat-mini-fab>
+					<mat-icon>delete</mat-icon>
+				</button>
+			</div>
+			<button *ngIf="!sse?.foto" class="noImageButton">SSE sem foto. Clique para selecionar arquivo.</button>
 			
 		</div>
 
