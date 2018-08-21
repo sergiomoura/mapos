@@ -1,0 +1,21 @@
+<div class="container">
+	
+	<input
+		type="text"
+		placeholder="Filtrar pelo número"
+		(keyup)="onFilterKey()"
+		[(ngModel)]="filtro"
+		>
+	
+	<div class="lista">
+		<div class="sse" *ngFor="let sse of sses_exibidas" (click)="onItemClick(sse.id)">
+			<img [src]="'assets/' + sse.markerFile" alt="">
+			<span class="numero">{{sse.numero}}</span>
+			<span class="endereco">{{sse.endereco}}</span>
+			<div class="datas">
+				<span class="recebimento">Receb.: {{sse.dh_recebido | date:'dd/MM/yyyy'}}</span>
+				<span class="prazo">Prazo: {{sse.prazo_final | date:'dd/MM/yyyy'}}</span>
+			</div>
+		</div>
+	</div>
+</div>

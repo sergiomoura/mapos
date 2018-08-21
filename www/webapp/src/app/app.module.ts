@@ -43,6 +43,7 @@ import { FinalizarSseComponent } from './_components/finalizar-sse/finalizar-sse
 import { MoedaBrasilPipe } from './_pipes/moeda-brasil.pipe';
 import { NumeroBrPipe } from './_pipes/numero-br.pipe';
 import { BuscadorComponent } from './_components/buscador/buscador.component';
+import { ListaFiltravelComponent } from './_components/lista-filtravel/lista-filtravel.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -70,7 +71,8 @@ import { BuscadorComponent } from './_components/buscador/buscador.component';
 		MoedaBrasilPipe,
 		NumeroBrPipe,
 		GaleriaComponent,
-		BuscadorComponent
+		BuscadorComponent,
+		ListaFiltravelComponent
 	],
 	imports: [
 		BrowserModule,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { SsesService } from '../../_services/sses.service';
 import { SSE } from '../../_models/sse';
 import { MatSnackBar, MatSidenav } from '@angular/material';
@@ -13,6 +13,8 @@ import { FinalizarSseComponent } from "../../_components/finalizar-sse/finalizar
 import { EventsService } from '../../_services/events.service';
 import { Subscription } from 'rxjs';
 import { BuscadorComponent } from '../buscador/buscador.component';
+import { ListaFiltravelComponent } from '../lista-filtravel/lista-filtravel.component';
+import { AgmMarker } from '@agm/core';
 
 @Component({
 	selector: 'app-sses-map',
@@ -22,12 +24,14 @@ import { BuscadorComponent } from '../buscador/buscador.component';
 export class SsesMapComponent implements OnInit {
 
 	@ViewChild('buscador') buscador:BuscadorComponent;
+	@ViewChild('lista') lista:ListaFiltravelComponent;
 	@ViewChild('sidenav') sidenav:MatSidenav;
+	@ViewChildren(AgmMarker) markers:QueryList<AgmMarker>;
 	sses:SSE[];
 	tmpSses:any[];
-	initial_lat:number = -22.916405805627686;
-	initial_lng:number = -47.067499388564215;
-	initial_zoom:number = 11;
+	initial_lat:number = -22.966405805627686;
+	initial_lng:number = -47.067399388564215;
+	initial_zoom:number = 12;
 	markerAtual:any;
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
@@ -113,6 +117,21 @@ export class SsesMapComponent implements OnInit {
 
 	onSsesCarregadas(evt:SSE[]){
 		this.sses = evt;
+		this.lista.onFilterKey();
+	}
+
+	onItemClick(evt){
+		
+		let idx = this.sses.findIndex(
+			(sse) => {
+				return +sse.id == +evt;
+			}
+		)
+
+		let m = this.markers.toArray();
+		let iw = m[idx].infoWindow.first;
+		iw.open();
+		this.onMarkerClick(iw);
 	}
 	
 	onMarkerClick(infowindow){
