@@ -120,6 +120,52 @@ export class SsesMapComponent implements OnInit {
 		this.lista.onFilterKey();
 	}
 
+	onMarkerDragEnd(evt,sse:SSE){
+		let pergunta:string = "Tem certeza que deseja alterar as coordenadas desta SSE?\nEssa operação NÃO ALTERA O ENDEREÇO da mesma."
+		if(confirm(pergunta)){
+			
+			// TODO: Fazendo requisição para atualizar sse
+			this.ssesService.updateCoordenadas(evt.coords.lat,evt.coords.lng,sse.id).subscribe(
+				()=>{
+					// Salvando coordenadas da sse localmente
+					sse.lat = evt.coords.lat;
+					sse.lng = evt.coords.lng;
+
+					// Exibindo snackbar de sucesso
+					this.snackBar.open(
+						'Coordenadas de SSE alteradas com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
+				},
+				(err)=>{
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao tentar alterar SSE',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+
+					// Imprimindo erro no console
+					console.error(err);
+
+					// Resetando sses
+					this.getSses();
+				}
+			)
+
+		} else {
+			this.getSses();
+		}
+	}
+
 	onItemClick(evt){
 		
 		let idx = this.sses.findIndex(

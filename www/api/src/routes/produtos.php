@@ -17,7 +17,7 @@
 			$p->qtde_min *= 1;
 			$p->qtde_max = is_null($p->qtde_max) ? null : ($p->qtde_max*= 1);
 			$p->qtde *= 1;
-			$p->valor *= 1;
+			$p->valor_unit *= 1;
 		}
 
 

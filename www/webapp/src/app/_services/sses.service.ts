@@ -76,6 +76,12 @@ export class SsesService {
 		return this.http.put(this.url_updateSses + '/' + sse.id,sse);
 	}
 
+	// Método que atualiza as coordendadas de uma sse
+	updateCoordenadas(lat:number,lng:number,id_sse:number){
+		let data:{lat:number,lng:number} = {'lat':lat,'lng':lng};
+		return this.http.put(this.url_updateSses + '/' + id_sse + '/coordenadas',data);
+	}
+
 	// Método que cria uma sse
 	create(sse:SSE){
 		return this.http.post(this.url_createSses,sse);

@@ -779,6 +779,36 @@
 		->withHeader('Content-Type','application/json');
 	});
 
+	$app->put($api_root.'/sses/{id}/coordenadas', function(Request $req, Response $res, $args = []){
+		
+		// Lendo corpo da requisição
+		$coordenadas = json_decode($req->getBody()->getContents());
+
+		// lendo id_sse
+		$id_sse = 1*$args['id'];
+		$sql = 'UPDATE maxse_sses SET lat=:lat, lng=:lng WHERE id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+
+		try {
+			$stmt->execute(
+				array(
+					':lat' => $coordenadas->lat,
+					':lng' => $coordenadas->lng,
+					':id_sse' => $id_sse
+				)
+			);
+		} catch (Exception $e) {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar alterar SSE:' . $e->getMessage());
+		}
+
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200);
+	});
+
 	$app->post($api_root.'/sses', function(Request $req, Response $res, $args = []){
 		
 		// Lendo corpo da requisição
