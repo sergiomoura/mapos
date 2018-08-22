@@ -125,7 +125,8 @@
 			$sse->id_bairro *= 1;
 			$sse->id_equipe = is_null($sse->id_equipe) ? null : 1*$sse->id_equipe;
 			$sse->id_apoio = is_null($sse->id_apoio) ? null : 1*$sse->id_apoio;
-			$sse->id_tipo_de_servico *= 1;
+			$sse->id_tds_p *= 1;
+			$sse->id_tds_r *= 1;
 			$sse->lat *= 1;
 			$sse->lng *= 1;
 			$sse->status *= 1;

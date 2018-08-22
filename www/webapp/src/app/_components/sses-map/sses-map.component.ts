@@ -35,7 +35,7 @@ export class SsesMapComponent implements OnInit {
 	markerAtual:any;
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
-	IRSSE:number = 300000; // Intervalo para recarregar sses: 5min
+	IRSSE:number = 5*60*1000; // Intervalo para recarregar sses: 5min
 	reload_sses_interval:number;
 	subscriptions:Subscription[] = [];
 
@@ -76,8 +76,9 @@ export class SsesMapComponent implements OnInit {
 				window.setTimeout(
 					() => {
 						this.getSses();
-					}
-				), Math.round(Math.random()*2000)
+					},
+					Math.round(Math.random()*10000+5000)
+				);
 			}
 			,this.IRSSE
 		)
