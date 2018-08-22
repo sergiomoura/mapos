@@ -96,7 +96,6 @@ export class SsesMapComponent implements OnInit {
 		this.subscriptions.push(
 			this.evtService.filterClicked$.subscribe(
 				() => {
-					console.log('tentando mostrar/esconder filtro');
 					this.sidenav.toggle();
 				}
 			)
