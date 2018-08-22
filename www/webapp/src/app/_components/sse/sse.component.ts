@@ -52,6 +52,7 @@ export class SseComponent implements OnInit {
 	public camposDeMedidasReaisTravados: boolean = true;
 	public id_bairro_selecionado = undefined;
 	public selectedImage:File = null;
+	public inputImageFile:string;
 
 	ngOnInit() {
 		this.getDomasas();
