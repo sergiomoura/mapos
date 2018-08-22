@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { ListaFiltravelComponent } from '../lista-filtravel/lista-filtravel.component';
 import { AgmMarker } from '@agm/core';
+import { EquipesService } from '../../_services/equipes.service';
 
 @Component({
 	selector: 'app-sses-map',
@@ -64,13 +65,15 @@ export class SsesMapComponent implements OnInit {
 		private router:Router,
 		public dialog: MatDialog,
 		private tarefaService:TarefaService,
-		private evtService:EventsService
+		private evtService:EventsService,
+		private equipesService:EquipesService
 	) {}
 
 	ngOnInit() {
 		
 		this.getSses();
-
+		this.getEquipes();
+		
 		this.reload_sses_interval = window.setInterval(
 			() => {
 				window.setTimeout(
@@ -113,6 +116,31 @@ export class SsesMapComponent implements OnInit {
 
 	getSses(){
 		this.buscador.onBuscarClick();
+	}
+
+	private getEquipes(){
+		this.equipesService.getEquipes().subscribe(
+			res => {
+				this.equipes = <Equipe[]>res;
+			},
+			err => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao carregar Equipes',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+
+				// Imprimindo erro no console
+				console.warn(err);
+			}
+		)
 	}
 
 	onSsesCarregadas(evt:SSE[]){
