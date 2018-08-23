@@ -7,7 +7,6 @@ import { SsesService } from '../../_services/sses.service';
 import { SSE } from '../../_models/sse';
 import { MatSnackBar } from '@angular/material';
 import { TiposDeServicoService } from '../../_services/tipos-de-servico.service';
-import { EquipesService } from '../../_services/equipes.service';
 @Component({
 	selector: 'app-buscador',
 	templateUrl: './buscador.component.html',
@@ -17,6 +16,7 @@ export class BuscadorComponent implements OnInit {
 
 	// Inputs
 	@Input() auto:boolean = false;
+	@Input() equipes:Equipe[];
 
 	// Outputs
 	@Output() ssesCarregadas:EventEmitter<SSE[]>;
@@ -41,7 +41,6 @@ export class BuscadorComponent implements OnInit {
 		realizadas_ate: undefined
 	}
 	tdss:TipoDeServico[];
-	equipes:Equipe[];
 	tmpSses:any[];
 	sses:SSE[];
 
@@ -49,7 +48,6 @@ export class BuscadorComponent implements OnInit {
 	constructor(
 		private evtService:EventsService,
 		private ssesService:SsesService,
-		private equipesService:EquipesService,
 		private tdsService:TiposDeServicoService,
 		private snackBar:MatSnackBar
 	) {
@@ -57,6 +55,7 @@ export class BuscadorComponent implements OnInit {
 	}
 
 	private getSses(){
+		
 		// Mostrar carregando
 		this.evtService.mostrarCarregando();
 
@@ -91,32 +90,6 @@ export class BuscadorComponent implements OnInit {
 
 				// Imprimindo erro no console
 				console.error(err);
-			}
-		)
-	}
-
-	private getEquipes(){
-		this.equipesService.getEquipes().subscribe(
-			res => {
-				this.equipes = <Equipe[]>res;
-				this.parseSses();
-			},
-			err => {
-				// Exibindo snackbar de erro
-				this.snackBar
-				.open(
-					'Falha ao carregar Equipes',
-					'Fechar',
-					{
-						duration:0,
-						horizontalPosition:'left',
-						verticalPosition:'bottom',
-						panelClass: ['snackbar-error'],
-					}
-				);
-
-				// Imprimindo erro no console
-				console.warn(err);
 			}
 		)
 	}
@@ -278,7 +251,7 @@ export class BuscadorComponent implements OnInit {
 
 	// On Functions
 	ngOnInit() {
-		this.getEquipes();
+		// Levantando tipos de servicos
 		this.getTiposDeServico();
 
 		// busca automaticamente

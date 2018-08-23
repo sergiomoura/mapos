@@ -3,9 +3,7 @@ import { SsesService } from '../../_services/sses.service';
 import { SSE } from '../../_models/sse';
 import { MatSnackBar, MatSidenav } from '@angular/material';
 import { Router } from '@angular/router';
-import { TipoDeServico } from "../../_models/tipoDeServico";
 import { Equipe } from '../../_models/equipe';
-import { Busca } from "../../_models/busca";
 import { MatDialog } from '@angular/material';
 import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
 import { TarefaService } from '../../_services/tarefa.service';
@@ -14,7 +12,7 @@ import { EventsService } from '../../_services/events.service';
 import { Subscription } from 'rxjs';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { ListaFiltravelComponent } from '../lista-filtravel/lista-filtravel.component';
-import { AgmMarker } from '@agm/core';
+import { AgmMarker, AgmMap, AgmInfoWindow } from '@agm/core';
 import { EquipesService } from '../../_services/equipes.service';
 
 @Component({
@@ -24,41 +22,25 @@ import { EquipesService } from '../../_services/equipes.service';
 })
 export class SsesMapComponent implements OnInit {
 
+	// ELEMENTOS DO TEMPLATE = = = = = = = = = = = = =
 	@ViewChild('buscador') buscador:BuscadorComponent;
 	@ViewChild('lista') lista:ListaFiltravelComponent;
 	@ViewChild('sidenav') sidenav:MatSidenav;
+	@ViewChild('mapa') mapa:AgmMap;
 	@ViewChildren(AgmMarker) markers:QueryList<AgmMarker>;
+
+	// PROPRIEDADES LOCAIS = = = = = = = = = = = = = =
 	sses:SSE[];
-	tmpSses:any[];
-	initial_lat:number = -22.966405805627686;
-	initial_lng:number = -47.067399388564215;
-	initial_zoom:number = 12;
-	markerAtual:any;
-	tdss:TipoDeServico[];
 	equipes:Equipe[];
-	IRSSE:number = 5*60*1000; // Intervalo para recarregar sses: 5min
+	initial_lat:number = -22.966;
+	initial_lng:number = -47.067;
+	initial_zoom:number = 12;
+	infoWindowAtual:AgmInfoWindow;
+	IRSSE:number = 300000; // Intervalo para recarregar sses: 5min
 	reload_sses_interval:number;
 	subscriptions:Subscription[] = [];
 
-	busca:Busca = {
-		equipes : [],
-		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
-		prioridades: [0,1,2],
-		agendadas_de: undefined,
-		agendadas_ate: undefined,
-		realizadas_de: undefined,
-		realizadas_ate: undefined
-	};
-	buscaPadrao:Busca = {
-		equipes : [],
-		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
-		prioridades: [0,1,2],
-		agendadas_de: undefined,
-		agendadas_ate: undefined,
-		realizadas_de: undefined,
-		realizadas_ate: undefined
-	}
-
+	// CONSTRUCTOR = = = = = = = = = = = = = = = = =
 	constructor(
 		private ssesService:SsesService,
 		private snackBar:MatSnackBar,
@@ -71,14 +53,15 @@ export class SsesMapComponent implements OnInit {
 
 	ngOnInit() {
 		
-		this.getSses();
+		// Carregando equipes
 		this.getEquipes();
 		
+		// Iniciando o interval que recarrega sses
 		this.reload_sses_interval = window.setInterval(
 			() => {
 				window.setTimeout(
 					() => {
-						this.getSses();
+						this.reloadSses();
 					},
 					Math.round(Math.random()*10000+5000)
 				);
@@ -90,7 +73,7 @@ export class SsesMapComponent implements OnInit {
 		this.subscriptions.push(
 			this.evtService.reloadClicked$.subscribe(
 				() => {
-					this.getSses();
+					this.reloadSses();
 				}
 			)
 		)
@@ -106,6 +89,7 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	ngOnDestroy() {
+		// Limpando o interval que recarrega sses
 		window.clearInterval(this.reload_sses_interval);
 		
 		// Unsubscribing from all subscriptions
@@ -114,7 +98,7 @@ export class SsesMapComponent implements OnInit {
 		}
 	}
 
-	getSses(){
+	reloadSses(){
 		this.buscador.onBuscarClick();
 	}
 
@@ -144,7 +128,18 @@ export class SsesMapComponent implements OnInit {
 	}
 
 	onSsesCarregadas(evt:SSE[]){
+
+		// A infoWindow atual some e não fica undefined.
+		// Indefinindo na marra
+		this.infoWindowAtual = undefined;
+
+		// Passando as sses para atributo interno
 		this.sses = evt;
+
+		// Passando as sses para a lista de sses
+		this.lista.sses = this.sses;
+
+		// Provocando a lista para que ela liste as sses carregadas
 		this.lista.onFilterKey();
 	}
 
@@ -185,41 +180,49 @@ export class SsesMapComponent implements OnInit {
 					console.error(err);
 
 					// Resetando sses
-					this.getSses();
+					this.reloadSses();
 				}
 			)
 
 		} else {
-			this.getSses();
+			this.reloadSses();
 		}
 	}
 
 	onItemClick(evt){
 		
+		// Encontrando o índice da SSE clicada
 		let idx = this.sses.findIndex(
 			(sse) => {
 				return +sse.id == +evt;
 			}
 		)
 
+		// Criando o vetor de markers
 		let m = this.markers.toArray();
+
+		// Capturando o a janela do marker da sse clicada
 		let iw = m[idx].infoWindow.first;
-		iw.open();
+		
+		// Simlando o evento click no marker
 		this.onMarkerClick(iw);
+
+		// Abrindo infoWindow
+		iw.open();
 	}
 	
-	onMarkerClick(infowindow){
-		if (this.markerAtual) {
-			this.markerAtual.close();
+	onMarkerClick(iw:AgmInfoWindow){
+		if (this.infoWindowAtual) {
+			this.infoWindowAtual.close();
 		}
-		this.markerAtual = infowindow;
+		this.infoWindowAtual = iw;
 	}
 
-	onMapClick(evt){
-		if (this.markerAtual) {
-			this.markerAtual.close();
+	onMapClick(){
+		if (this.infoWindowAtual) {
+			this.infoWindowAtual.close();
 		}
-		this.markerAtual = undefined;
+		this.infoWindowAtual = undefined;
 	}
 
 	goToSse(id) {
@@ -236,7 +239,7 @@ export class SsesMapComponent implements OnInit {
 		if(ok){
 			this.ssesService.setCancelada(id_sse).subscribe(
 				() => {
-					this.getSses();
+					this.reloadSses();
 				},
 				err => {
 					// Exibindo snackbar de erro
@@ -265,7 +268,7 @@ export class SsesMapComponent implements OnInit {
 		if(ok){
 			this.tarefaService.remove(id_tarefa).subscribe(
 				() => {
-					this.getSses();
+					this.reloadSses();
 				},
 				err => {
 					// Exibindo snackbar de erro
@@ -299,7 +302,7 @@ export class SsesMapComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(
 			result => {
 				if(result == 1){
-					this.getSses();
+					this.reloadSses();
 				}
 			}
 		);
@@ -311,7 +314,7 @@ export class SsesMapComponent implements OnInit {
 			this.ssesService.setAutorizada(id_sse,autorizadaPor).subscribe(
 				res => {
 					// Recarregando sses
-					this.getSses();
+					this.reloadSses();
 					
 					// Exibindo snackbar de sucesso
 					this.snackBar.open(
@@ -351,7 +354,7 @@ export class SsesMapComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(
 			result => {
 				if(result == 1){
-					this.getSses();
+					this.reloadSses();
 
 					// Exibindo snackbar de sucesso
 					this.snackBar.open(
@@ -371,7 +374,7 @@ export class SsesMapComponent implements OnInit {
 		if(ok){
 			this.ssesService.reabrir(id_sse).subscribe(
 				res => {
-					this.getSses();
+					this.reloadSses();
 				}
 			)
 		}
@@ -382,7 +385,7 @@ export class SsesMapComponent implements OnInit {
 		if(confirm(pergunta)){
 			this.ssesService.setRetrabalho(id_sse).subscribe(
 				() => {
-					this.getSses();
+					this.reloadSses();
 				},
 				err => {
 					// Exibindo snackbar de erro
@@ -407,7 +410,7 @@ export class SsesMapComponent implements OnInit {
 		if(confirm(pergunta)){
 			this.ssesService.finalizarRetrabalho(id_sse).subscribe(
 				() => {
-					this.getSses();
+					this.reloadSses();
 				},
 				err => {
 					// Exibindo snackbar de erro
@@ -439,7 +442,7 @@ export class SsesMapComponent implements OnInit {
 		dialogRef.afterClosed().subscribe(
 			result => {
 				if(result == 1){
-					this.getSses();
+					this.reloadSses();
 				}
 			}
 		);

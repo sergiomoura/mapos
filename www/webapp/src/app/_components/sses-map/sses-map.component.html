@@ -10,6 +10,7 @@
 		<app-buscador
 			#buscador
 			(ssesCarregadas)="onSsesCarregadas($event)"
+			[equipes]="equipes"
 			[auto]="true"></app-buscador>
 
 		<app-lista-filtravel
@@ -20,20 +21,21 @@
 	</mat-sidenav>
 
 	<mat-sidenav-content>
-			<agm-map
+		<agm-map
+			#mapa
 			[latitude]="initial_lat"
 			[longitude]="initial_lng"
 			[zoom]="initial_zoom"
 			[mapTypeControl]="true"
 			mapTypeId="hybrid"
-			(mapClick)="onMapClick($event)">
+			(mapClick)="onMapClick()">
 			<agm-marker
 				*ngFor="let sse of sses"
 				[title]="'SSE ' + sse.numero"
 				[latitude]="sse.lat"
 				[longitude]="sse.lng"
 				[iconUrl]="'assets/' + sse.markerFile"
-				[markerDraggable] = "1*sse.status == 0"
+				[markerDraggable] = "1*sse?.status == 0"
 				(dragEnd) = "onMarkerDragEnd($event,sse)"
 				(markerClick)="onMarkerClick(infowindow)">
 				<agm-info-window [disableAutoPan]="false" #infowindow>
