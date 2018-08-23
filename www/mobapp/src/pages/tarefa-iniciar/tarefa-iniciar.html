@@ -55,12 +55,23 @@
 
 		<ion-item>
 			<ion-label floating>Data do Início (Realizado)</ion-label>
-			<ion-datetime [required]="!(tarefa.divergente && !executarComAutorizacao)" name="data" displayFormat="DD MMM YYYY" [(ngModel)]="inicio_r_string" ></ion-datetime>
+			<ion-datetime
+				[required]="!(tarefa.divergente && !executarComAutorizacao)"
+				name="data"
+				displayFormat="DD MMM YYYY"
+				[(ngModel)]="inicio_r_string">
+			</ion-datetime>
 		</ion-item>
-
+		
 		<ion-item>
 			<ion-label floating>Hora do Início (Realizado)</ion-label>
-			<ion-datetime [required]="!(tarefa.divergente && !executarComAutorizacao)" name="hora" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="inicio_r_string"></ion-datetime>
+			<ion-datetime
+				[required]="!(tarefa.divergente && !executarComAutorizacao)"
+				name="hora"
+				displayFormat="HH:mm"
+				pickerFormat="HH mm"
+				[(ngModel)]="inicio_r_string">
+			</ion-datetime>
 		</ion-item>
 
 		<ion-item>

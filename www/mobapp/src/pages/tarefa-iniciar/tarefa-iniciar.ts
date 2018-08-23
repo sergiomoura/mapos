@@ -126,7 +126,10 @@ export class TarefaIniciarPage {
 				tmp.final_p = new Date(tmp.final_p);
 				tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
 				tmp.inicio_p = new Date(tmp.inicio_p);
-				tmp.inicio_r = (tmp.inicio_r == null ? new Date() : tmp.inicio_r.replace(' ', 'T'));
+				tmp.inicio_r = ( tmp.inicio_r == null ? new Date() : new Date(tmp.inicio_r) );
+
+				// Parsing date para inicio_r_string
+				this.inicio_r_string = format(tmp.inicio_r,'YYYY-MM-DDTHH:mmZ');
 
 				// Parsing booleans
 				tmp.divergente = (tmp.divergente == "1");
