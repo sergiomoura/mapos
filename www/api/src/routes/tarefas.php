@@ -845,7 +845,11 @@
 		
 		// Salvando fotos novas
 		foreach ($tarefa->fotos_inicio as $i => $foto) {
-			$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
+			if($foto->changingThisBreaksApplicationSecurity){
+				$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
+			} else {
+				$data = str_replace('data:image/jpeg;base64,','',$foto);
+			}
 			$data = base64_decode($data);
 
 			// O nome do arquivo será
@@ -1068,7 +1072,11 @@
 		
 		// Salvando fotos novas
 		foreach ($tarefa->fotos_inicio as $i => $foto) {
-			$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
+			if($foto->changingThisBreaksApplicationSecurity){
+				$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
+			} else {
+				$data = str_replace('data:image/jpeg;base64,','',$foto);
+			}
 			$data = base64_decode($data);
 
 			// O nome do arquivo será
@@ -1305,7 +1313,11 @@
 		
 		// Salvando fotos novas
 		foreach ($tarefa->fotos_fim as $i => $foto) {
-			$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
+			if($foto->changingThisBreaksApplicationSecurity){
+				$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
+			} else {
+				$data = str_replace('data:image/jpeg;base64,','',$foto);
+			}
 			$data = base64_decode($data);
 
 			// O nome do arquivo será

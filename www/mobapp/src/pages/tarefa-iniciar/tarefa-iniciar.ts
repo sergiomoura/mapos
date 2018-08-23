@@ -133,6 +133,12 @@ export class TarefaIniciarPage {
 
 				// Parsing booleans
 				tmp.divergente = (tmp.divergente == "1");
+
+				// Parsing fotos
+				for (let i = 0; i < tmp.fotos_inicio.length; i++) {
+					let foto = tmp.fotos_inicio[i];
+					foto = this.sanitizer.bypassSecurityTrustUrl(foto)
+				}
 				
 				// Atribuindo a propriedade pública tarefa
 				this.tarefa = tmp;
@@ -198,7 +204,7 @@ export class TarefaIniciarPage {
 							return tds.id == this.tarefa.sse.tipoDeServicoReal.id;
 						}
 					)
-				}
+				}				
 				
 			},
 			err => {
@@ -276,7 +282,7 @@ export class TarefaIniciarPage {
 				case 'l':
 					unidade = 'm';
 					vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_linear.prev : this.tarefa.sse.medidas_linear.real);
-					for (let index = 0; index < this.tarefa.sse.medidas_linear[tipo].length; index++) {
+					for (let index = 0; index < vetorDeMedidas.length; index++) {
 						const m = vetorDeMedidas[index];
 						total += m.v;
 					}
@@ -285,7 +291,7 @@ export class TarefaIniciarPage {
 				case 'u':
 					unidade = 'unid';
 					vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_unidades.prev : this.tarefa.sse.medidas_unidades.real);
-					for (let index = 0; index < this.tarefa.sse.medidas_unidades[tipo].length; index++) {
+					for (let index = 0; index < vetorDeMedidas.length; index++) {
 						const m = vetorDeMedidas[index];
 						total += m.n;
 					}
