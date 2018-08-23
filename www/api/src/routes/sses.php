@@ -1071,6 +1071,7 @@
 		// Interpretando os dados enviados
 		$finalizacaoTotal = ($dados->tipo == 'parcial'? false : true);
 		$data_devolucao = $dados->data_devolucao;
+		$motivo_parcial = $dados->motivo_parcial;
 
 		// Recuperando dados da SSE
 		$sql = 'SELECT 
@@ -1115,7 +1116,7 @@
 
 		// Debitando 40% do valor caso finalização não seja parcial
 		if(!$finalizacaoTotal) {
-			$trabalho = $this->maxse['percentual_pago por_finalizacao_parcial'] * $trabalho;
+			$trabalho = $this->maxse['percentual_pago_por_finalizacao_parcial'] * $trabalho;
 		}
 
 		// Determinando o valor do serviço de acordo com a faixa de cobrança do servico
@@ -1138,16 +1139,27 @@
 
 		// Iniciando transação
 		$this->db->beginTransaction();
+		$motivo_parcial = $finalizacaoTotal ? null : $motivo_parcial;
 
 		// Preparando consulta
-		$sql = 'UPDATE maxse_sses SET status=sseStatus("FINALIZADA"),valor_real=:vr,data_devolucao=:data_devolucao WHERE id=:id_sse';
+		$sql = 'UPDATE
+					maxse_sses
+				SET
+					status=sseStatus("FINALIZADA"),
+					valor_real=:vr,
+					data_devolucao=:data_devolucao,
+					finalizacao_parcial=:finalizacao_parcial,
+					motivo_finalizacao_parcial=:motivo_parcial
+				WHERE id=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		
 		try {
 			$stmt->execute(array(
 				':id_sse' => $id_sse,
 				':vr' => $valor_total,
-				':data_devolucao' => $data_devolucao
+				':data_devolucao' => $data_devolucao,
+				':finalizacao_parcial' => $finalizacaoTotal ? 0 : 1,
+				':motivo_parcial' => $motivo_parcial
 			));	
 		} catch (Exception $e) {
 			// Algo deu errado. Rollback
@@ -1156,7 +1168,7 @@
 			// Enviando erro
 			return $res
 			->withStatus(500)
-			->write('Falha ao tentar marcar SSE como finalizada');
+			->write('Falha ao tentar marcar SSE como finalizada: '.$e->getMessage());
 		}
 
 		// Tudo certo. Comittando

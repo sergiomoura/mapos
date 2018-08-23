@@ -1,11 +1,14 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import { SSE } from '../../_models/sse';
 import { SsesService } from "../../_services/sses.service";
 
 export interface DialogData {
 	id_sse: number;
 	data_conclusao: Date;
+}
+
+enum TipoDeFinalizacao {
+	'total','parcial'
 }
 
 @Component({
@@ -16,8 +19,10 @@ export interface DialogData {
 export class FinalizarSseComponent implements OnInit {
 
 	tipoDeFinalizacao:string = 'total';
+	motivo_parcial:string;
 	data_devolucao:Date = undefined;
 	min_data_devolucao:Date = undefined;
+
 	constructor(
 		public dialogRef: MatDialogRef<FinalizarSseComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -28,7 +33,7 @@ export class FinalizarSseComponent implements OnInit {
 	}
 
 	onSalvarClick(){
-		this.sseService.setFinalizada(this.data.id_sse, this.tipoDeFinalizacao, this.data_devolucao)
+		this.sseService.setFinalizada(this.data.id_sse, this.tipoDeFinalizacao, this.data_devolucao, this.motivo_parcial)
 		.subscribe(
 			() => {
 				this.dialogRef.close(1);

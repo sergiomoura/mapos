@@ -1,20 +1,25 @@
 <div>
 	<p>A tarefa foi finalizada por completo?</p>
-	
-	<mat-radio-group [(ngModel)]="tipoDeFinalizacao" >
-		<mat-radio-button value="total">Finalização Total</mat-radio-button>
-		<mat-radio-button value="parcial">Finalizar Parcialmente</mat-radio-button>
-	</mat-radio-group>
-	
-	<mat-form-field>
-		<input matInput [min]="min_data_devolucao" [(ngModel)]="data_devolucao" [matDatepicker]="picker" placeholder="Data da devolução">
-		<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-		<mat-datepicker #picker></mat-datepicker>
-	</mat-form-field>
+	<form #form="ngForm">
 
-	<div class="controles">
-		<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
-		<button mat-raised-button color="primary" (click)="onSalvarClick()" [disabled]="!data_devolucao">Salvar</button>
-	</div>
+		<mat-radio-group  name="tipoDeFinalizacao" [(ngModel)]="tipoDeFinalizacao" >
+			<mat-radio-button value="total">Finalização Total</mat-radio-button>
+			<mat-radio-button value="parcial">Finalizar Parcialmente</mat-radio-button>
+		</mat-radio-group>
+		
+		<mat-form-field *ngIf="tipoDeFinalizacao == 'parcial'">
+			<input name="motivo_parcial" matInput required [(ngModel)]="motivo_parcial" placeholder="Motivo">
+		</mat-form-field>
+		
+		<mat-form-field>
+			<input name="min_data_devolucao" matInput required [min]="min_data_devolucao" [(ngModel)]="data_devolucao" [matDatepicker]="picker" placeholder="Data da devolução">
+			<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
 
+		<div class="controles">
+			<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
+			<button mat-raised-button color="primary" (click)="onSalvarClick()" [disabled]="!form.valid">Salvar</button>
+		</div>
+	</form>
 </div>

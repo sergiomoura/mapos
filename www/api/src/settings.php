@@ -27,7 +27,7 @@ return [
 
         'maxse' => [
             'token_duracao' => 60, // minutos,
-            'percentual_pago por_finalizacao_parcial' => 0.4, // 40
+            'percentual_pago_por_finalizacao_parcial' => 0.4, // 40
             'caminho_para_fotos_sse' => '../photos/sses/',
             'caminho_para_fotos_tarefas' => '../photos/tarefas/',
             'STATUS' => [

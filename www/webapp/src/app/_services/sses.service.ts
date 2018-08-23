@@ -88,8 +88,16 @@ export class SsesService {
 	}
 
 	// Marca uma SSE como finalizada
-	setFinalizada(id_sse:number,tipoDeFinalizacao:string,data_devolucao:Date):Observable<any>{
-		let dados:{'tipo':string,'data_devolucao':string} = {'tipo':tipoDeFinalizacao,'data_devolucao':format(data_devolucao,'YYYY-MM-DD')}
+	setFinalizada(id_sse:number,tipoDeFinalizacao:string,data_devolucao:Date, motivo_parcial:string):Observable<any>{
+		let dados:{
+			'tipo':string,
+			'data_devolucao':string,
+			'motivo_parcial':string
+		} = {
+			'tipo':tipoDeFinalizacao,
+			'data_devolucao':format(data_devolucao,'YYYY-MM-DD'),
+			'motivo_parcial':motivo_parcial
+		}
 		return this.http.patch(this.url_getSses + '/' + id_sse + '/setFinalizada',dados);
 	}
 
