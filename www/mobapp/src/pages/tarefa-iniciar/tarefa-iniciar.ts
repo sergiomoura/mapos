@@ -257,35 +257,39 @@ export class TarefaIniciarPage {
 		let vetorDeMedidas:any[];
 
 		// Calculando tipo de medidas previstas
-		switch (tds.medida) {
-			case 'a':
-				unidade = 'm²';
-				vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_area.prev : this.tarefa.sse.medidas_area.real);
-				for (let index = 0; index < vetorDeMedidas.length; index++) {
-					const m = vetorDeMedidas[index];
-					total += m.l * m.c;
-				}
-				break;
-			
-			case 'l':
-				unidade = 'm';
-				vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_linear.prev : this.tarefa.sse.medidas_linear.real);
-				for (let index = 0; index < this.tarefa.sse.medidas_linear[tipo].length; index++) {
-					const m = vetorDeMedidas[index];
-					total += m.v;
-				}
-				break;
-			
-			case 'u':
-				unidade = 'unid';
-				vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_unidades.prev : this.tarefa.sse.medidas_unidades.real);
-				for (let index = 0; index < this.tarefa.sse.medidas_unidades[tipo].length; index++) {
-					const m = vetorDeMedidas[index];
-					total += m.n;
-				}
-				break;
+		if(!tds){
+			return {'valor':0,'unidade':''};
+		} else {
+			switch (tds.medida) {
+				case 'a':
+					unidade = 'm²';
+					vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_area.prev : this.tarefa.sse.medidas_area.real);
+					for (let index = 0; index < vetorDeMedidas.length; index++) {
+						const m = vetorDeMedidas[index];
+						total += m.l * m.c;
+					}
+					break;
+				
+				case 'l':
+					unidade = 'm';
+					vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_linear.prev : this.tarefa.sse.medidas_linear.real);
+					for (let index = 0; index < this.tarefa.sse.medidas_linear[tipo].length; index++) {
+						const m = vetorDeMedidas[index];
+						total += m.v;
+					}
+					break;
+				
+				case 'u':
+					unidade = 'unid';
+					vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_unidades.prev : this.tarefa.sse.medidas_unidades.real);
+					for (let index = 0; index < this.tarefa.sse.medidas_unidades[tipo].length; index++) {
+						const m = vetorDeMedidas[index];
+						total += m.n;
+					}
+					break;
+			}
+			return {'valor':total,'unidade':unidade}
 		}
-		return {'valor':total,'unidade':unidade}
 	}
 
 	rmMedida(i) {
