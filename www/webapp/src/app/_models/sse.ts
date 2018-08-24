@@ -39,4 +39,5 @@ export class SSE{
 	tarefas?:any[];
 	finalizacao_parcial?:boolean;
 	motivo_finalizacao_parcial?: string;
+	data_devolucao?:Date;
 }

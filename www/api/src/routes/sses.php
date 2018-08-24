@@ -134,7 +134,7 @@
 			$sse->status *= 1;
 			$sse->urgencia *= 1;
 			$sse->finalizacao_parcial = ($sse->finalizacao_parcial === '1');
-			
+
 		}
 
 		// Para cada SSE, recuperando as tarefas dela
@@ -344,7 +344,10 @@
 					status,
 					obs,
 					lat,
-					lng
+					lng,
+					finalizacao_parcial,
+					motivo_finalizacao_parcial,
+					data_devolucao
 				FROM
 					maxse_sses
 				WHERE 
@@ -354,6 +357,7 @@
 		$sse = $stmt->fetch();
 		$sse->lat *= 1;
 		$sse->lng *= 1;
+		$sse->finalizacao_parcial = ($sse->finalizacao_parcial === '1');
 
 		if($sse === false){
 			return $res

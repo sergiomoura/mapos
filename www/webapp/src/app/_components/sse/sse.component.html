@@ -243,4 +243,9 @@
 		</div>
 	
 	</div>
+	<div class="container-tarefas" *ngIf="sse.data_devolucao">
+		<h1>Finalização</h1>
+		<div *ngIf="sse.finalizacao_parcial">Finalização parcial: {{sse.motivo_finalizacao_parcial}}</div>
+		<div>Data de Devolução para Sanasa: {{sse.data_devolucao|date:'dd/MM/yyyy'}}</div>
+	</div>
 </div>
