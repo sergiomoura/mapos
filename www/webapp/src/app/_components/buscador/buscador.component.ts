@@ -126,7 +126,7 @@ export class BuscadorComponent implements OnInit {
 			for (let i = 0; i < this.tmpSses.length; i++) {
 
 				// Lendo sse da vez
-				const sse = this.tmpSses[i];
+				let sse = this.tmpSses[i];
 
 				// Parsing escalares
 				sse.dh_registrado = new Date(sse.dh_registrado);
@@ -247,7 +247,6 @@ export class BuscadorComponent implements OnInit {
 		// Emite evento com às sses
 		this.ssesCarregadas.emit(this.sses);
 	}
-
 
 	// On Functions
 	ngOnInit() {
