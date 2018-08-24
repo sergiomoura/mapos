@@ -7,6 +7,7 @@ import { SsesService } from '../../_services/sses.service';
 import { SSE } from '../../_models/sse';
 import { MatSnackBar } from '@angular/material';
 import { TiposDeServicoService } from '../../_services/tipos-de-servico.service';
+
 @Component({
 	selector: 'app-buscador',
 	templateUrl: './buscador.component.html',
@@ -51,7 +52,16 @@ export class BuscadorComponent implements OnInit {
 		private tdsService:TiposDeServicoService,
 		private snackBar:MatSnackBar
 	) {
+		// Instanciando emissor de eventos de sses carregadas
 		this.ssesCarregadas = new EventEmitter();
+
+		// Carregando busca do localstorage, caso haja
+		let strBusca = localStorage.getItem('busca');
+		if(strBusca){
+			this.busca = <Busca>JSON.parse(strBusca);
+		} else {
+			this.busca = this.buscaPadrao;
+		}
 	}
 
 	private getSses(){
@@ -268,7 +278,13 @@ export class BuscadorComponent implements OnInit {
 	}
 
 	onBuscarClick(){
+
+		// Buscando SSEs
 		this.getSses();
+
+		// Salvando busca no local storage
+		localStorage.setItem('busca',JSON.stringify(this.busca));
+
 	}
 
 }
