@@ -91,6 +91,8 @@
 					id_tipo_de_servico as id_tds_p,
 					id_tipo_de_servico_r as id_tds_r,
 					prazo_final,
+					finalizacao_parcial,
+					motivo_finalizacao_parcial,
 					Y.id_equipe,
 					Y.inicio_p,
 					Y.final_p,
@@ -131,6 +133,8 @@
 			$sse->lng *= 1;
 			$sse->status *= 1;
 			$sse->urgencia *= 1;
+			$sse->finalizacao_parcial = ($sse->finalizacao_parcial === '1');
+			
 		}
 
 		// Para cada SSE, recuperando as tarefas dela

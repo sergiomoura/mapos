@@ -42,7 +42,8 @@
 					<div class="numero">SSE: {{sse?.numero == null ? 'sem número' : sse?.numero}}</div>
 					<div class="endereco">{{sse?.endereco}}</div>
 					<div>RG{{sse?.tipoDeServicoPrev?.codigo}} - {{sse?.tipoDeServicoPrev?.descricao}}</div>
-					<div class="status">{{sse?.statusMessage}}</div>
+					<div class="status">{{sse?.statusMessage}}{{sse?.finalizacao_parcial?' Parcialmente':''}}</div>
+					<div *ngIf="sse?.finalizacao_parcial">{{sse?.motivo_finalizacao_parcial}}</div>
 					<div class="prazo">Data de Recebimento: {{sse?.dh_recebido|date:'dd/MM/yyyy'}}</div>
 					<div class="prazo">Prazo de Conclusão: {{sse?.prazoFinal|date:'dd/MM/yyyy'}}</div>
 					<countdown *ngIf="sse.tempoRestante > 0 && sse.status!= 100 && sse.status!= -100" [config]="{leftTime: sse.tempoRestante}">Restam: $!d! <span>d</span> : $!h! <span>h</span> : $!m! <span>min</span></countdown>

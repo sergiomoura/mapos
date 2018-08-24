@@ -37,4 +37,6 @@ export class SSE{
 	status:number;
 	prazoFinal:Date;
 	tarefas?:any[];
+	finalizacao_parcial?:boolean;
+	motivo_finalizacao_parcial?: string;
 }
