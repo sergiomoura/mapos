@@ -21,7 +21,8 @@ export class AuthService {
 
 	// Método que realiza o logout
 	logout() {
-		localStorage.removeItem('currentUser');
+		// Limpando o localStorage
+		localStorage.clear();
 	}
 
 	// Método que verifica se está logado
