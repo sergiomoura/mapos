@@ -13,6 +13,8 @@ import { NgForm } from '@angular/forms';
 import { format } from "date-fns";
 import { GaleriaComponent } from '../galeria/galeria.component';
 import { FotoModalComponent } from "../foto-modal/foto-modal.component";
+import { EventsService } from '../../_services/events.service';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-sse',
@@ -30,7 +32,8 @@ export class SseComponent implements OnInit {
 		private snackBar: MatSnackBar,
 		private sanitizer: DomSanitizer,
 		private router: Router,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private evtService:EventsService
 	) {	}
 
 	sse: SSE = <SSE>{
@@ -53,11 +56,30 @@ export class SseComponent implements OnInit {
 	public id_bairro_selecionado = undefined;
 	public selectedImage:File = null;
 	public inputImageFile:string;
+	private subscriptions:Subscription[] = [];
 
 	ngOnInit() {
 		this.getDomasas();
 		this.getTiposDeServico();
 		this.getSse();
+
+		// Subscrevendo ao observavel de evento reload clicked
+		this.subscriptions.push(
+			this.evtService.reloadClicked$.subscribe(
+				() => {
+					this.getSse();
+				}
+			)
+		)
+
+		// Subscrevendo ao observavel de evento reload clicked
+		this.subscriptions.push(
+			this.evtService.novaSseClicked$.subscribe(
+				() => {
+					this.sseVazia();
+				}
+			)
+		)
 	}
 
 	getSse() {
@@ -150,10 +172,6 @@ export class SseComponent implements OnInit {
 				console.warn(err);
 			}
 		)
-	}
-
-	onCriarTarefaClick() {
-		this.router.navigateByUrl('home/tarefas/0?idsse=' + this.sse.id);
 	}
 
 	onSalvarClick() {
@@ -251,6 +269,7 @@ export class SseComponent implements OnInit {
 
 	sseVazia() {
 		let sse: SSE = new SSE(undefined);
+		this.domasaSelecionada = undefined;
 		this.timestring = format(sse.dh_recebido,'HH:mm');
 		this.sseResponse = sse;
 		this.parseSse();

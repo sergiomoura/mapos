@@ -2,7 +2,6 @@ import { Bairro } from "./bairro";
 import { TipoDeServico } from "./tipoDeServico";
 import { SafeUrl } from "@angular/platform-browser";
 import { Medida } from "./medida";
-import { Equipe } from "./equipe";
 
 enum NiveisDeUrgencia {
 	normal=0,

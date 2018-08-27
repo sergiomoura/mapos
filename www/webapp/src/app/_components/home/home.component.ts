@@ -131,7 +131,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 	}
 
 	onNovaSSEButtonClick(){
-		this.router.navigateByUrl('home/sse/0')
+		this.router.navigateByUrl('home/sse/0');
+		this.evtService.novaSseClicked();
 	}
 
 	onGridButtonClick(){
