@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SsesService } from '../../_services/sses.service';
 import { SSE } from '../../_models/sse';
 import { MatSnackBar } from '@angular/material';
@@ -13,6 +13,8 @@ import { DomasasService } from '../../_services/domasas.service';
 import { format, addYears, isBefore, differenceInDays} from 'date-fns';
 import { Subscription } from 'rxjs';
 import { EventsService } from '../../_services/events.service';
+import { BuscadorComponent } from '../buscador/buscador.component';
+import { Medida } from '../../_models/medida';
 
 @Component({
 	selector: 'app-sses',
@@ -25,26 +27,9 @@ export class SsesGridComponent implements OnInit {
 	tdss:TipoDeServico[];
 	equipes:Equipe[];
 	bairros:Bairro[];
-	busca:Busca = {
-		equipes : [],
-		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE','FINALIZADA'],
-		prioridades: [0,1,2],
-		agendadas_de: undefined,
-		agendadas_ate: undefined,
-		realizadas_de: undefined,
-		realizadas_ate: undefined
-	};
-	buscaPadrao:Busca = {
-		equipes : [],
-		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
-		prioridades: [0,1,2],
-		agendadas_de: undefined,
-		agendadas_ate: undefined,
-		realizadas_de: undefined,
-		realizadas_ate: undefined
-	}
 	infinito:number = 2000000000;
 	subscriptions:Subscription[] = [];
+	@ViewChild('buscador') buscador:BuscadorComponent;
 
 	constructor(
 		private ssesService:SsesService,
@@ -57,8 +42,8 @@ export class SsesGridComponent implements OnInit {
 	){}
 
 	ngOnInit() {
-		this.getSses();
-		this.getTiposDeServico();
+		// this.getSses();
+		// this.getTiposDeServico();
 		this.getEquipes();
 		this.getBairros();
 
@@ -81,30 +66,7 @@ export class SsesGridComponent implements OnInit {
 	}
 
 	getSses(){
-		this.evtService.mostrarCarregando();
-		this.ssesService.getAll(this.busca).subscribe(
-			res => {
-				this.evtService.esconderCarregando();
-				this.tmpSses = res;
-				this.parseSses();
-			},
-			err => {
-				this.evtService.esconderCarregando();
-				// Exibindo snackbar de erro
-				this.snackBar
-				.open(
-					'Falha ao tentar carregar SSEs',
-					'Fechar',
-					{
-						duration:0,
-						horizontalPosition:'left',
-						verticalPosition:'bottom',
-						panelClass: ['snackbar-error'],
-					}
-				);
-			
-			}
-		)
+		this.buscador.onBuscarClick();
 	}
 
 	getTiposDeServico(){
@@ -168,8 +130,15 @@ export class SsesGridComponent implements OnInit {
 		)
 	}
 
-	private parseSses(){
+	onSsesCarregadas(evt){
+		console.log(evt);
+		this.tmpSses = evt;
+		this.parseSses();
+	}
 
+	private parseSses(){
+		
+		/*
 		if(this.tmpSses && this.tdss && this.equipes && this.bairros){
 			
 			for (let i = 0; i < this.tmpSses.length; i++) {
@@ -385,18 +354,88 @@ export class SsesGridComponent implements OnInit {
 				}
 			}
 		}
-		this.sses = this.tmpSses;
+		*/
+		this.sses = <SSE[]>this.tmpSses;
 	}
 	
 	onSseButtonClick(id){
 		this.router.navigateByUrl('/home/sse/' + id);
 	}
 
-	private parseSsesResponse(res):SSE[]{
-		for (let i = 0; i < res.length; i++) {
-			res[i].dh_registrado = new Date(res[i].dh_registrado);
+	getTotalPrev(sse:SSE):Medida{
+		
+		let medida:Medida = new Medida(0,'');
+		
+		switch (sse.tipoDeServicoPrev.medida) {
+			case 'a':
+				for (let i = 0; i < sse.medidas_area.prev.length; i++) {
+					const m = sse.medidas_area.prev[i];
+					medida.valor += m.l * m.c;
+				}
+				medida.unidade = 'm²';
+				break;
+			
+			case 'l':
+				for (let i = 0; i < sse.medidas_linear.prev.length; i++) {
+					const m = sse.medidas_linear.prev[i];
+					medida.valor += (1*m.v);
+				}
+				medida.unidade = 'm';
+				break;
+			
+			case 'u':
+				for (let i = 0; i < sse.medidas_unidades.prev.length; i++) {
+					const m = sse.medidas_unidades.prev[i];
+					medida.valor += (1*m.n);
+				}
+				medida.unidade = 'unid';
+				break;
+
+			default:
+				break;
 		}
-		return <SSE[]>res;
+
+		return medida;
+
+	}
+
+	getTotalReal(sse:SSE):Medida{
+		
+		let medida:Medida = new Medida(0,'');
+		
+		if(sse.tipoDeServicoReal){
+			switch (sse.tipoDeServicoReal.medida) {
+				case 'a':
+					for (let i = 0; i < sse.medidas_area.real.length; i++) {
+						const m = sse.medidas_area.real[i];
+						medida.valor += m.l * m.c;
+					}
+					medida.unidade = 'm²';
+					break;
+				
+				case 'l':
+					for (let i = 0; i < sse.medidas_linear.real.length; i++) {
+						const m = sse.medidas_linear.real[i];
+						medida.valor += (1*m.v);
+					}
+					medida.unidade = 'm';
+					break;
+				
+				case 'u':
+					for (let i = 0; i < sse.medidas_unidades.real.length; i++) {
+						const m = sse.medidas_unidades.real[i];
+						medida.valor += (1*m.n);
+					}
+					medida.unidade = 'unid';
+					break;
+	
+				default:
+					break;
+			}
+		}
+
+		return medida;
+
 	}
 
 }

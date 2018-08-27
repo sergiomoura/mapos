@@ -7,6 +7,7 @@ import { SsesService } from '../../_services/sses.service';
 import { SSE } from '../../_models/sse';
 import { MatSnackBar } from '@angular/material';
 import { TiposDeServicoService } from '../../_services/tipos-de-servico.service';
+import { Bairro } from '../../_models/bairro';
 
 @Component({
 	selector: 'app-buscador',
@@ -18,6 +19,7 @@ export class BuscadorComponent implements OnInit {
 	// Inputs
 	@Input() auto:boolean = false;
 	@Input() equipes:Equipe[];
+	@Input() bairros:Bairro[];
 	@Input() cmp:boolean;
 	@Input() cmo:boolean;
 
@@ -136,94 +138,23 @@ export class BuscadorComponent implements OnInit {
 	private parseSses(){
 
 		if(this.tmpSses && this.tdss && this.equipes){
+
+			// Resetando o vetor de sses;
+			this.sses = [];
+			
 			for (let i = 0; i < this.tmpSses.length; i++) {
 
 				// Lendo sse da vez
-				let sse = this.tmpSses[i];
-
-				// Parsing escalares
-				sse.dh_registrado = new Date(sse.dh_registrado);
-				sse.dh_recebido = new Date(sse.dh_recebido);
+				let sse:SSE = new SSE(this.tmpSses[i]);
 				
-				// Paring Equipe
-				sse.equipe = this.equipes.find(
-					(e) => {
-						return +(e.id) == +(this.tmpSses[i].id_equipe);
-					}
-				)
-				delete this.tmpSses[i].id_equipe;
+				// Parsing bairros se bairros estiver setado
+				if(this.bairros){
+					sse.setBairro(this.bairros)
+				}
 
 				// Parsing tipo de serviço previsto
-				sse.tipoDeServicoPrev = this.tdss.find(
-					(tds) => {
-						return +tds.id == +this.tmpSses[i].id_tds_p;
-					}
-				)
-				delete this.tmpSses[i].id_tds_p;
-
-				// Parsing tipo de serviço real
-				sse.tipoDeServicoReal = this.tdss.find(
-					(tds) => {
-						return +tds.id == +this.tmpSses[i].id_tds_r;
-					}
-				)
-				delete this.tmpSses[i].id_tds_r;
-				
-				// Determinando o prazo final
-				sse.prazoFinal = new Date(sse.prazo_final+'T00:00:00');
-				
-				
-				// Determinando o tempo restante (17 horas do dia fo prazo final)
-				sse.tempoRestante = (sse.prazoFinal.getTime() + (17*60*60*1000) - (new Date()).getTime())/1000;
-	
-				// Determinando o nome do arquivo marker
-				sse.markerFile = 'marker-';
-				sse.statusMsg = '';
-				switch (+sse.status) {
-					case -100:
-						sse.markerFile += 'cancelada';
-						sse.statusMessage = 'Cancelada';
-						break;
-
-					case -2:
-						sse.markerFile += 'retrabalho';
-						sse.statusMessage = 'Retrabalho';
-						break;
-
-					case -1:
-						sse.markerFile += 'divergente';
-						sse.statusMessage = 'Divergente';
-						break;
-					
-					case 0:
-						sse.markerFile += 'cadastrada';
-						sse.statusMessage = 'Cadastrada - aguardando ação do programador.';
-						break;
-	
-					case 1:
-						sse.markerFile += 'agendada'
-						sse.statusMessage = 'Agendada';
-						break;
-					
-					case 2:
-						sse.markerFile += 'executando';
-						sse.statusMessage = 'Executando';
-						break;
-					
-					case 3:
-						sse.markerFile += 'pendente'
-						sse.statusMessage = 'Pendente - aguardando ação do programador.';
-						break;
-					
-					case 100:
-						sse.markerFile += 'finalizada'
-						sse.statusMessage = 'Finalizada';
-						break;
-				}
-				
-				
-				sse.markerFile += '-' + sse.urgencia;
-				sse.markerFile += '.svg';
+				sse.setTipoDeServicoPrev(this.tdss);
+				sse.setTipoDeServicoReal(this.tdss);
 
 				// parsing equipes e apoios das tarefas 
 				for (let i = 0; i < sse.tarefas.length; i++) {
@@ -253,9 +184,11 @@ export class BuscadorComponent implements OnInit {
 					tarefa.inicio_r = (tarefa.inicio_r == null ? null : new Date(tarefa.inicio_r));
 					tarefa.final_r = (tarefa.final_r == null ? null : new Date(tarefa.final_r));
 				}
+
+				// Pondo no vetor de sses;
+				this.sses.push(sse);
 			}
 		}
-		this.sses = this.tmpSses;
 
 		// Emite evento com às sses
 		this.ssesCarregadas.emit(this.sses);
@@ -274,10 +207,6 @@ export class BuscadorComponent implements OnInit {
 		// Lendo informação de levantar ou não cmp e cmo na busca
 		this.busca.cmo = this.cmo;
 		this.busca.cmp = this.cmp;
-	}
-
-	onCancelarBuscaClick(){
-		console.log('clicou no cancelar...');
 	}
 
 	onResetCamposClick(){

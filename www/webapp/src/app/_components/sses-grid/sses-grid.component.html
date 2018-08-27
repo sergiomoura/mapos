@@ -1,6 +1,6 @@
 <div class="container-80 top-gap padding">
 	<div class="container-filtro">
-		
+		<!--
 		<div class="container-selects">
 			<mat-form-field>
 				<mat-select [(ngModel)]="busca.equipes"  placeholder="Equipes" multiple>
@@ -59,6 +59,16 @@
 		</div>
 
 	</div>
+	-->
+	<app-buscador
+			#buscador
+			[cmo]="false"
+			[cmo]="false"
+			(ssesCarregadas)="onSsesCarregadas($event)"
+			[equipes]="equipes"
+			[bairros]="bairros"
+			[auto]="true">
+	</app-buscador>
 </div>
 
 <div class="resultados-container">
@@ -113,15 +123,15 @@
 				<td>{{sse.status}}</td>
 				<td>{{sse.numero}}</td>
 				<td>{{sse.dh_recebido | date:"dd/MM/yyyy"}}</td>
-				<td>{{sse.bairro?.domasa}}</td>
+				<td>{{sse.bairro.domasa}}</td>
 				<td>{{sse.endereco}}</td>
 				<td>{{sse.bairro?.codigo}}</td>
 				<td>{{sse.bairro?.nome}}</td>
 				<td>{{sse.obs}}</td>
 				<td>{{sse.inicio_p | date:"dd/MM/yyyy"}}</td>
 				<td>{{sse.final_r | date:"dd/MM/yyyy"}}</td>
-				<td>{{sse.total_prev}} {{sse.unid_prev}}</td>
-				<td>{{sse.total_real}} {{sse.unid_real}}</td>
+				<td>{{getTotalPrev(sse).toString()}}</td>
+				<td>{{ (sse.tipoDeServicoReal != undefined) ? getTotalReal(sse).toString() : ''}}</td>
 				<td>{{sse.dif_medidas}}</td>
 				<td>{{sse.label_divergencia}}</td>
 				<td>{{sse.tipoDeServicoPrev?.codigo}}</td>

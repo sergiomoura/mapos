@@ -250,23 +250,8 @@ export class SseComponent implements OnInit {
 	}
 
 	sseVazia() {
-		let sse: SSE = new SSE();
-		sse.id = 0;
-		sse.dh_recebido = new Date();
-		sse.dh_recebido.setHours(10);
-		sse.dh_recebido.setMinutes(0);
+		let sse: SSE = new SSE(undefined);
 		this.timestring = format(sse.dh_recebido,'HH:mm');
-		sse.endereco = '';
-		sse.tipoDeServicoPrev = undefined;
-		sse.tipoDeServicoReal = undefined;
-		sse.numero = '';
-		sse.bairro = undefined;
-		sse.foto = null;
-		sse.medidas_area = {'real':[],'prev':[]};
-		sse.medidas_linear = {'real':[],'prev':[]};
-		sse.medidas_unidades = {'real':[],'prev':[]};
-		sse.urgencia=0;
-		sse.status=0;
 		this.sseResponse = sse;
 		this.parseSse();
 	}
