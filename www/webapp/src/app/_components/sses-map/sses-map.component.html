@@ -4,11 +4,12 @@
 		#sidenav
 		position="end"
 		mode="side"
-		[opened]="true"
-		>
+		[opened]="true">
 		
 		<app-buscador
 			#buscador
+			[cmo]="false"
+			[cmo]="false"
 			(ssesCarregadas)="onSsesCarregadas($event)"
 			[equipes]="equipes"
 			[auto]="true"></app-buscador>

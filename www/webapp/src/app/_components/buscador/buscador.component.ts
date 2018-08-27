@@ -18,6 +18,8 @@ export class BuscadorComponent implements OnInit {
 	// Inputs
 	@Input() auto:boolean = false;
 	@Input() equipes:Equipe[];
+	@Input() cmp:boolean;
+	@Input() cmo:boolean;
 
 	// Outputs
 	@Output() ssesCarregadas:EventEmitter<SSE[]>;
@@ -62,6 +64,7 @@ export class BuscadorComponent implements OnInit {
 		} else {
 			this.busca = this.buscaPadrao;
 		}
+
 	}
 
 	private getSses(){
@@ -267,6 +270,10 @@ export class BuscadorComponent implements OnInit {
 		if(this.auto){
 			this.getSses();
 		}
+
+		// Lendo informação de levantar ou não cmp e cmo na busca
+		this.busca.cmo = this.cmo;
+		this.busca.cmp = this.cmp;
 	}
 
 	onCancelarBuscaClick(){
