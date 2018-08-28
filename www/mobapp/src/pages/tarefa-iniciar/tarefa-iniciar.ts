@@ -284,7 +284,7 @@ export class TarefaIniciarPage {
 					vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_linear.prev : this.tarefa.sse.medidas_linear.real);
 					for (let index = 0; index < vetorDeMedidas.length; index++) {
 						const m = vetorDeMedidas[index];
-						total += m.v;
+						total += +m.v;
 					}
 					break;
 				
@@ -293,7 +293,7 @@ export class TarefaIniciarPage {
 					vetorDeMedidas = (tipo == tipoPR.prev ? this.tarefa.sse.medidas_unidades.prev : this.tarefa.sse.medidas_unidades.real);
 					for (let index = 0; index < vetorDeMedidas.length; index++) {
 						const m = vetorDeMedidas[index];
-						total += m.n;
+						total += +m.n;
 					}
 					break;
 			}

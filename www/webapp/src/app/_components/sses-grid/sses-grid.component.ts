@@ -60,11 +60,7 @@ export class SsesGridComponent implements OnInit {
 	onBuscarClick(){
 		this.getSses();
 	}
-
-	onResetCamposClick(){
-		this.busca = this.buscaPadrao;
-	}
-
+	
 	getSses(){
 		this.buscador.onBuscarClick();
 	}

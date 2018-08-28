@@ -334,7 +334,7 @@ CREATE TABLE `maxse_medidas_area` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_area_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_area_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=327 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=328 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -343,7 +343,7 @@ CREATE TABLE `maxse_medidas_area` (
 
 LOCK TABLES `maxse_medidas_area` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_area` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_area` VALUES (282,2.00,0.90,89,'p'),(283,5.00,1.00,89,'p'),(290,2.00,1.00,89,'r'),(291,5.00,1.00,89,'r'),(292,2.00,1.00,90,'p'),(293,2.00,1.00,90,'r'),(294,3.00,1.00,91,'p'),(295,1.00,3.00,91,'r'),(296,2.00,2.00,92,'p'),(297,2.00,2.00,92,'r'),(299,1.00,1.00,93,'p'),(300,1.00,1.00,93,'r'),(301,1.00,2.00,94,'p'),(303,2.00,3.00,94,'r'),(304,1.00,1.00,95,'p'),(305,1.00,1.00,95,'r'),(307,2.00,3.00,96,'p'),(308,1.00,0.50,96,'p'),(311,3.00,2.00,96,'r'),(312,2.00,1.00,96,'r'),(314,1.00,1.00,98,'p'),(316,22.00,1.00,99,'p'),(317,3.00,1.00,100,'p'),(318,3.00,1.00,100,'r'),(319,1.00,1.00,102,'p'),(322,1.00,2.00,102,'r'),(323,1.00,3.00,102,'r'),(324,1.00,1.00,103,'p'),(326,5.00,1.00,103,'r');
+INSERT INTO `maxse_medidas_area` VALUES (282,2.00,0.90,89,'p'),(283,5.00,1.00,89,'p'),(290,2.00,1.00,89,'r'),(291,5.00,1.00,89,'r'),(292,2.00,1.00,90,'p'),(293,2.00,1.00,90,'r'),(294,3.00,1.00,91,'p'),(295,1.00,3.00,91,'r'),(296,2.00,2.00,92,'p'),(297,2.00,2.00,92,'r'),(299,1.00,1.00,93,'p'),(300,1.00,1.00,93,'r'),(301,1.00,2.00,94,'p'),(303,2.00,3.00,94,'r'),(304,1.00,1.00,95,'p'),(305,1.00,1.00,95,'r'),(307,2.00,3.00,96,'p'),(308,1.00,0.50,96,'p'),(311,3.00,2.00,96,'r'),(312,2.00,1.00,96,'r'),(314,1.00,1.00,98,'p'),(316,22.00,1.00,99,'p'),(317,3.00,1.00,100,'p'),(318,3.00,1.00,100,'r'),(319,1.00,1.00,102,'p'),(322,1.00,2.00,102,'r'),(323,1.00,3.00,102,'r'),(324,1.00,1.00,103,'p'),(326,5.00,1.00,103,'r'),(327,1.00,2.00,104,'p');
 /*!40000 ALTER TABLE `maxse_medidas_area` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -362,7 +362,7 @@ CREATE TABLE `maxse_medidas_linear` (
   PRIMARY KEY (`id`),
   KEY `fk_maxse_medidas_linear_1_idx` (`id_sse`),
   CONSTRAINT `fk_maxse_medidas_linear_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -371,7 +371,7 @@ CREATE TABLE `maxse_medidas_linear` (
 
 LOCK TABLES `maxse_medidas_linear` WRITE;
 /*!40000 ALTER TABLE `maxse_medidas_linear` DISABLE KEYS */;
-INSERT INTO `maxse_medidas_linear` VALUES (11,5.00,97,'p'),(13,3.00,97,'r');
+INSERT INTO `maxse_medidas_linear` VALUES (11,5.00,97,'p'),(13,3.00,97,'r'),(14,2.00,105,'p'),(15,1.00,105,'p'),(16,2.00,105,'r'),(17,1.00,105,'r');
 /*!40000 ALTER TABLE `maxse_medidas_linear` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,7 +445,7 @@ CREATE TABLE `maxse_pessoas` (
   `nome` varchar(60) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=206 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=207 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -454,7 +454,7 @@ CREATE TABLE `maxse_pessoas` (
 
 LOCK TABLES `maxse_pessoas` WRITE;
 /*!40000 ALTER TABLE `maxse_pessoas` DISABLE KEYS */;
-INSERT INTO `maxse_pessoas` VALUES (1,'SÉRGIO MOURA','smouracalmon@gmail.com'),(185,'Registrador','registrador@teste.com'),(192,'Mecanilsson Oliveira','mecanilsson@teste.com'),(193,'Basílio Pascoal','basilio@teste.com'),(194,'Membro de Basílio',''),(195,'Registrador Dois de Araújo','registrador2@teste.com'),(202,'Líder Executor da Silva','lider@teste.com'),(203,'Membro Um da Silva','membro1@teste.com'),(204,'Membro Dois de Araújo','membro2@teste.com'),(205,'Túlio Filgueiras','tulio@teste2.com');
+INSERT INTO `maxse_pessoas` VALUES (1,'SÉRGIO MOURA','smouracalmon@gmail.com'),(185,'Registrador','registrador@teste.com'),(192,'Mecanilsson Oliveira','mecanilsson@teste.com'),(193,'Basílio Pascoal','basilio@teste.com'),(194,'Membro de Basílio',''),(195,'Registrador Dois de Araújo','registrador2@teste.com'),(202,'Líder Executor da Silva','lider@teste.com'),(203,'Membro Um da Silva','membro1@teste.com'),(204,'Membro Dois de Araújo','membro2@teste.com'),(205,'Túlio Filgueiras','tulio@teste2.com'),(206,'Programador','programador@teste.com');
 /*!40000 ALTER TABLE `maxse_pessoas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -550,7 +550,7 @@ CREATE TABLE `maxse_sses` (
   CONSTRAINT `fk_maxse_sses_2` FOREIGN KEY (`status`) REFERENCES `maxse_sse_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_sses_3` FOREIGN KEY (`id_tipo_de_servico`) REFERENCES `maxse_tipos_de_servico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_sses_4` FOREIGN KEY (`id_tipo_de_servico_r`) REFERENCES `maxse_tipos_de_servico` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -559,7 +559,7 @@ CREATE TABLE `maxse_sses` (
 
 LOCK TABLES `maxse_sses` WRITE;
 /*!40000 ALTER TABLE `maxse_sses` DISABLE KEYS */;
-INSERT INTO `maxse_sses` VALUES (89,'Rua Maria Monteiro, 10',582,'1000000',1,1,'2018-08-08 06:07:17','2018-08-08 10:00:00',0,'Começar pelo maior',100,-22.9026956,-47.0498096,612.00,630.00,'2018-08-08 07:07:27','2018-08-08 07:09:34','2018-08-09','2018-08-11',NULL,NULL),(90,'Barreto Leme, 1000',582,'1000002',4,4,'2018-08-10 05:32:45','2018-08-10 10:00:00',0,'Teste de Foto',100,-22.9019348,-47.0616589,300.00,300.00,'2018-08-10 06:18:41',NULL,'2018-08-23','2018-08-14',0,NULL),(91,'Barreto Leme, 1200',582,'1000003',1,1,'2018-08-10 05:45:36','2018-08-10 10:00:00',0,'Teste',3,-22.9010986,-47.0598027,270.00,270.00,NULL,NULL,NULL,'2018-08-14',NULL,NULL),(92,'Barreto Leme, 1400',582,'1000005',1,1,'2018-08-10 07:28:49','2018-08-10 10:00:00',0,'teste',100,-22.9003207,-47.0580702,360.00,360.00,NULL,NULL,'2018-08-10','2018-08-14',NULL,NULL),(93,'Barreto Leme, 1600',582,'1000006',2,2,'2018-08-10 07:48:11','2018-08-10 10:00:00',0,'teste',3,-22.8999550,-47.0559671,98.00,98.00,NULL,NULL,NULL,'2018-08-14',NULL,NULL),(94,'Av Alberto Sarmento, 400',43,'1231441',1,1,'2018-08-13 08:23:42','2018-08-13 10:00:00',1,'teste',100,-22.8965157,-47.0799623,186.00,540.00,NULL,NULL,'2018-08-27','2018-08-16',0,NULL),(95,'Av Alberto Sarmento, 1000',8,'1002123',1,1,'2018-08-14 03:16:30','2018-08-13 15:00:00',0,'teste',3,-22.8916394,-47.0771696,93.00,93.00,NULL,NULL,NULL,'2018-08-16',NULL,NULL),(96,'Rua Major Solon, 60',582,'1000022',2,2,'2018-08-14 04:39:05','2018-08-14 10:00:00',0,NULL,3,-22.8979290,-47.0596192,624.00,624.00,NULL,NULL,NULL,'2018-08-17',NULL,NULL),(97,'Av Brasil, 45',582,'1000055',7,7,'2018-08-23 04:38:46','2018-08-20 10:00:00',0,'Test ',3,-22.8765603,-47.0762755,275.00,275.00,NULL,NULL,NULL,'2018-08-22',NULL,NULL),(98,'Av Brasil, 500',8,'1000505',2,NULL,'2018-08-21 18:20:58','2018-08-21 15:00:00',2,'teste',0,-22.8902534,-47.0637012,98.00,98.00,NULL,NULL,NULL,'2018-08-21',NULL,NULL),(99,'Barreto Leme, 518',582,'1231231',2,NULL,'2018-08-21 18:29:10','2018-08-21 10:00:00',2,'teste',-100,-22.9037219,-47.0655963,2068.00,2068.00,NULL,NULL,NULL,'2018-08-21',NULL,NULL),(100,'Orosimbo Maia, 1000',582,'1111222',2,2,'2018-08-22 20:09:35','2018-08-22 15:00:00',0,'Buraco na Orosimbo',3,-22.8929281,-47.0595544,288.00,288.00,NULL,NULL,NULL,'2018-08-25',NULL,NULL),(101,'Rua Roberto Simonsen, 35',21,'6566666',11,11,'2018-08-23 04:44:16','2018-08-22 15:00:00',0,'teste',3,-22.8810484,-47.0453227,265.00,265.00,NULL,NULL,NULL,'2018-08-25',NULL,NULL),(102,'Av Giovani Ruzende',22,'7777777',4,4,'2018-08-23 04:48:21','2018-08-23 10:00:00',0,'teste',3,-22.9141084,-47.0890867,150.00,150.00,NULL,NULL,NULL,'2018-08-27',NULL,NULL),(103,'Av Monte Castelo',50,'8888888',10,10,'2018-08-23 05:42:41','2018-08-23 10:00:00',2,'Uma SSE urgente',100,-22.9147894,-47.0482634,4.00,8.00,NULL,NULL,'2018-08-23','2018-08-23',1,'teste');
+INSERT INTO `maxse_sses` VALUES (89,'Rua Maria Monteiro, 10',582,'1000000',1,1,'2018-08-08 06:07:17','2018-08-08 10:00:00',0,'Começar pelo maior',100,-22.9026956,-47.0498096,612.00,630.00,'2018-08-08 07:07:27','2018-08-08 07:09:34','2018-08-09','2018-08-11',NULL,NULL),(90,'Barreto Leme, 1000',582,'1000002',4,4,'2018-08-10 05:32:45','2018-08-10 10:00:00',0,'Teste de Foto',100,-22.9019348,-47.0616589,300.00,300.00,'2018-08-10 06:18:41',NULL,'2018-08-23','2018-08-14',0,NULL),(91,'Barreto Leme, 1200',582,'1000003',1,1,'2018-08-10 05:45:36','2018-08-10 10:00:00',0,'Teste',3,-22.9010986,-47.0598027,270.00,270.00,NULL,NULL,NULL,'2018-08-14',NULL,NULL),(92,'Barreto Leme, 1400',582,'1000005',1,1,'2018-08-10 07:28:49','2018-08-10 10:00:00',0,'teste',100,-22.9003207,-47.0580702,360.00,360.00,NULL,NULL,'2018-08-10','2018-08-14',NULL,NULL),(93,'Barreto Leme, 1600',582,'1000006',2,2,'2018-08-10 07:48:11','2018-08-10 10:00:00',0,'teste',3,-22.8999550,-47.0559671,98.00,98.00,NULL,NULL,NULL,'2018-08-14',NULL,NULL),(94,'Av Alberto Sarmento, 400',43,'1231441',1,1,'2018-08-13 08:23:42','2018-08-13 10:00:00',1,'teste',100,-22.8965157,-47.0799623,186.00,540.00,NULL,NULL,'2018-08-27','2018-08-16',0,NULL),(95,'Av Alberto Sarmento, 1000',8,'1002123',1,1,'2018-08-14 03:16:30','2018-08-13 15:00:00',0,'teste',3,-22.8916394,-47.0771696,93.00,93.00,NULL,NULL,NULL,'2018-08-16',NULL,NULL),(96,'Rua Major Solon, 60',582,'1000022',2,2,'2018-08-14 04:39:05','2018-08-14 10:00:00',0,NULL,3,-22.8979290,-47.0596192,624.00,624.00,NULL,NULL,NULL,'2018-08-17',NULL,NULL),(97,'Av Brasil, 45',582,'1000055',7,7,'2018-08-23 04:38:46','2018-08-20 10:00:00',0,'Test ',3,-22.8765603,-47.0762755,275.00,275.00,NULL,NULL,NULL,'2018-08-22',NULL,NULL),(98,'Av Brasil, 500',8,'1000505',2,NULL,'2018-08-21 18:20:58','2018-08-21 15:00:00',2,'teste',-100,-22.8902534,-47.0637012,98.00,98.00,NULL,NULL,NULL,'2018-08-21',NULL,NULL),(99,'Barreto Leme, 518',582,'1231231',2,NULL,'2018-08-21 18:29:10','2018-08-21 10:00:00',2,'teste',-100,-22.9037219,-47.0655963,2068.00,2068.00,NULL,NULL,NULL,'2018-08-21',NULL,NULL),(100,'Orosimbo Maia, 1000',582,'1111222',2,2,'2018-08-22 20:09:35','2018-08-22 15:00:00',0,'Buraco na Orosimbo',3,-22.8929281,-47.0595544,288.00,288.00,NULL,NULL,NULL,'2018-08-25',NULL,NULL),(101,'Rua Roberto Simonsen, 35',21,'6566666',11,11,'2018-08-23 04:44:16','2018-08-22 15:00:00',0,'teste',3,-22.8810484,-47.0453227,265.00,265.00,NULL,NULL,NULL,'2018-08-25',NULL,NULL),(102,'Av Giovani Ruzende',22,'7777777',4,4,'2018-08-23 04:48:21','2018-08-23 10:00:00',0,'teste',3,-22.9141084,-47.0890867,150.00,150.00,NULL,NULL,NULL,'2018-08-27',NULL,NULL),(103,'Av Monte Castelo',50,'8888888',10,10,'2018-08-23 05:42:41','2018-08-23 10:00:00',2,'Uma SSE urgente',100,-22.9147894,-47.0482634,4.00,8.00,NULL,NULL,'2018-08-23','2018-08-23',1,'teste'),(104,'Major Solon, 600',582,'9899999',2,NULL,'2018-08-27 08:16:11','2018-08-27 10:00:00',0,'Teste de nova adição de sse',1,-22.8936252,-47.0583029,196.00,196.00,NULL,NULL,NULL,'2018-08-30',NULL,NULL),(105,'Barreto Leme, 877',582,'7878788',7,7,'2018-08-27 14:07:08','2018-08-27 10:00:00',0,'Teste 7878788',2,-22.9023491,-47.0626679,165.00,165.00,NULL,NULL,NULL,'2018-08-29',NULL,NULL);
 /*!40000 ALTER TABLE `maxse_sses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -590,7 +590,7 @@ CREATE TABLE `maxse_tarefas` (
   CONSTRAINT `fk_maxse_tarefas_1` FOREIGN KEY (`id_sse`) REFERENCES `maxse_sses` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_tarefas_3` FOREIGN KEY (`id_apoio`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=133 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -599,7 +599,7 @@ CREATE TABLE `maxse_tarefas` (
 
 LOCK TABLES `maxse_tarefas` WRITE;
 /*!40000 ALTER TABLE `maxse_tarefas` DISABLE KEYS */;
-INSERT INTO `maxse_tarefas` VALUES (100,89,24,NULL,'2018-08-08 08:00:00','2018-08-08 09:00:00','2018-08-08 06:44:32','2018-08-08 06:51:57',1,'Sérgio Moura','Medidas com divergências','A divergência foi aprovada pelo pessoal da central'),(101,89,23,NULL,'2018-08-08 10:00:00','2018-08-08 11:00:00','2018-08-08 07:01:41','2018-08-08 07:03:25',0,NULL,'Comecei','Terminei ligeiro'),(102,89,23,NULL,'2018-08-08 14:00:00','2018-08-08 15:00:00','2018-08-08 07:08:54','2018-08-08 07:09:34',0,NULL,'Agora vou fazer bem feito','Pronto'),(103,90,24,NULL,'2018-08-10 08:00:00','2018-08-10 08:30:00','2018-08-10 05:33:58','2018-08-10 05:40:43',0,NULL,'Ver tamanho de fotos',NULL),(104,91,24,NULL,'2018-08-10 08:30:00','2018-08-10 09:00:00','2018-08-10 05:46:46','2018-08-10 05:47:54',0,NULL,'Teste','Finalizando'),(106,92,24,NULL,'2018-08-10 09:10:00','2018-08-10 09:50:00','2018-08-10 07:30:35','2018-08-10 07:31:51',0,NULL,'Início','Fim'),(108,93,24,NULL,'2018-08-10 08:00:00','2018-08-10 08:30:00','2018-08-10 07:49:12','2018-08-10 07:50:22',0,NULL,'Teste',NULL),(109,94,24,NULL,'2018-08-13 10:00:00','2018-08-13 12:00:00','2018-08-13 08:30:14','2018-08-14 03:03:32',1,'Sérgio','Teste','Fim de teste'),(111,95,24,NULL,'2018-08-14 08:10:00','2018-08-14 10:10:00','2018-08-14 08:00:10','2018-08-14 03:20:47',0,NULL,'',NULL),(117,96,24,NULL,'2018-08-14 10:00:00','2018-08-14 11:00:00','2018-08-14 10:57:21','2018-08-22 20:39:55',1,'Sérgio','Com divergencia.',NULL),(126,100,24,NULL,'2018-08-23 10:00:00','2018-08-23 11:00:00','2018-08-23 07:20:00','2018-08-23 04:23:57',0,NULL,'Teste','Finalizei cedo'),(127,97,24,NULL,'2018-08-23 10:00:00','2018-08-23 11:00:00','2018-08-23 05:15:20','2018-08-23 05:32:35',1,'João das Dores','Teste',NULL),(128,101,24,NULL,'2018-08-23 12:00:00','2018-08-23 12:30:00','2018-08-23 05:36:13','2018-08-23 05:40:20',1,'André Cintra','Divergência',NULL),(129,102,24,NULL,'2018-08-23 14:00:00','2018-08-23 15:00:00','2018-08-23 04:56:50','2018-08-23 04:56:58',1,'Luiz Brasão','Com divergências',NULL),(130,103,24,NULL,'2018-08-23 16:00:00','2018-08-23 18:00:00','2018-08-23 05:51:06','2018-08-23 05:52:24',1,'Sérgio Moura',NULL,'Fim');
+INSERT INTO `maxse_tarefas` VALUES (100,89,24,NULL,'2018-08-08 08:00:00','2018-08-08 09:00:00','2018-08-08 06:44:32','2018-08-08 06:51:57',1,'Sérgio Moura','Medidas com divergências','A divergência foi aprovada pelo pessoal da central'),(101,89,23,NULL,'2018-08-08 10:00:00','2018-08-08 11:00:00','2018-08-08 07:01:41','2018-08-08 07:03:25',0,NULL,'Comecei','Terminei ligeiro'),(102,89,23,NULL,'2018-08-08 14:00:00','2018-08-08 15:00:00','2018-08-08 07:08:54','2018-08-08 07:09:34',0,NULL,'Agora vou fazer bem feito','Pronto'),(103,90,24,NULL,'2018-08-10 08:00:00','2018-08-10 08:30:00','2018-08-10 05:33:58','2018-08-10 05:40:43',0,NULL,'Ver tamanho de fotos',NULL),(104,91,24,NULL,'2018-08-10 08:30:00','2018-08-10 09:00:00','2018-08-10 05:46:46','2018-08-10 05:47:54',0,NULL,'Teste','Finalizando'),(106,92,24,NULL,'2018-08-10 09:10:00','2018-08-10 09:50:00','2018-08-10 07:30:35','2018-08-10 07:31:51',0,NULL,'Início','Fim'),(108,93,24,NULL,'2018-08-10 08:00:00','2018-08-10 08:30:00','2018-08-10 07:49:12','2018-08-10 07:50:22',0,NULL,'Teste',NULL),(109,94,24,NULL,'2018-08-13 10:00:00','2018-08-13 12:00:00','2018-08-13 08:30:14','2018-08-14 03:03:32',1,'Sérgio','Teste','Fim de teste'),(111,95,24,NULL,'2018-08-14 08:10:00','2018-08-14 10:10:00','2018-08-14 08:00:10','2018-08-14 03:20:47',0,NULL,'',NULL),(117,96,24,NULL,'2018-08-14 10:00:00','2018-08-14 11:00:00','2018-08-14 10:57:21','2018-08-22 20:39:55',1,'Sérgio','Com divergencia.',NULL),(126,100,24,NULL,'2018-08-23 10:00:00','2018-08-23 11:00:00','2018-08-23 07:20:00','2018-08-23 04:23:57',0,NULL,'Teste','Finalizei cedo'),(127,97,24,NULL,'2018-08-23 10:00:00','2018-08-23 11:00:00','2018-08-23 05:15:20','2018-08-23 05:32:35',1,'João das Dores','Teste',NULL),(128,101,24,NULL,'2018-08-23 12:00:00','2018-08-23 12:30:00','2018-08-23 05:36:13','2018-08-23 05:40:20',1,'André Cintra','Divergência',NULL),(129,102,24,NULL,'2018-08-23 14:00:00','2018-08-23 15:00:00','2018-08-23 04:56:50','2018-08-23 04:56:58',1,'Luiz Brasão','Com divergências',NULL),(130,103,24,NULL,'2018-08-23 16:00:00','2018-08-23 18:00:00','2018-08-23 05:51:06','2018-08-23 05:52:24',1,'Sérgio Moura',NULL,'Fim'),(133,104,23,NULL,'2018-08-27 09:00:00','2018-08-27 10:00:00',NULL,NULL,0,NULL,NULL,NULL),(134,105,24,NULL,'2018-08-27 15:00:00','2018-08-27 16:00:00','2018-08-27 17:22:00',NULL,0,NULL,'Início',NULL);
 /*!40000 ALTER TABLE `maxse_tarefas` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -783,7 +783,7 @@ CREATE TABLE `maxse_usuarios` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_maxse_usuarios_1_idx` (`id_pessoa`),
   CONSTRAINT `fk_maxse_usuarios_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=92 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=93 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -792,7 +792,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b83dce401f659.75520586','2018-08-27 09:13:40',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b7a6f42d87910.83388952','2018-08-20 05:35:30',1,0,1,185),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b7e861f7eea88.13721029','2018-08-23 08:02:07',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(90,'executor','$1$AJYPo8aj$N.Fln3Vslx2s0dzprxv.B/','5b6ac4126e1f77.32737504','2018-08-08 08:21:06',2,0,1,202),(91,'tulio','$1$wZSp24yk$RvuYxgJj0U7Un9KYVQ2hD0','5b66cc37cc00e5.72944086','2018-08-05 08:06:47',2,0,1,205);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b853f4a7b9c32.88430704','2018-08-28 10:25:46',1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b7a6f42d87910.83388952','2018-08-20 05:35:30',1,0,1,185),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192),(84,'basilio','$1$3yEQ9DgG$qNmB1.UFDbipYK/HrZ/Aa.','5b84420292aeb2.66782799','2018-08-27 16:25:06',2,0,1,193),(85,'registrador22',NULL,NULL,NULL,1,0,1,195),(90,'executor','$1$AJYPo8aj$N.Fln3Vslx2s0dzprxv.B/','5b6ac4126e1f77.32737504','2018-08-08 08:21:06',2,0,1,202),(91,'tulio','$1$wZSp24yk$RvuYxgJj0U7Un9KYVQ2hD0','5b66cc37cc00e5.72944086','2018-08-05 08:06:47',2,0,1,205),(92,'programador','$1$9T1X08ym$HEzlVhxdVFARD1tefC1Wn1','5b83f91c27b2c6.79967655','2018-08-27 11:14:04',0,1,1,206);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -848,4 +848,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-08-27  8:14:19
+-- Dump completed on 2018-08-28  9:26:28

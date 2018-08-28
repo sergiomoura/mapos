@@ -58,7 +58,7 @@
 		</div>
 
 		<mat-form-field>
-			<mat-select required (selectionChange)="onTipoDeServicoPrevChange()" name="tds" [(ngModel)]="sse.tipoDeServicoPrev" placeholder="Solicitação" [disabled]="camposDeCadstroTravados">
+			<mat-select required (selectionChange)="onTipoDeServicoPrevChange()" name="tds" [(ngModel)]="sse.tipoDeServicoPrev" placeholder="Tipo de Serviço" [disabled]="camposDeCadstroTravados">
 				<mat-option [value]="tds" *ngFor="let tds of tdss">RG{{tds.codigo}} - {{tds.descricao}}</mat-option>
 			</mat-select>
 		</mat-form-field>
