@@ -39,6 +39,8 @@ import { NumeroBrPipe } from './_pipes/numero-br.pipe';
 import { BuscadorComponent } from './_components/buscador/buscador.component';
 import { ListaFiltravelComponent } from './_components/lista-filtravel/lista-filtravel.component';
 import { FotoModalComponent } from './_components/foto-modal/foto-modal.component';
+import { MatDatepickerModule, MatNativeDateModule, DateAdapter } from '@angular/material';
+import { PtBrDateAdapter } from './_helpers/pt-br.date-adapter';
 
 @NgModule({
 	declarations: [
@@ -99,11 +101,12 @@ import { FotoModalComponent } from './_components/foto-modal/foto-modal.componen
 			provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
 			useValue: {
 				duration: 4000,
-				horizontalPosition:'right',
-				verticalPosition:'bottom'
+				horizontalPosition: 'right',
+				verticalPosition: 'bottom'
 			}
 		},
-		{provide: MAT_DATE_LOCALE, useValue: 'pt-BR'}
+		{ provide: DateAdapter, useClass: PtBrDateAdapter },
+		{ provide: MAT_DATE_LOCALE, useValue: 'pt-BR' }
 	],
 	bootstrap: [AppComponent]
 })
