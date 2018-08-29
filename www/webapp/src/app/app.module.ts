@@ -1,5 +1,4 @@
 import { AppComponent } from './app.component';
-
 import { BrowserModule } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
 import { NgModule } from '@angular/core';
@@ -10,10 +9,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { CountdownModule } from 'ngx-countdown';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-
 import { ErrorInterceptor } from "./_helpers/error.interceptor";
 import { JwtInterceptor } from "./_helpers/jwt.interceptor";
-
 import { HomeComponent } from './_components/home/home.component';
 import { DashComponent } from './_components/dash/dash.component';
 import { UsuariosComponent } from './_components/usuarios/usuarios.component';
@@ -28,10 +25,7 @@ import { SseComponent } from './_components/sse/sse.component';
 import { TarefaComponent } from './_components/tarefa/tarefa.component';
 import { NovaTarefaComponent } from './_components/nova-tarefa/nova-tarefa.component';
 import { GaleriaComponent } from './_components/galeria/galeria.component';
-
-
 import { FocusDirective } from './_directives/focus.directive';
-
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarConfig } from "@angular/material";
 import { EstoqueComponent } from './_components/estoque/estoque.component';
 import { ProdutosComponent } from './_components/produtos/produtos.component';
