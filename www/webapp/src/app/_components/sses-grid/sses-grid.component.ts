@@ -3,7 +3,6 @@ import { SsesService } from '../../_services/sses.service';
 import { SSE } from '../../_models/sse';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { Busca } from "../../_models/busca";
 import { Bairro } from "../../_models/bairro";
 import { TipoDeServico } from "../../_models/tipoDeServico";
 import { Equipe } from "../../_models/equipe";
@@ -395,11 +394,11 @@ export class SsesGridComponent implements OnInit {
 
 	}
 
-	getTotalReal(sse:SSE):Medida{
+	getTotalReal(sse:SSE):Medida|undefined{
 		
-		let medida:Medida = new Medida(0,'');
-		
+				
 		if(sse.tipoDeServicoReal){
+			let medida:Medida = new Medida(0,'');
 			switch (sse.tipoDeServicoReal.medida) {
 				case 'a':
 					for (let i = 0; i < sse.medidas_area.real.length; i++) {
@@ -428,10 +427,53 @@ export class SsesGridComponent implements OnInit {
 				default:
 					break;
 			}
+			return medida;
+		} else {
+			return undefined;
 		}
 
-		return medida;
+	}
 
+	getDifMedida(sse:SSE):string{
+		let mPrev:Medida = this.getTotalPrev(sse);
+		let mReal:Medida = this.getTotalReal(sse);
+
+		if(mReal){
+			if(mPrev.unidade == mReal.unidade){
+				return (mPrev.valor - mReal.valor) + ' ' + mPrev.unidade;
+			} else {
+				return 'Unidades Diferem';
+			}
+		} else {
+			return '';
+		}
+	}
+
+	getDivergencia(sse:SSE):string{
+		let mPrev:Medida = this.getTotalPrev(sse);
+		let mReal:Medida = this.getTotalReal(sse);
+
+		if(mReal){
+			if(Math.round((mPrev.valor - mReal.valor)*100)/100 == 0){
+				return 'Não';
+			} else {
+				return 'Sim';
+			}
+		} else {
+			return '';
+		}
+	}
+
+	getDifTds(sse:SSE):string{
+		if(sse.tipoDeServicoReal) {
+			if(sse.tipoDeServicoPrev.codigo == sse.tipoDeServicoReal.codigo){
+				return 'Não'
+			} else {
+				return 'Sim'
+			}
+		} else {
+			return ''
+		}
 	}
 
 }

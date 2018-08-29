@@ -75,9 +75,9 @@
 	<table class="tb-resultados">
 		<thead>
 			<tr>
-				<td colspan="27">Dados da SSE</td>
-				<td colspan="4">Dados do 1º Serviço</td>
-				<td colspan="4">Dados do 2º Serviço</td>
+				<td colspan="25">Dados da SSE</td>
+				<td colspan="5">Dados do 1º Serviço</td>
+				<td colspan="5">Dados do 2º Serviço</td>
 			</tr>
 			<tr>
 				<td>ID</td>
@@ -89,8 +89,6 @@
 				<td>ID Bairro</td>
 				<td>Nome Bairro</td>
 				<td>Obs</td>
-				<td>Agendado para</td>
-				<td>Realizado em</td>
 				<td>Tot Medidas Prev</td>
 				<td>Tot Medidas Real</td>
 				<td>Dif. Medidas</td>
@@ -109,10 +107,12 @@
 				<td>Valor da SSE</td>
 				<td>Equipe</td>
 				<td>Apoio</td>
+				<td>Agendado para</td>
 				<td>Data da Execução</td>
 				<td>Consumo</td>
 				<td>Equipe</td>
 				<td>Apoio</td>
+				<td>Agendado para</td>
 				<td>Data da Execução</td>
 				<td>Consumo</td>
 			</tr>
@@ -128,15 +128,13 @@
 				<td>{{sse.bairro?.codigo}}</td>
 				<td>{{sse.bairro?.nome}}</td>
 				<td>{{sse.obs}}</td>
-				<td>{{sse.inicio_p | date:"dd/MM/yyyy"}}</td>
-				<td>{{sse.final_r | date:"dd/MM/yyyy"}}</td>
 				<td>{{getTotalPrev(sse).toString()}}</td>
-				<td>{{ (sse.tipoDeServicoReal != undefined) ? getTotalReal(sse).toString() : ''}}</td>
-				<td>{{sse.dif_medidas}}</td>
-				<td>{{sse.label_divergencia}}</td>
-				<td>{{sse.tipoDeServicoPrev?.codigo}}</td>
-				<td>{{sse.tipoDeServicoReal?.codigo}}</td>
-				<td>{{sse.label_dif_tds}}</td>
+				<td>{{ getTotalReal(sse)?.toString()}}</td>
+				<td>{{ getDifMedida(sse) }}</td>
+				<td>{{ getDivergencia(sse) }}</td>
+				<td>{{ sse.tipoDeServicoPrev?.codigo}}</td>
+				<td>{{ sse.tipoDeServicoReal?.codigo}}</td>
+				<td>{{ getDifTds(sse) }}</td>
 				<td>{{sse.faixaPrev?.label}} ({{sse.faixaPrev?.li}} < X {{ +sse.faixaPrev?.ls == infinito ? '' : '≤ ' + sse.faixaPrev?.ls}})</td>
 				<td>{{sse.faixa_real_label}}</td>
 				<td>{{sse.label_urgencia}}</td>
@@ -146,8 +144,11 @@
 				<td>{{sse.label_em_garantia}}</td>
 				<td>{{sse.calc_exec}}</td>
 				<td>{{sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+
+				<!-- INÍCIO DE EXIBIÇÃO DE TAREFA 1-->
 				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].equipe ? sse.tarefas[0].equipe.nome : ''}}</td>
 				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].apoio ? sse.tarefas[0].apoio.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].inicio_p ? (sse.tarefas[0].inicio_p|date:'dd/MM/yyyy') : ''}}</td>
 				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].final_r ? (sse.tarefas[0].final_r|date:'dd/MM/yyyy') : ''}}</td>
 				<td>
 					<ul *ngIf="sse.tarefas.length > 0 && sse.tarefas[0].consumos.length > 0">
@@ -156,8 +157,12 @@
 						</li>
 					</ul>
 				</td>
+				<!-- FINAL DE EXIBIÇÃO DE TAREFA 1 -->
+
+				<!-- INÍCIO DE EXIBIÇÃO DE TAREFA 2-->
 				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].equipe ? sse.tarefas[1].equipe.nome : ''}}</td>
 				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].apoio ? sse.tarefas[1].apoio.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].inicio_p ? (sse.tarefas[1].inicio_p|date:'dd/MM/yyyy') : ''}}</td>
 				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].final_r ? (sse.tarefas[1].final_r|date:'dd/MM/yyyy') : ''}}</td>
 				<td>
 					<ul *ngIf="sse.tarefas.length > 1 && sse.tarefas[1].consumos.length > 1">
@@ -166,6 +171,7 @@
 						</li>
 					</ul>
 				</td>
+				<!-- FINAL DE EXIBIÇÃO DE TAREFA 2 -->
 			</tr>
 			
 		</tbody>

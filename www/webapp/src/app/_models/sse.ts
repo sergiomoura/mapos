@@ -149,7 +149,7 @@ export class SSE{
 	}
 
 	public setTipoDeServicoReal(tdss:TipoDeServico[]){
-		if(!this._id_tds_r){
+		if(this._id_tds_r){
 			this.tipoDeServicoReal = tdss.find(
 				(tds) => {
 					return tds.id == this._id_tds_r;
