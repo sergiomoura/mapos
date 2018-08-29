@@ -1427,3 +1427,105 @@
 		->write('{"novoStatus":"'.$status.'"}');
 	
 	});
+
+	$app->patch($api_root.'/sses/{id_sse}/cancelarInicio', function(Request $req, Response $res, $args = []){
+
+		/**
+		 * CANCELA O INÍCIO DE UMA SSE: o novo status passa a ser "agendada"
+		 */
+
+		// Lendo parâmetro
+		$id_sse = 1*$args['id_sse'];
+
+		// Iniciando transação
+		$this->db->beginTransaction();
+		
+		// Levantando id e inicio_r de tarefas da sse em execução - - - - - -
+		$sql = 'SELECT id, inicio_r FROM maxse_tarefas WHERE id_sse=:id_sse AND inicio_r IS NOT NULL AND final_r IS NULL';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_sse' => $id_sse
+			)
+		);
+		$tarefas = $stmt->fetchAll();
+		$ids_tarefas = array_map(function($a){return $a->id;}, $tarefas);
+		$inicios_tarefas = array_map(function($a){return $a->inicio_r;}, $tarefas);
+
+		// Verificando se há alguma tarefa executada anteriormente
+		$sql = 'SELECT count(*) as n FROM maxse_tarefas WHERE inicio_r < :min_inicio AND id_sse=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_sse' => $id_sse,
+				':min_inicio' => min($inicios_tarefas)
+			)
+		);
+		$primeira_tarefa = ($stmt->fetch()->n == 0);
+
+		// Se essa tarefa/tarefa multipla for a primeira tarefa, apagar medidas da sse
+		$sql = 'DELETE from maxse_medidas_area WHERE tipo="r" AND id_sse=:id_sse;
+				DELETE from maxse_medidas_linear WHERE tipo="r" AND id_sse=:id_sse;
+				DELETE from maxse_medidas_unidades WHERE tipo="r" AND id_sse=:id_sse';
+		$stmt = $this->db->prepare($sql);
+
+		try {
+			$stmt->execute(array(':id_sse'=>$id_sse));
+		} catch (Exception $e) {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar remover medidas da SSE: '.$e->getMessage());
+		}
+
+		$condicao = 'id='.implode(' OR id=',$ids_tarefas);
+		foreach ($ids_tarefas as $id_tarefa) {
+
+			// Alterando as tarefas em execução da SSE
+			$sql = 'UPDATE maxse_tarefas SET divergente=0, autorizadaPor=null, inicio_r=null WHERE '.$condicao;
+			$stmt = $this->db->prepare($sql);
+			try {
+				$stmt->execute();
+			} catch (Exception $e) {
+				
+				// rolling back
+				$this->db->rollback();
+
+				// Retornando erro para usuário
+				return $res
+				->withStatus(500)
+				->write('Falha ao tentar alterar as tarefas da sse: '.$e->getMessage());
+
+			}
+
+			// Alterando o status da sse para "AGENDADA"
+			$sql = 'UPDATE maxse_sses SET status=sseStatus("AGENDADA") WHERE id=:id_sse';
+			$stmt = $this->db->prepare($sql);
+			try {
+				$stmt->execute(array(':id_sse' => $id_sse));
+			} catch (Exception $e) {
+				// rolling back
+				$this->db->rollback();
+
+				// Retornando erro para usuário
+				return $res
+				->withStatus(500)
+				->write('Falha ao tentar alterar status da sse: '.$e->getMessage());
+			}
+
+			// Commitando
+			$this->db->commit();
+
+			// Retornando resposta para usuário
+			return $res
+			->withStatus(200);
+			
+		}
+		
+		// Retornando resposta para usuário
+		return $res
+		->withStatus(200)
+		->withHeader('Content-Type','application/json')
+		->write('{"novoStatus":"'.$status.'"}');
+	
+	});

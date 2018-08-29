@@ -229,6 +229,28 @@ export class SsesMapComponent implements OnInit {
 		this.router.navigateByUrl('home/sse/'+id);
 	}
 
+	onCancelarInicioClick(id_sse){
+		this.ssesService.cancelarInicio(id_sse).subscribe(
+			(res) => {
+				this.buscador.onBuscarClick();
+			},
+			(err) => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar cancelar início de SSE.',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+			}
+		)
+	}
+
 	onAgendarClick(id_sse){
 		this.openDialog(id_sse);
 	}

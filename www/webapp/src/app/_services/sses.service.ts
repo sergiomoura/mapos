@@ -101,6 +101,11 @@ export class SsesService {
 		return this.http.patch(this.url_getSses + '/' + id_sse + '/setFinalizada',dados);
 	}
 
+	// Cancela início de sse
+	cancelarInicio(id_sse){
+		return this.http.patch(this.url_getSses + '/' + id_sse + '/cancelarInicio','');
+	}
+
 	// Marca uma SSE como retrabalho
 	setRetrabalho(id_sse:number):Observable<any>{
 		return this.http.patch(this.url_getSses + '/' + id_sse + '/setRetrabalho','');

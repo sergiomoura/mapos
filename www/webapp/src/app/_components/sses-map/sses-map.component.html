@@ -100,6 +100,15 @@
 							(click)="onCancelarSseClick(sse.id)" >
 								<mat-icon>block</mat-icon>Cancelar SSE
 						</button>
+
+						<!-- Botão Cancelar execução de SSE. Visível somente quando o status é Executando (2) -->
+						<button
+							*ngIf="sse.status == 2"
+							mat-raised-button
+							color="accent"
+							(click)="onCancelarInicioClick(sse.id)">
+								<mat-icon>skip_previous</mat-icon>Cancelar Início
+						</button>
 		
 						<!-- Botão de agendar equipe. Visível quando status não for finalizado (100) nem for cancelado(-100) nem for divergente (-1)-->
 						<button
