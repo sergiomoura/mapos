@@ -1145,6 +1145,64 @@
 		);
 		$valor_total = $stmt->fetch()->valor_total;
 
+		// Determinando o valor do cmp
+		$sql = 'SELECT
+					ROUND(SUM(b.qtde*b.valor_unit),2) as cmp
+				FROM
+					maxse_tarefas a
+					INNER JOIN estoque_movimentos b ON a.id=b.id_referencia
+				WHERE
+					a.id_sse=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $id_sse));
+		$cmp = $stmt->fetch()->cmp;
+
+		// Levantando qual o id do preíodo de fechamento em aberto
+		$sql = 'SELECT id FROM maxse_fechamentos WHERE aberto=1';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		$rs = $stmt->fetch();
+		if($rs === false) {
+			// Retornando erro para usuário
+			return $res
+			->withStatus(500)
+			->write('Não existem período de fechamento em aberto');
+		} else {
+			$id_fechamento = $rs->id;
+		}
+		
+
+		// Determinando a soma dos salarios das equipes que trabalharam nas sses deste fechamento
+		$sql = 'SELECT 
+					ifnull(SUM(salario),0) AS total_salarios FROM
+				(SELECT
+					distinct d.id,d.salario
+				FROM
+					maxse_sses a
+					INNER JOIN maxse_tarefas b ON a.id=b.id_sse
+					INNER JOIN maxse_equipes c ON c.id=b.id_equipe
+					INNER JOIN maxse_membros d ON d.id_equipe=c.id
+				WHERE
+					a.id_fechamento=:id_fechamento OR
+					a.id=:id_sse) A;';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_fechamento' => $id_fechamento,
+				':id_sse' => $id_sse
+			)
+		);
+		$total_salarios = $stmt->fetch()->total_salarios;
+
+		// Determinando o número de sses neste fechamento
+		$sql = 'SELECT COUNT(*) AS n_sses FROM maxse_sses WHERE id_fechamento=:id_fechamento';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_fechamento'=>$id_fechamento));
+		$n_sses = ($stmt->fetch()->n_sses + 1);
+		
+		// Calculando o valor de cmo
+		$cmo = round($total_salarios/$n_sses,2);
+
 		// Iniciando transação
 		$this->db->beginTransaction();
 		$motivo_parcial = $finalizacaoTotal ? null : $motivo_parcial;
@@ -1157,17 +1215,22 @@
 					valor_real=:vr,
 					data_devolucao=:data_devolucao,
 					finalizacao_parcial=:finalizacao_parcial,
-					motivo_finalizacao_parcial=:motivo_parcial
+					motivo_finalizacao_parcial=:motivo_parcial,
+					id_fechamento=:id_fechamento,
+					cmp=:cmp
 				WHERE id=:id_sse';
 		$stmt = $this->db->prepare($sql);
 		
+		// Atualizando sse
 		try {
 			$stmt->execute(array(
 				':id_sse' => $id_sse,
 				':vr' => $valor_total,
 				':data_devolucao' => $data_devolucao,
 				':finalizacao_parcial' => $finalizacaoTotal ? 0 : 1,
-				':motivo_parcial' => $motivo_parcial
+				':motivo_parcial' => $motivo_parcial,
+				':id_fechamento' => $id_fechamento,
+				':cmp' => $cmp
 			));	
 		} catch (Exception $e) {
 			// Algo deu errado. Rollback
@@ -1177,6 +1240,26 @@
 			return $res
 			->withStatus(500)
 			->write('Falha ao tentar marcar SSE como finalizada: '.$e->getMessage());
+		}
+
+		// Atualizando o cmo de todas as outras sses deste período de fechamento
+		$sql = 'UPDATE maxse_sses SET cmo=:cmo WHERE id_fechamento=:id_fechamento';
+		$stmt = $this->db->prepare($sql);
+		try {
+			$stmt->execute(
+				array(
+					':id_fechamento' => $id_fechamento,
+					':cmo' => $cmo
+				)
+			);
+		} catch (Exception $e) {
+			// Algo deu errado. Rollback
+			$this->db->rollback();
+
+			// Enviando erro
+			return $res
+			->withStatus(500)
+			->write('Falha ao tentar atualizar cmos das sses do fechamento: '.$e->getMessage());
 		}
 
 		// Tudo certo. Comittando
