@@ -16,6 +16,7 @@ import { TarefaComponent } from '../_components/tarefa/tarefa.component';
 import { EstoqueComponent } from "../_components/estoque/estoque.component";
 import { ProdutosComponent } from "../_components/produtos/produtos.component";
 import { MovimentosComponent } from '../_components/movimentos/movimentos.component';
+import { FechamentoComponent } from '../_components/fechamento/fechamento.component';
 
 const routes:Routes = [
 	{
@@ -34,6 +35,10 @@ const routes:Routes = [
 			{
 				path: 'usuarios',
 				component: UsuariosComponent,
+			},
+			{
+				path: 'fechamento',
+				component: FechamentoComponent,
 			},
 			{
 				path: 'usuarios/:id',
