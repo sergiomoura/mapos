@@ -50,13 +50,13 @@
 
 		// DETERMINANDO CONDIÇÃO DE DATA
 		if(array_key_exists('agendadas_de',$_GET) && $_GET['agendadas_de']!= ''){
-			$cndAgendadasDe = 'inicio_p >= "'.$_GET['agendadas_de'] .'"';
+			$cndAgendadasDe = 'inicio_p >= "'.substr($_GET['agendadas_de'],0,10).'"';
 		} else {
 			$cndAgendadasDe = TRUE;
 		}
 
 		if(array_key_exists('agendadas_ate',$_GET) && $_GET['agendadas_ate']!= ''){
-			$cndAgendadasAte = 'inicio_p <= "'.$_GET['agendadas_ate'].' 23:59:59"';
+			$cndAgendadasAte = 'inicio_p <= "'.substr($_GET['agendadas_ate'],0,10).' 23:59:59"';
 		} else {
 			$cndAgendadasAte = TRUE;
 		}
