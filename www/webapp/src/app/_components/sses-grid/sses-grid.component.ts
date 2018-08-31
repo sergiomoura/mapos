@@ -357,85 +357,9 @@ export class SsesGridComponent implements OnInit {
 		this.router.navigateByUrl('/home/sse/' + id);
 	}
 
-	getTotalPrev(sse:SSE):Medida{
-		
-		let medida:Medida = new Medida(0,'');
-		
-		switch (sse.tipoDeServicoPrev.medida) {
-			case 'a':
-				for (let i = 0; i < sse.medidas_area.prev.length; i++) {
-					const m = sse.medidas_area.prev[i];
-					medida.valor += m.l * m.c;
-				}
-				medida.unidade = 'm²';
-				break;
-			
-			case 'l':
-				for (let i = 0; i < sse.medidas_linear.prev.length; i++) {
-					const m = sse.medidas_linear.prev[i];
-					medida.valor += (1*m.v);
-				}
-				medida.unidade = 'm';
-				break;
-			
-			case 'u':
-				for (let i = 0; i < sse.medidas_unidades.prev.length; i++) {
-					const m = sse.medidas_unidades.prev[i];
-					medida.valor += (1*m.n);
-				}
-				medida.unidade = 'unid';
-				break;
-
-			default:
-				break;
-		}
-		medida.valor = Math.round(medida.valor*100)/100;
-		return medida;
-
-	}
-
-	getTotalReal(sse:SSE):Medida|undefined{
-		
-		if(sse.tipoDeServicoReal){
-			let medida:Medida = new Medida(0,'');
-			switch (sse.tipoDeServicoReal.medida) {
-				case 'a':
-					for (let i = 0; i < sse.medidas_area.real.length; i++) {
-						const m = sse.medidas_area.real[i];
-						medida.valor += m.l * m.c;
-					}
-					medida.unidade = 'm²';
-					break;
-				
-				case 'l':
-					for (let i = 0; i < sse.medidas_linear.real.length; i++) {
-						const m = sse.medidas_linear.real[i];
-						medida.valor += (1*m.v);
-					}
-					medida.unidade = 'm';
-					break;
-				
-				case 'u':
-					for (let i = 0; i < sse.medidas_unidades.real.length; i++) {
-						const m = sse.medidas_unidades.real[i];
-						medida.valor += (1*m.n);
-					}
-					medida.unidade = 'unid';
-					break;
-	
-				default:
-					break;
-			}
-			return medida;
-		} else {
-			return undefined;
-		}
-
-	}
-
 	getDifMedida(sse:SSE):string{
-		let mPrev:Medida = this.getTotalPrev(sse);
-		let mReal:Medida = this.getTotalReal(sse);
+		let mPrev:Medida = sse.totalPrev;
+		let mReal:Medida = sse.totalReal;
 
 		if(mReal){
 			if(mPrev.unidade == mReal.unidade){
@@ -449,8 +373,8 @@ export class SsesGridComponent implements OnInit {
 	}
 
 	getDivergencia(sse:SSE):string{
-		let mPrev:Medida = this.getTotalPrev(sse);
-		let mReal:Medida = this.getTotalReal(sse);
+		let mPrev:Medida = sse.totalPrev;
+		let mReal:Medida = sse.totalReal;
 
 		if(mReal){
 			if(Math.round((mPrev.valor - mReal.valor)*100)/100 == 0){

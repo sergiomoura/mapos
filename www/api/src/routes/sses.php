@@ -93,6 +93,8 @@
 					prazo_final,
 					finalizacao_parcial,
 					motivo_finalizacao_parcial,
+					cmo,
+					cmp,
 					Y.id_equipe,
 					Y.inicio_p,
 					Y.final_p,

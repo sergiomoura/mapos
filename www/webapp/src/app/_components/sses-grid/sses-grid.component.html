@@ -14,7 +14,7 @@
 	<table class="tb-resultados">
 		<thead>
 			<tr>
-				<td colspan="25">Dados da SSE</td>
+				<td colspan="28">Dados da SSE</td>
 				<td colspan="5">Dados do 1º Serviço</td>
 				<td colspan="5">Dados do 2º Serviço</td>
 			</tr>
@@ -44,11 +44,16 @@
 				<td>Em Garantia?</td>
 				<td>Cálculo Execução</td>
 				<td>Valor da SSE</td>
+				<td>Custo MO</td>
+				<td>Custo MP</td>
+				<td>Lucro</td>
+				<!-- Header Primeira tarefa -->
 				<td>Equipe</td>
 				<td>Apoio</td>
 				<td>Agendado para</td>
 				<td>Data da Execução</td>
 				<td>Consumo</td>
+				<!-- Header Segunda tarefa -->
 				<td>Equipe</td>
 				<td>Apoio</td>
 				<td>Agendado para</td>
@@ -59,7 +64,7 @@
 		<tbody *ngFor="let sse of sses">
 			<tr>
 				<td>{{sse.id}}</td>
-				<td>{{sse.status}}</td>
+				<td>{{sse.label_status}}</td>
 				<td>{{sse.numero}}</td>
 				<td>{{sse.dh_recebido | date:"dd/MM/yyyy"}}</td>
 				<td>{{sse.bairro.domasa}}</td>
@@ -67,22 +72,25 @@
 				<td>{{sse.bairro?.codigo}}</td>
 				<td>{{sse.bairro?.nome}}</td>
 				<td>{{sse.obs}}</td>
-				<td>{{ getTotalPrev(sse).toString()}}</td>
-				<td>{{ getTotalReal(sse)?.toString()}}</td>
+				<td>{{ sse.totalPrev.toString()}}</td>
+				<td>{{ sse.totalReal?.toString()}}</td>
 				<td>{{ getDifMedida(sse) }}</td>
 				<td>{{ getDivergencia(sse) }}</td>
 				<td>{{ sse.tipoDeServicoPrev?.codigo}}</td>
 				<td>{{ sse.tipoDeServicoReal?.codigo}}</td>
 				<td>{{ getDifTds(sse) }}</td>
-				<td>{{sse.faixaPrev?.label}} ({{sse.faixaPrev?.li}} < X {{ +sse.faixaPrev?.ls == infinito ? '' : '≤ ' + sse.faixaPrev?.ls}})</td>
-				<td>{{sse.faixa_real_label}}</td>
-				<td>{{sse.label_urgencia}}</td>
-				<td>{{sse.prazoFinal | date:'dd/MM/yyyy'}}</td>
-				<td>{{sse.label_data_devolucao}}</td>
-				<td>{{sse.label_dl_garantia}}</td>
-				<td>{{sse.label_em_garantia}}</td>
-				<td>{{sse.calc_exec}}</td>
-				<td>{{sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+				<td>{{ sse.faixaPrev?.label}} ({{sse.faixaPrev?.li}} < X {{ +sse.faixaPrev?.ls == infinito ? '' : '≤ ' + sse.faixaPrev?.ls}})</td>
+				<td>{{ sse.faixaReal?.label }}</td>
+				<td>{{ sse.label_urgencia }}</td>
+				<td>{{ sse.prazoFinal | date:'dd/MM/yyyy'}}</td>
+				<td>{{ sse.data_devolucao | date:'dd/MM/yyyy' }}</td>
+				<td>{{ sse.data_garantia | date:'dd/MM/yyyy' }}</td>
+				<td>{{ sse.emGarantia ? 'Sim' : (sse.emGarantia === false ? 'Não' : '') }}</td>
+				<td>{{ sse.calculoExecucao!=undefined ? sse.calculoExecucao : ''}}</td>
+				<td>{{ sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
+				<td>{{ sse.cmo | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+				<td>{{ sse.cmp | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+				<td>{{ sse.lucro_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
 
 				<!-- INÍCIO DE EXIBIÇÃO DE TAREFA 1-->
 				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].equipe ? sse.tarefas[0].equipe.nome : ''}}</td>

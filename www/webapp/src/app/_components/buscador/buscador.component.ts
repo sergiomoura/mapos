@@ -135,7 +135,7 @@ export class BuscadorComponent implements OnInit {
 			for (let i = 0; i < this.tmpSses.length; i++) {
 
 				// Lendo sse da vez
-				let sse:SSE = new SSE(this.tmpSses[i]);
+				let sse:SSE = new SSE(this.tmpSses[i], this.tdss);
 				
 				// Parsing bairros se bairros estiver setado
 				if(this.bairros){
