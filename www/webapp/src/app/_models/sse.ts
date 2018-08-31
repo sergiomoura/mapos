@@ -50,6 +50,8 @@ export class SSE{
 	finalizacao_parcial?:boolean;
 	motivo_finalizacao_parcial?: string;
 	data_devolucao?:Date;
+	cmo?:number;
+	cmp?:number;
 
 	constructor(sseData:any){
 		if(sseData == undefined){
@@ -75,6 +77,8 @@ export class SSE{
 			this.finalizacao_parcial = false;
 			this.motivo_finalizacao_parcial = '';
 			this.data_devolucao =  undefined;
+			this.cmo = undefined;
+			this.cmp = undefined;
 		} else {
 			this.id = sseData.id;
 			this.endereco = sseData.endereco;
@@ -98,6 +102,8 @@ export class SSE{
 			this.finalizacao_parcial = sseData.finalizacao_parcial;
 			this.motivo_finalizacao_parcial = sseData.motivo_finalizavao_parcial;
 			this.data_devolucao =  (sseData.data_devolucao ? new Date(sseData.data_devolucao) : undefined);
+			this.cmo = (sseData.cmo ? sseData.cmo : undefined);
+			this.cmp = (sseData.cmo ? sseData.cmp : undefined);
 		}
 	}
 	
