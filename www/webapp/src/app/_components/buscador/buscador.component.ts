@@ -33,9 +33,7 @@ export class BuscadorComponent implements OnInit {
 		agendadas_de: undefined,
 		agendadas_ate: undefined,
 		realizadas_de: undefined,
-		realizadas_ate: undefined,
-		cmo: this.cmo,
-		cmp: this.cmp
+		realizadas_ate: undefined
 	};
 	buscaPadrao:Busca = {
 		equipes : [],

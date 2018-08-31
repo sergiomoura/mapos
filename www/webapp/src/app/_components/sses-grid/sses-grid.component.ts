@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
 import { EventsService } from '../../_services/events.service';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { Medida } from '../../_models/medida';
+import { FaixaDeTDS } from '../../_models/faixaDeTds';
 
 @Component({
 	selector: 'app-sses',
@@ -126,7 +127,6 @@ export class SsesGridComponent implements OnInit {
 	}
 
 	onSsesCarregadas(evt){
-		console.log(evt);
 		this.tmpSses = evt;
 		this.parseSses();
 	}
@@ -389,14 +389,13 @@ export class SsesGridComponent implements OnInit {
 			default:
 				break;
 		}
-
+		medida.valor = Math.round(medida.valor*100)/100;
 		return medida;
 
 	}
 
 	getTotalReal(sse:SSE):Medida|undefined{
 		
-				
 		if(sse.tipoDeServicoReal){
 			let medida:Medida = new Medida(0,'');
 			switch (sse.tipoDeServicoReal.medida) {

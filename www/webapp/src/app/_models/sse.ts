@@ -2,11 +2,17 @@ import { Bairro } from "./bairro";
 import { TipoDeServico } from "./tipoDeServico";
 import { SafeUrl } from "@angular/platform-browser";
 import { Medida } from "./medida";
+import { FaixaDeTDS } from "./faixaDeTds";
 
 enum NiveisDeUrgencia {
 	normal=0,
 	prioridade=1,
 	urgente=2
+}
+
+export interface faixa{
+	li:number;
+	ls:number;
 }
 
 export class SSE{
@@ -266,6 +272,12 @@ export class SSE{
 
 		return statusMsg;
 	}
-	
 
+	public getFaixaDeTDS_prev():FaixaDeTDS{
+		let faixa:FaixaDeTDS = new FaixaDeTDS();
+		let total:Medida = this.totalPrev();
+		if(this.tipoDeServicoPrev){
+
+		}
+	}
 }
