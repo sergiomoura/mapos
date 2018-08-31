@@ -20,8 +20,7 @@ export class BuscadorComponent implements OnInit {
 	@Input() auto:boolean = false;
 	@Input() equipes:Equipe[];
 	@Input() bairros:Bairro[];
-	@Input() cmp:boolean;
-	@Input() cmo:boolean;
+	@Input() chaveDeBusca:string;
 
 	// Outputs
 	@Output() ssesCarregadas:EventEmitter<SSE[]>;
@@ -60,15 +59,6 @@ export class BuscadorComponent implements OnInit {
 	) {
 		// Instanciando emissor de eventos de sses carregadas
 		this.ssesCarregadas = new EventEmitter();
-
-		// Carregando busca do localstorage, caso haja
-		let strBusca = localStorage.getItem('busca');
-		if(strBusca){
-			this.busca = <Busca>JSON.parse(strBusca);
-		} else {
-			this.busca = this.buscaPadrao;
-		}
-
 	}
 
 	private getSses(){
@@ -198,6 +188,7 @@ export class BuscadorComponent implements OnInit {
 
 	// On Functions
 	ngOnInit() {
+
 		// Levantando tipos de servicos
 		this.getTiposDeServico();
 
@@ -206,9 +197,14 @@ export class BuscadorComponent implements OnInit {
 			this.getSses();
 		}
 
-		// Lendo informação de levantar ou não cmp e cmo na busca
-		this.busca.cmo = this.cmo;
-		this.busca.cmp = this.cmp;
+		// Carregando busca do localstorage, caso haja
+		let strBusca = localStorage.getItem(this.chaveDeBusca);
+		if(strBusca){
+			this.busca = <Busca>JSON.parse(strBusca);
+		} else {
+			this.busca = this.buscaPadrao;
+		}
+		
 	}
 
 	onResetCamposClick(){
@@ -221,7 +217,7 @@ export class BuscadorComponent implements OnInit {
 		this.getSses();
 
 		// Salvando busca no local storage
-		localStorage.setItem('busca',JSON.stringify(this.busca));
+		localStorage.setItem(this.chaveDeBusca,JSON.stringify(this.busca));
 
 	}
 

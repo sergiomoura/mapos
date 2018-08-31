@@ -7,7 +7,5 @@ export interface Busca {
 	agendadas_de?: Date,
 	agendadas_ate?: Date,
 	realizadas_de?: Date,
-	realizadas_ate? : Date,
-	cmo? : boolean,
-	cmp? : boolean
+	realizadas_ate? : Date
 }
