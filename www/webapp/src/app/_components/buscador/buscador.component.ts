@@ -142,10 +142,6 @@ export class BuscadorComponent implements OnInit {
 					sse.setBairro(this.bairros)
 				}
 
-				// Parsing tipo de serviço previsto
-				sse.setTipoDeServicoPrev(this.tdss);
-				sse.setTipoDeServicoReal(this.tdss);
-
 				// parsing equipes e apoios das tarefas 
 				for (let i = 0; i < sse.tarefas.length; i++) {
 					
