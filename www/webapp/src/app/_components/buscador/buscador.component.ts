@@ -20,8 +20,6 @@ export class BuscadorComponent implements OnInit {
 	@Input() auto:boolean = false;
 	@Input() equipes:Equipe[];
 	@Input() bairros:Bairro[];
-	@Input() cmp:boolean;
-	@Input() cmo:boolean;
 	@Input() chaveDeBusca:string;
 
 	// Outputs
@@ -188,7 +186,7 @@ export class BuscadorComponent implements OnInit {
 
 	// On Functions
 	ngOnInit() {
-		console.log("OnInit: " + this.cmo);
+
 		// Levantando tipos de servicos
 		this.getTiposDeServico();
 
@@ -204,10 +202,7 @@ export class BuscadorComponent implements OnInit {
 		} else {
 			this.busca = this.buscaPadrao;
 		}
-
-		// Lendo informação de levantar ou não cmp e cmo na busca
-		this.busca.cmo = this.cmo;
-		this.busca.cmp = this.cmp;
+		
 	}
 
 	onResetCamposClick(){
