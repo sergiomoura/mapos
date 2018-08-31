@@ -268,7 +268,7 @@ export class SseComponent implements OnInit {
 	}
 
 	sseVazia() {
-		let sse: SSE = new SSE(undefined);
+		let sse: SSE = new SSE(undefined,this.tdss);
 		this.domasaSelecionada = undefined;
 		this.timestring = format(sse.dh_recebido,'HH:mm');
 		this.sseResponse = sse;
