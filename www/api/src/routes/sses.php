@@ -6,6 +6,16 @@
 	$app->get($api_root.'/sses',function(Request $req, Response $res, $args = []){
 		
 		// DETERMINANDO CONDIÇÕES DE STATUS = = = = = = = = = = = = = = = = = = = =
+		
+		// Levantando token na requisição
+		$token = str_replace('Bearer ','',$req->getHeaders()['HTTP_AUTHORIZATION'][0]);
+		
+		// Levantando permissão do usuário na base
+		$sql = 'SELECT perm_dados_financeiros FROM maxse_usuarios WHERE token=:token';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':token' => $token));
+		$perm_dados_financeiros = ($stmt->fetch()->perm_dados_financeiros === '1');
+
 		// Verificando os status requeridos
 		if(array_key_exists('status',$_GET) && $_GET['status']!=''){
 			$status_requerido = explode(',',$_GET['status']);
@@ -72,36 +82,53 @@
 		} else {
 			$cndRealizadasAte = TRUE;
 		}
+
+		// Definindo as colunas que serão levantadas
+		$colunas = '
+			id,
+			endereco,
+			id_bairro,
+			numero,
+			dh_registrado,
+			dh_recebido,
+			urgente as urgencia,
+			obs,
+			lat,
+			lng,
+			data_devolucao,
+			id_tipo_de_servico as id_tds_p,
+			id_tipo_de_servico_r as id_tds_r,
+			prazo_final,
+			finalizacao_parcial,
+			motivo_finalizacao_parcial,
+			Y.id_equipe,
+			Y.inicio_p,
+			Y.final_p,
+			Y.inicio_r,
+			Y.final_r,
+			Y.id_apoio,
+			status';
+		
+			if($perm_dados_financeiros){
+				$colunas = $colunas .
+							',
+							valor_prev,
+							valor_real,
+							cmo,
+							cmp';
+			} else {
+				$colunas = $colunas .
+							',
+							null as valor_prev,
+							null as valor_real,
+							null as cmo,
+							null as cmp';
+			}
+					
 		
 		// Levantando SSES na base
 		$sql = "SELECT
-					id,
-					endereco,
-					id_bairro,
-					numero,
-					dh_registrado,
-					dh_recebido,
-					urgente as urgencia,
-					obs,
-					lat,
-					lng,
-					data_devolucao,
-					valor_prev,
-					valor_real,
-					id_tipo_de_servico as id_tds_p,
-					id_tipo_de_servico_r as id_tds_r,
-					prazo_final,
-					finalizacao_parcial,
-					motivo_finalizacao_parcial,
-					cmo,
-					cmp,
-					Y.id_equipe,
-					Y.inicio_p,
-					Y.final_p,
-					Y.inicio_r,
-					Y.final_r,
-					Y.id_apoio,
-					status
+					$colunas
 				FROM
 					maxse_sses X
 				LEFT JOIN
