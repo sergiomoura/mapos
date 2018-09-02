@@ -1,3 +1,430 @@
-<p>
-  fechamento works!
-</p>
+<div class="container-80 top-gap">
+	<div class="controles">
+		<mat-form-field class="container-fechamento">
+			<mat-select placeholder="Períodos de Fechamento" name="fechamentos" [(ngModel)]="fechamentoSelecionado" >
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+				<mat-option [value]="equipe" *ngFor="let fechamento of fechamentos" >[001] De 16/02/2018 à 15/03/2018</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field class="container-acoes">
+			<mat-select placeholder="Ações" >
+				<mat-option>Transferir para próximo período</mat-option>
+			</mat-select>
+		</mat-form-field>
+	</div>
+
+	<table>
+		<thead>
+			<tr>
+				<td>
+					<mat-checkbox color="primary" #marcarTodos></mat-checkbox>
+				</td>
+				<td>Número</td>
+				<td>Medida Prev</td>
+				<td>Medida Real</td>
+				<td>TDS Prev</td>
+				<td>TDS Real</td>
+				<td>Valor Prev</td>
+				<td>Valor Real</td>
+				<td>Data Devolução</td>
+			</tr>
+		</thead>
+		<tbody>
+				<tr>
+					<td>
+						<mat-checkbox color="primary"></mat-checkbox>
+					</td>
+					<td>3696545</td>
+					<td>3 m²</td>
+					<td>4 m²</td>
+					<td>RG37</td>
+					<td>RG37</td>
+					<td>R$ 2.322,24</td>
+					<td>R$ 2.500,24</td>
+					<td>24/08/2018</td>
+				</tr>
+				<tr>
+					<td>
+						<mat-checkbox color="primary"></mat-checkbox>
+					</td>
+					<td>3696545</td>
+					<td>3 m²</td>
+					<td>4 m²</td>
+					<td>RG37</td>
+					<td>RG37</td>
+					<td>R$ 2.322,24</td>
+					<td>R$ 2.500,24</td>
+					<td>24/08/2018</td>
+				</tr>
+				<tr>
+					<td>
+						<mat-checkbox color="primary"></mat-checkbox>
+					</td>
+					<td>3696545</td>
+					<td>3 m²</td>
+					<td>4 m²</td>
+					<td>RG37</td>
+					<td>RG37</td>
+					<td>R$ 2.322,24</td>
+					<td>R$ 2.500,24</td>
+					<td>24/08/2018</td>
+				</tr>
+				<tr>
+					<td>
+						<mat-checkbox color="primary"></mat-checkbox>
+					</td>
+					<td>3696545</td>
+					<td>3 m²</td>
+					<td>4 m²</td>
+					<td>RG37</td>
+					<td>RG37</td>
+					<td>R$ 2.322,24</td>
+					<td>R$ 2.500,24</td>
+					<td>24/08/2018</td>
+				</tr>
+				<tr>
+					<td>
+						<mat-checkbox color="primary"></mat-checkbox>
+					</td>
+					<td>3696545</td>
+					<td>3 m²</td>
+					<td>4 m²</td>
+					<td>RG37</td>
+					<td>RG37</td>
+					<td>R$ 2.322,24</td>
+					<td>R$ 2.500,24</td>
+					<td>24/08/2018</td>
+				</tr>
+				<tr>
+					<td>
+						<mat-checkbox color="primary"></mat-checkbox>
+					</td>
+					<td>3696545</td>
+					<td>3 m²</td>
+					<td>4 m²</td>
+					<td>RG37</td>
+					<td>RG37</td>
+					<td>R$ 2.322,24</td>
+					<td>R$ 2.500,24</td>
+					<td>24/08/2018</td>
+				</tr>
+				<tr>
+						<td>
+							<mat-checkbox color="primary"></mat-checkbox>
+						</td>
+						<td>3696545</td>
+						<td>3 m²</td>
+						<td>4 m²</td>
+						<td>RG37</td>
+						<td>RG37</td>
+						<td>R$ 2.322,24</td>
+						<td>R$ 2.500,24</td>
+						<td>24/08/2018</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-checkbox color="primary"></mat-checkbox>
+						</td>
+						<td>3696545</td>
+						<td>3 m²</td>
+						<td>4 m²</td>
+						<td>RG37</td>
+						<td>RG37</td>
+						<td>R$ 2.322,24</td>
+						<td>R$ 2.500,24</td>
+						<td>24/08/2018</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-checkbox color="primary"></mat-checkbox>
+						</td>
+						<td>3696545</td>
+						<td>3 m²</td>
+						<td>4 m²</td>
+						<td>RG37</td>
+						<td>RG37</td>
+						<td>R$ 2.322,24</td>
+						<td>R$ 2.500,24</td>
+						<td>24/08/2018</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-checkbox color="primary"></mat-checkbox>
+						</td>
+						<td>3696545</td>
+						<td>3 m²</td>
+						<td>4 m²</td>
+						<td>RG37</td>
+						<td>RG37</td>
+						<td>R$ 2.322,24</td>
+						<td>R$ 2.500,24</td>
+						<td>24/08/2018</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-checkbox color="primary"></mat-checkbox>
+						</td>
+						<td>3696545</td>
+						<td>3 m²</td>
+						<td>4 m²</td>
+						<td>RG37</td>
+						<td>RG37</td>
+						<td>R$ 2.322,24</td>
+						<td>R$ 2.500,24</td>
+						<td>24/08/2018</td>
+					</tr>
+					<tr>
+						<td>
+							<mat-checkbox color="primary"></mat-checkbox>
+						</td>
+						<td>3696545</td>
+						<td>3 m²</td>
+						<td>4 m²</td>
+						<td>RG37</td>
+						<td>RG37</td>
+						<td>R$ 2.322,24</td>
+						<td>R$ 2.500,24</td>
+						<td>24/08/2018</td>
+					</tr><tr>
+							<td>
+								<mat-checkbox color="primary"></mat-checkbox>
+							</td>
+							<td>3696545</td>
+							<td>3 m²</td>
+							<td>4 m²</td>
+							<td>RG37</td>
+							<td>RG37</td>
+							<td>R$ 2.322,24</td>
+							<td>R$ 2.500,24</td>
+							<td>24/08/2018</td>
+						</tr>
+						<tr>
+							<td>
+								<mat-checkbox color="primary"></mat-checkbox>
+							</td>
+							<td>3696545</td>
+							<td>3 m²</td>
+							<td>4 m²</td>
+							<td>RG37</td>
+							<td>RG37</td>
+							<td>R$ 2.322,24</td>
+							<td>R$ 2.500,24</td>
+							<td>24/08/2018</td>
+						</tr>
+						<tr>
+							<td>
+								<mat-checkbox color="primary"></mat-checkbox>
+							</td>
+							<td>3696545</td>
+							<td>3 m²</td>
+							<td>4 m²</td>
+							<td>RG37</td>
+							<td>RG37</td>
+							<td>R$ 2.322,24</td>
+							<td>R$ 2.500,24</td>
+							<td>24/08/2018</td>
+						</tr>
+						<tr>
+							<td>
+								<mat-checkbox color="primary"></mat-checkbox>
+							</td>
+							<td>3696545</td>
+							<td>3 m²</td>
+							<td>4 m²</td>
+							<td>RG37</td>
+							<td>RG37</td>
+							<td>R$ 2.322,24</td>
+							<td>R$ 2.500,24</td>
+							<td>24/08/2018</td>
+						</tr>
+						<tr>
+							<td>
+								<mat-checkbox color="primary"></mat-checkbox>
+							</td>
+							<td>3696545</td>
+							<td>3 m²</td>
+							<td>4 m²</td>
+							<td>RG37</td>
+							<td>RG37</td>
+							<td>R$ 2.322,24</td>
+							<td>R$ 2.500,24</td>
+							<td>24/08/2018</td>
+						</tr>
+						<tr>
+							<td>
+								<mat-checkbox color="primary"></mat-checkbox>
+							</td>
+							<td>3696545</td>
+							<td>3 m²</td>
+							<td>4 m²</td>
+							<td>RG37</td>
+							<td>RG37</td>
+							<td>R$ 2.322,24</td>
+							<td>R$ 2.500,24</td>
+							<td>24/08/2018</td>
+						</tr><tr>
+								<td>
+									<mat-checkbox color="primary"></mat-checkbox>
+								</td>
+								<td>3696545</td>
+								<td>3 m²</td>
+								<td>4 m²</td>
+								<td>RG37</td>
+								<td>RG37</td>
+								<td>R$ 2.322,24</td>
+								<td>R$ 2.500,24</td>
+								<td>24/08/2018</td>
+							</tr>
+							<tr>
+								<td>
+									<mat-checkbox color="primary"></mat-checkbox>
+								</td>
+								<td>3696545</td>
+								<td>3 m²</td>
+								<td>4 m²</td>
+								<td>RG37</td>
+								<td>RG37</td>
+								<td>R$ 2.322,24</td>
+								<td>R$ 2.500,24</td>
+								<td>24/08/2018</td>
+							</tr>
+							<tr>
+								<td>
+									<mat-checkbox color="primary"></mat-checkbox>
+								</td>
+								<td>3696545</td>
+								<td>3 m²</td>
+								<td>4 m²</td>
+								<td>RG37</td>
+								<td>RG37</td>
+								<td>R$ 2.322,24</td>
+								<td>R$ 2.500,24</td>
+								<td>24/08/2018</td>
+							</tr>
+							<tr>
+								<td>
+									<mat-checkbox color="primary"></mat-checkbox>
+								</td>
+								<td>3696545</td>
+								<td>3 m²</td>
+								<td>4 m²</td>
+								<td>RG37</td>
+								<td>RG37</td>
+								<td>R$ 2.322,24</td>
+								<td>R$ 2.500,24</td>
+								<td>24/08/2018</td>
+							</tr>
+							<tr>
+								<td>
+									<mat-checkbox color="primary"></mat-checkbox>
+								</td>
+								<td>3696545</td>
+								<td>3 m²</td>
+								<td>4 m²</td>
+								<td>RG37</td>
+								<td>RG37</td>
+								<td>R$ 2.322,24</td>
+								<td>R$ 2.500,24</td>
+								<td>24/08/2018</td>
+							</tr>
+							<tr>
+								<td>
+									<mat-checkbox color="primary"></mat-checkbox>
+								</td>
+								<td>3696545</td>
+								<td>3 m²</td>
+								<td>4 m²</td>
+								<td>RG37</td>
+								<td>RG37</td>
+								<td>R$ 2.322,24</td>
+								<td>R$ 2.500,24</td>
+								<td>24/08/2018</td>
+							</tr><tr>
+									<td>
+										<mat-checkbox color="primary"></mat-checkbox>
+									</td>
+									<td>3696545</td>
+									<td>3 m²</td>
+									<td>4 m²</td>
+									<td>RG37</td>
+									<td>RG37</td>
+									<td>R$ 2.322,24</td>
+									<td>R$ 2.500,24</td>
+									<td>24/08/2018</td>
+								</tr>
+								<tr>
+									<td>
+										<mat-checkbox color="primary"></mat-checkbox>
+									</td>
+									<td>3696545</td>
+									<td>3 m²</td>
+									<td>4 m²</td>
+									<td>RG37</td>
+									<td>RG37</td>
+									<td>R$ 2.322,24</td>
+									<td>R$ 2.500,24</td>
+									<td>24/08/2018</td>
+								</tr>
+								<tr>
+									<td>
+										<mat-checkbox color="primary"></mat-checkbox>
+									</td>
+									<td>3696545</td>
+									<td>3 m²</td>
+									<td>4 m²</td>
+									<td>RG37</td>
+									<td>RG37</td>
+									<td>R$ 2.322,24</td>
+									<td>R$ 2.500,24</td>
+									<td>24/08/2018</td>
+								</tr>
+								<tr>
+									<td>
+										<mat-checkbox color="primary"></mat-checkbox>
+									</td>
+									<td>3696545</td>
+									<td>3 m²</td>
+									<td>4 m²</td>
+									<td>RG37</td>
+									<td>RG37</td>
+									<td>R$ 2.322,24</td>
+									<td>R$ 2.500,24</td>
+									<td>24/08/2018</td>
+								</tr>
+								<tr>
+									<td>
+										<mat-checkbox color="primary"></mat-checkbox>
+									</td>
+									<td>3696545</td>
+									<td>3 m²</td>
+									<td>4 m²</td>
+									<td>RG37</td>
+									<td>RG37</td>
+									<td>R$ 2.322,24</td>
+									<td>R$ 2.500,24</td>
+									<td>24/08/2018</td>
+								</tr>
+								<tr>
+									<td>
+										<mat-checkbox color="primary"></mat-checkbox>
+									</td>
+									<td>3696545</td>
+									<td>3 m²</td>
+									<td>4 m²</td>
+									<td>RG37</td>
+									<td>RG37</td>
+									<td>R$ 2.322,24</td>
+									<td>R$ 2.500,24</td>
+									<td>24/08/2018</td>
+								</tr>
+		</tbody>
+	</table>
+</div>

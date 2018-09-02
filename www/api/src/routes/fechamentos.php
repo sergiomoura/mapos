@@ -17,16 +17,16 @@
 					aberto
 				FROM
 					maxse_fechamentos
-				ORDER BY inicio';
+				ORDER BY inicio DESC';
 				
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
-		$equipes = $stmt->fetchAll();
+		$fechamentos = $stmt->fetchAll();
 
 		// Retornando resposta para usuário
 		return $res
 		->withStatus(200)
 		->withHeader('Content-Type','application/json')
-		->write(json_encode($equipes));
+		->write(json_encode($fechamentos));
 
 	});
