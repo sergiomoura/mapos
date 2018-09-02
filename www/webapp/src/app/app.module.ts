@@ -41,6 +41,7 @@ import { ListaFiltravelComponent } from './_components/lista-filtravel/lista-fil
 import { FotoModalComponent } from './_components/foto-modal/foto-modal.component';
 import { MatDatepickerModule, MatNativeDateModule, DateAdapter } from '@angular/material';
 import { PtBrDateAdapter } from './_helpers/pt-br.date-adapter';
+import { FechamentoComponent } from './_components/fechamento/fechamento.component';
 
 @NgModule({
 	declarations: [
@@ -71,7 +72,8 @@ import { PtBrDateAdapter } from './_helpers/pt-br.date-adapter';
 		GaleriaComponent,
 		BuscadorComponent,
 		ListaFiltravelComponent,
-		FotoModalComponent
+		FotoModalComponent,
+		FechamentoComponent
 	],
 	imports: [
 		BrowserModule,
