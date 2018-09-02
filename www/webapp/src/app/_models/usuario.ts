@@ -12,4 +12,5 @@ export class Usuario {
     acessoApp: AcessoApp;
     acessoWeb: boolean;
     ativo:boolean;
+    perm_dados_financeiros:boolean;
 }

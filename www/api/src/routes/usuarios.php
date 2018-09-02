@@ -94,7 +94,8 @@ $app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $
 				a.username,
 				a.acessoApp,
 				a.acessoWeb,
-				a.ativo
+				a.ativo,
+				a.perm_dados_financeiros
 			FROM
 				maxse_usuarios a
 				LEFT JOIN maxse_pessoas b ON a.id_pessoa = b.id
@@ -108,6 +109,7 @@ $app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $
 	$user->acessoWeb = ($user->acessoWeb == 1);
 	$user->acessoApp *= 1;
 	$user->id *= 1;
+	$user->perm_dados_financeiros = ($user->perm_dados_financeiros == "1");
 
 	// Enviando resposta para cliente
 	return $res
@@ -169,7 +171,8 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 					username=:username,
 					ativo=:ativo,
 					acessoApp=:acessoApp,
-					acessoWeb=:acessoWeb
+					acessoWeb=:acessoWeb,
+					perm_dados_financeiros=:perm_dados_financeiros
 				WHERE
 					id=:id';
 		$stmt = $this->db->prepare($sql);
@@ -179,7 +182,8 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 				':ativo'    =>($usuario->ativo ? 1 : 0),
 				':acessoApp'=>($usuario->acessoApp*1),
 				':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
-				':id'       =>$usuario->id
+				':id'       =>$usuario->id,
+				':perm_dados_financeiros' => ($usuario->perm_dados_financeiros ? 1 : 0)
 			)
 		);
 
@@ -191,7 +195,8 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 					password=:pass,
 					ativo=:ativo,
 					acessoApp=:acessoApp,
-					acessoWeb=:acessoWeb
+					acessoWeb=:acessoWeb,
+					perm_dados_financeiros=:perm_dados_financeiros
 				WHERE
 					id=:id';
 		$stmt = $this->db->prepare($sql);
@@ -202,7 +207,8 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 				':ativo'    => ($usuario->ativo ? 1 : 0),
 				':acessoApp'=> ($usuario->acessoApp*1),
 				':acessoWeb'=> ($usuario->acessoWeb ? 1 : 0),
-				':id'       => $usuario->id
+				':id'       => $usuario->id,
+				':perm_dados_financeiros' => ($usuario->perm_dados_financeiros  ? 1 : 0)
 			)
 		);
 	}
@@ -250,13 +256,15 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 				ativo,
 				acessoApp,
 				acessoWeb,
-				id_pessoa
+				id_pessoa,
+				perm_dados_financeiros
 			) VALUES (
 				:username,
 				:ativo,
 				:acessoApp,
 				:acessoWeb,
-				:id_pessoa
+				:id_pessoa,
+				:perm_dados_financeiros
 			)';
 			
 	$stmt = $this->db->prepare($sql);
@@ -266,7 +274,8 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 			':ativo'    =>($usuario->ativo ? 1 : 0),
 			':acessoApp'=>($usuario->acessoApp*1),
 			':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
-			':id_pessoa'=>$id_pessoa
+			':id_pessoa'=>$id_pessoa,
+			':perm_dados_financeiros' => ($usuario->perm_dados_financeiros ? 1 : 0)
 		)
 	);
 

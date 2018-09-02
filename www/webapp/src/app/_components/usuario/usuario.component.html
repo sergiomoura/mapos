@@ -33,6 +33,8 @@
 				<mat-option [value]="true">Sim</mat-option>
 			</mat-select>
 		</mat-form-field>
+
+		<mat-checkbox name="perm_dados_financeiros" [(ngModel)]="usuario.perm_dados_financeiros" color="primary">Vê dados financeiros</mat-checkbox>
 		
 		<div class="controles">
 			<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
