@@ -5,13 +5,13 @@ import { Medida } from "./medida";
 import { FaixaDeTDS } from "./faixaDeTds";
 import { format, addYears, isBefore, differenceInDays} from 'date-fns';
 
-enum NiveisDeUrgencia {
+export enum NiveisDeUrgencia {
 	normal=0,
 	prioridade=1,
 	urgente=2
 }
 
-enum CodigosDeStatus {
+export enum CodigosDeStatus {
 	cadastrado=0,
 	agendado=1,
 	executando=2,

@@ -30,6 +30,13 @@
 			$cndStatus = 'status=sseStatus("' . implode($status_requerido, '") OR status=sseStatus("') .'")';
 		}
 
+		// Determinando condições de fechamento
+		if(array_key_exists('id_fechamento',$_GET) && $_GET['id_fechamento']) {
+			$cndFechamento = 'id_fechamento='.(1*$_GET['id_fechamento']);
+		} else {
+			$cndFechamento = 'TRUE';
+		}
+
 		// DETERMINANDO CONDIÇÕES DE EQUIPES = = = = = = = = = = = = = = = = = = = =
 		// Verificando as equipes requeridas
 		if(array_key_exists('equipes',$_GET) && $_GET['equipes']!= ''){
@@ -142,7 +149,8 @@
 					($cndAgendadasDe) AND
 					($cndAgendadasAte) AND
 					($cndRealizadasDe) AND
-					($cndRealizadasAte)
+					($cndRealizadasAte) AND
+					($cndFechamento)
 				ORDER BY
 					dh_registrado DESC";
 		

@@ -1,4 +1,4 @@
-import { FechamentosService } from "../_services/fechamentos.service";
+import { SSE } from "./sse";
 
 export interface FechamentoData {
 	cmo_rateado?:string;
@@ -20,13 +20,11 @@ export class Fechamento{
 	cmo_rateado?:number;
 	cmp_rateado?:number;
 	aberto:boolean;
-
+	sses:SSE[] = undefined;
+	
 	constructor(
-		fData:FechamentoData,
-		private fechamentoService:FechamentosService
-
+		fData:FechamentoData
 	){
-		
 		this.id = +fData.id;
 		this.inicio = new Date(fData.inicio + 'T00:00:00');
 		this.final = new Date(fData.final+'T23:59:59');

@@ -7,5 +7,6 @@ export interface Busca {
 	agendadas_de?: Date,
 	agendadas_ate?: Date,
 	realizadas_de?: Date,
-	realizadas_ate? : Date
+	realizadas_ate? : Date,
+	id_fechamento?:number
 }

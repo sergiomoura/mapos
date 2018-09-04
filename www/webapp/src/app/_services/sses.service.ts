@@ -19,8 +19,7 @@ export class SsesService {
 	private url_getSsesPendentes:string = '/maxse/api/sses/pendentes';
 	private url_updateSses:string = '/maxse/api/sses';
 	private url_createSses:string = '/maxse/api/sses';
-	private url_updateSseImage:string = '/maxse/api/sses/imagem';
-
+	
 	// Método que carrega todas as SSEs
 	getAll(busca?:Busca):Observable<SSE[]>{
 		
