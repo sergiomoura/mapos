@@ -4,6 +4,7 @@ import { SafeUrl } from "@angular/platform-browser";
 import { Medida } from "./medida";
 import { FaixaDeTDS } from "./faixaDeTds";
 import { format, addYears, isBefore, differenceInDays} from 'date-fns';
+import { TiposDeServicoService } from "../_services/tipos-de-servico.service";
 
 export enum NiveisDeUrgencia {
 	normal=0,
@@ -77,9 +78,9 @@ export class SSE{
 	private _total_real:Medida;
 	private _faixa_prev:FaixaDeTDS;
 	private _faixa_real:FaixaDeTDS;
-	
 
 	constructor(sseData:any, private tdss:TipoDeServico[]){
+		
 		if(sseData == undefined){
 			this.id = 0;
 			this.endereco = '';

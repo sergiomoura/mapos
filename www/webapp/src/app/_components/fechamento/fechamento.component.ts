@@ -5,8 +5,13 @@ import { Subscription } from 'rxjs';
 import { EventsService } from '../../_services/events.service';
 import { MatSnackBar } from '@angular/material';
 import { TiposDeServicoService } from '../../_services/tipos-de-servico.service';
-import { TipoDeEquipe } from '../../_models/tipoDeEquipe';
 import { TipoDeServico } from '../../_models/tipoDeServico';
+import { SSE } from '../../_models/sse';
+
+
+class xSSE extends SSE{
+	marcada:boolean;
+}
 
 @Component({
 	selector: 'app-fechamento',
@@ -19,6 +24,9 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 	fechamentoSelecionado:Fechamento;
 	subscriptions:Subscription[] = [];
 	tdss:TipoDeServico[];
+	tmpSses:any[];
+
+	private tudoMarcado:boolean = false;
 
 	constructor(
 		private fechamentosService:FechamentosService,
@@ -104,8 +112,12 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 				// Esconde Carregando
 				this.evtService.esconderCarregando();
 
-				// Parsing sses
-				this.parseSses();				
+				// Copiando resposta para temp
+				this.tmpSses = res;
+
+				// Parsin
+				this.parseSses();
+
 
 			},
 			(err) => {
@@ -134,7 +146,14 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 
 	// Parse SSes
 	parseSses(){
-
+		
+		if(this.tmpSses && this.tdss){
+			let sses:xSSE[] = [];
+			for (let i = 0; i < this.tmpSses.length; i++) {
+				sses.push(new xSSE(this.tmpSses[i],this.tdss));
+			}
+			this.fechamentoSelecionado.sses = sses;
+		}
 	}
 
 	// ON Functions
@@ -151,6 +170,13 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 
 	onFechamentoChange(){
 		this.getSSes(this.fechamentoSelecionado.id);
+	}
+
+	onMarcarTodasClick(){
+		for (let i = 0; i < this.fechamentoSelecionado.sses.length; i++) {
+			(<xSSE>this.fechamentoSelecionado.sses[i]).marcada = !this.tudoMarcado;
+		}
+		this.tudoMarcado = !this.tudoMarcado
 	}
 
 }

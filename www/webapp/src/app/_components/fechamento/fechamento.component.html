@@ -10,18 +10,26 @@
 			</mat-select>
 		</mat-form-field>
 
-		<mat-form-field class="container-acoes">
-			<mat-select placeholder="Ações" >
-				<mat-option>Transferir para próximo período</mat-option>
-			</mat-select>
-		</mat-form-field>
+		<button mat-mini-fab color="accent" (click)="onTransferirParaAntClick()" matTooltip="Transferir SSEs selecionadas para período de fechamento anterior.">
+			<mat-icon>skip_previous</mat-icon>
+		</button>
+
+		<button mat-mini-fab color="accent" (click)="onTransferirParaProxClick()" matTooltip="Transferir SSEs selecionadas para próximo período de fechamento.">
+			<mat-icon>skip_next</mat-icon>
+		</button>
+
+		<button [disabled]="!fechamentoSelecionado.aberto" mat-mini-fab color="accent" (click)="onFecharClick()" matTooltip="Encerrar período de fechamento.">
+			<mat-icon>lock</mat-icon>
+		</button>
 	</div>
 
 	<table>
 		<thead>
 			<tr>
 				<td>
-					<mat-checkbox color="primary" #marcarTodos></mat-checkbox>
+					<button mat-icon-button (click)="onMarcarTodasClick()" matTooltip="Marcar/Desmarcar todas">
+						<mat-icon>done_all</mat-icon>
+					</button>
 				</td>
 				<td>Número</td>
 				<td>Medida Prev</td>
@@ -36,16 +44,16 @@
 		<tbody>
 			<tr *ngFor="let sse of fechamentoSelecionado?.sses">
 				<td>
-					<mat-checkbox color="primary"></mat-checkbox>
+					<mat-checkbox color="primary" [(ngModel)]="sse.marcada" ></mat-checkbox>
 				</td>
 				<td>{{ sse.numero }}</td>
 				<td>{{ sse.totalPrev.toString() }}</td>
-				<td>total real</td>
-				<td>tipo prev</td>
-				<td>tipo real</td>
-				<td>R$ 2.322,24</td>
-				<td>R$ 2.500,24</td>
-				<td>24/08/2018</td>
+				<td>{{ sse.totalReal.toString() }}</td>
+				<td>RG{{ sse.tipoDeServicoPrev.codigo }}</td>
+				<td>RG{{ sse.tipoDeServicoReal.codigo }}</td>
+				<td>{{ sse.valor_prev | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+				<td>{{ sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+				<td>{{ sse.data_devolucao | date:'dd/MM/yyyy' }}</td>
 			</tr>
 		</tbody>
 	</table>
