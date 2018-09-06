@@ -32,6 +32,8 @@ export class UsuarioComponent implements OnInit {
 		ativo:true,
 		acessoApp:0,
 		acessoWeb:false,
+		perm_dados_financeiros:false,
+		perm_tela_fechamentos:false
 	};
 	
 

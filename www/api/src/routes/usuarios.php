@@ -95,7 +95,8 @@ $app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $
 				a.acessoApp,
 				a.acessoWeb,
 				a.ativo,
-				a.perm_dados_financeiros
+				a.perm_dados_financeiros,
+				a.perm_tela_fechamentos
 			FROM
 				maxse_usuarios a
 				LEFT JOIN maxse_pessoas b ON a.id_pessoa = b.id
@@ -110,6 +111,7 @@ $app->get($api_root.'/usuarios/{idu}', function (Request $req,  Response $res, $
 	$user->acessoApp *= 1;
 	$user->id *= 1;
 	$user->perm_dados_financeiros = ($user->perm_dados_financeiros == "1");
+	$user->perm_tela_fechamentos = ($user->perm_tela_fechamentos == "1");
 
 	// Enviando resposta para cliente
 	return $res
@@ -172,7 +174,8 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 					ativo=:ativo,
 					acessoApp=:acessoApp,
 					acessoWeb=:acessoWeb,
-					perm_dados_financeiros=:perm_dados_financeiros
+					perm_dados_financeiros=:perm_dados_financeiros,
+					perm_tela_fechamentos=:perm_tela_fechamentos
 				WHERE
 					id=:id';
 		$stmt = $this->db->prepare($sql);
@@ -183,7 +186,8 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 				':acessoApp'=>($usuario->acessoApp*1),
 				':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
 				':id'       =>$usuario->id,
-				':perm_dados_financeiros' => ($usuario->perm_dados_financeiros ? 1 : 0)
+				':perm_dados_financeiros' => ($usuario->perm_dados_financeiros ? 1 : 0),
+				':perm_tela_fechamentos' => ($usuario->perm_tela_fechamentos ? 1 : 0)
 			)
 		);
 
@@ -196,7 +200,9 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 					ativo=:ativo,
 					acessoApp=:acessoApp,
 					acessoWeb=:acessoWeb,
-					perm_dados_financeiros=:perm_dados_financeiros
+					perm_dados_financeiros=:perm_dados_financeiros,
+					perm_tela_fechamentos=:perm_tela_fechamentos
+
 				WHERE
 					id=:id';
 		$stmt = $this->db->prepare($sql);
@@ -208,7 +214,8 @@ $app->put($api_root.'/usuarios/{idu}', function (Request $req, Response $res, $a
 				':acessoApp'=> ($usuario->acessoApp*1),
 				':acessoWeb'=> ($usuario->acessoWeb ? 1 : 0),
 				':id'       => $usuario->id,
-				':perm_dados_financeiros' => ($usuario->perm_dados_financeiros  ? 1 : 0)
+				':perm_dados_financeiros' => ($usuario->perm_dados_financeiros  ? 1 : 0),
+				':perm_tela_fechamentos' => ($usuario->perm_tela_fechamentos ? 1 : 0)
 			)
 		);
 	}
@@ -257,14 +264,16 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 				acessoApp,
 				acessoWeb,
 				id_pessoa,
-				perm_dados_financeiros
+				perm_dados_financeiros,
+				perm_tela_fechamentos
 			) VALUES (
 				:username,
 				:ativo,
 				:acessoApp,
 				:acessoWeb,
 				:id_pessoa,
-				:perm_dados_financeiros
+				:perm_dados_financeiros,
+				:perm_tela_fechamentos
 			)';
 			
 	$stmt = $this->db->prepare($sql);
@@ -275,7 +284,8 @@ $app->post($api_root.'/usuarios', function (Request $req, Response $res, $args =
 			':acessoApp'=>($usuario->acessoApp*1),
 			':acessoWeb'=>($usuario->acessoWeb ? 1 : 0),
 			':id_pessoa'=>$id_pessoa,
-			':perm_dados_financeiros' => ($usuario->perm_dados_financeiros ? 1 : 0)
+			':perm_dados_financeiros' => ($usuario->perm_dados_financeiros ? 1 : 0),
+			':perm_tela_fechamentos' => ($usuario->perm_tela_fechamentos ? 1 : 0)
 		)
 	);
 

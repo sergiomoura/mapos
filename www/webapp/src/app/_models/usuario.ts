@@ -13,4 +13,5 @@ export class Usuario {
     acessoWeb: boolean;
     ativo:boolean;
     perm_dados_financeiros:boolean;
+    perm_tela_fechamentos:boolean;
 }
