@@ -6,7 +6,7 @@
 				placeholder="Períodos de Fechamento"
 				name="fechamentos"
 				[(ngModel)]="fechamentoSelecionado" >
-				<mat-option [value]="fechamento" *ngFor="let fechamento of fechamentos" >[{{fechamento.id}}] De {{fechamento.inicio|date:"dd/MM/yyyy"}} à {{fechamento.final|date:"dd/MM/yyyy"}}</mat-option>
+				<mat-option [value]="fechamento" *ngFor="let fechamento of fechamentos" >[{{fechamento.id}}] De {{fechamento.inicio|date:"dd/MM/yyyy"}} à {{fechamento.final|date:"dd/MM/yyyy"}} {{fechamento.aberto ? '*** aberto ***' : '' }} </mat-option>
 			</mat-select>
 		</mat-form-field>
 
@@ -18,7 +18,7 @@
 			<mat-icon>skip_next</mat-icon>
 		</button>
 
-		<button [disabled]="!fechamentoSelecionado.aberto" mat-mini-fab color="accent" (click)="onFecharClick()" matTooltip="Encerrar período de fechamento.">
+		<button [disabled]="!fechamentoSelecionado?.aberto" mat-mini-fab color="accent" (click)="onFecharClick()" matTooltip="Encerrar período de fechamento.">
 			<mat-icon>lock</mat-icon>
 		</button>
 	</div>

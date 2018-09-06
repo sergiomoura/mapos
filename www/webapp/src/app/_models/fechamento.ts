@@ -1,8 +1,8 @@
 import { SSE } from "./sse";
 
 export interface FechamentoData {
-	cmo_rateado?:string;
-	cmp_rateado?:string;
+	cmo?:string;
+	cmp?:string;
 	faturamento_prev?:string;
 	faturamento_real?:string;
 	final:string;
@@ -17,8 +17,8 @@ export class Fechamento{
 	final:Date;
 	faturamento_prev?:number;
 	faturamento_real?:number;
-	cmo_rateado?:number;
-	cmp_rateado?:number;
+	cmo?:number;
+	cmp?:number;
 	aberto:boolean;
 	sses:SSE[] = undefined;
 	
@@ -30,8 +30,8 @@ export class Fechamento{
 		this.final = new Date(fData.final+'T23:59:59');
 		this.faturamento_real = fData.faturamento_real ? +fData.faturamento_real : null;
 		this.faturamento_prev = fData.faturamento_prev ? +fData.faturamento_prev : null;
-		this.cmp_rateado = fData.cmp_rateado ? +fData.cmp_rateado : null;
-		this.cmo_rateado = fData.cmo_rateado ? +fData.cmo_rateado : null;
+		this.cmp = fData.cmp ? +fData.cmp : null;
+		this.cmo = fData.cmo ? +fData.cmo : null;
 		this.aberto	= (fData.aberto === '1');
 	}
 	

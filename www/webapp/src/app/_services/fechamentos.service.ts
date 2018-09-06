@@ -14,6 +14,9 @@ export class FechamentosService {
 	
 	private url_get:string = '/maxse/api/fechamentos';
 	private url_getSses:string = '/maxse/api/sses'
+	private url_move:string = '/maxse/api/fechamentos/';
+	
+	
 	constructor(
 		private http:HttpClient
 	) { }
@@ -27,5 +30,15 @@ export class FechamentosService {
 		let queryString:string = '?id_fechamento=' + id_fechamento;
 		
 		return this.http.get<SSE[]>(this.url_getSses + queryString);
+	}
+
+	moverParaProximoFechamento(ids_sse:number[],id_fechamentoAtual:number):Observable<any>{
+		let data:any = {ids_sse:ids_sse,id_fechamento:id_fechamentoAtual};
+		return this.http.patch(this.url_move + 'mvNext',data);
+	}
+
+	moverParaFechamentoAnterior(ids_sse:number[],id_fechamentoAtual:number):Observable<any>{
+		let data:any = {ids_sse:ids_sse,id_fechamento:id_fechamentoAtual};
+		return this.http.patch(this.url_move + 'mvPrev',data);
 	}
 }

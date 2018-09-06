@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material';
 import { TiposDeServicoService } from '../../_services/tipos-de-servico.service';
 import { TipoDeServico } from '../../_models/tipoDeServico';
 import { SSE } from '../../_models/sse';
+import { ReturnStatement } from '@angular/compiler';
 
 
 class xSSE extends SSE{
@@ -158,7 +159,7 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 
 	// ON Functions
 	onReloadClick(){
-		this.getFechamentos();
+		this.getSSes(this.fechamentoSelecionado.id);
 	}
 
 	ngOnDestroy(): void {
@@ -177,6 +178,96 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 			(<xSSE>this.fechamentoSelecionado.sses[i]).marcada = !this.tudoMarcado;
 		}
 		this.tudoMarcado = !this.tudoMarcado
+	}
+
+	onTransferirParaProxClick(){
+		let id_fechamentoAtual:number = this.fechamentoSelecionado.id;
+		let ids_sses:number[] = (<xSSE[]>this.fechamentoSelecionado.sses).filter(
+			(sse) => {
+				return sse.marcada
+			}
+		).map(
+			sse => {
+				return sse.id;
+			}
+		);
+
+		this.fechamentosService.moverParaProximoFechamento(ids_sses,id_fechamentoAtual)
+		.subscribe(
+			()=>{
+				// Recarregando as sses do fechamento selecionado
+				this.getSSes(this.fechamentoSelecionado.id);
+
+				// Exibindo snackbar de sucesso
+				this.snackBar.open(
+					'SSEs transferidas para próximo período de fechamento',
+					undefined,
+					{
+						panelClass: ['snackbar-ok'],
+					});
+			},
+			err => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao transferir SSEs para próximo fechamento.',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+			}
+		)
+		
+
+	}
+
+	onTransferirParaAntClick(){
+		let id_fechamentoAtual:number = this.fechamentoSelecionado.id;
+		let ids_sses:number[] = (<xSSE[]>this.fechamentoSelecionado.sses).filter(
+			(sse) => {
+				return sse.marcada
+			}
+		).map(
+			sse => {
+				return sse.id;
+			}
+		);
+
+		this.fechamentosService.moverParaFechamentoAnterior(ids_sses,id_fechamentoAtual)
+		.subscribe(
+			()=>{
+				// Recarregando as sses do fechamento selecionado
+				this.getSSes(this.fechamentoSelecionado.id);
+
+				// Exibindo snackbar de sucesso
+				this.snackBar.open(
+					'SSEs transferidas para período de fechamento anterior',
+					undefined,
+					{
+						panelClass: ['snackbar-ok'],
+					});
+			},
+			err => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao transferir SSEs para fechamento anterior.',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+			}
+		)
+		
+
 	}
 
 }
