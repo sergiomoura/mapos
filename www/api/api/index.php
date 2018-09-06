@@ -23,7 +23,6 @@ $settings = require __DIR__ . '/../src/settings.php';
 // Carregando Helpers
 require __DIR__ . '/../src/helpers.php';
 
-
 // Instanciando app
 $app = new \Slim\App($settings);
 
@@ -35,9 +34,14 @@ require __DIR__ . '/../src/middleware.php';
 
 // Register routes
 $routes_forlder = __DIR__ . '/../src/routes';
-$routes = array_values(array_filter(scandir($routes_forlder),function($a){
-																return $a!='.' && $a!= '..';
-															}));
+$routes =	array_values(
+				array_filter(
+					scandir($routes_forlder),
+					function($a){
+						return $a!='.' && $a!= '..';
+					}
+				)
+			);
 															
 foreach ($routes as  $route) {
 	require $routes_forlder . '/' . $route;
