@@ -38,21 +38,25 @@
 				<td>TDS Real</td>
 				<td>Valor Prev</td>
 				<td>Valor Real</td>
+				<td>CMO</td>
+				<td>CMP</td>
 				<td>Data Devolução</td>
 			</tr>
 		</thead>
 		<tbody>
-			<tr *ngFor="let sse of fechamentoSelecionado?.sses">
+			<tr *ngFor="let sse of fechamentoSelecionado?.sses" (click)="onRowClick(sse.id)">
 				<td>
-					<mat-checkbox color="primary" [(ngModel)]="sse.marcada" ></mat-checkbox>
+					<mat-checkbox (click)="onCheckboxClick($event)" color="primary" [(ngModel)]="sse.marcada" ></mat-checkbox>
 				</td>
 				<td>{{ sse.numero }}</td>
 				<td>{{ sse.totalPrev.toString() }}</td>
 				<td>{{ sse.totalReal.toString() }}</td>
 				<td>RG{{ sse.tipoDeServicoPrev.codigo }}</td>
 				<td>RG{{ sse.tipoDeServicoReal.codigo }}</td>
-				<td>{{ sse.valor_prev | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
-				<td>{{ sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+				<td>{{ sse.valor_prev | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
+				<td>{{ sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
+				<td>{{ sse.cmo | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
+				<td>{{ sse.cmp | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
 				<td>{{ sse.data_devolucao | date:'dd/MM/yyyy' }}</td>
 			</tr>
 		</tbody>

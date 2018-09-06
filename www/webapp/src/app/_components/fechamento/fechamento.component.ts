@@ -8,6 +8,7 @@ import { TiposDeServicoService } from '../../_services/tipos-de-servico.service'
 import { TipoDeServico } from '../../_models/tipoDeServico';
 import { SSE } from '../../_models/sse';
 import { ReturnStatement } from '@angular/compiler';
+import { Router } from '@angular/router';
 
 
 class xSSE extends SSE{
@@ -33,7 +34,8 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 		private fechamentosService:FechamentosService,
 		private evtService:EventsService,
 		private snackBar:MatSnackBar,
-		private tdsService:TiposDeServicoService
+		private tdsService:TiposDeServicoService,
+		private router:Router
 	) { }
 
 	ngOnInit() {
@@ -178,6 +180,14 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 			(<xSSE>this.fechamentoSelecionado.sses[i]).marcada = !this.tudoMarcado;
 		}
 		this.tudoMarcado = !this.tudoMarcado
+	}
+
+	onRowClick(id_sse:number):void{
+		this.router.navigateByUrl('home/sse/' + id_sse);
+	}
+
+	onCheckboxClick(evt:MouseEvent){
+		evt.stopPropagation();
 	}
 
 	onTransferirParaProxClick(){
