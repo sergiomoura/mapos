@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Fechamento, FechamentoData } from "../_models/fechamento";
+import { FechamentoData } from "../_models/fechamento";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { Busca } from '../_models/busca';
-import { format } from 'date-fns';
-import { SSE, CodigosDeStatus } from '../_models/sse';
+import { SSE } from '../_models/sse';
 
 
 @Injectable({
@@ -15,7 +13,6 @@ export class FechamentosService {
 	private url_get:string = '/maxse/api/fechamentos';
 	private url_getSses:string = '/maxse/api/sses'
 	private url_move:string = '/maxse/api/fechamentos/';
-	
 	
 	constructor(
 		private http:HttpClient
@@ -40,5 +37,13 @@ export class FechamentosService {
 	moverParaFechamentoAnterior(ids_sse:number[],id_fechamentoAtual:number):Observable<any>{
 		let data:any = {ids_sse:ids_sse,id_fechamento:id_fechamentoAtual};
 		return this.http.patch(this.url_move + 'mvPrev',data);
+	}
+
+	encerrar(id_fechamento:number):Observable<any>{
+		return this.http.patch(this.url_get + '/' + id_fechamento + '/encerrar', null );
+	}
+
+	reabrir(id_fechamento:number):Observable<any>{
+		return this.http.patch(this.url_get + '/' + id_fechamento + '/reabrir', null );
 	}
 }

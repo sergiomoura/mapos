@@ -18,7 +18,11 @@
 			<mat-icon>skip_next</mat-icon>
 		</button>
 
-		<button [disabled]="!fechamentoSelecionado?.aberto" mat-mini-fab color="accent" (click)="onFecharClick()" matTooltip="Encerrar período de fechamento.">
+		<button *ngIf="fechamentoSelecionado?.aberto" mat-mini-fab color="accent" (click)="onFecharClick()" matTooltip="Encerrar período de fechamento.">
+			<mat-icon>lock_open</mat-icon>
+		</button>
+
+		<button *ngIf="!fechamentoSelecionado?.aberto" mat-mini-fab color="accent" (click)="onAbrirClick()" matTooltip="Reabrir período de fechamento.">
 			<mat-icon>lock</mat-icon>
 		</button>
 	</div>

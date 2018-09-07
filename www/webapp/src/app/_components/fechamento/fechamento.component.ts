@@ -94,13 +94,13 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 		}
 
 		this.fechamentos = temp;
+
 		this.fechamentoSelecionado = this.fechamentos.find(
 			(f) => {
 				return f.aberto;
 			}
 		);
 		this.getSSes(this.fechamentoSelecionado.id);
-
 	}
 
 	// Carrega sses
@@ -278,6 +278,78 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 		)
 		
 
+	}
+
+	onFecharClick(){
+		this.fechamentosService.encerrar(this.fechamentoSelecionado.id)
+		.subscribe(
+			res => {
+				// Recarregando fechamentos
+				this.getFechamentos();
+
+				// Exibindo snackbar de sucesso
+				this.snackBar.open(
+					'Encerrou o período de fechamento com sucesso.',
+					undefined,
+					{
+						panelClass: ['snackbar-ok'],
+					});
+			},
+			err => {
+
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar encerrar período de fechamento.',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+
+				// Imprimindo mensagem de erro no console
+				console.log(err)
+			}
+		)
+	}
+
+	onAbrirClick() {
+		this.fechamentosService.reabrir(this.fechamentoSelecionado.id)
+		.subscribe(
+			res => {
+				// Recarregando fechamentos
+				this.getFechamentos();
+
+				// Exibindo snackbar de sucesso
+				this.snackBar.open(
+					'Reabriu o período de fechamento com sucesso.',
+					undefined,
+					{
+						panelClass: ['snackbar-ok'],
+					});
+			},
+			err => {
+
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar reabrir período de fechamento.',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+
+				// Imprimindo mensagem de erro no console
+				console.log(err)
+			}
+		)
 	}
 
 }
