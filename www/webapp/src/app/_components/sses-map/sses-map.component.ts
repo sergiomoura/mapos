@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { SsesService } from '../../_services/sses.service';
 import { SSE } from '../../_models/sse';
 import { MatSnackBar, MatSidenav } from '@angular/material';
@@ -20,7 +20,7 @@ import { EquipesService } from '../../_services/equipes.service';
 	templateUrl: './sses-map.component.html',
 	styleUrls: ['./sses-map.component.scss']
 })
-export class SsesMapComponent implements OnInit {
+export class SsesMapComponent implements OnInit,OnDestroy {
 
 	// ELEMENTOS DO TEMPLATE = = = = = = = = = = = = =
 	@ViewChild('buscador') buscador:BuscadorComponent;

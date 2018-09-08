@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { SSE } from '../../_models/sse';
 import { Domasa } from "../../_models/domasa";
@@ -22,7 +22,7 @@ import { Subscription } from 'rxjs';
 	styleUrls: ['./sse.component.scss']
 })
 
-export class SseComponent implements OnInit {
+export class SseComponent implements OnInit,OnDestroy {
 
 	constructor(
 		private route: ActivatedRoute,
@@ -81,6 +81,13 @@ export class SseComponent implements OnInit {
 				}
 			)
 		)
+	}
+
+	ngOnDestroy() {
+		// Unsubscribing from all subscriptions
+		for (let i = 0; i < this.subscriptions.length; i++) {
+			this.subscriptions[i].unsubscribe();
+		}
 	}
 
 	getSse() {
