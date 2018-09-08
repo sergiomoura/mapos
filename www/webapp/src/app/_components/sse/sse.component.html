@@ -7,6 +7,9 @@
 					<mat-select (selectionChange)="onDomasaChange()" required name="domasa" placeholder="DOMASA" [(ngModel)]="domasaSelecionada" [disabled]="camposDeCadstroTravados">
 						<mat-option [value]="domasa" *ngFor="let domasa of domasas">DOMASA {{domasa.id}}</mat-option>
 					</mat-select>
+					<mat-error>
+						Selecione uma DOMASA.
+					</mat-error>
 				</mat-form-field>
 		
 				<mat-form-field>
@@ -19,17 +22,26 @@
 						[(ngModel)]="sse.numero"
 						matInput
 						placeholder="SSE Número">
+						<mat-error>
+							Se o nível de prioridade desta SSE não for URGENTE, digite o número desta SSE.
+						</mat-error>
 				</mat-form-field>
 		
 				<mat-form-field>
 					<input required name="dh_recebido_dia" [(ngModel)]="sse.dh_recebido" matInput [matDatepicker]="dpRecebimento" [disabled]="camposDeCadstroTravados">
 					<mat-datepicker-toggle matSuffix [for]="dpRecebimento"></mat-datepicker-toggle>
 					<mat-datepicker #dpRecebimento></mat-datepicker>
+					<mat-error>
+						Insira uma data de recebimento válida.
+					</mat-error>
 				</mat-form-field>
 				
 				<div class="container-hora-recebida">
 					<mat-form-field>
 						<input required name="dh_recebido_hora" matInput placeholder="Hora" type="time" [(ngModel)]="timestring" [disabled]="camposDeCadstroTravados">
+						<mat-error>
+							Insira uma hora de recebimento válida.
+						</mat-error>
 					</mat-form-field>
 					<button (click)="setHora(10)" mat-raised-button color="accent" [disabled]="camposDeCadstroTravados">
 						10h?
@@ -60,11 +72,17 @@
 		<mat-form-field>
 			<mat-select required (selectionChange)="onTipoDeServicoPrevChange()" name="tds" [(ngModel)]="sse.tipoDeServicoPrev" placeholder="Tipo de Serviço" [disabled]="camposDeCadstroTravados">
 				<mat-option [value]="tds" *ngFor="let tds of tdss">RG{{tds.codigo}} - {{tds.descricao}}</mat-option>
+				<mat-error>
+					Selecione um tipo de serviço
+				</mat-error>
 			</mat-select>
 		</mat-form-field>
 
 		<mat-form-field>
 			<input required name="endereco" [(ngModel)]="sse.endereco" matInput placeholder="Endereço" [disabled]="camposDeCadstroTravados">
+			<mat-error>
+				Digite um endereço válido
+			</mat-error>
 		</mat-form-field>
 
 		<div class="container-bairro">
@@ -85,7 +103,7 @@
 		<mat-form-field>
 			<textarea name="obs" [(ngModel)]="sse.obs" matInput placeholder="Observações" [disabled]="camposDeCadstroTravados"></textarea>
 		</mat-form-field>
-
+		
 		<div class="container-medidas">
 			<div class="medidas previstas">
 				<div class="label">Medidas Previstas
@@ -93,10 +111,11 @@
 						<mat-icon>add</mat-icon>
 					</button>
 				</div>
+				<div *ngIf="temCampoDeMedidaVazio" class="erro-medidas">Existem medidas não preenchidas</div>
 				<div class="medidas-container" *ngIf="sse.tipoDeServicoPrev?.medida=='a'">
 					<div class="medida" *ngFor="let m of sse.medidas_area.prev;let i=index">
-						<input required (keyup)="onInputMedidaPrevChange()" (click)="onInputMedidaPrevChange()" type="number" name="medida_al_{{i}}_p" step="0.01" [(ngModel)]="m.l" [disabled]="camposDeCadstroTravados"> x
-						<input required (keyup)="onInputMedidaPrevChange()" (click)="onInputMedidaPrevChange()" type="number" name="medida_ac_{{i}}_p" step="0.01" [(ngModel)]="m.c" [disabled]="camposDeCadstroTravados"> m²
+						<input min="0" required (keyup)="onInputMedidaPrevChange()" (click)="onInputMedidaPrevChange()" type="number" name="medida_al_{{i}}_p" step="0.01" [(ngModel)]="m.l" [disabled]="camposDeCadstroTravados"> x
+						<input min="0" required (keyup)="onInputMedidaPrevChange()" (click)="onInputMedidaPrevChange()" type="number" name="medida_ac_{{i}}_p" step="0.01" [(ngModel)]="m.c" [disabled]="camposDeCadstroTravados"> m²
 						<button color="warn" *ngIf="sse.medidas_area.prev.length>1" mat-icon-button (click)="onRemoveMedidaPrevClick(i)" [disabled]="camposDeCadstroTravados">
 							<mat-icon>remove_circle</mat-icon>
 						</button>
@@ -104,7 +123,7 @@
 				</div>
 				<div class="medidas-container" *ngIf="sse.tipoDeServicoPrev?.medida=='l'">
 					<div class="medida" *ngFor="let m of sse.medidas_linear.prev;let i=index">
-						<input required (keyup)="onInputMedidaPrevChange()" (click)="onInputMedidaPrevChange()" type="number" name="medida_l_{{i}}_p" step="0.01" [(ngModel)]="m.v" [disabled]="camposDeCadstroTravados"> m
+						<input min="0" required (keyup)="onInputMedidaPrevChange()" (click)="onInputMedidaPrevChange()" type="number" name="medida_l_{{i}}_p" step="0.01" [(ngModel)]="m.v" [disabled]="camposDeCadstroTravados"> m
 						<button color="warn" *ngIf="sse.medidas_linear.prev.length>1" mat-icon-button (click)="onRemoveMedidaPrevClick(i)" [disabled]="camposDeCadstroTravados">
 							<mat-icon>remove_circle</mat-icon>
 						</button>
@@ -112,7 +131,7 @@
 				</div>
 				<div class="medidas-container" *ngIf="sse.tipoDeServicoPrev?.medida=='u'">
 					<div class="medida" *ngFor="let m of sse.medidas_unidades.prev;let i=index">
-						<input required (keyup)="onInputMedidaPrevChange()" (click)="onInputMedidaPrevChange()" type="number" name="medida_u_{{i}}_p" step="1" [(ngModel)]="m.n" [disabled]="camposDeCadstroTravados"> unid
+						<input min="0" required (keyup)="onInputMedidaPrevChange()" (click)="onInputMedidaPrevChange()" type="number" name="medida_u_{{i}}_p" step="1" [(ngModel)]="m.n" [disabled]="camposDeCadstroTravados"> unid
 						<button color="warn" *ngIf="sse.medidas_unidades.prev.length>1" mat-icon-button (click)="onRemoveMedidaPrevClick(i)" [disabled]="camposDeCadstroTravados">
 							<mat-icon>remove_circle</mat-icon>
 						</button>
@@ -126,7 +145,7 @@
 				</mat-form-field>
 	
 				<mat-form-field>
-					<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Previsto" [(ngModel)]="medidaPrevTotal">
+					<input type="text" matInput readonly placeholder="Total Previsto ({{ sse.tipoDeServicoPrev?.medida=='a' ? 'm²' : (sse.tipoDeServicoPrev?.medida=='l'?'m':'unid') }})" value="{{medidaPrevTotal | number:'1.2-2'}}">
 				</mat-form-field>
 			</div>
 			<div class="medidas realizadas" *ngIf="sse.tipoDeServicoReal">
@@ -168,7 +187,7 @@
 				</mat-form-field>
 
 				<mat-form-field>
-					<input type="text" matInput [ngModelOptions]="{standalone: true}" readonly placeholder="Total Realizado" [(ngModel)]="medidaRealTotal" >
+					<input type="text" matInput readonly placeholder="Total Realizado ({{ sse.tipoDeServicoReal.medida=='a' ? 'm²' : (sse.tipoDeServicoReal.medida=='l'?'m':'unid') }})" value="{{medidaRealTotal | number:'1.2-2'}}" >
 				</mat-form-field>
 				
 			</div>

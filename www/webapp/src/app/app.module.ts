@@ -1,7 +1,7 @@
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AgmCoreModule } from '@agm/core';
-import { NgModule } from '@angular/core';
+import { NgModule,LOCALE_ID } from '@angular/core';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from "./_modules/material/material.module";
 import { FormsModule } from '@angular/forms';

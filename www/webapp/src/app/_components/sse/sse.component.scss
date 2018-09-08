@@ -31,10 +31,16 @@
 				}
 				.noImageButton{
 					width: 180px;
+					background-color: #d03f4442;
+					color:#c62828;
 				}
 			}
 			mat-form-field {
 				display: block;
+			}
+			.erro-medidas{
+				color:#c62828;
+				font-size: 12px;
 			}
 
 			.container-bairro {

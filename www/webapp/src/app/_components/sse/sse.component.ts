@@ -57,6 +57,7 @@ export class SseComponent implements OnInit {
 	public selectedImage:File = null;
 	public inputImageFile:string;
 	private subscriptions:Subscription[] = [];
+	private _temMedidaVazia:boolean; 
 
 	ngOnInit() {
 		this.getDomasas();
@@ -556,7 +557,7 @@ export class SseComponent implements OnInit {
 					total += (1 * this.sse.medidas_unidades.prev[i].n);
 				}
 			}
-			this.medidaPrevTotal = total;
+			this.medidaPrevTotal = Math.round(total*100)/100;
 		} else {
 			this.medidaPrevTotal = 0;
 		}
@@ -584,9 +585,46 @@ export class SseComponent implements OnInit {
 					total += (1 * this.sse.medidas_unidades.real[i].n);
 				}
 			}
-			this.medidaRealTotal = total;
+			this.medidaRealTotal = Math.round(total * 100)/100;
 		} else {
 			this.medidaRealTotal = 0;
+		}
+	}
+	
+	public get temCampoDeMedidaVazio() : boolean {
+		
+		if(this.sse.tipoDeServicoPrev){
+			
+			let achouCampoVazio:boolean = false;
+			let i:number = 0;
+
+			if (this.sse.tipoDeServicoPrev.medida == 'a') {
+				while (!achouCampoVazio && i < this.sse.medidas_area.prev.length){
+					achouCampoVazio = (!this.sse.medidas_area.prev[i].l) || (!this.sse.medidas_area.prev[i].c);
+					i++;
+				}
+			}
+	
+			if (this.sse.tipoDeServicoPrev.medida == 'l') {
+				while (!achouCampoVazio && i < this.sse.medidas_linear.prev.length){
+					achouCampoVazio = (!this.sse.medidas_linear.prev[i].v);
+					i++;
+				}
+			}
+	
+			if (this.sse.tipoDeServicoPrev.medida == 'u') {
+				while (!achouCampoVazio && i < this.sse.medidas_unidades.prev.length){
+					achouCampoVazio = (!this.sse.medidas_unidades.prev[i].v);
+					i++;
+				}
+			}
+
+			return achouCampoVazio;
+
+		} else {
+
+			return false;
+
 		}
 	}
 }
