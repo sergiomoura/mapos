@@ -92,13 +92,22 @@ export class SseComponent implements OnInit,OnDestroy {
 
 	getSse() {
 		let id = this.route.snapshot.paramMap.get('id');
+		
 		if (id != '0') {
+			
+			// Mostra Carregando
+			this.evtService.mostrarCarregando();
+
 			this.ssesService.getById(id).subscribe(
 				res => {
+					this.evtService.esconderCarregando();
 					this.sseResponse = res;
 					this.parseSse();
 				},
 				err => {
+					// Esconde carregando
+					this.evtService.esconderCarregando();
+
 					// Exibindo snackbar de erro
 					this.snackBar
 						.open(
@@ -193,8 +202,16 @@ export class SseComponent implements OnInit,OnDestroy {
 	}
 
 	private updateSse() {
+
+		// Mostra Carregando
+		this.evtService.mostrarCarregando();
+
 		return this.ssesService.update(this.sse).subscribe(
 			res => {
+
+				// Esconde Carregando
+				this.evtService.esconderCarregando();
+
 				// Voltando para o mapa
 				this.router.navigateByUrl("/home/sses/map");
 
@@ -207,6 +224,9 @@ export class SseComponent implements OnInit,OnDestroy {
 					});
 			},
 			err => {
+
+				// Esconde Carregando
+				this.evtService.esconderCarregando();
 
 				// Declarando mensagem a exibir no snackbar
 				let msg:string;
@@ -232,8 +252,16 @@ export class SseComponent implements OnInit,OnDestroy {
 	}
 
 	private createSse() {
+
+		// Mostra Carregando
+		this.evtService.mostrarCarregando();
+
 		return this.ssesService.create(this.sse).subscribe(
 			res => {
+
+				// Esconde Carregando
+				this.evtService.esconderCarregando();
+
 				// Zerando campos
 				this.sseVazia();
 				this.domasaSelecionada = undefined;
@@ -251,6 +279,10 @@ export class SseComponent implements OnInit,OnDestroy {
 
 			},
 			err => {
+				
+				// Esconde Carregando
+				this.evtService.esconderCarregando();
+
 				// Declarando mensagem a exibir no snackbar
 				let msg:string;
 				if(err == 'Service Unavailable'){
