@@ -138,10 +138,20 @@ export class NovaTarefaComponent implements OnInit {
 					// Esconde Carregando
 					this.esconderCarregando();
 
+					// Selecionando mensagem de erro
+					let msg:string;
+					if(err == 'Gone'){
+						msg = 'Equipe já está agendada para este horário.'
+					} else if(err = 'Request Entity Too Large') {
+						msg = 'Equipe já tem ou teve um agendamento para esta SSE.'
+					} else {
+					 	msg = 'Falha ao agendar a SSE para a equipe.'
+					}
+
 					// Exibindo snackbar de erro
 					this.snackBar
 					.open(
-						'Falha ao tentar alterar agendamento.',
+						msg,
 						'Fechar',
 						{
 							duration:0,
