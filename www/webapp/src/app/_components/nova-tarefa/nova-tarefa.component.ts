@@ -23,12 +23,14 @@ export class NovaTarefaComponent implements OnInit {
 	equipes:Equipe[];
 	tarefa:Tarefa;
 	agora:string =  format(new Date(),'YYYY-MM-DDTHH:mm');
+	carregando:boolean;
 	constructor(
 		public dialogRef: MatDialogRef<NovaTarefaComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: DialogData,
 		private tarefaService:TarefaService,
-		private snackBar:MatSnackBar
+		private snackBar:MatSnackBar,
 	) {
+		this.carregando = false;
 		this.sse = data.sse;
 		if(data.id_tarefa){
 			this.tarefa = Object.assign({},(<any>this.sse).tarefas.find(
@@ -63,9 +65,17 @@ export class NovaTarefaComponent implements OnInit {
 	}
 
 	onSalvarClick(){
+
+		// Mostra Carregando
+		this.mostrarCarregando();
+
 		if(this.tarefa.id == 0){
 			this.tarefaService.create(this.tarefa).subscribe(
 				res => {
+
+					// Esconde Carregando
+					this.esconderCarregando();
+
 					this.dialogRef.close(1);
 					
 					// Exibindo snackbar de sucesso
@@ -78,6 +88,9 @@ export class NovaTarefaComponent implements OnInit {
 				},
 				err => {
 					
+					// Esconde Carregando
+					this.esconderCarregando();
+
 					// Selecionando mensagem de erro
 					let msg:string;
 					if(err == 'Gone'){
@@ -105,6 +118,11 @@ export class NovaTarefaComponent implements OnInit {
 		} else {
 			this.tarefaService.update(this.tarefa).subscribe(
 				res => {
+
+					// Esconde Carregando
+					this.esconderCarregando();
+
+					// Fecha o diálogo
 					this.dialogRef.close(1);
 					
 					// Exibindo snackbar de sucesso
@@ -116,6 +134,10 @@ export class NovaTarefaComponent implements OnInit {
 						});
 				},
 				err => {
+
+					// Esconde Carregando
+					this.esconderCarregando();
+
 					// Exibindo snackbar de erro
 					this.snackBar
 					.open(
@@ -133,5 +155,32 @@ export class NovaTarefaComponent implements OnInit {
 		}
 		
 	}
+
+	public get inicioAntesDoFinal() : boolean {
+		if(this.tarefa.inicio_p && this.tarefa.final_p) {
+			return this.tarefa.inicio_p < this.tarefa.final_p;
+		} else {
+			return true;
+		}
+	}
+
+	public get inicioNoFuturo() : boolean {
+		if (this.tarefa.inicio_p){
+			return this.tarefa.inicio_p > this.agora
+		} else {
+			return true;
+		}
+	}
+
+	// Mostra Carregando
+	mostrarCarregando(){
+		this.carregando = true;
+	}
+
+	// Esconde Carregando
+	esconderCarregando(){
+		this.carregando = false;
+	}
+
 
 }

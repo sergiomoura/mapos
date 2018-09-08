@@ -24,6 +24,7 @@
 				<mat-select required placeholder="Equipe" name="equipe" [(ngModel)]="tarefa.equipe" >
 					<mat-option [value]="equipe" *ngFor="let equipe of equipes" >[{{equipe?.sigla}}] - {{equipe?.nome}}</mat-option>
 				</mat-select>
+				<mat-error>Selecione uma equipe</mat-error>
 			</mat-form-field>
 
 			<mat-form-field>
@@ -42,6 +43,7 @@
 					[min]="agora"
 					[(ngModel)]="tarefa.inicio_p"
 					placeholder="Início Previsto">
+					<mat-error>Digite uma data/hora válida</mat-error>
 			</mat-form-field>
 
 			<mat-form-field>
@@ -52,7 +54,11 @@
 					name="final_p"
 					[(ngModel)]="tarefa.final_p"
 					placeholder="Final Previsto">
+					<mat-error>Digite uma data/hora válida</mat-error>
 			</mat-form-field>
+
+			<div class="erro" *ngIf="!inicioAntesDoFinal">O final não pode vir depois do início.</div>
+			<div class="erro" *ngIf="!inicioNoFuturo">O agendamento deve ocorrer para um momento futuro.</div>
 
 			<div class="controles">
 				<button mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
@@ -61,7 +67,9 @@
 					[disabled]="!formNovaTarefa.valid || tarefa.final_p <= tarefa.inicio_p || tarefa.inicio_p < agora"
 					mat-raised-button
 					color="primary"
-					(click)="onSalvarClick()">Salvar</button>
+					(click)="onSalvarClick()">
+					<mat-spinner color="accent" diameter="16" *ngIf="carregando"></mat-spinner>Salvar</button>
+				
 			</div>
 		</form>
 	</div>
