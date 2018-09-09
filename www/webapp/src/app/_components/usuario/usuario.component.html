@@ -2,20 +2,25 @@
 	<form #usuarioForm="ngForm">
 		<mat-form-field>
 			<input name="nome" [(ngModel)]="usuario.nome" matInput placeholder="Nome" required>
+			<mat-error>Digite o nome do usuário</mat-error>
 		</mat-form-field>
 		<mat-form-field>
-			<input name="email" [(ngModel)]="usuario.email" matInput placeholder="E-mail" type="email" email #email="ngModel" required>
-			<mat-error *ngIf="email.invalid">E-mail inválido</mat-error>
+			<input name="email" [(ngModel)]="usuario.email" matInput placeholder="E-mail" type="email" email required>
+			<mat-error>Digite um e-mail válido</mat-error>
 		</mat-form-field>
 		<mat-form-field>
-			<input name="username" [(ngModel)]="usuario.username" matInput placeholder="Login" required>
+			<input name="username" minlength="4" [(ngModel)]="usuario.username" matInput placeholder="Login" required>
+			<mat-error>Digite um nome de usuário válido</mat-error>
 		</mat-form-field>
 		<mat-form-field>
 			<input name="senha1" [(ngModel)]="senha1" matInput type="password" placeholder="Senha" [required]="usuario.id==0">
+			<mat-error>Digite uma senha válida</mat-error>
 		</mat-form-field>
 		<mat-form-field>
 			<input name="senha2" [(ngModel)]="senha2" matInput type="password" placeholder="Confirmação de Senha" [required]="usuario.id==0">
+			<mat-error>Digite uma confirmação de senha</mat-error>
 		</mat-form-field>
+		<div class="erro" *ngIf="!senhasIguais">Senhas e confirmação não conferem</div>
 
 		<mat-checkbox name="ativo" [(ngModel)]="usuario.ativo" color="primary">Ativo</mat-checkbox>
 

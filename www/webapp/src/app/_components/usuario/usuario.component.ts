@@ -146,5 +146,14 @@ export class UsuarioComponent implements OnInit {
 	onCancelarClick(){
 		this.router.navigateByUrl('/home/usuarios');
 	}
+	
+	public get senhasIguais() : boolean {
+		if(!this.senha1 && !this.senha2){
+			return true;
+		} else {
+			return this.senha1 == this.senha2;
+		}
+	}
+	
 
 }
