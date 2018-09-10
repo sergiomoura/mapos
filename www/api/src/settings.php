@@ -20,9 +20,9 @@ return [
 
         'db-remote' => [
             'host' => 'mysql01-farm61.uni5.net',
-            'user' => 'acasamax',
-            'dbname' => 'acasamax',
-            'pass' => 'u6u8e6a2'
+            'user' => 'acasamax01',
+            'dbname' => 'acasamax01',
+            'pass' => 'cax10201520'
         ],
 
         'maxse' => [
