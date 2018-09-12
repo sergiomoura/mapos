@@ -2,10 +2,12 @@
 	<form #equipeForm="ngForm">
 		<mat-form-field>
 			<input [(ngModel)]="equipe.nome" matInput placeholder="Nome" name="nome" required>
+			<mat-error>Digite o nome da equipe</mat-error>
 		</mat-form-field>
 		<mat-form-field>
 			<input [(ngModel)]="equipe.sigla" maxlength="4" matInput placeholder="Sigla" name="sigla" required>
 			<mat-hint align="end">{{equipe.sigla.length}} / 4</mat-hint>
+			<mat-error>Digite uma sigla para a equipe</mat-error>
 		</mat-form-field>
 		<mat-form-field>
 			<mat-select [(ngModel)]="equipe.tipo" placeholder="Tipo de Equipe" name="tipo" required>
@@ -13,6 +15,7 @@
 					{{tipo.nome}}
 				</mat-option>
 			</mat-select>
+			<mat-error>Selecione o tipo da equipe</mat-error>
 		</mat-form-field>
 
 		<div class="membros-container">
