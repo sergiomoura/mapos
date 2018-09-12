@@ -277,4 +277,14 @@ export class EquipeComponent implements OnInit {
 		}
 	}
 
+	
+	public get liderAtual() : MembroDeEquipe {
+		return this.equipe.membros.find(
+			m => {
+				return m.lider;
+			}
+		)
+	}
+	
+
 }

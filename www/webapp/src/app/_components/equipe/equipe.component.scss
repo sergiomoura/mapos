@@ -67,6 +67,16 @@
             }
         }
 
+        .lider-container{
+            padding: 10px;
+            border: 1px solid #DEDEDE;
+            margin-bottom: 20px;
+
+            mat-form-field {
+                width:40%;
+            }
+        }
+
         .controles{
             margin-top: 30px;
             display: flex;

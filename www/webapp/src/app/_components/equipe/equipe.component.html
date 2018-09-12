@@ -28,10 +28,6 @@
 						<td>E-mail</td>
 						<td>Salário (R$)</td>
 						<td>Líder</td>
-						<td>Login</td>
-						<td>Senha</td>
-						<td>APP</td>
-						<td>WEB</td>
 						<td></td>
 					</tr>
 				</thead>
@@ -41,14 +37,25 @@
 						<td><input required [ngModelOptions]="{standalone: true}" [(ngModel)]="m.email" type="text"></td>
 						<td><input [ngModelOptions]="{standalone: true}" [(ngModel)]="m.salario" type="number" step="0.01"></td>
 						<td><mat-checkbox (click)="onLiderClick(m.id)" color="primary" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.lider"></mat-checkbox></td>
-						<td><input [required]="m.lider" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.username" type="text" [disabled]="!m.lider"></td>
-						<td><input [required]="m.lider" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.senha" type="password" [disabled]="!m.lider"></td>
-						<td><mat-checkbox color="primary" [ngModelOptions]="{standalone: true}"  value="2" [(ngModel)]="m.acessoApp" [disabled]="!m.lider"></mat-checkbox></td>
-						<td><mat-checkbox color="primary" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.acessoWeb" [disabled]="!m.lider"></mat-checkbox></td>
 						<td><button (click)="onRemoveButtonClick(i)" mat-icon-button><mat-icon>remove_circle</mat-icon></button></td>
 					</tr>
 				</tbody>
 			</table>
+		</div>
+
+		<div class="lider-container">
+			<div *ngFor="let m of equipe.membros; let i = index">
+				<mat-form-field *ngIf="m.lider">
+					<input matInput [required]="m.lider" placeholder="Login" name="username_{{i}}" [(ngModel)]="m.username" type="text" >
+				</mat-form-field>
+
+				<mat-form-field *ngIf="m.lider">
+					<input matInput [required]="m.lider" placeholder="Senha" name="senha_{{i}}" [(ngModel)]="m.senha" type="password">
+				</mat-form-field>
+
+				<mat-checkbox *ngIf="m.lider" color="primary" name="acessoApp_{{i}}"  value="2" [(ngModel)]="m.acessoApp"></mat-checkbox>
+				<mat-checkbox *ngIf="m.lider" color="primary" name="acessoWeb_{{i}}" [(ngModel)]="m.acessoWeb"></mat-checkbox>
+			</div>
 		</div>
 				
 		<mat-checkbox [(ngModel)]="equipe.ativa" color="primary" name="ativa">Ativa</mat-checkbox>

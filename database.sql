@@ -828,7 +828,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b990ef0db71e5.71762168','2018-09-12 11:04:48',1,1,1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b88402c9cf805.01016871','2018-08-30 17:06:20',1,0,1,185,0,0),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192,0,0),(85,'registrador22',NULL,NULL,NULL,1,0,1,195,0,0),(92,'programador','$1$9T1X08ym$HEzlVhxdVFARD1tefC1Wn1','5b83f91c27b2c6.79967655','2018-08-27 11:14:04',0,1,1,206,0,0),(96,'base2','$1$GgZG5Jqx$xsTa4gzKLwm01ba/2VOQ41',NULL,NULL,2,0,1,216,0,0),(97,'capa1','$1$VvrIg/ui$asJ7wEICJn7VBjpWoRhFD0','5b8d661606b863.36659475','2018-09-03 14:49:26',2,0,1,220,0,0),(98,'capa2','$1$Radjdx59$dhcd7C.ulZyvaSTTMxecq/',NULL,NULL,2,0,1,223,0,0),(99,'lucas',NULL,NULL,NULL,0,1,1,224,1,0),(100,'dante',NULL,NULL,NULL,2,0,1,225,1,0),(101,'mariana',NULL,NULL,NULL,0,1,1,226,0,0),(108,'base1',NULL,NULL,NULL,2,0,1,249,0,0);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b9917f440bd71.76643755','2018-09-12 11:43:16',1,1,1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b88402c9cf805.01016871','2018-08-30 17:06:20',1,0,1,185,0,0),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192,0,0),(85,'registrador22',NULL,NULL,NULL,1,0,1,195,0,0),(92,'programador','$1$9T1X08ym$HEzlVhxdVFARD1tefC1Wn1','5b83f91c27b2c6.79967655','2018-08-27 11:14:04',0,1,1,206,0,0),(96,'base2','$1$GgZG5Jqx$xsTa4gzKLwm01ba/2VOQ41',NULL,NULL,2,0,1,216,0,0),(97,'capa1','$1$VvrIg/ui$asJ7wEICJn7VBjpWoRhFD0','5b8d661606b863.36659475','2018-09-03 14:49:26',2,0,1,220,0,0),(98,'capa2','$1$Radjdx59$dhcd7C.ulZyvaSTTMxecq/',NULL,NULL,2,0,1,223,0,0),(99,'lucas',NULL,NULL,NULL,0,1,1,224,1,0),(100,'dante',NULL,NULL,NULL,2,0,1,225,1,0),(101,'mariana',NULL,NULL,NULL,0,1,1,226,0,0),(108,'base1',NULL,NULL,NULL,2,0,1,249,0,0);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -884,4 +884,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-12 10:05:08
+-- Dump completed on 2018-09-12 10:43:20
