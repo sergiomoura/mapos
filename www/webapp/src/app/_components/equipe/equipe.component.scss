@@ -68,13 +68,10 @@
         }
 
         .lider-container{
-            padding: 10px;
+            padding: 20px;
             border: 1px solid #DEDEDE;
             margin-bottom: 20px;
-
-            mat-form-field {
-                width:40%;
-            }
+            .label{margin-bottom: 20px}
         }
 
         .controles{

@@ -44,17 +44,19 @@
 		</div>
 
 		<div class="lider-container">
+			<div class="label">Dados de Acesso</div>
 			<div *ngFor="let m of equipe.membros; let i = index">
 				<mat-form-field *ngIf="m.lider">
 					<input matInput [required]="m.lider" placeholder="Login" name="username_{{i}}" [(ngModel)]="m.username" type="text" >
 				</mat-form-field>
 
 				<mat-form-field *ngIf="m.lider">
-					<input matInput [required]="m.lider" placeholder="Senha" name="senha_{{i}}" [(ngModel)]="m.senha" type="password">
+					<input matInput [required]="equipe.id==0" placeholder="Senha" name="senha_{{i}}" [(ngModel)]="m.senha" type="password">
 				</mat-form-field>
 
-				<mat-checkbox *ngIf="m.lider" color="primary" name="acessoApp_{{i}}"  value="2" [(ngModel)]="m.acessoApp"></mat-checkbox>
-				<mat-checkbox *ngIf="m.lider" color="primary" name="acessoWeb_{{i}}" [(ngModel)]="m.acessoWeb"></mat-checkbox>
+				<mat-form-field *ngIf="m.lider">
+					<input matInput [required]="equipe.id==0" placeholder="Confirmação de Senha" name="conf_senha_{{i}}" [(ngModel)]="m.conf_senha" type="password">
+				</mat-form-field>
 			</div>
 		</div>
 				

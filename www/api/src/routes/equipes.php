@@ -161,13 +161,11 @@
 		}
 
 		// Inserindo o usuário
-		$sql = 'INSERT INTO maxse_usuarios (username,password,acessoWeb,acessoApp,id_pessoa) VALUES (:username,:password,:acessoWeb,:acessoApp,:id_pessoa)';
+		$sql = 'INSERT INTO maxse_usuarios (username,password,acessoWeb,acessoApp,id_pessoa) VALUES (:username,:password,0,2,:id_pessoa)';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(
 			':username' => $lider->username,
 			':password' => $lider->hash,
-			':acessoWeb' => ($lider->acessoWeb ? 1 : 0),
-			':acessoApp' => ($lider->acessoApp ? 2 : 0),
 			'id_pessoa' => $lider->id_pessoa
 		));
 
