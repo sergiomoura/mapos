@@ -24,27 +24,28 @@
 			<table>
 				<thead>
 					<tr>
-						<td>Nome</td>
+						<td>Nome*</td>
 						<td>E-mail</td>
-						<td>Salário (R$)</td>
-						<td>Líder</td>
+						<td>Salário* (R$)</td>
+						<td>Usuário</td>
 						<td></td>
 					</tr>
 				</thead>
 				<tbody>
 					<tr *ngFor="let m of equipe.membros; let i = index">
-						<td><input required [ngModelOptions]="{standalone: true}" [(ngModel)]="m.nome" type="text"></td>
-						<td><input required [ngModelOptions]="{standalone: true}" [(ngModel)]="m.email" type="text"></td>
-						<td><input [ngModelOptions]="{standalone: true}" [(ngModel)]="m.salario" type="number" step="0.01"></td>
-						<td><mat-checkbox (click)="onLiderClick(m.id)" color="primary" [ngModelOptions]="{standalone: true}" [(ngModel)]="m.lider"></mat-checkbox></td>
+						<td><input name="nome_{{i}}" [(ngModel)]="m.nome" type="text" required></td>
+						<td><input name="email_{{i}}" [(ngModel)]="m.email" type="text"></td>
+						<td><input name="salario_{{i}}" [(ngModel)]="m.salario" type="number" required step="0.01"></td>
+						<td><mat-checkbox (click)="onLiderClick(m.id)" color="primary" name="lider_{{i}}" [(ngModel)]="m.lider"></mat-checkbox></td>
 						<td><button (click)="onRemoveButtonClick(i)" mat-icon-button><mat-icon>remove_circle</mat-icon></button></td>
 					</tr>
 				</tbody>
 			</table>
+			<div class="erro" *ngIf="!membrosOk">Os campos dos membros devem ser preenchidos corretamente</div>
 		</div>
 
 		<div class="lider-container">
-			<div class="label">Dados de Acesso</div>
+			<div class="label">Dados de Acesso do Usuário</div>
 			<div *ngFor="let m of equipe.membros; let i = index">
 				<mat-form-field *ngIf="m.lider">
 					<input matInput [required]="m.lider" placeholder="Login" name="username_{{i}}" [(ngModel)]="m.username" type="text" >
@@ -73,8 +74,7 @@
 				(click)="onSalvarClick()"
 				color="primary"
 				class="salvar"
-				[disabled]="equipeForm.invalid || equipeForm.pristine || liderAtual?.senha!=liderAtual?.conf_senha">Salvar</button>
+				[disabled]="equipeForm.invalid || equipeForm.pristine || !membrosOk || liderAtual?.senha!=liderAtual?.conf_senha">Salvar</button>
 		</div>
-
 	</form>
 </div>

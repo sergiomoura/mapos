@@ -97,7 +97,7 @@ export class EquipeComponent implements OnInit, OnDestroy {
 
 					// Esconde Carregando
 					this.evtService.esconderCarregando();
-					
+
 					// Exibindo snackbar de erro
 					this.snackBar
 					.open(
@@ -311,6 +311,19 @@ export class EquipeComponent implements OnInit, OnDestroy {
 				return m.lider;
 			}
 		)
-	}	
+	}
+
+	public get membrosOk() : boolean {
+		let ok:boolean = true;
+		let i:number = 0;
+		let m:MembroDeEquipe;
+
+		while(ok && i<this.equipe.membros.length){
+			m = this.equipe.membros[i];
+			ok = (m.nome && m.salario>0);
+			i++;
+		}
+		return ok;
+	}
 
 }
