@@ -52,6 +52,7 @@
 					a.id,
 					a.salario,
 					a.id_pessoa,
+					a.id_tipo,
 					b.nome,
 					b.email
 				FROM

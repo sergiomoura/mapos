@@ -83,18 +83,12 @@ export class EquipeComponent implements OnInit, OnDestroy {
 					// Salvando o id do membro lider atual
 					this.id_lider_atual = res.id_membro_lider;
 
-					// Verificando se carregou tipos de equipe e usuarios
-					if(this.tiposDeEquipe != undefined){
-						
-						// Carregou tiposDeEquipe e usuarios. Parsing
-						this.equipe = this.parseEquipe(<any>res);
+					// Guardando response para processar no parse
+					this.tmp_equipe = res;
 
-					} else {
-						
-						// Não carregou. Guardando response para processar depois
-						this.tmp_equipe = res;						
+					// Tentando dar parse na equipe
+					this.parseEquipe()
 
-					}
 				},
 				err => {
 
@@ -141,14 +135,9 @@ export class EquipeComponent implements OnInit, OnDestroy {
 				// Copiando os tipos de equipe para sua variável
 				this.tiposDeEquipe = res;
 
-				// Verificando se equipe e usuarios já foram carregados
-				if(this.tmp_equipe != undefined){
+				// Tudo carregado. Parsing
+				this.parseEquipe();
 
-					// Tudo carregado. Parsing
-					this.equipe = this.parseEquipe(this.tmp_equipe);
-
-				}
-				
 			},
 			err=>{
 				// Exibindo snackbar de erro
@@ -176,7 +165,8 @@ export class EquipeComponent implements OnInit, OnDestroy {
 				// Copiando os tipos de equipe para sua variável
 				this.tiposDeMembro = <TipoDeMembroDeEquipe[]>res;
 
-				console.log(this.tiposDeMembro);
+				// Tudo carregado. Parsing
+				this.parseEquipe();
 
 			},
 			err=>{
@@ -199,36 +189,42 @@ export class EquipeComponent implements OnInit, OnDestroy {
 		)
 	}
 
-
-	parseEquipe(tmp_equipe:any):Equipe{
+	parseEquipe():void{
 		
-		// Atribuindo tipo de equipe à equipe
-		tmp_equipe.tipo = this.tiposDeEquipe.find( e => {return e.id == tmp_equipe.id_tipo} );
-		delete tmp_equipe.id_tipo;
+		if(this.tmp_equipe && this.tiposDeEquipe && this.tiposDeMembro){
 
-		// Parsing membros das equipes
-		for (let i = 0; i < tmp_equipe.membros.length; i++) {
-			let membro = tmp_equipe.membros[i];
-			if(membro.id == tmp_equipe.id_membro_lider){
-				membro.lider = true;
-				membro.username = tmp_equipe.usuario_lider.username;
-				membro.acessoWeb = tmp_equipe.usuario_lider.acessoWeb == '1';
-				membro.acessoApp = tmp_equipe.usuario_lider.acessoApp == '0' ? 0 : 2;
-			} else {
-				membro.lider = false;
-				membro.username = null;
-				membro.acessoWeb = false;
-				membro.acessoApp = false;
+			// Atribuindo tipo de equipe à equipe
+			this.tmp_equipe.tipo = this.tiposDeEquipe.find( e => {return e.id == this.tmp_equipe.id_tipo} );
+			delete this.tmp_equipe.id_tipo;
+	
+			// Parsing membros das equipes
+			for (let i = 0; i < this.tmp_equipe.membros.length; i++) {
+				 
+				let membro:MembroDeEquipe = <MembroDeEquipe>this.tmp_equipe.membros[i];
+				membro.tipo = this.tiposDeMembro.find(
+					(t) => {
+						return t.id == this.tmp_equipe.membros[i].id_tipo;
+					}
+				)
+
+				if(membro.id == this.tmp_equipe.id_membro_lider){
+					membro.lider = true;
+					membro.username = this.tmp_equipe.usuario_lider.username;
+				} else {
+					membro.lider = false;
+					membro.username = null;
+				}
 			}
-		}
-		delete tmp_equipe.username_lider;
-		delete tmp_equipe.id_membro_lider;
+			delete this.tmp_equipe.username_lider;
+			delete this.tmp_equipe.id_membro_lider;
+	
+			this.tmp_equipe.ativa = this.tmp_equipe.ativa == '1';
 
-		tmp_equipe.ativa = tmp_equipe.ativa == '1';
-		return <Equipe>tmp_equipe;
+			this.equipe = <Equipe>this.tmp_equipe;
+		}
 	}
 
-	onLiderClick(id){
+	onLiderClick(){
 		for (let i = 0; i < this.equipe.membros.length; i++) {
 			const m = this.equipe.membros[i];
 			m.lider = false;

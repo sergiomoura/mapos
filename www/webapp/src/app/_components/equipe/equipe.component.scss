@@ -40,9 +40,17 @@
                     padding: 3px;
                 }
                 td:nth-child(3){
-                    width:100px;
+                    select{
+                        width: 100%;
+                        background-color: #FFF;
+                        border-radius: 0;
+                        height: 30px;
+                    }
                 }
                 td:nth-child(4){
+                    width:100px;
+                }
+                td:nth-child(5){
                     width:50px;
                     text-align: center;
                 }

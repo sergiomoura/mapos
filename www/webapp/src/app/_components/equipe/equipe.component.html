@@ -26,6 +26,7 @@
 					<tr>
 						<td>Nome*</td>
 						<td>E-mail</td>
+						<td>Função</td>
 						<td>Salário* (R$)</td>
 						<td>Usuário</td>
 						<td></td>
@@ -35,6 +36,13 @@
 					<tr *ngFor="let m of equipe.membros; let i = index">
 						<td><input name="nome_{{i}}" [(ngModel)]="m.nome" type="text" required></td>
 						<td><input name="email_{{i}}" [(ngModel)]="m.email" type="text"></td>
+						<td>
+							<select name="funcao_{{i}}" [(ngModel)]="m.tipo" >
+								<option *ngFor="let tdm of tiposDeMembro" [value]="tdm">
+									{{tdm.nome}}
+								</option>
+							</select>
+						</td>
 						<td><input name="salario_{{i}}" [(ngModel)]="m.salario" type="number" required step="0.01"></td>
 						<td><mat-checkbox (click)="onLiderClick(m.id)" color="primary" name="lider_{{i}}" [(ngModel)]="m.lider"></mat-checkbox></td>
 						<td><button (click)="onRemoveButtonClick(i)" mat-icon-button><mat-icon>remove_circle</mat-icon></button></td>

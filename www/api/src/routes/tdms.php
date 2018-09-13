@@ -21,8 +21,8 @@
 		$tdms = $stmt->fetchAll();
 
 		// Parsing
-		foreach ($tdss as $tds) {
-			$tds->id *= 1;
+		foreach ($tdms as $tdm) {
+			$tdm->id *= 1;
 		}
 
 		// Retornando resposta para usuário

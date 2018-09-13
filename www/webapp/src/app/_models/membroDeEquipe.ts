@@ -1,3 +1,4 @@
+import { TipoDeMembroDeEquipe } from "./tipoDeMembroDeEquipe";
 export class MembroDeEquipe {
 	id:number;
 	nome:string;
@@ -6,4 +7,5 @@ export class MembroDeEquipe {
 	lider:boolean;
 	username:string;
 	senha:string;
+	tipo?:TipoDeMembroDeEquipe;
 }
