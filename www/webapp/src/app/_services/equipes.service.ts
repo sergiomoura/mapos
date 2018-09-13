@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { TipoDeEquipe } from "../_models/tipoDeEquipe";
 import { Equipe } from "../_models/equipe";
 import { Observable } from 'rxjs';
+import { TipoDeMembroDeEquipe } from '../_models/tipoDeMembroDeEquipe';
 
 @Injectable({
 	providedIn: 'root'
@@ -18,10 +19,16 @@ export class EquipesService {
 	private url_getEquipeById:string = '/maxse/api/equipes/';
 	private url_create:string = '/maxse/api/equipes';
 	private url_update:string = '/maxse/api/equipes/';
-
+	private url_getTiposDeMembro:string = '/maxse/api/tdms'
+	
 	// Métoto que carrega todos os tipos de equipe
 	getTiposDeEquipe():Observable<TipoDeEquipe[]> {
 		return this.http.get<TipoDeEquipe[]>(this.url_getTipos);
+	}
+
+	// Métoto que carrega todos os tipos de membros
+	getTiposDeMembro():Observable<TipoDeMembroDeEquipe[]>{
+		return this.http.get<TipoDeMembroDeEquipe[]>(this.url_getTiposDeMembro);
 	}
 
 	// Método que carrega todas as equipes

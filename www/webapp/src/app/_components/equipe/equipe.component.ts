@@ -5,6 +5,7 @@ import { Equipe } from "../../_models/equipe";
 import { EquipesService } from "../../_services/equipes.service";
 import { MatSnackBar } from "@angular/material";
 import { MembroDeEquipe } from '../../_models/membroDeEquipe';
+import { TipoDeMembroDeEquipe } from "../../_models/tipoDeMembroDeEquipe";
 import { EventsService } from '../../_services/events.service';
 import { Subscription } from 'rxjs';
 
@@ -26,6 +27,7 @@ export class EquipeComponent implements OnInit, OnDestroy {
 
 	// Atributos privados
 	tiposDeEquipe:TipoDeEquipe[];
+	tiposDeMembro:TipoDeMembroDeEquipe[];
 	equipe:Equipe = <Equipe>{
 		id:0,
 		nome:'',
@@ -40,6 +42,7 @@ export class EquipeComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.getTiposDeEquipe();
+		this.getTiposDeMembro();
 		this.getEquipe();
 
 		// Subscrevendo ao observavel de evento reload clicked
@@ -166,6 +169,36 @@ export class EquipeComponent implements OnInit, OnDestroy {
 			}
 		)
 	}
+
+	getTiposDeMembro():void{
+		this.equipesService.getTiposDeMembro().subscribe(
+			res=>{
+				// Copiando os tipos de equipe para sua variável
+				this.tiposDeMembro = <TipoDeMembroDeEquipe[]>res;
+
+				console.log(this.tiposDeMembro);
+
+			},
+			err=>{
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao carregar os tipos de equipe',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+
+				// Imprimindo erro no console
+				console.warn(err);
+			}
+		)
+	}
+
 
 	parseEquipe(tmp_equipe:any):Equipe{
 		
