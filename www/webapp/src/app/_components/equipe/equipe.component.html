@@ -38,7 +38,7 @@
 						<td><input name="email_{{i}}" [(ngModel)]="m.email" type="text"></td>
 						<td>
 							<select name="funcao_{{i}}" [(ngModel)]="m.tipo" >
-								<option *ngFor="let tdm of tiposDeMembro" [value]="tdm">
+								<option *ngFor="let tdm of tiposDeMembro" [ngValue]="tdm">
 									{{tdm.nome}}
 								</option>
 							</select>

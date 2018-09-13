@@ -141,7 +141,7 @@
 		$sql_pessoa = 'INSERT INTO maxse_pessoas (nome,email) VALUES (:nome,:email)';
 		$stmt_pessoa = $this->db->prepare($sql_pessoa);
 
-		$sql_membro = 'INSERT INTO maxse_membros (salario,id_equipe,id_pessoa) VALUES (:salario,:id_equipe,:id_pessoa)';
+		$sql_membro = 'INSERT INTO maxse_membros (salario,id_equipe,id_pessoa,id_tipo) VALUES (:salario,:id_equipe,:id_pessoa,:id_tipo)';
 		$stmt_membro = $this->db->prepare($sql_membro);
 
 		foreach ($equipe->membros as $membro) {
@@ -153,7 +153,8 @@
 			$stmt_membro->execute(array(
 				':salario' => $membro->salario,
 				':id_equipe' => $equipe->id,
-				':id_pessoa' => $id_pessoa
+				':id_pessoa' => $id_pessoa,
+				':id_tipo' => $membro->tipo->id
 			));
 			if($membro->lider){
 				$lider->id_pessoa = $id_pessoa;
