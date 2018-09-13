@@ -275,7 +275,7 @@ CREATE TABLE `maxse_equipes` (
   KEY `fk_maxse_equipes_2_idx` (`id_membro_lider`),
   CONSTRAINT `fk_maxse_equipes_1` FOREIGN KEY (`id_tipo`) REFERENCES `maxse_tipos_de_equipe` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_equipes_2` FOREIGN KEY (`id_membro_lider`) REFERENCES `maxse_membros` (`id`) ON DELETE SET NULL ON UPDATE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,7 +284,7 @@ CREATE TABLE `maxse_equipes` (
 
 LOCK TABLES `maxse_equipes` WRITE;
 /*!40000 ALTER TABLE `maxse_equipes` DISABLE KEYS */;
-INSERT INTO `maxse_equipes` VALUES (23,'Tapa Buraco 1','TBR1',1,1,211),(24,'baseS','B1',2,1,237),(25,'Mecanizada 1','MEC1',4,1,185),(26,'Tapa Buraco 2','TBR2',1,1,214),(27,'Base 2','B2',2,1,272),(28,'Equipe Teste','TT1',2,1,263),(29,'Tapa Buraco 4','TBR4',1,1,277);
+INSERT INTO `maxse_equipes` VALUES (23,'Tapa Buraco 1','TBR1',1,1,211),(24,'baseS','B1',2,1,237),(25,'Mecanizada 1','MEC1',4,1,185),(26,'Tapa Buraco 2','TBR2',1,1,214),(27,'Base 2','B2',2,1,272),(28,'Equipe Teste','TT1',2,1,263),(29,'Tapa Buraco 4','TBR4',1,1,277),(30,'Tapa Buraco 5','TB5',1,1,278),(31,'Tapa Buraco 5','TBR5',1,1,280),(32,'Tapa Busaco 6','TBR6',1,1,281),(33,'Tapa Busaco 6','TBR6',1,1,282),(34,'Tapa Buraco 7','TBR7',1,1,291);
 /*!40000 ALTER TABLE `maxse_equipes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,7 +452,7 @@ CREATE TABLE `maxse_membros` (
   CONSTRAINT `fk_maxse_membros_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `fk_maxse_membros_2` FOREIGN KEY (`id_equipe`) REFERENCES `maxse_equipes` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_maxse_membros_3` FOREIGN KEY (`id_tipo`) REFERENCES `maxse_tipos_de_membro` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=294 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -461,7 +461,7 @@ CREATE TABLE `maxse_membros` (
 
 LOCK TABLES `maxse_membros` WRITE;
 /*!40000 ALTER TABLE `maxse_membros` DISABLE KEYS */;
-INSERT INTO `maxse_membros` VALUES (185,0.00,25,192,NULL),(211,20000.00,23,220,NULL),(212,10000.00,23,221,NULL),(213,9000.00,23,222,NULL),(214,10000.00,26,223,NULL),(236,2000.00,24,248,NULL),(237,1500.00,24,249,NULL),(238,1500.00,24,250,NULL),(263,10000.00,28,275,NULL),(264,10000.00,28,276,NULL),(271,12000.00,27,283,NULL),(272,12000.00,27,284,NULL),(273,12000.00,27,285,NULL),(274,12000.00,27,286,1),(277,0.18,29,289,3);
+INSERT INTO `maxse_membros` VALUES (185,0.00,25,192,NULL),(211,20000.00,23,220,NULL),(212,10000.00,23,221,NULL),(213,9000.00,23,222,NULL),(214,10000.00,26,223,NULL),(236,2000.00,24,248,NULL),(237,1500.00,24,249,NULL),(238,1500.00,24,250,NULL),(263,10000.00,28,275,NULL),(264,10000.00,28,276,NULL),(271,12000.00,27,283,NULL),(272,12000.00,27,284,NULL),(273,12000.00,27,285,NULL),(274,12000.00,27,286,1),(277,0.18,29,289,3),(278,1000.00,30,290,3),(279,1000.00,30,291,NULL),(280,15000.00,31,292,3),(281,100000.00,32,293,3),(282,100000.00,33,296,3),(283,100000.00,33,297,1),(284,100000.00,33,298,2),(291,1000.00,34,305,3),(292,1000.00,34,306,2),(293,1000.00,34,307,6);
 /*!40000 ALTER TABLE `maxse_membros` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -477,7 +477,7 @@ CREATE TABLE `maxse_pessoas` (
   `nome` varchar(60) NOT NULL,
   `email` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=290 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=308 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -486,7 +486,7 @@ CREATE TABLE `maxse_pessoas` (
 
 LOCK TABLES `maxse_pessoas` WRITE;
 /*!40000 ALTER TABLE `maxse_pessoas` DISABLE KEYS */;
-INSERT INTO `maxse_pessoas` VALUES (1,'SÉRGIO MOURA','smouracalmon@gmail.com'),(185,'Registrador','registrador@teste.com'),(192,'Mecanilsson Oliveira','mecanilsson@teste.com'),(195,'Registrador Dois de Araújo','registrador2@teste.com'),(206,'Programador','programador@teste.com'),(220,'Líder Executor da Silva','lider@teste.com'),(221,'Membro Um da Silva','membro1@teste.com'),(222,'Membro Dois de Araújo','membro2@teste.com'),(223,'Túlio Filgueiras','tulio@teste2.com'),(224,'Lucas Ribeiro Moura Calmon de Siqueira','lucasribeiro@teste.com'),(225,'Dante Ribeiro Moura Calmon de Siqueira','dante@teste.com'),(226,'Mariana Ribeiro','mariana@gmail.com'),(248,'Basílio Pascoal','basilio@teste.com'),(249,'Ataúlfo de Basílio',''),(250,'José de Basílio',''),(275,'Mariana Ribeiro','mariri@gmail.com'),(276,'Sérgio Siqueira','ss@teste.com'),(283,'Base Dois Líder','base2@teste.com'),(284,'Membro Um','m1base2@teste.com'),(285,'Membro Dois','m2base2@teste.com'),(286,'Membro Três','m3base2@teste.com'),(289,'Humpty Dumpty','hp@teste.com');
+INSERT INTO `maxse_pessoas` VALUES (1,'SÉRGIO MOURA','smouracalmon@gmail.com'),(185,'Registrador','registrador@teste.com'),(192,'Mecanilsson Oliveira','mecanilsson@teste.com'),(195,'Registrador Dois de Araújo','registrador2@teste.com'),(206,'Programador','programador@teste.com'),(220,'Líder Executor da Silva','lider@teste.com'),(221,'Membro Um da Silva','membro1@teste.com'),(222,'Membro Dois de Araújo','membro2@teste.com'),(223,'Túlio Filgueiras','tulio@teste2.com'),(224,'Lucas Ribeiro Moura Calmon de Siqueira','lucasribeiro@teste.com'),(225,'Dante Ribeiro Moura Calmon de Siqueira','dante@teste.com'),(226,'Mariana Ribeiro','mariana@gmail.com'),(248,'Basílio Pascoal','basilio@teste.com'),(249,'Ataúlfo de Basílio',''),(250,'José de Basílio',''),(275,'Mariana Ribeiro','mariri@gmail.com'),(276,'Sérgio Siqueira','ss@teste.com'),(283,'Base Dois Líder','base2@teste.com'),(284,'Membro Um','m1base2@teste.com'),(285,'Membro Dois','m2base2@teste.com'),(286,'Membro Três','m3base2@teste.com'),(289,'Humpty Dumpty','hp@teste.com'),(290,'Ataúlfo pinheiro',''),(291,'Reinaldo Costa',''),(292,'Sérgio Moura','smouracalmon@gmail.com'),(293,'Unisvaldo Dois',''),(294,'Unisvaldo Um',''),(295,'Unisvaldo Dois',''),(296,'Unisvaldo Dois',''),(297,'Unisvaldo Um',''),(298,'Unisvaldo Três',''),(305,'Nome Um',''),(306,'Nome Dois',''),(307,'Nome Três','');
 /*!40000 ALTER TABLE `maxse_pessoas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -846,7 +846,7 @@ CREATE TABLE `maxse_usuarios` (
   UNIQUE KEY `username_UNIQUE` (`username`),
   KEY `fk_maxse_usuarios_1_idx` (`id_pessoa`),
   CONSTRAINT `fk_maxse_usuarios_1` FOREIGN KEY (`id_pessoa`) REFERENCES `maxse_pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=123 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -855,7 +855,7 @@ CREATE TABLE `maxse_usuarios` (
 
 LOCK TABLES `maxse_usuarios` WRITE;
 /*!40000 ALTER TABLE `maxse_usuarios` DISABLE KEYS */;
-INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b9a86fa5decf6.53843689','2018-09-13 13:49:14',1,1,1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b88402c9cf805.01016871','2018-08-30 17:06:20',1,0,1,185,0,0),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192,0,0),(85,'registrador22',NULL,NULL,NULL,1,0,1,195,0,0),(92,'programador','$1$9T1X08ym$HEzlVhxdVFARD1tefC1Wn1','5b83f91c27b2c6.79967655','2018-08-27 11:14:04',0,1,1,206,0,0),(97,'capa1','$1$VvrIg/ui$asJ7wEICJn7VBjpWoRhFD0','5b8d661606b863.36659475','2018-09-03 14:49:26',2,0,1,220,0,0),(98,'capa2','$1$Radjdx59$dhcd7C.ulZyvaSTTMxecq/',NULL,NULL,2,0,1,223,0,0),(99,'lucas',NULL,NULL,NULL,0,1,1,224,1,0),(100,'dante',NULL,NULL,NULL,2,0,1,225,1,0),(101,'mariana',NULL,NULL,NULL,0,1,1,226,0,0),(108,'base1',NULL,NULL,NULL,2,0,1,249,0,0),(115,'mariri@gmail.com','$1$7Wo/pOOg$nOz5capz4BPsjPKXabflJ/',NULL,NULL,2,0,1,275,0,0),(119,'teste1','$1$prlITOMq$HGRqrMUMVLk4CADxQqLYb.',NULL,NULL,2,0,1,284,0,0),(122,'teste55','$1$P4psNG0c$Bo4GUsG8QE5UGyfO2iFr/.',NULL,NULL,2,0,1,289,0,0);
+INSERT INTO `maxse_usuarios` VALUES (1,'root','$1$isThvBp0$1zlwWhFhQDLckghROi5qj0','5b9a8c3be92d70.82426025','2018-09-13 14:11:39',1,1,1,1,1,1),(79,'registrador','$1$eV1UyioP$lmn/z4rxqoh8BlRKbdZwa0','5b88402c9cf805.01016871','2018-08-30 17:06:20',1,0,1,185,0,0),(83,'meca','$1$Ge2AW7uC$6Bb8hHxR5cL0y/i.JeBkW/',NULL,NULL,2,0,1,192,0,0),(85,'registrador22',NULL,NULL,NULL,1,0,1,195,0,0),(92,'programador','$1$9T1X08ym$HEzlVhxdVFARD1tefC1Wn1','5b83f91c27b2c6.79967655','2018-08-27 11:14:04',0,1,1,206,0,0),(97,'capa1','$1$VvrIg/ui$asJ7wEICJn7VBjpWoRhFD0','5b8d661606b863.36659475','2018-09-03 14:49:26',2,0,1,220,0,0),(98,'capa2','$1$Radjdx59$dhcd7C.ulZyvaSTTMxecq/',NULL,NULL,2,0,1,223,0,0),(99,'lucas',NULL,NULL,NULL,0,1,1,224,1,0),(100,'dante',NULL,NULL,NULL,2,0,1,225,1,0),(101,'mariana',NULL,NULL,NULL,0,1,1,226,0,0),(108,'base1',NULL,NULL,NULL,2,0,1,249,0,0),(115,'mariri@gmail.com','$1$7Wo/pOOg$nOz5capz4BPsjPKXabflJ/',NULL,NULL,2,0,1,275,0,0),(119,'teste1','$1$prlITOMq$HGRqrMUMVLk4CADxQqLYb.',NULL,NULL,2,0,1,284,0,0),(122,'teste55','$1$P4psNG0c$Bo4GUsG8QE5UGyfO2iFr/.',NULL,NULL,2,0,1,289,0,0),(123,'teste555','$1$QCYyFNFy$FyUF00.OAhIMzh0SqbHcW0',NULL,NULL,2,0,1,290,0,0),(124,'smlcs','$1$cYM0cbHP$B54QYYSEh233XCvaTfXMS1',NULL,NULL,2,0,1,292,0,0),(125,'ttt6','$1$MxVT9Qif$b5ZB7C6cQnL/kAYbAcmiV.',NULL,NULL,2,0,1,293,0,0),(127,'ttt6sss','$1$B4Iya6YU$6PVIEh2114wMhuwQojdtD.',NULL,NULL,2,0,1,296,0,0),(130,'nome','$1$g4UAjEcv$dER8cfDwXtkq8gyQm1b3b0',NULL,NULL,2,0,1,305,0,0);
 /*!40000 ALTER TABLE `maxse_usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -911,4 +911,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-09-13 12:49:38
+-- Dump completed on 2018-09-13 13:11:49

@@ -304,17 +304,20 @@
 		$sql = 'INSERT INTO maxse_membros (
 					salario,
 					id_equipe,
-					id_pessoa
+					id_pessoa,
+					id_tipo
 				) VALUES (
 					:salario,
 					:id_equipe,
-					:id_pessoa
+					:id_pessoa,
+					:id_tipo
 				)';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(
 			':salario'	=> $lider->salario,
 			':id_equipe'	=> $equipe->id,
-			':id_pessoa'	=> $lider->id_pessoa
+			':id_pessoa'	=> $lider->id_pessoa,
+			':id_tipo'		=> $lider->tipo ? $lider->tipo->id : null
 		));
 
 		// Recuperando o id do membro inserido
@@ -336,11 +339,13 @@
 		$sql_membros = 'INSERT INTO maxse_membros (
 			salario,
 			id_equipe,
-			id_pessoa
+			id_pessoa,
+			id_tipo
 		) VALUES (
 			:salario,
 			:id_equipe,
-			:id_pessoa
+			:id_pessoa,
+			:id_tipo
 		)';
 		$stmt_membros = $this->db->prepare($sql_membros);
 
@@ -362,7 +367,8 @@
 				$stmt_membros->execute(array(
 					':salario'		=> $lider->salario,
 					':id_equipe'	=> $equipe->id,
-					':id_pessoa'	=> $membro->id_pessoa
+					':id_pessoa'	=> $membro->id_pessoa,
+					':id_tipo'		=> $membro->tipo ? $membro->tipo->id : null
 				));
 			}
 		}
