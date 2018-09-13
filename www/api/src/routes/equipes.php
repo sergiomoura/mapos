@@ -260,16 +260,14 @@
 						:id_pessoa,
 						:username,
 						:password,
-						:acessoApp,
-						:acessoWeb
+						2,
+						0
 					)';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute(array(
 			':id_pessoa'	=> $lider->id_pessoa,
 			':username'		=> $lider->username,
-			':password'		=> crypt($lider->password),
-			':acessoApp'	=> ($lider->acessoApp ? 2 : 0),
-			':acessoWeb'	=> ($lider->acessoWeb ? 1 : 0),
+			':password'		=> crypt($lider->password)
 		));
 		
 		// Criando equipe
