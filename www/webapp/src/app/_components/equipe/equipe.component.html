@@ -60,7 +60,7 @@
 					<input matInput [required]="equipe.id==0" placeholder="Confirmação de Senha" name="conf_senha_{{i}}" [(ngModel)]="m.conf_senha" type="password">
 					<mat-error>Repita a senha utilizada no campo anterior</mat-error>
 				</mat-form-field>
-				<div class="erro" *ngIf="m.senha!=m.conf_senha">A confirmação da senha não confere</div>
+				<div class="erro" *ngIf="m.lider && (m.senha || m.conf_senha) && m.senha!=m.conf_senha">A confirmação da senha não confere {{i}}</div>
 			</div>
 		</div>
 				

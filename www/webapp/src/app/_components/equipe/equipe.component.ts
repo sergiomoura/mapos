@@ -67,9 +67,15 @@ export class EquipeComponent implements OnInit, OnDestroy {
 		// Verificando se id é zero
 		if(id != '0'){
 
+			// Mostra Carregando
+			this.evtService.mostrarCarregando();
+
 			// Chamando serviço para carregar a equipe
 			this.equipesService.getEquipeById(id).subscribe(
 				res=>{
+
+					// Esconde Carregando
+					this.evtService.esconderCarregando();
 
 					// Salvando o id do membro lider atual
 					this.id_lider_atual = res.id_membro_lider;
@@ -88,6 +94,10 @@ export class EquipeComponent implements OnInit, OnDestroy {
 					}
 				},
 				err => {
+
+					// Esconde Carregando
+					this.evtService.esconderCarregando();
+					
 					// Exibindo snackbar de erro
 					this.snackBar
 					.open(
@@ -301,7 +311,6 @@ export class EquipeComponent implements OnInit, OnDestroy {
 				return m.lider;
 			}
 		)
-	}
-	
+	}	
 
 }
