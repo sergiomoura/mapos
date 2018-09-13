@@ -48,15 +48,19 @@
 			<div *ngFor="let m of equipe.membros; let i = index">
 				<mat-form-field *ngIf="m.lider">
 					<input matInput [required]="m.lider" placeholder="Login" name="username_{{i}}" [(ngModel)]="m.username" type="text" >
+					<mat-error>Digite um login para ser utilizado pela equipe no aplicativo MAXSe</mat-error>
 				</mat-form-field>
 
 				<mat-form-field *ngIf="m.lider">
 					<input matInput [required]="equipe.id==0" placeholder="Senha" name="senha_{{i}}" [(ngModel)]="m.senha" type="password">
+					<mat-error>Digite uma senha</mat-error>
 				</mat-form-field>
 
 				<mat-form-field *ngIf="m.lider">
 					<input matInput [required]="equipe.id==0" placeholder="Confirmação de Senha" name="conf_senha_{{i}}" [(ngModel)]="m.conf_senha" type="password">
+					<mat-error>Repita a senha utilizada no campo anterior</mat-error>
 				</mat-form-field>
+				<div class="erro" *ngIf="m.senha!=m.conf_senha">A confirmação da senha não confere</div>
 			</div>
 		</div>
 				
@@ -64,8 +68,12 @@
 			
 		<div class="controles">
 			<button mat-raised-button (click)="onCancelarClick()" color="accent">Cancelar</button>
-			<span class="spacer"></span>
-			<button mat-raised-button (click)="onSalvarClick()" color="primary" class="salvar" [disabled]="equipeForm.invalid">Salvar</button>
+			<button
+				mat-raised-button
+				(click)="onSalvarClick()"
+				color="primary"
+				class="salvar"
+				[disabled]="equipeForm.invalid || equipeForm.pristine || liderAtual?.senha!=liderAtual?.conf_senha">Salvar</button>
 		</div>
 
 	</form>
