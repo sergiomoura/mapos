@@ -7,5 +7,6 @@ export class MembroDeEquipe {
 	lider:boolean;
 	username:string;
 	senha:string;
+	conf_senha?:string;
 	tipo?:TipoDeMembroDeEquipe;
 }
