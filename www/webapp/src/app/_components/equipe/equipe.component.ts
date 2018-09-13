@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
 import { TipoDeEquipe } from "../../_models/tipoDeEquipe";
 import { Equipe } from "../../_models/equipe";
-import { Usuario } from "../../_models/usuario";
 import { EquipesService } from "../../_services/equipes.service";
-import { UsuariosService } from "../../_services/usuarios.service";
 import { MatSnackBar } from "@angular/material";
 import { MembroDeEquipe } from '../../_models/membroDeEquipe';
+import { EventsService } from '../../_services/events.service';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'app-equipe',
@@ -14,13 +14,14 @@ import { MembroDeEquipe } from '../../_models/membroDeEquipe';
 	styleUrls: ['./equipe.component.scss']
 })
 
-export class EquipeComponent implements OnInit {
+export class EquipeComponent implements OnInit, OnDestroy {
 
 	constructor(
 		public snackBar: MatSnackBar,
 		private router:Router,
 		private route:ActivatedRoute,
-		private equipesService:EquipesService
+		private equipesService:EquipesService,
+		private evtService:EventsService
 	) { }
 
 	// Atributos privados
@@ -35,10 +36,27 @@ export class EquipeComponent implements OnInit {
 	}
 	tmp_equipe:any;
 	private id_lider_atual;
+	subscriptions:Subscription[] = [];
 
 	ngOnInit() {
 		this.getTiposDeEquipe();
 		this.getEquipe();
+
+		// Subscrevendo ao observavel de evento reload clicked
+		this.subscriptions.push(
+			this.evtService.reloadClicked$.subscribe(
+				() => {
+					this.getEquipe();
+				}
+			)
+		)
+	}
+
+	ngOnDestroy() {
+		// Unsubscribing from all subscriptions
+		for (let i = 0; i < this.subscriptions.length; i++) {
+			this.subscriptions[i].unsubscribe();
+		}
 	}
 
 	getEquipe():void{
@@ -276,7 +294,6 @@ export class EquipeComponent implements OnInit {
 			)
 		}
 	}
-
 	
 	public get liderAtual() : MembroDeEquipe {
 		return this.equipe.membros.find(
