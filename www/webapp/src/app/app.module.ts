@@ -42,7 +42,7 @@ import { FotoModalComponent } from './_components/foto-modal/foto-modal.componen
 import { MatDatepickerModule, MatNativeDateModule, DateAdapter } from '@angular/material';
 import { PtBrDateAdapter } from './_helpers/pt-br.date-adapter';
 import { FechamentoComponent } from './_components/fechamento/fechamento.component';
-
+import { ImageViewerModule } from 'ngx-image-viewer';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -85,7 +85,8 @@ import { FechamentoComponent } from './_components/fechamento/fechamento.compone
 		MaterialModule,
 		HttpClientModule,
 		AppRoutingModule,
-		CountdownModule
+		CountdownModule,
+		ImageViewerModule.forRoot()
 	],
 	entryComponents: [
 		NovaTarefaComponent,

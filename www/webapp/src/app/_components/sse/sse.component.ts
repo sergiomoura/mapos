@@ -16,6 +16,7 @@ import { FotoModalComponent } from "../foto-modal/foto-modal.component";
 import { EventsService } from '../../_services/events.service';
 import { Subscription } from 'rxjs';
 
+
 @Component({
 	selector: 'app-sse',
 	templateUrl: './sse.component.html',
@@ -566,7 +567,8 @@ export class SseComponent implements OnInit,OnDestroy {
 			fotos = this.sse.tarefas[index_tarefa].fotos.fim;
 		}
 		const dialogRef = this.dialog.open(GaleriaComponent, {
-			width: '800px',
+			maxWidth: '800px',
+			maxHeight: '600px',
 			data: {
 				'start_index':i,
 				'fotos':fotos
