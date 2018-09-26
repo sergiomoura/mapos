@@ -1050,18 +1050,20 @@
 				->write('Tipo de medida desconhecido');
 		}
 		
+		// Tratando a datahora de inicio
+		$dh_inicio_r = (new DateTime(substr($tarefa->inicio_r,0,19)))->sub(new DateInterval('PT3H'));
+
 		// Atualizando tarefa (inicio_r, divergente, obs)
 		$sql = 'UPDATE maxse_tarefas SET inicio_r=:inicio_r, divergente=:divergente, autorizadaPor=:autorizadaPor, obs_ini=:obs_ini WHERE id=:id_tarefa';
 		$stmt = $this->db->prepare($sql);
 		try {
 			$stmt->execute(
 				array(
-					':inicio_r' => str_replace('Z','',str_replace('T',' ',$tarefa->inicio_r)),
+					':inicio_r' => $dh_inicio_r->format('Y-m-d H:i:s'),
 					':divergente' => $tarefa->divergente ? 1 : 0,
 					':autorizadaPor' => $tarefa->autorizadaPor,
 					':obs_ini' => $tarefa->obs_ini,
 					':id_tarefa' => $tarefa->id
-
 				)
 			);	
 		} catch (Exception $e) {
@@ -1075,7 +1077,7 @@
 		}
 		
 		// Chegou aqui é por que está tudo certo! Commit!
-		// $this->db->commit();
+		$this->db->commit();
 
 		// :::::::::::::::::::::::::::::::::
 

@@ -60,7 +60,7 @@ export class TarefaConcluirPage {
 					tmp.final_p = (tmp.final_p == null ? null : new Date(tmp.final_p));
 					tmp.final_r = (tmp.final_r == null ? format(new Date(), 'YYYY-MM-DDTHH:mm:ss') : new Date(tmp.final_r));
 					tmp.inicio_p = (tmp.inicio_p == null ? null : new Date(tmp.inicio_p));
-					tmp.inicio_r = (tmp.inicio_r == null ? null : tmp.inicio_r.replace(' ', 'T'));
+					tmp.inicio_r = (tmp.inicio_r == null ? null : format(new Date(tmp.inicio_r), 'YYYY-MM-DDTHH:mm:ss'));
 
 					// Atribuindo a propriedade pública tarefa
 					this.tarefa = tmp;

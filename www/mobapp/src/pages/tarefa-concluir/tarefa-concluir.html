@@ -17,8 +17,6 @@
 			<ion-label floating>Data da Conclusão (Realizado)</ion-label>
 			<ion-datetime required name="data" [min]="tarefa.inicio_r"  max="2050" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.final_r"></ion-datetime>
 		</ion-item>
-
-		{{tarefa.inicio_r | json}}
 		
 		<ion-item>
 			<ion-label floating>Hora da Conclusão (Realizado)</ion-label>

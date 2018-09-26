@@ -124,10 +124,10 @@ export class TarefaIniciarPage {
 				let tmp = <any>res;
 
 				// Parsing dates
-				tmp.final_p = new Date(tmp.final_p);
-				tmp.final_r = (tmp.final_r == null ? null : new Date(tmp.final_r));
-				tmp.inicio_p = new Date(tmp.inicio_p);
-				tmp.inicio_r = ( tmp.inicio_r == null ? new Date() : new Date(tmp.inicio_r) );
+				tmp.inicio_p	= new Date(tmp.inicio_p);
+				tmp.final_p 	= new Date(tmp.final_p);
+				tmp.inicio_r 	= (tmp.inicio_r == null ? new Date() : new Date(tmp.inicio_r) );
+				tmp.final_r 	= (tmp.final_r  == null ? null       : new Date(tmp.final_r));
 
 				// Parsing date para inicio_r_string
 				this.inicio_r_string = format(tmp.inicio_r,'YYYY-MM-DDTHH:mmZ');
@@ -311,11 +311,9 @@ export class TarefaIniciarPage {
 
 	salvarInicio() {
 		
-		console.log(this.inicio_r_string);
-		console.log(new Date(this.inicio_r_string));
 		// Lendo a data de início da tarefa como objeto Date
 		this.tarefa.inicio_r = new Date(this.inicio_r_string);
-
+		
 		// Criando e mostrando loading
 		let loading = this.loadingConttroller.create();
 		loading.setContent('Aguarde...').present();
