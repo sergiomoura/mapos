@@ -1075,7 +1075,7 @@
 		}
 		
 		// Chegou aqui é por que está tudo certo! Commit!
-		$this->db->commit();
+		// $this->db->commit();
 
 		// :::::::::::::::::::::::::::::::::
 

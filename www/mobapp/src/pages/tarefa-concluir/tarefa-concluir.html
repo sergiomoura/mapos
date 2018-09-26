@@ -18,6 +18,8 @@
 			<ion-datetime required name="data" [min]="tarefa.inicio_r"  max="2050" displayFormat="DD MMM YYYY" [(ngModel)]="tarefa.final_r"></ion-datetime>
 		</ion-item>
 
+		{{tarefa.inicio_r | json}}
+		
 		<ion-item>
 			<ion-label floating>Hora da Conclusão (Realizado)</ion-label>
 			<ion-datetime required name="hora" [min]="tarefa.inicio_r" displayFormat="HH:mm" pickerFormat="HH mm" [(ngModel)]="tarefa.final_r" ></ion-datetime>

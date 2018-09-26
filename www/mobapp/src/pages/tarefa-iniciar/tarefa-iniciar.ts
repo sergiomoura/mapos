@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Events, Content } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertOptions, Events, Content, LoadingController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { TarefasProvider } from '../../providers/tarefas/tarefas';
@@ -90,7 +90,8 @@ export class TarefaIniciarPage {
 		private provider: GeralProvider,
 		private alertController: AlertController,
 		private storage: Storage,
-		public events:Events
+		public events:Events,
+		private loadingConttroller:LoadingController
 	) { }
 
 	ionViewDidLoad() {
@@ -309,9 +310,21 @@ export class TarefaIniciarPage {
 	}
 
 	salvarInicio() {
+		
+		console.log(this.inicio_r_string);
+		console.log(new Date(this.inicio_r_string));
+		// Lendo a data de início da tarefa como objeto Date
 		this.tarefa.inicio_r = new Date(this.inicio_r_string);
+
+		// Criando e mostrando loading
+		let loading = this.loadingConttroller.create();
+		loading.setContent('Aguarde...').present();
+
 		this.tarefasProvider.setIniciada(this.tarefa).subscribe(
 			res => {
+				// excondendo o carregando
+				loading.dismiss();
+
 				this.storage.set('tarefaAtual',this.tarefa);
 				this.navCtrl.parent.select(0);
 				this.events.publish('tarefa:iniciada');
