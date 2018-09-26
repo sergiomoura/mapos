@@ -888,8 +888,10 @@
 		}
 
 		// Determinando longitude e latitude do endereço
-        $prepAddr = str_replace(' ','+',($sse->endereco.',Campinas,SP'));
-        $geocode = file_get_contents('https://maps.google.com/maps/api/geocode/json?address='.$prepAddr.'&sensor=false');
+		$prepAddr = str_replace(' ','+',($sse->endereco.',Campinas,SP'));
+		$apiKey = 'AIzaSyCdnWseKB1RXfY3x-Yr0JiXkucYxRyvoiY';
+		$url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $prepAddr . '&key=' . $apiKey;
+		$geocode = file_get_contents($url);
 		$output = json_decode($geocode);
 		
 		// Verificando se as coordenadas voltaram ok

@@ -78,7 +78,8 @@ import { ImageViewerModule } from 'ngx-image-viewer';
 	imports: [
 		BrowserModule,
 		AgmCoreModule.forRoot({
-			apiKey: 'AIzaSyDXsRrkVQvgfWbs4OOYKLsNYomChNS8a5o'
+			apiKey: 'AIzaSyCdnWseKB1RXfY3x-Yr0JiXkucYxRyvoiY',
+			// apiKey: 'AIzaSyDXsRrkVQvgfWbs4OOYKLsNYomChNS8a5o'
 		}),
 		FormsModule,
 		BrowserAnimationsModule,
