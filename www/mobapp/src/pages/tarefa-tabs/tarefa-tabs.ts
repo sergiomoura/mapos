@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { Storage } from "@ionic/storage";
-
+import { SsesMapaPage } from "../sses-mapa/sses-mapa";
 @IonicPage()
 @Component({
 	selector: 'page-tarefa-tabs',
@@ -28,6 +28,9 @@ export class TarefaTabsPage {
 		this.events.subscribe('tarefa:iniciada',
 			() => {
 				this.getTarefa();
+
+				// Indo para a página de mapas
+				this.navCtrl.push(SsesMapaPage);
 			}
 		)
 
@@ -35,6 +38,9 @@ export class TarefaTabsPage {
 		this.events.subscribe('tarefa:divergente',
 			() => {
 				this.getTarefa();
+
+				// Indo para a página de mapas
+				this.navCtrl.push(SsesMapaPage);
 			}
 		)
 
@@ -42,6 +48,9 @@ export class TarefaTabsPage {
 		this.events.subscribe('tarefa:concluida',
 			() => {
 				this.getTarefa();
+
+				// Indo para a página de mapas
+				this.navCtrl.push(SsesMapaPage);
 			}
 		)
 	}

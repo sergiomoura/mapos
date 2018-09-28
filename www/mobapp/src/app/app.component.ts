@@ -43,8 +43,6 @@ export class MyApp {
 					},
 					this.IRDT
 				)
-
-
 			}
 		);
 	}

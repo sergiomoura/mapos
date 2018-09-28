@@ -57,11 +57,11 @@ export class LoginPage {
 					() => {
 						let acessoApp:string = (<any>res).acessoApp;
 						if( acessoApp == "1") {
-							this.navCtrl.push(SsesPage);
 							this.navCtrl.setRoot(SsesPage);
+							this.navCtrl.push(SsesPage);
 						} else if(acessoApp == "2") {
-							this.navCtrl.push(SsesMapaPage);
 							this.navCtrl.setRoot(SsesMapaPage);
+							this.navCtrl.push(SsesMapaPage);
 						}
 					}
 				)
