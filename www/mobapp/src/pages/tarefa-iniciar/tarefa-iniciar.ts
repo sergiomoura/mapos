@@ -192,7 +192,20 @@ export class TarefaIniciarPage {
 				}
 
 				if (vetor.length == 0) {
-					this.addMedida();
+					switch (this.tarefa.sse.tipoDeServicoReal.medida) {
+						case 'a':
+							this.tarefa.sse.medidas_area.real = JSON.parse(JSON.stringify(this.tarefa.sse.medidas_area.prev));
+							break;
+	
+						case 'l':
+							this.tarefa.sse.medidas_linear.real = JSON.parse(JSON.stringify(this.tarefa.sse.medidas_linear.prev));
+							break;
+	
+						case 'u':
+							this.tarefa.sse.medidas_unidades.real = JSON.parse(JSON.stringify(this.tarefa.sse.medidas_unidades.prev));
+							break;
+					}
+					this.totalMedidasReal = this.calculaTotal(tipoPR.real);
 				}
 
 
