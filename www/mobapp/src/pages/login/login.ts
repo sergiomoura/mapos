@@ -28,6 +28,12 @@ export class LoginPage {
 	ionViewDidLoad() {
 		this.storage.remove('currentUser');
 		this.storage.remove('tarefaAtual');
+
+		this.storage.get('ultimo_login').then(
+			(login:string) => {
+				this.data.u = login;
+			}
+		)
 	}
 
 	onEntrarClick(){
@@ -59,6 +65,9 @@ export class LoginPage {
 						}
 					}
 				)
+				
+				// Guardando o login de sucesso
+				this.storage.set('ultimo_login',this.data.u);
 			},
 			err => {
 
