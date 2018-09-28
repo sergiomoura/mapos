@@ -1,24 +1,25 @@
 <div class="container">
-	<mat-form-field>
+	<mat-form-field class="equipes">
 		<mat-select [(ngModel)]="busca.equipes"  placeholder="Equipes" multiple>
 			<mat-option *ngFor="let equipe of equipes" [value]="equipe">[{{equipe.sigla}}] {{equipe.nome}}</mat-option>
 		</mat-select>
 	</mat-form-field>
 
-	<mat-form-field>
+	<button mat-icon-button class="mt_equipes" matTooltip="Marcar todos" (click)="onMTEquipesClick()">
+		<mat-icon>done_all</mat-icon>
+	</button>
+
+	<mat-form-field class="status">
 		<mat-select [(ngModel)]="busca.status"  placeholder="Status" multiple>
-			<mat-option value="CADASTRADA">Cadastradas</mat-option>
-			<mat-option value="AGENDADA">Agendadas</mat-option>
-			<mat-option value="EXECUTANDO">Executando</mat-option>
-			<mat-option value="PENDENTE">Pendentes</mat-option>
-			<mat-option value="FINALIZADA">Finalizadas</mat-option>
-			<mat-option value="DIVERGENTE">Divergentes</mat-option>
-			<mat-option value="CANCELADA">Canceladas</mat-option>
-			<mat-option value="RETRABALHO">Retrabalho</mat-option>
+			<mat-option *ngFor="let s of status" [value]="s">{{s}}</mat-option>
 		</mat-select>
 	</mat-form-field>
 
-	<mat-form-field>
+	<button mat-icon-button class="mt_status" matTooltip="Marcar todos" (click)="onMTStatusClick()">
+		<mat-icon>done_all</mat-icon>
+	</button>
+
+	<mat-form-field class="prioridade">
 		<mat-select [(ngModel)]="busca.prioridades"  placeholder="Nivel de Prioridade" multiple>
 			<mat-option [value]="0">Normal</mat-option>
 			<mat-option [value]="1">Prioridade</mat-option>
@@ -26,34 +27,36 @@
 		</mat-select>
 	</mat-form-field>
 
-	<div class="container-datas">
-		<mat-form-field>
-			<input matInput [max]="busca.agendadas_ate" [(ngModel)]="busca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
-			<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-			<mat-datepicker #picker1></mat-datepicker>
-		</mat-form-field>
-		<mat-form-field>
-			<input matInput [min]="busca.agendadas_de" [(ngModel)]="busca.agendadas_ate" [matDatepicker]="picker2" placeholder="Agendados até">
-			<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-			<mat-datepicker #picker2></mat-datepicker>
-		</mat-form-field>
-	</div>
+	<button mat-icon-button class="mt_prioridade" matTooltip="Marcar todos" (click)="onMTPrioridadeClick()">
+		<mat-icon>done_all</mat-icon>
+	</button>
 
-	<div class="container-datas">
-		<mat-form-field>
-			<input matInput [max]="busca.realizadas_ate" [(ngModel)]="busca.realizadas_de" [matDatepicker]="picker3" placeholder="Realizados de">
-			<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-			<mat-datepicker #picker3></mat-datepicker>
-		</mat-form-field>
-		<mat-form-field>
-			<input matInput [min]="busca.realizadas_de" [(ngModel)]="busca.realizadas_ate" [matDatepicker]="picker4" placeholder="Realizados até">
-			<mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
-			<mat-datepicker #picker4></mat-datepicker>
-		</mat-form-field>
-	</div>
+	<mat-form-field class="agendadas_de">
+		<input matInput [max]="busca.agendadas_ate" [(ngModel)]="busca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
+		<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+		<mat-datepicker #picker1></mat-datepicker>
+	</mat-form-field>
 
-	<div class="controles">
-		<button mat-raised-button color="accent" (click)="onResetCamposClick()">Resetar Campos</button>
-		<button mat-raised-button color="primary" class="bt-buscar" (click)="onBuscarClick()">Buscar</button>
-	</div>
+	<mat-form-field class="agendadas_ate">
+		<input matInput [min]="busca.agendadas_de" [(ngModel)]="busca.agendadas_ate" [matDatepicker]="picker2" placeholder="Agendados até">
+		<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+		<mat-datepicker #picker2></mat-datepicker>
+	</mat-form-field>
+	
+	<mat-form-field class="realizadas_de">
+		<input matInput [max]="busca.realizadas_ate" [(ngModel)]="busca.realizadas_de" [matDatepicker]="picker3" placeholder="Realizados de">
+		<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+		<mat-datepicker #picker3></mat-datepicker>
+	</mat-form-field>
+
+	<mat-form-field class="realizadas_ate">
+		<input matInput [min]="busca.realizadas_de" [(ngModel)]="busca.realizadas_ate" [matDatepicker]="picker4" placeholder="Realizados até">
+		<mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+		<mat-datepicker #picker4></mat-datepicker>
+	</mat-form-field>
+
+
+	<button class="bt-reset" mat-raised-button color="accent" (click)="onResetCamposClick()">Resetar</button>
+	<button class="bt-buscar" mat-raised-button color="primary" (click)="onBuscarClick()">Buscar</button>
+
 </div>

@@ -12,7 +12,7 @@ import { Bairro } from '../../_models/bairro';
 @Component({
 	selector: 'app-buscador',
 	templateUrl: './buscador.component.html',
-	styleUrls: ['./buscador.component.scss']
+	styleUrls: ['./buscador.component.scss'],
 })
 export class BuscadorComponent implements OnInit {
 
@@ -26,6 +26,17 @@ export class BuscadorComponent implements OnInit {
 	@Output() ssesCarregadas:EventEmitter<SSE[]>;
 
 	// Públicos
+	status:string[] = [
+		'Cadastrada',
+		'Agendada',
+		'Executando',
+		'Pendente',
+		'Finalizada',
+		'Divergente',
+		'Cancelada',
+		'Retrabalho'
+	]
+		
 	busca:Busca = {
 		equipes : [],
 		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],
@@ -212,6 +223,36 @@ export class BuscadorComponent implements OnInit {
 
 		// Salvando busca no local storage
 		localStorage.setItem(this.chaveDeBusca,JSON.stringify(this.busca));
+
+	}
+
+	onMTEquipesClick():void{
+
+		// Selecionando todas as equipes
+		this.busca.equipes = this.equipes;
+
+		// Realizando busca
+		this.onBuscarClick();
+
+	}
+
+	onMTStatusClick():void{
+
+		// Selecionando todos os status
+		this.busca.status = this.status;
+
+		// Realizando busca
+		this.onBuscarClick();
+
+	}
+
+	onMTPrioridadeClick():void{
+
+		// Selecionando todos os status
+		this.busca.prioridades = [0,1,2];
+
+		// Realizando busca
+		this.onBuscarClick();
 
 	}
 
