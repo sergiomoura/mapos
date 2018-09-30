@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostBinding, ViewEncapsulation } from '@angular/core';
 import { Equipe } from '../../_models/equipe';
 import { TipoDeServico } from "../../_models/tipoDeServico";
 import { Busca } from "../../_models/busca";

@@ -1,60 +1,128 @@
-.container{
+.container {
 	display: grid;
 	grid-template-columns: repeat(6,50px);
 	margin: 10px;
 	grid-column-gap: 10px;
+
+	.equipes {
+		grid-column: 1 / 6;
+	}
+
+	.mt_equipes {
+		grid-column: 6 / 7;
+		align-self: center;
+		justify-self: center;	
+	}
+
+	.status {
+		grid-column: 1 / 6;
+	}
+
+	.mt_status {
+		grid-column: 6 / 7;
+		align-self: center;
+		justify-self: center;
+	}
+
+	.prioridade {
+		grid-column: 1 / 6;
+	}
+
+	.mt_prioridade {
+		grid-column: 6 / 7;
+		align-self: center;
+		justify-self: center;
+	}
+
+	.agendadas_de{
+		grid-column: 1 / 4;
+	}
+
+	.agendadas_ate{
+		grid-column: 4 / 7;
+	}
+
+	.realizadas_de{
+		grid-column: 1 / 4;
+	}
+
+	.realizadas_ate{
+		grid-column: 4 / 7;
+	}
+
+	.bt-reset{
+		grid-column: 1 / 3
+	}
+
+	.bt-buscar{
+		grid-column: 3 / 7
+	}
 }
 
-.equipes {
-	grid-column: 1 / 6;
-}
+:host-context(.container-filtro) .contained{
+	grid-template-columns: repeat(12,1fr);
+	margin: 10px;
+	grid-column-gap: 10px;
 
-.mt_equipes {
-	grid-column: 6 / 7;
-	align-self: center;
-	justify-self: center;	
-}
+	.equipes {
+		grid-column: 1 / 4;
+	}
 
-.status {
-	grid-column: 1 / 6;
-}
+	.mt_equipes {
+		grid-column: 4 / 5;
+		align-self: center;
+		justify-self: left;
+		position: relative;
+		left: -10px;
+	}
 
-.mt_status {
-	grid-column: 6 / 7;
-	align-self: center;
-	justify-self: center;
-}
+		
+		
+		
+		
+	.mt_status {
+		grid-column: 8 / 9;
+		align-self: center;
+		justify-self: left;
+		position: relative;
+		left: -10px;
+	}
 
-.prioridade {
-	grid-column: 1 / 6;
-}
+	.prioridade {
+		grid-column: 9 / 12;
+		align-self: center;
+		justify-self: left;
+	}
 
-.mt_prioridade {
-	grid-column: 6 / 7;
-	align-self: center;
-	justify-self: center;
-}
+	.mt_prioridade {
+		grid-column: 12 / 13;
+		align-self: center;
+		justify-self: center;
+		position: relative;
+		left: -10px;
+	}
 
-.agendadas_de{
-	grid-column: 1 / 4;
-}
+	.agendadas_de{
+		grid-column: 1 / 4;
+	}
 
-.agendadas_ate{
-	grid-column: 4 / 7;
-}
+	.agendadas_ate{
+		grid-column: 4 / 7;
+	}
 
-.realizadas_de{
-	grid-column: 1 / 4;
-}
+	.realizadas_de{
+		grid-column: 7 / 10;
+	}
 
-.realizadas_ate{
-	grid-column: 4 / 7;
-}
+	.realizadas_ate{
+		grid-column: 10 / 13;
+	}
 
-.bt-reset{
-	grid-column: 1 / 3
-}
+	.bt-reset{
+		grid-column: 1 / 3
+	}
 
-.bt-buscar{
-	grid-column: 3 / 7
+	.bt-buscar{
+		grid-column: 10 / 13
+	}
 }

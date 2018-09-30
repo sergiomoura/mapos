@@ -1,13 +1,16 @@
 <div class="container-80 top-gap padding">
 	<div class="container-filtro">
-	<app-buscador
+		<app-buscador
 			#buscador
 			chaveDeBusca="buscaDoGrid"
 			(ssesCarregadas)="onSsesCarregadas($event)"
 			[equipes]="equipes"
 			[bairros]="bairros"
-			[auto]="true">
-	</app-buscador>
+			[auto]="true"
+			>
+		</app-buscador>
+	</div>
+
 </div>
 
 <div class="resultados-container">
@@ -120,7 +123,6 @@
 				</td>
 				<!-- FINAL DE EXIBIÇÃO DE TAREFA 2 -->
 			</tr>
-			
 		</tbody>
 	</table>
 </div>

@@ -1,4 +1,5 @@
-<div class="container">
+<div class="container contained">
+	
 	<mat-form-field class="equipes">
 		<mat-select [(ngModel)]="busca.equipes"  placeholder="Equipes" multiple>
 			<mat-option *ngFor="let equipe of equipes" [value]="equipe">[{{equipe.sigla}}] {{equipe.nome}}</mat-option>
