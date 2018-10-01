@@ -318,6 +318,12 @@
 	});
 
 	$app->get($api_root.'/sses/xls',function(Request $req, Response $res, $args = []){
+		
+		// Incluindo o gerador de xls
+		include('../../includes/GeradorDeXls.php');
+		enviarXls(gerarXls(10));
+
+		die();
 
 		// Levantando permissão do usuário na base
 		$sql = 'SELECT perm_dados_financeiros FROM maxse_usuarios WHERE token=:token';
