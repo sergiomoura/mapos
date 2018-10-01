@@ -256,4 +256,8 @@ export class BuscadorComponent implements OnInit {
 
 	}
 
+	onExportarClick(){
+		this.ssesService.getExcel(this.busca);
+	}
+
 }

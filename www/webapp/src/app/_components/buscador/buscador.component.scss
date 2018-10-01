@@ -57,6 +57,10 @@
 	.bt-buscar{
 		grid-column: 3 / 7
 	}
+
+	.bt-exportar{
+		display: none;
+	}
 }
 
 :host-context(.container-filtro) .contained{
@@ -76,10 +80,6 @@
 		left: -10px;
 	}
 
-		
-		
-		
-		
 	.mt_status {
 		grid-column: 8 / 9;
 		align-self: center;
@@ -119,7 +119,12 @@
 	}
 
 	.bt-reset{
-		grid-column: 1 / 3
+		grid-column: 1 / 3;
+	}
+
+	.bt-exportar{
+		display: inline-block;
+		grid-column: 5 / 10;
 	}
 
 	.bt-buscar{

@@ -53,7 +53,13 @@ class CheckAuthMiddleware
             
             // Checando se é uma tentativa de login
             $path = $request->getUri()->getPath();
-            if($path != '/login' && $path != 'login' && $path != '/api/login' && $path != '/maxse/api/login'){
+            if(
+                $path != '/login' &&
+                $path != 'login' &&
+                $path != '/api/login' &&
+                $path != '/maxse/api/login' &&
+                $path != 'sses/xls'
+            ){
 
                 // Não é login. Retornando com status 401
                 return $response

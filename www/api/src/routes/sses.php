@@ -309,15 +309,319 @@
 			$sse->medidas_unidades->real = $stmt->fetchAll();
 		}
 
-
-		
-
 		// Retornando resposta para usuário
 		return $res
 		->withStatus(200)
 		->withHeader('Content-Type','application/json')
 		->write(json_encode($sses));
 
+	});
+
+	$app->get($api_root.'/sses/xls',function(Request $req, Response $res, $args = []){
+
+		// Levantando permissão do usuário na base
+		$sql = 'SELECT perm_dados_financeiros FROM maxse_usuarios WHERE token=:token';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':token' => $_GET['token']));
+		$perm_dados_financeiros = ($stmt->fetch()->perm_dados_financeiros === '1');
+		
+		// Verificando os status requeridos
+		if(array_key_exists('status',$_GET) && $_GET['status']!=''){
+			$status_requerido = explode(',',$_GET['status']);
+		} else {
+			$status_requerido = array();
+		}
+
+		// Determinando condição sobre status requeridos
+		if(sizeof($status_requerido) == 0) {
+			$cndStatus = 'TRUE';
+		} else {
+			$cndStatus = 'status=sseStatus("' . implode($status_requerido, '") OR status=sseStatus("') .'")';
+		}
+
+		// Determinando condições de fechamento
+		if(array_key_exists('id_fechamento',$_GET) && $_GET['id_fechamento']) {
+			$cndFechamento = 'id_fechamento='.(1*$_GET['id_fechamento']);
+		} else {
+			$cndFechamento = 'TRUE';
+		}
+
+		// DETERMINANDO CONDIÇÕES DE EQUIPES = = = = = = = = = = = = = = = = = = = =
+		// Verificando as equipes requeridas
+		if(array_key_exists('equipes',$_GET) && $_GET['equipes']!= ''){
+			$equipes_requeridas = explode(',',$_GET['equipes']);
+		} else {
+			$equipes_requeridas = array();
+		}
+		// Determinando condição sobre equipes requeridas
+		if(sizeof($equipes_requeridas) == 0) {
+			$cndEquipes = 'TRUE';
+		} else {
+			$cndEquipes = 'id_equipe=' . implode($equipes_requeridas, ' OR id_equipe=');
+		}
+
+		// DETERMINANDO CONDIÇÕES DE PRIORIDADES = = = = = = = = = = = = = = = = = =
+		// Verificando os prioridades requeridas
+		if(array_key_exists('prioridades',$_GET) && $_GET['prioridades']!= ''){
+			$prioridades_requeridas = explode(',',$_GET['prioridades']);
+		} else {
+			$prioridades_requeridas = array();
+		}
+		// Determinando condição sobre equipes requeridas
+		if(sizeof($prioridades_requeridas) == 0) {
+			$cndPrioridade = 'TRUE';
+		} else {
+			$cndPrioridade = 'urgente=' . implode($prioridades_requeridas, ' OR urgente=');
+		}
+
+		// DETERMINANDO CONDIÇÃO DE DATA
+		if(array_key_exists('agendadas_de',$_GET) && $_GET['agendadas_de']!= ''){
+			$cndAgendadasDe = 'inicio_p >= "'.substr($_GET['agendadas_de'],0,10).'"';
+		} else {
+			$cndAgendadasDe = TRUE;
+		}
+
+		if(array_key_exists('agendadas_ate',$_GET) && $_GET['agendadas_ate']!= ''){
+			$cndAgendadasAte = 'inicio_p <= "'.substr($_GET['agendadas_ate'],0,10).' 23:59:59"';
+		} else {
+			$cndAgendadasAte = TRUE;
+		}
+
+		if(array_key_exists('realizadas_de',$_GET) && $_GET['realizadas_de']!= ''){
+			$cndRealizadasDe = 'final_r >= "'.$_GET['realizadas_de'] .'"';
+		} else {
+			$cndRealizadasDe = TRUE;
+		}
+
+		if(array_key_exists('realizadas_ate',$_GET) && $_GET['realizadas_ate']!= ''){
+			$cndRealizadasAte = 'final_r <= "'.$_GET['realizadas_ate'].' 23:59:59"';
+		} else {
+			$cndRealizadasAte = TRUE;
+		}
+
+		// Definindo as colunas que serão levantadas
+		$colunas = '
+			id,
+			endereco,
+			id_bairro,
+			numero,
+			dh_registrado,
+			dh_recebido,
+			urgente as urgencia,
+			obs,
+			lat,
+			lng,
+			data_devolucao,
+			id_tipo_de_servico as id_tds_p,
+			id_tipo_de_servico_r as id_tds_r,
+			prazo_final,
+			finalizacao_parcial,
+			motivo_finalizacao_parcial,
+			Y.id_equipe,
+			Y.inicio_p,
+			Y.final_p,
+			Y.inicio_r,
+			Y.final_r,
+			Y.id_apoio,
+			status';
+		
+			if($perm_dados_financeiros){
+				$colunas = $colunas .
+							',
+							valor_prev,
+							valor_real,
+							cmo,
+							cmp';
+			} else {
+				$colunas = $colunas .
+							',
+							null as valor_prev,
+							null as valor_real,
+							null as cmo,
+							null as cmp';
+			}
+					
+		
+		// Levantando SSES na base
+		$sql = "SELECT
+					$colunas
+				FROM
+					maxse_sses X
+				LEFT JOIN
+					(SELECT B.id_sse,B.id_equipe,B.inicio_p,B.final_p,B.inicio_r,B.final_r,B.id_apoio FROM
+				(SELECT max(id) as id,id_sse FROM maxse_tarefas group by id_sse) A
+				INNER JOIN maxse_tarefas B on A.id=B.id) Y on X.id=Y.id_sse
+				WHERE
+					($cndStatus) AND
+					($cndEquipes) AND
+					($cndPrioridade) AND
+					($cndAgendadasDe) AND
+					($cndAgendadasAte) AND
+					($cndRealizadasDe) AND
+					($cndRealizadasAte) AND
+					($cndFechamento)
+				ORDER BY
+					dh_registrado DESC";
+		
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		$sses = $stmt->fetchAll();
+
+		// Parsing data para tipos apropriados
+		foreach($sses as $sse){
+			$sse->id *= 1;
+			$sse->id_bairro *= 1;
+			$sse->id_equipe = is_null($sse->id_equipe) ? null : 1*$sse->id_equipe;
+			$sse->id_apoio = is_null($sse->id_apoio) ? null : 1*$sse->id_apoio;
+			$sse->id_tds_p *= 1;
+			$sse->id_tds_r *= 1;
+			$sse->lat *= 1;
+			$sse->lng *= 1;
+			$sse->status *= 1;
+			$sse->urgencia *= 1;
+			$sse->finalizacao_parcial = ($sse->finalizacao_parcial === '1');
+
+		}
+
+		// Para cada SSE, recuperando as tarefas dela
+		$sql = 'SELECT
+					id,
+					id_equipe,
+					id_apoio,
+					inicio_p,
+					final_p,
+					inicio_r,
+					final_r,
+					divergente,
+					autorizadaPor
+				FROM
+					maxse_tarefas
+				WHERE
+					id_sse=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		foreach ($sses as $sse) {
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$tarefas = $stmt->fetchAll();
+
+			if($tarefas === false){
+				// Não há tarefas para esta SSE
+				$sse->tarefas = array();
+			} else {
+				// Há tarefas para esta SSE
+				$sse->tarefas = $tarefas;
+			}
+		}
+
+		// Para cada sse, levanta o consumo de cada uma de suas tarefas
+		foreach ($sses as $sse) {
+			foreach ($sse->tarefas as $tarefa) {
+				$sql = 'SELECT
+							round(a.qtde,2) as qtde,
+							b.nome,
+							b.unidade
+						FROM
+							estoque_movimentos a
+						INNER JOIN
+							estoque_produtos b ON a.id_produto=b.id
+						WHERE
+							a.id_referencia=:id_tarefa';
+				$stmt = $this->db->prepare($sql);
+				$stmt->execute(array(':id_tarefa' => $tarefa->id));
+				$tarefa->consumos = $stmt->fetchAll();
+			}
+		}
+
+		// Para cada SSE, recuperando as medidas de área previstas
+		$sql = 'SELECT
+					l,c
+				FROM
+					maxse_medidas_area
+				WHERE
+					id_sse=:id_sse AND tipo="p"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$sse->medidas_area = new stdClass();
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_area->prev = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas de área realizadas
+		$sql = 'SELECT
+					l,c
+				FROM
+					maxse_medidas_area
+				WHERE
+					id_sse=:id_sse AND tipo="r"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_area->real = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas lineares previstas
+		$sql = 'SELECT
+					v
+				FROM
+					maxse_medidas_linear
+				WHERE
+					id_sse=:id_sse AND tipo="p"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$sse->medidas_linear = new stdClass();
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_linear->prev = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas lineares realizadas
+		$sql = 'SELECT
+					v
+				FROM
+					maxse_medidas_linear
+				WHERE
+					id_sse=:id_sse AND tipo="r"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_linear->real = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas unitarias previstas
+		$sql = 'SELECT
+					n
+				FROM
+					maxse_medidas_unidades
+				WHERE
+					id_sse=:id_sse AND tipo="p"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$sse->medidas_unidades = new stdClass();
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_unidades->prev = $stmt->fetchAll();
+		}
+
+		// Para cada SSE, recuperando as medidas unitarias realizadas
+		$sql = 'SELECT
+					n
+				FROM
+					maxse_medidas_unidades
+				WHERE
+					id_sse=:id_sse AND tipo="r"';
+		$stmt = $this->db->prepare($sql);
+
+		foreach ($sses as $sse) {
+			$stmt->execute(array(':id_sse' => $sse->id));
+			$sse->medidas_unidades->real = $stmt->fetchAll();
+		}
+
+		echo('<pre>');
+		print_r($sses);
+		echo('</pre>');
+		die();
 	});
 
 	$app->get($api_root.'/sses/pendentes',function(Request $req, Response $res, $args = []){

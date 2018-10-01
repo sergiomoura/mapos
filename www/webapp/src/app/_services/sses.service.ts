@@ -19,6 +19,7 @@ export class SsesService {
 	private url_getSsesPendentes:string = '/maxse/api/sses/pendentes';
 	private url_updateSses:string = '/maxse/api/sses';
 	private url_createSses:string = '/maxse/api/sses';
+	private url_getSsesXls:string = '/maxse/api/sses/xls';
 	
 	// Método que carrega todas as SSEs
 	getAll(busca?:Busca):Observable<SSE[]>{
@@ -133,5 +134,31 @@ export class SsesService {
 	// Atualiza imagem
 	updateImage(id_sse:number, fd:FormData){
 		return this.http.post(this.url_updateSses + '/' + id_sse + '/imagem',fd);
+	}
+
+	// Carrega excel!
+	getExcel(busca?:Busca){
+
+		// Levantando token
+		let token = 'token=' + JSON.parse(localStorage.getItem('currentUser')).token;
+		
+		// Transformando busca em querystring para passar pela url
+		let agendadas_de:string = 'ag_de=' + (busca.agendadas_de ? busca.agendadas_de.toISOString() : '');
+		let agendadas_ate:string = 'ag_ate=' + (busca.agendadas_ate ? busca.agendadas_ate.toISOString() : '');
+		let equipes:string = 'equipes=' + busca.equipes.join(',');
+		let prioridades:string = 'prioridades=' + busca.prioridades.join(',');
+		let realizadas_de:string = 'real_de=' + (busca.realizadas_de ? busca.realizadas_de.toISOString() : '');
+		let realizadas_ate:string = 'real_ate=' + (busca.realizadas_ate ? busca.realizadas_ate.toISOString() : '');
+		let status:string = 'status=' + busca.status.join(',');
+		
+		window.location.href = this.url_getSsesXls
+								+ '?' + agendadas_de
+								+ '&' + agendadas_ate
+								+ '&' + equipes
+								+ '&' + prioridades
+								+ '&' + realizadas_de
+								+ '&' + realizadas_ate
+								+ '&' + status
+								+ '&' + token;
 	}
 }
