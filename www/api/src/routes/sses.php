@@ -319,12 +319,6 @@
 
 	$app->get($api_root.'/sses/xls',function(Request $req, Response $res, $args = []){
 		
-		// Incluindo o gerador de xls
-		include('../../includes/GeradorDeXls.php');
-		enviarXls(gerarXls(10));
-
-		die();
-
 		// Levantando permissão do usuário na base
 		$sql = 'SELECT perm_dados_financeiros FROM maxse_usuarios WHERE token=:token';
 		$stmt = $this->db->prepare($sql);
@@ -407,9 +401,11 @@
 
 		// Definindo as colunas que serão levantadas
 		$colunas = '
-			id,
+			X.id,
 			endereco,
 			id_bairro,
+			S.nome as nome_bairro,
+			S.domasa,
 			numero,
 			dh_registrado,
 			dh_recebido,
@@ -419,7 +415,11 @@
 			lng,
 			data_devolucao,
 			id_tipo_de_servico as id_tds_p,
+			T.codigo as codigo_tds_p,
+			T.medida as medida_tds_p,
 			id_tipo_de_servico_r as id_tds_r,
+			U.codigo as codigo_tds_r,
+			U.medida as medida_tds_r,
 			prazo_final,
 			finalizacao_parcial,
 			motivo_finalizacao_parcial,
@@ -429,6 +429,7 @@
 			Y.inicio_r,
 			Y.final_r,
 			Y.id_apoio,
+			R.nome as nome_status,
 			status';
 		
 			if($perm_dados_financeiros){
@@ -453,6 +454,10 @@
 					$colunas
 				FROM
 					maxse_sses X
+					INNER JOIN maxse_sse_status R ON R.id=X.status
+					INNER JOIN maxse_bairros S ON S.id=X.id_bairro
+					INNER JOIN maxse_tipos_de_servico T ON T.id=X.id_tipo_de_servico
+					LEFT JOIN maxse_tipos_de_servico U ON U.id=X.id_tipo_de_servico_r
 				LEFT JOIN
 					(SELECT B.id_sse,B.id_equipe,B.inicio_p,B.final_p,B.inicio_r,B.final_r,B.id_apoio FROM
 				(SELECT max(id) as id,id_sse FROM maxse_tarefas group by id_sse) A
@@ -491,7 +496,7 @@
 
 		// Para cada SSE, recuperando as tarefas dela
 		$sql = 'SELECT
-					id,
+					A.id,
 					id_equipe,
 					id_apoio,
 					inicio_p,
@@ -499,9 +504,13 @@
 					inicio_r,
 					final_r,
 					divergente,
-					autorizadaPor
+					autorizadaPor,
+					B.nome as nome_equipe,
+					C.nome as nome_apoio
 				FROM
-					maxse_tarefas
+					maxse_tarefas A
+					INNER JOIN maxse_equipes B ON A.id_equipe=B.id
+					LEFT JOIN maxse_equipes C ON A.id_apoio=C.id
 				WHERE
 					id_sse=:id_sse';
 		$stmt = $this->db->prepare($sql);
@@ -539,22 +548,22 @@
 
 		// Para cada SSE, recuperando as medidas de área previstas
 		$sql = 'SELECT
-					l,c
+					SUM(l*c) AS area
 				FROM
 					maxse_medidas_area
-				WHERE
+				WHERE			
 					id_sse=:id_sse AND tipo="p"';
 		$stmt = $this->db->prepare($sql);
 
 		foreach ($sses as $sse) {
 			$sse->medidas_area = new stdClass();
 			$stmt->execute(array(':id_sse' => $sse->id));
-			$sse->medidas_area->prev = $stmt->fetchAll();
+			$sse->medidas_area->prev = $stmt->fetch()->area;
 		}
 
 		// Para cada SSE, recuperando as medidas de área realizadas
 		$sql = 'SELECT
-					l,c
+					SUM(l*c) AS area
 				FROM
 					maxse_medidas_area
 				WHERE
@@ -563,12 +572,12 @@
 
 		foreach ($sses as $sse) {
 			$stmt->execute(array(':id_sse' => $sse->id));
-			$sse->medidas_area->real = $stmt->fetchAll();
+			$sse->medidas_area->real = $stmt->fetch()->area;
 		}
 
 		// Para cada SSE, recuperando as medidas lineares previstas
 		$sql = 'SELECT
-					v
+					SUM(v) AS cumprimento
 				FROM
 					maxse_medidas_linear
 				WHERE
@@ -578,12 +587,12 @@
 		foreach ($sses as $sse) {
 			$sse->medidas_linear = new stdClass();
 			$stmt->execute(array(':id_sse' => $sse->id));
-			$sse->medidas_linear->prev = $stmt->fetchAll();
+			$sse->medidas_linear->prev = $stmt->fetch()->cumprimento;
 		}
 
 		// Para cada SSE, recuperando as medidas lineares realizadas
 		$sql = 'SELECT
-					v
+					SUM(v) AS cumprimento
 				FROM
 					maxse_medidas_linear
 				WHERE
@@ -592,12 +601,12 @@
 
 		foreach ($sses as $sse) {
 			$stmt->execute(array(':id_sse' => $sse->id));
-			$sse->medidas_linear->real = $stmt->fetchAll();
+			$sse->medidas_linear->real = $stmt->fetch()->cumprimento;
 		}
 
 		// Para cada SSE, recuperando as medidas unitarias previstas
 		$sql = 'SELECT
-					n
+					SUM(n) as unidades
 				FROM
 					maxse_medidas_unidades
 				WHERE
@@ -607,12 +616,12 @@
 		foreach ($sses as $sse) {
 			$sse->medidas_unidades = new stdClass();
 			$stmt->execute(array(':id_sse' => $sse->id));
-			$sse->medidas_unidades->prev = $stmt->fetchAll();
+			$sse->medidas_unidades->prev = $stmt->fetch()->unidades;
 		}
 
 		// Para cada SSE, recuperando as medidas unitarias realizadas
 		$sql = 'SELECT
-					n
+					SUM(n) as unidades
 				FROM
 					maxse_medidas_unidades
 				WHERE
@@ -621,13 +630,76 @@
 
 		foreach ($sses as $sse) {
 			$stmt->execute(array(':id_sse' => $sse->id));
-			$sse->medidas_unidades->real = $stmt->fetchAll();
+			$sse->medidas_unidades->real = $stmt->fetch()->unidades;
 		}
 
-		echo('<pre>');
-		print_r($sses);
-		echo('</pre>');
-		die();
+		// Tratando medidas das sses para ter uma só em medida_p e medida_r
+		foreach ($sses as $sse) {
+			
+			switch ($sse->medida_tds_p) {
+				case 'a':
+					$sse->medida_p = $sse->medidas_area->prev;
+					break;
+				
+				case 'l':
+					$sse->medida_p = $sse->medidas_linear->prev;
+					break;
+				
+				case 'u':
+					$sse->medida_p = $sse->medidas_unidades->prev;
+					break;
+			}
+	
+			switch ($sse->medida_tds_r) {
+				case 'a':
+					$sse->medida_r = $sse->medidas_area->real;
+					break;
+				
+				case 'l':
+					$sse->medida_r = $sse->medidas_linear->real;
+					break;
+				
+				case 'u':
+					$sse->medida_r = $sse->medidas_unidades->real;
+					break;
+				
+				default:
+					$sse->medida_r = null;
+					break;
+			}
+		}
+
+		// Para cada sse, determinando a faixa de cobrança na qual ela se encontra
+		foreach ($sses as $sse) {
+			$sql = 'SELECT label, li, ls from maxse_faixas_de_tipos_de_servicos where :v<=ls and :v>li and id_tipo_de_servico=:id_tds';
+			$stmt = $this->db->prepare($sql);
+			
+			$stmt->execute(
+				array(
+					':v' => $sse->medida_p,
+					':id_tds' => $sse->id_tds_p
+				)
+			);
+			$sse->faixa_p = $stmt->fetch();
+
+			$stmt->execute(
+				array(
+					':v' => $sse->medida_r,
+					':id_tds' => $sse->id_tds_r
+				)
+			);
+			$sse->faixa_r = $stmt->fetch();
+		}
+		
+		
+		// Incluindo o gerador de xls
+		include(__DIR__ . '/../includes/GeradorDeXls.php');
+
+		// Gerando o xls
+		$xls = gerarXls($sses);
+		
+		// Enviando o xls
+		enviarXls($xls);
 	});
 
 	$app->get($api_root.'/sses/pendentes',function(Request $req, Response $res, $args = []){
