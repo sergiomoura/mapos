@@ -12,6 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { AlertController } from 'ionic-angular';
 import { Bairro } from '../../_models/bairro';
 import { format } from "date-fns";
+import { SsesPage } from '../sses/sses';
 
 @Component({
 	selector: 'page-sse',
@@ -39,6 +40,7 @@ export class SsePage {
 		private camera:Camera,
 		private sanitizer:DomSanitizer,
 		private alertController:AlertController
+
 	) {}
 
 	ionViewDidLoad() {
@@ -78,12 +80,28 @@ export class SsePage {
 			loading.setContent('Aguarde').present();
 
 			this.sseProvider.getById(id).subscribe(
-				res => {
+				(res:any) => {
 					// Esconde carregando
 					loading.dismiss();
 
+					// Verificando se a sse ainda esta com status "cadastrada"
+					if(res.status != "0"){
+						// Voltando para página anterior (lista)
+						this.navCtrl.push(SsesPage);
+
+						// Exibindo toast de erro
+						const toast = this.toastController.create({
+						message: 'SSE não pode ser alterada',
+						duration: 0,
+						showCloseButton: true,
+						closeButtonText: 'X'
+						});
+						toast.present();
+					}
+
 					// Parsing response
 					this.sse = this.parseSseResponse(res);
+
 				},
 				err => {
 					// Esconde carregandop

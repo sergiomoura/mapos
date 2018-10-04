@@ -689,12 +689,12 @@
 			$stmt->execute(array(
 				':divergente' 	=> ($tarefa->divergente ? 1 : 0),
 				':final_p' 		=> $tarefa->final_p,
-				':final_r' 		=> $tarefa->final_r,
+ 				':final_r' 		=> null,
 				':id_apoio' 	=> (isset($tarefa->apoio) ? $tarefa->apoio->id : null),
 				':id_equipe'	=> $tarefa->equipe->id,
 				':id_sse' 		=> $tarefa->sse->id,
 				':inicio_p' 	=> $tarefa->inicio_p,
-				':inicio_r' 	=> $tarefa->inicio_r				
+				':inicio_r' 	=> null
 			));	
 		} catch (Exception $e) {
 			// Interrompendo transação
@@ -1696,9 +1696,7 @@
 
 		// Retornando resposta para usuário
 		return $res
-		->withStatus(200)
-		->withHeader('Content-Type','application/json')
-		->write(json_encode($tarefa));
+		->withStatus(200);
 
 	});
 	

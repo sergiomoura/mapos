@@ -863,41 +863,34 @@
 				break;
 		}
 
+		$sse->medidas_area->real = array();
+		$sse->medidas_linear->real = array();
+		$sse->medidas_unidades->real = array();
 		// Levantando medidas da SSE realizadas
-		switch ($tds_r->medida) {
-			case 'a':
-				$sql = 'SELECT id, l, c, tipo FROM maxse_medidas_area WHERE id_sse=:id_sse AND tipo="r"';
-				$stmt = $this->db->prepare($sql);
-				$stmt->execute(array(':id_sse' => $sse->id));
-				$sse->medidas_area->real = $stmt->fetchAll();
-				$sse->medidas_linear->real = array();
-				$sse->medidas_unidades->real = array();
-				break;
-			
-			case 'l':
-				$sql = 'SELECT id, v, tipo FROM maxse_medidas_linear WHERE id_sse=:id_sse AND tipo="r"';
-				$stmt = $this->db->prepare($sql);
-				$stmt->execute(array(':id_sse' => $sse->id));
-				$sse->medidas_area->real =  array();
-				$sse->medidas_linear->real = $stmt->fetchAll();
-				$sse->medidas_unidades->real = array();
-				break;
-
-			case 'u':
-				$sql = 'SELECT id, n, tipo FROM maxse_medidas_unidades WHERE id_sse=:id_sse AND tipo="r"';
-				$stmt = $this->db->prepare($sql);
-				$stmt->execute(array(':id_sse' => $sse->id));
-				$sse->medidas_area->real =  array();
-				$sse->medidas_linear->real = array();
-				$sse->medidas_unidades->real = $stmt->fetchAll();
-				break;
-
-			default:
-				// Retornando erro para usuário
-				$sse->medidas_area->real =  array();
-				$sse->medidas_linear->real = array();
-				$sse->medidas_unidades->real = array();
-				break;
+		if($tds_r){
+			switch ($tds_r->medida) {
+				case 'a':
+					$sql = 'SELECT id, l, c, tipo FROM maxse_medidas_area WHERE id_sse=:id_sse AND tipo="r"';
+					$stmt = $this->db->prepare($sql);
+					$stmt->execute(array(':id_sse' => $sse->id));
+					$sse->medidas_area->real = $stmt->fetchAll();
+					break;
+				
+				case 'l':
+					$sql = 'SELECT id, v, tipo FROM maxse_medidas_linear WHERE id_sse=:id_sse AND tipo="r"';
+					$stmt = $this->db->prepare($sql);
+					$stmt->execute(array(':id_sse' => $sse->id));
+					$sse->medidas_linear->real = $stmt->fetchAll();
+					break;
+	
+				case 'u':
+					$sql = 'SELECT id, n, tipo FROM maxse_medidas_unidades WHERE id_sse=:id_sse AND tipo="r"';
+					$stmt = $this->db->prepare($sql);
+					$stmt->execute(array(':id_sse' => $sse->id));
+					$sse->medidas_unidades->real = $stmt->fetchAll();
+					break;
+					
+			}
 		}
 
 		// Levantando tarefas associadas a esta sse
