@@ -3,7 +3,7 @@
 	<ion-navbar color ="primary">
 		<ion-title>Final de Exec. SSE {{tarefa?.sse?.numero}}</ion-title>
 		<ion-buttons end>
-			<button ion-button [disabled]="!form.valid || tarefa?.fotos_fim?.length==0" (click)="onSalvarClick()"><ion-icon name="checkmark"></ion-icon></button>
+			<button ion-button icon-only large [disabled]="!form.valid || tarefa?.fotos_fim?.length==0" (click)="onSalvarClick()"><ion-icon name="checkmark"></ion-icon></button>
 		</ion-buttons>
 	</ion-navbar>
 	<div class="divergente" *ngIf="tarefa?.divergente=='1'">

@@ -8,7 +8,7 @@
 			<!-- BOTÃO QUE SALVA TAREFAS DIVERGENTES-->
 			<button
 				*ngIf="tarefa.divergente"
-				ion-button
+				ion-button icon-only large
 				[disabled]="!form.valid || (executarComAutorizacao && !tarefa.autorizadaPor) || executarComAutorizacao==undefined || tarefa.fotos_inicio.length==0"
 				(click)="onSalvarDivergenciaClick()">
 					<ion-icon name="done-all"></ion-icon>
@@ -17,7 +17,7 @@
 			<!-- BOTÃO QUE SALVA TAREFAS NÃO DIVERGENTES-->
 			<button
 				*ngIf="!tarefa.divergente"
-				ion-button
+				ion-button icon-only large
 				[disabled]="!form.valid || tarefa.fotos_inicio.length==0"
 				(click)="onSalvarClick()">
 					<ion-icon name="checkmark"></ion-icon>
