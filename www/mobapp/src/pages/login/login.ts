@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { NavController, NavParams, TextInput } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Storage } from "@ionic/storage";
 import { SsesPage } from '../sses/sses';
@@ -15,6 +15,7 @@ import { SsesMapaPage } from '../sses-mapa/sses-mapa';
 export class LoginPage {
 
 	private data:{u:string,p:string,f:string} = {"u":'',"p":'',"f":'app'};
+	@ViewChild('senha') inputSenha:TextInput;
 
 	constructor(
 		public navCtrl: NavController,
@@ -34,6 +35,18 @@ export class LoginPage {
 				this.data.u = login;
 			}
 		)
+	}
+
+	onLoginEnterPress(keyCode:number){
+		if(keyCode == 13){
+			this.inputSenha.setFocus();
+		}
+	}
+
+	onPassEnterPress(keyCode:number){
+		if(keyCode == 13){
+			this.login();
+		}
 	}
 
 	onEntrarClick(){

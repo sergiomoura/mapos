@@ -3,11 +3,19 @@
 		<img src="assets/imgs/logo.png" alt="MAXSe">
 		<ion-item>
 			<ion-label floating>Login</ion-label>
-			<ion-input [(ngModel)]="data.u" type="text" clearOnEdit="true"></ion-input>
+			<ion-input
+				(keypress)="onLoginEnterPress($event.keyCode)"
+				[(ngModel)]="data.u"
+				type="text"
+				clearOnEdit="true"></ion-input>
 		</ion-item>
 		<ion-item>
 			<ion-label floating>Senha</ion-label>
-			<ion-input [(ngModel)]="data.p" type="password"></ion-input>
+			<ion-input
+				#senha
+				(keypress)="onPassEnterPress($event.keyCode)"
+				[(ngModel)]="data.p"
+				type="password"></ion-input>
 		</ion-item>	
 		<button
 			(click) = "onEntrarClick()"
