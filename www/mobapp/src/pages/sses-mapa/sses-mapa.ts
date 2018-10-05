@@ -6,6 +6,8 @@ import { Tarefa } from '../../_models/tarefa';
 import { TarefaTabsPage } from '../tarefa-tabs/tarefa-tabs';
 import { TarefasPage } from '../tarefas/tarefas';
 import { AgmInfoWindow } from '@agm/core';
+import { Observable } from 'rxjs';
+
 @Component({
 	selector: 'page-sses-mapa',
 	templateUrl: 'sses-mapa.html',
@@ -16,6 +18,8 @@ export class SsesMapaPage {
 	lat_inicial:number = -22.916405805627686;
 	lng_inicial:number = -47.067499388564215;
 	initial_zoom:number = 11;
+	mylat:number;
+	mylng:number;
 	markerAtual:any;
 	public tarefas: Tarefa[];
 	private tmpTarefas: any[];
@@ -35,7 +39,22 @@ export class SsesMapaPage {
 
 
 	ionViewDidLoad() {
-		
+		// let opt:GeolocationOptions;
+		// opt = {
+		// 	enableHighAccuracy:true,
+		// 	maximumAge:5000,
+		// 	timeout:Infinity
+		// }
+
+		// this.geo.getCurrentPosition(opt).then(
+		// 	(pos:Geoposition) => {
+		// 		this.mylat = pos.coords.latitude;
+		// 		this.mylng = pos.coords.longitude;
+		// 	},
+		// 	(reason:any) => {
+		// 		console.log(reason);
+		// 	}
+		// )
 	}
 
 	ionViewWillEnter(){

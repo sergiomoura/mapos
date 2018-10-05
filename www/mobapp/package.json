@@ -26,6 +26,7 @@
     "@ionic-native/camera": "^4.9.1",
     "@ionic-native/core": "4.7.0",
     "@ionic-native/device": "^4.9.0",
+    "@ionic-native/geolocation": "^4.15.0",
     "@ionic-native/keyboard": "^4.9.0",
     "@ionic-native/launch-navigator": "^4.10.0",
     "@ionic-native/screen-orientation": "^4.10.0",
@@ -39,6 +40,7 @@
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-dialogs": "^2.0.1",
     "cordova-plugin-fullscreen": "^1.2.0",
+    "cordova-plugin-geolocation": "4.0.1",
     "cordova-plugin-ionic-keyboard": "^2.0.5",
     "cordova-plugin-ionic-webview": "^1.1.19",
     "cordova-plugin-screen-orientation": "^3.0.1",
@@ -78,7 +80,10 @@
       "uk.co.workingedge.phonegap.plugin.launchnavigator": {
         "OKHTTP_VERSION": "3.+"
       },
-      "cordova-plugin-screen-orientation": {}
+      "cordova-plugin-screen-orientation": {},
+      "cordova-plugin-geolocation": {
+        "GEOLOCATION_USAGE_DESCRIPTION": "Te posicionar no mapa"
+      }
     },
     "platforms": [
       "android",

@@ -78,7 +78,7 @@ import { SsesMapaPage } from '../pages/sses-mapa/sses-mapa';
 		Urls,
 		SsesProvider,
 		GeralProvider,
-    	TarefasProvider
+		TarefasProvider
 	]
 })
 export class AppModule {}

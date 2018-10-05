@@ -17,6 +17,11 @@
 		(mapClick)="onMapClick($event)">
 		
 		<agm-marker
+			[latitude]="mylat"
+			[longitude]="mylng"
+			[iconUrl]="'assets/imgs/mylocation.svg'"></agm-marker>
+
+		<agm-marker
 			*ngFor="let tarefa of tarefas"
 			[latitude]="tarefa.lat"
 			[longitude]="tarefa.lng"
