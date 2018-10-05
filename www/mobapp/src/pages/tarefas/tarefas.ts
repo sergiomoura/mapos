@@ -66,10 +66,11 @@ export class TarefasPage {
 				
 				// Exibindo toast de erro
 				const toast = this.toastController.create({
-				message: 'Falha ao carregar tarefas',
-				duration: 0,
-				showCloseButton: true,
-				closeButtonText: 'X'
+					message: 'Falha ao carregar tarefas',
+					duration: 0,
+					showCloseButton: true,
+					closeButtonText: 'X',
+					dismissOnPageChange: true
 				});
 				toast.present();
 
@@ -121,7 +122,8 @@ export class TarefasPage {
 							message: 'Falha ao tentar gravar a tarefa na memória do celular.',
 							duration: 0,
 							showCloseButton: true,
-							closeButtonText: 'X'
+							closeButtonText: 'X',
+							dismissOnPageChange:true
 						});
 						toast.present();
 					}

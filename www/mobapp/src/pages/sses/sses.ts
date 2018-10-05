@@ -67,7 +67,8 @@ k
 					message: 'Falha ao tentar carregar SSEs',
 					duration: 0,
 					showCloseButton: true,
-					closeButtonText: 'X'
+					closeButtonText: 'X',
+					dismissOnPageChange: true
 				});
 				toast.present();
 

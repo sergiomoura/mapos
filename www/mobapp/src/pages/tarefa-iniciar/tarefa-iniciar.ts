@@ -106,7 +106,8 @@ export class TarefaIniciarPage {
 					message: 'Falha ao carregar tipos de serviço',
 					duration: 0,
 					showCloseButton: true,
-					closeButtonText: 'X'
+					closeButtonText: 'X',
+					dismissOnPageChange: true
 				});
 				toast.present();
 			}
@@ -346,7 +347,8 @@ export class TarefaIniciarPage {
 					message: 'Falha ao tentar registrar início de tarefa!',
 					duration: 0,
 					showCloseButton: true,
-					closeButtonText: 'X'
+					closeButtonText: 'X',
+					dismissOnPageChange: true
 				});
 				toast.present();
 			}
@@ -380,7 +382,8 @@ export class TarefaIniciarPage {
 					message: 'Falha ao tentar registrar divergência de tarefa!',
 					duration: 0,
 					showCloseButton: true,
-					closeButtonText: 'X'
+					closeButtonText: 'X',
+					dismissOnPageChange: true
 				});
 				toast.present();
 

@@ -144,10 +144,11 @@ export class TarefaConcluirPage {
 
 				// Exibindo toast de erro
 				const toast = this.toastController.create({
-				message: 'Falha ao tentar concluir tarefa!',
-				duration: 0,
-				showCloseButton: true,
-				closeButtonText: 'X'
+					message: 'Falha ao tentar concluir tarefa!',
+					duration: 0,
+					showCloseButton: true,
+					closeButtonText: 'X',
+					dismissOnPageChange: true
 				});
 				toast.present();
 			}

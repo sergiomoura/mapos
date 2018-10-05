@@ -91,10 +91,11 @@ export class SsePage {
 
 						// Exibindo toast de erro
 						const toast = this.toastController.create({
-						message: 'SSE não pode ser alterada',
-						duration: 0,
-						showCloseButton: true,
-						closeButtonText: 'X'
+							message: 'SSE não pode ser alterada',
+							duration: 0,
+							showCloseButton: true,
+							closeButtonText: 'X',
+							dismissOnPageChange:true
 						});
 						toast.present();
 					}
@@ -112,7 +113,8 @@ export class SsePage {
 						message: 'Falha ao tentar carregar SSE',
 						duration: 0,
 						showCloseButton: true,
-						closeButtonText: 'X'
+						closeButtonText: 'X',
+						dismissOnPageChange: true
 					});
 					toast.present();
 				}
@@ -245,7 +247,8 @@ export class SsePage {
 				message: 'Falha ao tirar foto.',
 				duration: 0,
 				showCloseButton: true,
-				closeButtonText: 'X'
+				closeButtonText: 'X',
+				dismissOnPageChange: true
 			});
 			toast.present();
 
@@ -293,7 +296,8 @@ export class SsePage {
 					message: 'Falha ao alterar SSE',
 					duration: 0,
 					showCloseButton: true,
-					closeButtonText: 'X'
+					closeButtonText: 'X',
+					dismissOnPageChange: true
 				});
 				toast.present();
 
@@ -337,7 +341,8 @@ export class SsePage {
 					message: 'Falha ao salvar SSE',
 					duration: 0,
 					showCloseButton: true,
-					closeButtonText: 'X'
+					closeButtonText: 'X',
+					dismissOnPageChange: true
 				});
 				toast.present();
 
