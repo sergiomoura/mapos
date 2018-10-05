@@ -312,6 +312,10 @@ export class TarefaIniciarPage {
 					}
 					break;
 			}
+
+			// Arredondando o total para que possua, no máximo 2 casas decimais
+			total = Math.round(total*100)/100;
+			
 			return {'valor':total,'unidade':unidade}
 		}
 	}
