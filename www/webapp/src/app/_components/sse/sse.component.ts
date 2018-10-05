@@ -439,11 +439,13 @@ export class SseComponent implements OnInit,OnDestroy {
 		}
 	}
 
-	onImageClick(){
-		const dialogRef = this.dialog.open(FotoModalComponent, {
-			width: '750px',
+	onImageClick(){		
+		const dialogRef = this.dialog.open(GaleriaComponent, {
+			maxWidth: '800px',
+			maxHeight: '600px',
 			data: {
-				'foto':this.sse.foto
+				'start_index':0,
+				'fotos':[this.sse.foto]
 			}
 		});
 	}
