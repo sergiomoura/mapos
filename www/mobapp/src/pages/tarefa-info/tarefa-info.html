@@ -98,4 +98,22 @@
 		</div>
 	</div>
 
+	<div class="container-fotos">
+		<div class="titulo">Fotos do Início da Tarefa</div>
+		<div class="fotos">
+			<div class="foto" *ngFor="let foto of tarefa?.fotos_inicio; let i=index">
+				<img [src]="foto" alt="foto" imageViewer>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fotos">
+		<div class="titulo">Fotos do Final da Tarefa</div>
+		<div class="fotos">
+			<div class="foto" *ngFor="let foto of tarefa?.fotos_fim; let i=index">
+				<img [src]="foto" alt="foto" imageViewer>
+			</div>
+		</div>
+	</div>
+
 </ion-content>
