@@ -5,6 +5,7 @@ import { Storage } from '@ionic/storage';
 import { Tarefa } from '../../_models/tarefa';
 import { TarefaTabsPage } from '../tarefa-tabs/tarefa-tabs';
 import { TarefasPage } from '../tarefas/tarefas';
+import { AgmInfoWindow } from '@agm/core';
 @Component({
 	selector: 'page-sses-mapa',
 	templateUrl: 'sses-mapa.html',
@@ -18,6 +19,7 @@ export class SsesMapaPage {
 	markerAtual:any;
 	public tarefas: Tarefa[];
 	private tmpTarefas: any[];
+	infoWindowAtual:AgmInfoWindow;
 
 	constructor(
 		public navCtrl: NavController,
@@ -120,18 +122,18 @@ export class SsesMapaPage {
 		this.tarefas = this.tmpTarefas;
 	}
 
-	onMarkerClick(infowindow){
-		// if (this.markerAtual) {
-		// 	this.markerAtual.close();
-		// }
-		// this.markerAtual = infowindow;
+	onMarkerClick(iw:AgmInfoWindow){
+		if (this.infoWindowAtual) {
+			this.infoWindowAtual.close();
+		}
+		this.infoWindowAtual = iw;
 	}
 
 	onMapClick(evt){
-		if (this.markerAtual) {
-			this.markerAtual.close();
+		if (this.infoWindowAtual) {
+			this.infoWindowAtual.close();
 		}
-		this.markerAtual = undefined;
+		this.infoWindowAtual = undefined;
 	}
 	
 	onTarefaClick(id_tarefa:number){
