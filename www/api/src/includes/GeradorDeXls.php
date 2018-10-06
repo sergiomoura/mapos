@@ -49,19 +49,27 @@
 		$sheet_dados->setCellValue('AB1','Lucro');
 		$sheet_dados->setCellValue('AC1','Equipe');
 		$sheet_dados->setCellValue('AD1','Apoio');
-		$sheet_dados->setCellValue('AE1','Agendado para');
-		$sheet_dados->setCellValue('AF1','Data da Execução');
-		$sheet_dados->setCellValue('AG1','Material'); // <-- Consumo
-		$sheet_dados->setCellValue('AH1','Qtde '); // <-- Consumo
-		$sheet_dados->setCellValue('AI1','Unid'); // <-- Consumo
-		$sheet_dados->setCellValue('AJ1','Equipe');
-		$sheet_dados->setCellValue('Ak1','Apoio');
-		$sheet_dados->setCellValue('AL1','Agendado para');
-		$sheet_dados->setCellValue('AM1','Data da Execução');
-		$sheet_dados->setCellValue('AN1','Material'); // <-- Consumo
-		$sheet_dados->setCellValue('AO1','Qtde '); // <-- Consumo
-		$sheet_dados->setCellValue('AP1','Unid'); // <-- Consumo
-
+		$sheet_dados->setCellValue('AE1','Data Agendamento');
+		$sheet_dados->setCellValue('AF1','Hora Agendamento');
+		$sheet_dados->setCellValue('AG1','Data Início da Execução');
+		$sheet_dados->setCellValue('AH1','Hora Início da Execução');
+		$sheet_dados->setCellValue('AI1','Data Final da Execução');
+		$sheet_dados->setCellValue('AJ1','Hora Final da Execução');
+		$sheet_dados->setCellValue('AK1','Material'); // <-- Consumo
+		$sheet_dados->setCellValue('AL1','Qtde '); // <-- Consumo
+		$sheet_dados->setCellValue('AM1','Unid'); // <-- Consumo
+		$sheet_dados->setCellValue('AN1','Equipe');
+		$sheet_dados->setCellValue('AO1','Apoio');
+		$sheet_dados->setCellValue('AP1','Data Agendamento');
+		$sheet_dados->setCellValue('AQ1','Hora Agendamento');
+		$sheet_dados->setCellValue('AR1','Data Início da Execução');
+		$sheet_dados->setCellValue('AS1','Hora Início da Execução');
+		$sheet_dados->setCellValue('AT1','Data Final da Execução');
+		$sheet_dados->setCellValue('AU1','Hora Final da Execução');
+		$sheet_dados->setCellValue('AV1','Material'); // <-- Consumo
+		$sheet_dados->setCellValue('AW1','Qtde '); // <-- Consumo
+		$sheet_dados->setCellValue('AX1','Unid'); // <-- Consumo
+		
 		// Inserindo dados
 		foreach ($sses as $i => $sse) {
 			$sheet_dados->setCellValue('A'.($i + 2),$sse->id);
@@ -152,41 +160,67 @@
 			if(sizeof($sse->tarefas)>0){
 
 				// Determinando o dia do agendamento e o dia da execução no formato de data pt/Br
-				$inicio_p = (new DateTime($sse->tarefas[0]->inicio_p))->format('d/m/Y');
-				$final_r = '';
-				if ($sse->tarefas[0]->final_r){
-					$final_r = (new DateTime($sse->tarefas[0]->final_r))->format('d/m/Y');
+				$inicio_p	= new DateTime($sse->tarefas[0]->inicio_p);
+				$final_p	= new DateTime($sse->tarefas[0]->final_p);
+
+				if($sse->tarefas[0]->inicio_r){
+					$inicio_r = new DateTime($sse->tarefas[0]->inicio_r);
+					$str_inicio_r_data = $inicio_r->format('d/m/Y');
+					$str_inicio_r_hora = $inicio_r->format('G:i');
+				}
+
+				if($sse->tarefas[0]->final_r){
+					$final_r = new DateTime($sse->tarefas[0]->final_r);
+					$str_final_r_data = $final_r->format('d/m/Y');
+					$str_final_r_hora = $final_r->format('G:i');
 				}
 
 				$sheet_dados->setCellValue('AC'.($i + 2),$sse->tarefas[0]->nome_equipe);
 				$sheet_dados->setCellValue('AD'.($i + 2),$sse->tarefas[0]->nome_apoio);
-				$sheet_dados->setCellValue('AE'.($i + 2),$inicio_p);
-				$sheet_dados->setCellValue('AF'.($i + 2),$final_r);
+				$sheet_dados->setCellValue('AE'.($i + 2),$inicio_p->format('d/m/Y'));
+				$sheet_dados->setCellValue('AF'.($i + 2),$inicio_p->format('G:i'));
+				$sheet_dados->setCellValue('AG'.($i + 2),$str_inicio_r_data);
+				$sheet_dados->setCellValue('AH'.($i + 2),$str_inicio_r_hora);
+				$sheet_dados->setCellValue('AI'.($i + 2),$str_final_r_data);
+				$sheet_dados->setCellValue('AJ'.($i + 2),$str_final_r_hora);
 				if(sizeof($sse->tarefas[0]->consumos) > 0){
-					$sheet_dados->setCellValue('AG'.($i + 2),$sse->tarefas[0]->consumos[0]->nome);
-					$sheet_dados->setCellValue('AH'.($i + 2),$sse->tarefas[0]->consumos[0]->qtde);
-					$sheet_dados->setCellValue('AI'.($i + 2),$sse->tarefas[0]->consumos[0]->unidade);
+					$sheet_dados->setCellValue('AK'.($i + 2),$sse->tarefas[0]->consumos[0]->nome);
+					$sheet_dados->setCellValue('AL'.($i + 2),$sse->tarefas[0]->consumos[0]->qtde);
+					$sheet_dados->setCellValue('AM'.($i + 2),$sse->tarefas[0]->consumos[0]->unidade);
 				}
-			}
-
+			}			
+			
 			// Dados da tarefa 2 = = =
 			if(sizeof($sse->tarefas)>1){
 
 				// Determinando o dia do agendamento e o dia da execução no formato de data pt/Br
-				$inicio_p = (new DateTime($sse->tarefas[1]->inicio_p))->format('d/m/Y');
-				$final_r = '';
-				if ($sse->tarefas[1]->final_r){
-					$final_r = (new DateTime($sse->tarefas[1]->final_r))->format('d/m/Y');
+				$inicio_p	= new DateTime($sse->tarefas[1]->inicio_p);
+				$final_p	= new DateTime($sse->tarefas[1]->final_p);
+
+				if($sse->tarefas[1]->inicio_r){
+					$inicio_r = new DateTime($sse->tarefas[1]->inicio_r);
+					$str_inicio_r_data = $inicio_r->format('d/m/Y');
+					$str_inicio_r_hora = $inicio_r->format('G:i');
 				}
 
-				$sheet_dados->setCellValue('AJ'.($i + 2),$sse->tarefas[1]->nome_equipe);
-				$sheet_dados->setCellValue('AK'.($i + 2),$sse->tarefas[1]->nome_apoio);
-				$sheet_dados->setCellValue('AL'.($i + 2),$inicio_p);
-				$sheet_dados->setCellValue('AM'.($i + 2),$final_r);
+				if($sse->tarefas[1]->final_r){
+					$final_r = new DateTime($sse->tarefas[1]->final_r);
+					$str_final_r_data = $final_r->format('d/m/Y');
+					$str_final_r_hora = $final_r->format('G:i');
+				}
+
+				$sheet_dados->setCellValue('AC'.($i + 2),$sse->tarefas[1]->nome_equipe);
+				$sheet_dados->setCellValue('AD'.($i + 2),$sse->tarefas[1]->nome_apoio);
+				$sheet_dados->setCellValue('AE'.($i + 2),$inicio_p->format('d/m/Y'));
+				$sheet_dados->setCellValue('AF'.($i + 2),$inicio_p->format('G:i'));
+				$sheet_dados->setCellValue('AG'.($i + 2),$str_inicio_r_data);
+				$sheet_dados->setCellValue('AH'.($i + 2),$str_inicio_r_hora);
+				$sheet_dados->setCellValue('AI'.($i + 2),$str_final_r_data);
+				$sheet_dados->setCellValue('AJ'.($i + 2),$str_final_r_hora);
 				if(sizeof($sse->tarefas[1]->consumos) > 0){
-					$sheet_dados->setCellValue('AN'.($i + 2),$sse->tarefas[1]->consumos[0]->nome);
-					$sheet_dados->setCellValue('AO'.($i + 2),$sse->tarefas[1]->consumos[0]->qtde);
-					$sheet_dados->setCellValue('AP'.($i + 2),$sse->tarefas[1]->consumos[0]->unidade);
+					$sheet_dados->setCellValue('AK'.($i + 2),$sse->tarefas[1]->consumos[1]->nome);
+					$sheet_dados->setCellValue('AL'.($i + 2),$sse->tarefas[1]->consumos[1]->qtde);
+					$sheet_dados->setCellValue('AM'.($i + 2),$sse->tarefas[1]->consumos[1]->unidade);
 				}
 			}
 		}
