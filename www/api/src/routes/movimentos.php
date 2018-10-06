@@ -5,8 +5,60 @@
 
 	$app->get($api_root.'/estoque/movimentos',function(Request $req, Response $res, $args = []){
 
-		// Levantando tipos de equipe na base
-		$sql = 'SELECT id,id_produto,dh,qtde,tipo,id_referencia,valor_unit FROM estoque_movimentos ORDER BY dh DESC';
+		// Levantando movimentos na base
+		$sql = 'SELECT *
+				FROM
+				(SELECT X.id,
+						X.dh,
+						X.id_produto,
+						X.id_referencia,
+						X.tipo,
+						X.qtde,
+						X.valor_unit,
+						X.id_sse,
+						X.numero_sse,
+						X.codigo_tds,
+						X.medida,
+						Ya.medida_total AS medida_a,
+						Yl.medida_total AS medida_l,
+						Yu.medida_total AS medida_u
+				FROM
+					(SELECT a.id,
+							a.dh,
+							a.id_produto,
+							a.id_referencia,
+							a.tipo,
+							a.qtde,
+							a.valor_unit,
+							c.id AS id_sse,
+							c.numero AS numero_sse,
+							d.codigo AS codigo_tds,
+							d.medida AS medida
+					FROM estoque_movimentos a
+					INNER JOIN maxse_tarefas b ON (a.id_referencia=b.id
+													AND a.tipo="-1")
+					INNER JOIN maxse_sses c ON b.id_sse=c.id
+					INNER JOIN maxse_tipos_de_servico d ON d.id=c.id_tipo_de_servico_r) X
+				LEFT JOIN (SELECT id_sse, sum(l*c) AS medida_total FROM maxse_medidas_area     WHERE tipo="r" GROUP BY id_sse) Ya ON X.id_sse=Ya.id_sse
+				LEFT JOIN (SELECT id_sse, sum(v)   AS medida_total FROM maxse_medidas_linear   WHERE tipo="r" GROUP BY id_sse) Yl ON X.id_sse=Yl.id_sse
+				LEFT JOIN (SELECT id_sse, sum(n)   AS medida_total FROM maxse_medidas_unidades WHERE tipo="r" GROUP BY id_sse) Yu ON X.id_sse=Yu.id_sse
+				UNION SELECT id,
+								dh,
+								id_produto,
+								id_referencia,
+								tipo,
+								qtde,
+								valor_unit,
+								NULL AS id_sse,
+								NULL AS numero_sse,
+								NULL AS codigo_tds,
+								NULL AS medida,
+								NULL AS medida_a,
+								NULL AS medida_l,
+								NULL AS medida_u
+				FROM estoque_movimentos
+				WHERE tipo="1") T
+				ORDER BY dh';
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
 		$movimentos = $stmt->fetchAll();

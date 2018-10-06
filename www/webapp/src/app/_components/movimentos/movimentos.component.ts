@@ -6,6 +6,8 @@ import { Movimento } from '../../_models/movimento';
 import { ProdutosService } from '../../_services/produtos.service';
 import { LancarNotaComponent } from '../lancar-nota/lancar-nota.component';
 import { EditMovimentoComponent } from '../edit-movimento/edit-movimento.component';
+import { Subscription } from 'rxjs';
+import { EventsService } from '../../_services/events.service';
 
 @Component({
 	selector: 'app-movimentos',
@@ -19,16 +21,34 @@ export class MovimentosComponent implements OnInit {
 		private movService:MovimentosService,
 		private prodService:ProdutosService,
 		private snackBar:MatSnackBar,
-		public dialog: MatDialog
+		public dialog: MatDialog,
+		private evtService:EventsService
 	) { }
 
 	movimentos:Movimento[];
 	tmpMovimentos:any[];
 	produtos:Produto[];
+	subscriptions:Subscription[] = [];
 
 	ngOnInit() {
 		this.getProdutos();
 		this.getMovimentos();
+
+		// Subscrevendo ao observavel de evento reload clicked
+		this.subscriptions.push(
+			this.evtService.reloadClicked$.subscribe(
+				() => {
+					this.getMovimentos();
+				}
+			)
+		)
+	}
+
+	ngOnDestroy() {
+		// Unsubscribing from all subscriptions
+		for (let i = 0; i < this.subscriptions.length; i++) {
+			this.subscriptions[i].unsubscribe();
+		}
 	}
 
 	getMovimentos(){

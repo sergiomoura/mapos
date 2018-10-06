@@ -10,7 +10,9 @@
 			<td>Entrada</td>
 			<td>Saída</td>
 			<td>Valor Unit</td>
-			<td>Referência</td>
+			<td>SSE</td>
+			<td>TDS</td>
+			<td>Medida</td>
 			<td></td>
 		</tr>
 	</thead>
@@ -22,10 +24,9 @@
 			<td><span *ngIf="m.tipo ==  1">{{m.qtde | number:'1.0-2' | numeroBr}} {{m.produto.unidade}}</span></td>
 			<td><span *ngIf="m.tipo == -1">{{m.qtde | number:'1.0-2' | numeroBr}} {{m.produto.unidade}}</span></td>
 			<td>{{m.valor_unit | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
-			<td>
-				<a *ngIf="m.tipo == -1" (click)="abrirTarefa()">S {{m.id_referencia}}</a>
-				<a *ngIf="m.tipo ==  1" (click)="abrirNf()">E {{m.id_referencia}}</a>
-			</td>
+			<td>{{m.numero_sse}}</td>
+			<td>{{m.codigo_tds}}</td>
+			<td>{{m["medida_"+m.medida]}}</td>
 			<td>
 				<button mat-icon-button (click)="onEditClick(m)">
 					<mat-icon>edit</mat-icon>
