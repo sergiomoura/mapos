@@ -346,6 +346,9 @@ export class TarefaIniciarPage {
 				this.events.publish('tarefa:iniciada');
 			},
 			err => {
+				// excondendo o carregando
+				loading.dismiss();
+				
 				// Exibindo toast de erro
 				const toast = this.toastController.create({
 					message: 'Falha ao tentar registrar início de tarefa!',

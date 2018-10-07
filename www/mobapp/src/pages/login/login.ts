@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams, TextInput } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Storage } from "@ionic/storage";

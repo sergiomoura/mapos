@@ -898,7 +898,7 @@
 		
 		// Salvando fotos novas
 		foreach ($tarefa->fotos_inicio as $i => $foto) {
-			if($foto->changingThisBreaksApplicationSecurity){
+			if(isset($foto->changingThisBreaksApplicationSecurity)){
 				$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
 			} else {
 				$data = str_replace('data:image/jpeg;base64,','',$foto);
@@ -950,18 +950,18 @@
 		}
 		
 
-		// Removendo medidas antigas (do tipo r)
+		// Removendo medidas antigas (do tipo r ou l)
 		switch ($tarefa->sse->tipoDeServicoReal->medida) {
 			case 'a':
-				$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse = :id_sse AND tipo="r"';
+				$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse = :id_sse AND (tipo="r" OR tipo="l")';
 				break;
 			
 			case 'l':
-				$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse = :id_sse AND tipo="r"';
+				$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse = :id_sse AND (tipo="r" OR tipo="l")';
 				break;
 			
 			case 'u':
-				$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse = :id_sse AND tipo="r"';
+				$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse = :id_sse AND (tipo="r" OR tipo="l")';
 				break;
 
 			default:
@@ -991,11 +991,26 @@
 		// Inserindo medidas novas (como tipo r)
 		switch ($tarefa->sse->tipoDeServicoReal->medida) {
 			case 'a':
-				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo) VALUES (:l,:c,:id_sse,"r")';
+				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo) VALUES (:l,:c,:id_sse,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_area->real as $m) {
 					try {
-						$stmt->execute(array(':l'=>$m->l, ':c'=>$m->c, ':id_sse' => $tarefa->sse->id));
+						$stmt->execute(
+							array(
+								':l'=>$m->l,
+								':c'=>$m->c,
+								':id_sse' => $tarefa->sse->id,
+								':tipo' => 'r'
+							)
+						);
+						$stmt->execute(
+							array(
+								':l'=>$m->l,
+								':c'=>$m->c,
+								':id_sse' => $tarefa->sse->id,
+								':tipo' => 'l'
+							)
+						);
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -1009,11 +1024,24 @@
 				break;
 			
 			case 'l':
-				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo) VALUES (:v,:id_sse,"r")';
+				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo) VALUES (:v,:id_sse,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_linear->real as $m) {
 					try {
-						$stmt->execute(array(':v'=>$m->v,':id_sse'=>$tarefa->sse->id));
+						$stmt->execute(
+							array(
+								':v' => $m->v,
+								':id_sse' => $tarefa->sse->id,
+								':tipo' => 'r'
+							)
+						);
+						$stmt->execute(
+							array(
+								':v' => $m->v,
+								':id_sse' => $tarefa->sse->id,
+								':tipo' => 'l'
+							)
+						);
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -1027,11 +1055,24 @@
 				break;
 			
 			case 'u':
-				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo) VALUES (:n,:id_sse,"r")';
+				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo) VALUES (:n,:id_sse,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_unidades->real as $m) {
 					try {
-						$stmt->execute(array(':n'=>$m->n,':id_sse'=>$tarefa->sse->id));
+						$stmt->execute(
+							array(
+								':n' => $m->n,
+								':id_sse' => $tarefa->sse->id,
+								':tipo' => 'r'
+							)
+						);
+						$stmt->execute(
+							array(
+								':n' => $m->n,
+								':id_sse' => $tarefa->sse->id,
+								':tipo' => 'l'
+							)
+						);
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -1127,7 +1168,7 @@
 		
 		// Salvando fotos novas
 		foreach ($tarefa->fotos_inicio as $i => $foto) {
-			if($foto->changingThisBreaksApplicationSecurity){
+			if(isset($foto->changingThisBreaksApplicationSecurity)){
 				$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
 			} else {
 				$data = str_replace('data:image/jpeg;base64,','',$foto);
@@ -1159,7 +1200,7 @@
 
 		// Determinando se o status vai ser DIVERGENTE em caso de não autorizada ou EXECUTANDO no caso de autorizada
 		$status = '';
-		$temAutorizacao = is_string($tarefa->autorizadaPor) && strlen($tarefa->autorizadaPor);
+		$temAutorizacao = isset($tarefa->autorizadaPor) && is_string($tarefa->autorizadaPor) && strlen($tarefa->autorizadaPor);
 
 		if ($tarefa->divergente === true && $temAutorizacao){
 			$status = 'EXECUTANDO';
@@ -1198,15 +1239,15 @@
 		// Removendo medidas antigas (do tipo r)
 		switch ($tarefa->sse->tipoDeServicoReal->medida) {
 			case 'a':
-				$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse = :id_sse AND tipo="r"';
+				$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse = :id_sse AND (tipo="r" OR tipo="l")';
 				break;
 			
 			case 'l':
-				$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse = :id_sse AND tipo="r"';
+				$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse = :id_sse AND (tipo="r" OR tipo="l")';
 				break;
 			
 			case 'u':
-				$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse = :id_sse AND tipo="r"';
+				$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse = :id_sse AND (tipo="r" OR tipo="l")';
 				break;
 
 			default:
@@ -1236,11 +1277,12 @@
 		// Inserindo medidas novas (como tipo r)
 		switch ($tarefa->sse->tipoDeServicoReal->medida) {
 			case 'a':
-				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo) VALUES (:l,:c,:id_sse,"r")';
+				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo) VALUES (:l,:c,:id_sse,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_area->real as $m) {
 					try {
-						$stmt->execute(array(':l'=>$m->l, ':c'=>$m->c, ':id_sse' => $tarefa->sse->id));
+						$stmt->execute(array(':l'=>$m->l, ':c'=>$m->c, ':id_sse' => $tarefa->sse->id, ':tipo'=>'r'));
+						$stmt->execute(array(':l'=>$m->l, ':c'=>$m->c, ':id_sse' => $tarefa->sse->id, ':tipo'=>'l'));
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -1254,11 +1296,12 @@
 				break;
 			
 			case 'l':
-				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo) VALUES (:v,:id_sse,"r")';
+				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo) VALUES (:v,:id_sse,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_linear->real as $m) {
 					try {
-						$stmt->execute(array(':v'=>$m->v,':id_sse'=>$tarefa->sse->id));
+						$stmt->execute(array(':v'=>$m->v,':id_sse'=>$tarefa->sse->id, ':tipo'=>'r'));
+						$stmt->execute(array(':v'=>$m->v,':id_sse'=>$tarefa->sse->id, ':tipo'=>'l'));
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -1272,11 +1315,12 @@
 				break;
 			
 			case 'u':
-				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo) VALUES (:n,:id_sse,"r")';
+				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo) VALUES (:n,:id_sse,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				foreach ($tarefa->sse->medidas_unidades->real as $m) {
 					try {
-						$stmt->execute(array(':n'=>$m->n,':id_sse'=>$tarefa->sse->id));
+						$stmt->execute(array(':n'=>$m->n, ':id_sse'=>$tarefa->sse->id, ':tipo'=>'r'));
+						$stmt->execute(array(':n'=>$m->n, ':id_sse'=>$tarefa->sse->id, ':tipo'=>'l'));
 					} catch (Exception $e) {
 						// Falhou. Rollback!
 						$this->db->rollback();
@@ -1302,7 +1346,7 @@
 			$stmt->execute(
 				array(
 					':id_tarefa' => $tarefa->id,
-					':autorizadaPor' => $tarefa->autorizadaPor,
+					':autorizadaPor' => isset($tarefa->autorizadaPor) ? $tarefa->autorizadaPor : null,
 					':inicio_r' => ($temAutorizacao ? date('Y-m-d H:i:s') : null),
 					':obs_ini' => $tarefa->obs_ini
 				)
@@ -1368,7 +1412,7 @@
 		
 		// Salvando fotos novas
 		foreach ($tarefa->fotos_fim as $i => $foto) {
-			if($foto->changingThisBreaksApplicationSecurity){
+			if(isset($foto->changingThisBreaksApplicationSecurity)){
 				$data = str_replace('data:image/jpeg;base64,','',$foto->changingThisBreaksApplicationSecurity);
 			} else {
 				$data = str_replace('data:image/jpeg;base64,','',$foto);

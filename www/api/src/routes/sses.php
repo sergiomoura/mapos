@@ -1365,7 +1365,7 @@
 		switch ($sse->tipoDeServicoPrev->medida) {
 			case 'a':
 				$sql = 'INSERT INTO maxse_medidas_area (l,c,id_sse,tipo)
-						VALUES (:l,:c,:id,\'p\')';
+						VALUES (:l,:c,:id,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				for ($i=0; $i < sizeOf($sse->medidas_area->prev); $i++) {
 					$trabalho += $sse->medidas_area->prev[$i]->l * $sse->medidas_area->prev[$i]->c;
@@ -1374,7 +1374,20 @@
 						$stmt->execute(array(
 							':l' => $sse->medidas_area->prev[$i]->l,
 							':c' => $sse->medidas_area->prev[$i]->c,
-							':id' => $idNovo
+							':id' => $idNovo,
+							':tipo' => "p"
+						));
+						$stmt->execute(array(
+							':l' => $sse->medidas_area->prev[$i]->l,
+							':c' => $sse->medidas_area->prev[$i]->c,
+							':id' => $idNovo,
+							':tipo' => "r"
+						));
+						$stmt->execute(array(
+							':l' => $sse->medidas_area->prev[$i]->l,
+							':c' => $sse->medidas_area->prev[$i]->c,
+							':id' => $idNovo,
+							':tipo' => "l"
 						));
 					} catch (Exception $e) {
 						// Erro. Rollback
@@ -1390,7 +1403,7 @@
 			
 			case 'l':
 				$sql = 'INSERT INTO maxse_medidas_linear (v,id_sse,tipo)
-						VALUES (:v,:id,\'p\')';
+						VALUES (:v,:id,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				for ($i=0; $i < sizeOf($sse->medidas_linear->prev); $i++) { 
 					$trabalho += $sse->medidas_linear->prev[$i]->v;
@@ -1398,7 +1411,18 @@
 					try {
 						$stmt->execute(array(
 							':v' => $sse->medidas_linear->prev[$i]->v,
-							':id' => $idNovo
+							':id' => $idNovo,
+							':tipo' => "p"
+						));
+						$stmt->execute(array(
+							':v' => $sse->medidas_linear->prev[$i]->v,
+							':id' => $idNovo,
+							':tipo' => "r"
+						));
+						$stmt->execute(array(
+							':v' => $sse->medidas_linear->prev[$i]->v,
+							':id' => $idNovo,
+							':tipo' => "l"
 						));
 					} catch (Exception $e) {
 						// Erro. Rollback
@@ -1414,7 +1438,7 @@
 			
 			case 'u':
 				$sql = 'INSERT INTO maxse_medidas_unidades (n,id_sse,tipo)
-						VALUES (:n,:id,\'p\')';
+						VALUES (:n,:id,:tipo)';
 				$stmt = $this->db->prepare($sql);
 				for ($i=0; $i < sizeOf($sse->medidas_unidades->prev); $i++) { 
 					$trabalho += $sse->medidas_unidades->prev[$i]->n;
@@ -1422,7 +1446,18 @@
 					try {
 						$stmt->execute(array(
 							':n' => $sse->medidas_unidades->prev[$i]->n,
-							':id' => $idNovo
+							':id' => $idNovo,
+							':tipo' => "p"
+						));
+						$stmt->execute(array(
+							':n' => $sse->medidas_unidades->prev[$i]->n,
+							':id' => $idNovo,
+							':tipo' => "r"
+						));
+						$stmt->execute(array(
+							':n' => $sse->medidas_unidades->prev[$i]->n,
+							':id' => $idNovo,
+							':tipo' => "l"
 						));
 					} catch (Exception $e) {
 						// Erro. Rollback
@@ -1960,10 +1995,36 @@
 		);
 		$primeira_tarefa = ($stmt->fetch()->n == 0);
 
+		// Levantando o tipo de medida da sse
+		$sql = 'SELECT b.medida FROM maxse_sses a inner join maxse_tipos_de_servico b on a.id_tipo_de_servico=b.id WHERE a.id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $id_sse));
+		$medida = $stmt->fetch()->medida;
+
+		// Recuperando medidas previstas para esta sse
+		switch ($medida) {
+			case 'a':
+				$sql = 'SELECT l,c FROM maxse_medidas_area WHERE id_sse=:id_sse AND tipo="p"';
+				break;
+			
+			case 'l':
+				$sql = 'SELECT v  FROM maxse_medidas_linear WHERE id_sse=:id_sse AND tipo="p"';
+				break;
+			
+			case 'u':
+				$sql = 'SELECT n  FROM maxse_medidas_unidades WHERE id_sse=:id_sse AND tipo="p"';
+				break;
+		}
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(':id_sse' => $id_sse)
+		);
+		$medidas = $stmt->fetchAll();
+
 		// Se essa tarefa/tarefa multipla for a primeira tarefa, apagar medidas da sse
-		$sql = 'DELETE from maxse_medidas_area WHERE tipo="r" AND id_sse=:id_sse;
-				DELETE from maxse_medidas_linear WHERE tipo="r" AND id_sse=:id_sse;
-				DELETE from maxse_medidas_unidades WHERE tipo="r" AND id_sse=:id_sse';
+		$sql = 'DELETE from maxse_medidas_area WHERE (tipo="r" OR tipo="l") AND id_sse=:id_sse;
+				DELETE from maxse_medidas_linear WHERE (tipo="r" OR tipo="l") AND id_sse=:id_sse;
+				DELETE from maxse_medidas_unidades WHERE (tipo="r" OR tipo="l") AND id_sse=:id_sse';
 		$stmt = $this->db->prepare($sql);
 
 		try {
@@ -1973,6 +2034,74 @@
 			return $res
 			->withStatus(500)
 			->write('Falha ao tentar remover medidas da SSE: '.$e->getMessage());
+		}
+
+		// Inserindo os valores das medidas previstas como realizadas e liberadas
+		switch ($medida) {
+			case 'a':
+				$sql = 'INSERT INTO maxse_medidas_area (l,c,tipo,id_sse) VALUES (:l,:c,:tipo,:id_sse)';
+				$stmt = $this->db->prepare($sql);
+				foreach ($medidas as $m) {
+					$stmt->execute(
+						array(
+							':l' => $m->l,
+							':c' => $m->c,
+							':tipo' => 'r',
+							':id_sse' => $id_sse
+						)
+					);
+					$stmt->execute(
+						array(
+							':l' => $m->l,
+							':c' => $m->c,
+							':tipo' => 'l',
+							':id_sse' => $id_sse
+						)
+					);
+				}
+				break;
+			
+			case 'l':
+				$sql = 'INSERT INTO maxse_medidas_linear (v,tipo,id_sse) VALUES (:v,:tipo,:id_sse)';
+				$stmt = $this->db->prepare($sql);
+				foreach ($medidas as $m) {
+					$stmt->execute(
+						array(
+							':v' => $m->v,
+							':tipo' => 'r',
+							':id_sse' => $id_sse
+						)
+					);
+					$stmt->execute(
+						array(
+							':v' => $m->v,
+							':tipo' => 'l',
+							':id_sse' => $id_sse
+						)
+					);
+				}
+				break;
+			
+			case 'u':
+				$sql = 'INSERT INTO maxse_medidas_unidades (n,tipo,id_sse) VALUES (:n,:tipo,:id_sse)';
+				$stmt = $this->db->prepare($sql);
+				foreach ($medidas as $m) {
+					$stmt->execute(
+						array(
+							':n' => $m->n,
+							':tipo' => 'r',
+							':id_sse' => $id_sse
+						)
+					);
+					$stmt->execute(
+						array(
+							':n' => $m->n,
+							':tipo' => 'l',
+							':id_sse' => $id_sse
+						)
+					);
+				}
+				break;
 		}
 
 		$condicao = 'id='.implode(' OR id=',$ids_tarefas);

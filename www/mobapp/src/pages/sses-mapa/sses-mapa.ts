@@ -6,7 +6,6 @@ import { Tarefa } from '../../_models/tarefa';
 import { TarefaTabsPage } from '../tarefa-tabs/tarefa-tabs';
 import { TarefasPage } from '../tarefas/tarefas';
 import { AgmInfoWindow } from '@agm/core';
-import { Observable } from 'rxjs';
 
 @Component({
 	selector: 'page-sses-mapa',
