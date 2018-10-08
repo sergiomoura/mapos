@@ -504,20 +504,71 @@
 		// Para cada sse, levanta o consumo de cada uma de suas tarefas
 		foreach ($sses as $sse) {
 			foreach ($sse->tarefas as $tarefa) {
-				$sql = 'SELECT
-							round(a.qtde,2) as qtde,
-							b.nome,
-							b.unidade
-						FROM
-							estoque_movimentos a
-						INNER JOIN
-							estoque_produtos b ON a.id_produto=b.id
-						WHERE
-							a.id_referencia=:id_tarefa';
-				$stmt = $this->db->prepare($sql);
-				$stmt->execute(array(':id_tarefa' => $tarefa->id));
-				$tarefa->consumos = $stmt->fetchAll();
+				
+				// Verificando se a tarefa foi realizada
+				if($tarefa->final_r){
+					$sql = 'SELECT
+								round(a.qtde,2) as qtde,
+								b.nome,
+								b.unidade
+							FROM
+								estoque_movimentos a
+							INNER JOIN
+								estoque_produtos b ON a.id_produto=b.id
+							WHERE
+								a.id_referencia=:id_tarefa';
+					$stmt = $this->db->prepare($sql);
+					$stmt->execute(array(':id_tarefa' => $tarefa->id));
+					$tarefa->consumos = $stmt->fetchAll();
+				} else {
+
+					
+				}
+				
 			}
+		}
+
+		// Calculando o consumo previsto de uma sse
+		foreach ($sses as $sse) {
+			
+			// Calculando o total das medidas previstas
+			$mTotal = 0;
+			switch ($sse->medida_tds_p) {
+				
+				case 'a':
+					for ($i=0; $i < sizeof($sse->medidas_area->prev); $i++) { 
+						$mTotal += $sse->medidas_area->prev[$i]->l * $sse->medidas_area->prev[$i]->c;
+					}
+					break;
+				
+				case 'l':
+					for ($i=0; $i < sizeof($sse->medidas_linear->prev); $i++) { 
+						$mTotal += $sse->medidas_linear->prev[$i]->v;
+					}
+					break;
+				
+				case 'u':
+					for ($i=0; $i < sizeof($sse->medidas_unidades->prev); $i++) { 
+						$mTotal += $sse->medidas_unidades->prev[$i]->n;
+					}
+					break;
+			}
+			
+			// Levantando o gasto com matéria prima
+			$sql = 'SELECT
+						b.id as id_produto,
+						b.nome,
+						b.unidade,
+						round(qtde_por_unidade_de_trab * :mTotal) as qtde
+					FROM
+						maxse_tipos_de_servico_x_produtos a
+						INNER JOIN estoque_produtos b ON a.id_produto=b.id
+					WHERE id_tipo=:id_tipo';
+	
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute(array(':id_tipo' => $sse->medida_tds_p));
+			$sse->consumos_prev = $stmt->fetchAll();
+
 		}
 
 		// Para cada SSE, recuperando as medidas de área previstas

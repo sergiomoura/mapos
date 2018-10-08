@@ -179,10 +179,10 @@
 				$sheet_dados->setCellValue('AD'.($i + 2),$sse->tarefas[0]->nome_apoio);
 				$sheet_dados->setCellValue('AE'.($i + 2),$inicio_p->format('d/m/Y'));
 				$sheet_dados->setCellValue('AF'.($i + 2),$inicio_p->format('G:i'));
-				$sheet_dados->setCellValue('AG'.($i + 2),$str_inicio_r_data);
-				$sheet_dados->setCellValue('AH'.($i + 2),$str_inicio_r_hora);
-				$sheet_dados->setCellValue('AI'.($i + 2),$str_final_r_data);
-				$sheet_dados->setCellValue('AJ'.($i + 2),$str_final_r_hora);
+				$sheet_dados->setCellValue('AG'.($i + 2),isset($str_inicio_r_data) ? $str_inicio_r_data : '');
+				$sheet_dados->setCellValue('AH'.($i + 2),isset($str_inicio_r_hora) ? $str_inicio_r_hora : '');
+				$sheet_dados->setCellValue('AI'.($i + 2),isset($str_final_r_data) ? $str_inicio_r_data : '');
+				$sheet_dados->setCellValue('AJ'.($i + 2),isset($str_final_r_hora) ? $str_inicio_r_hora : '');
 				if(sizeof($sse->tarefas[0]->consumos) > 0){
 					$sheet_dados->setCellValue('AK'.($i + 2),$sse->tarefas[0]->consumos[0]->nome);
 					$sheet_dados->setCellValue('AL'.($i + 2),$sse->tarefas[0]->consumos[0]->qtde);

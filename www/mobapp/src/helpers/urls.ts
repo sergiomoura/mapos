@@ -6,9 +6,9 @@ import { Device } from '@ionic-native/device';
 export class Urls {
 
 	private LOCAL_SERVER:string = "/dev/api"; // Vai usar o proxy para redirecionar para localhost:8000
-	// private REMOTE_SERVER:string = "http:/www.acasamax.com.br/maxse/api";
-	//private REMOTE_SERVER:string = "/prod/api"; // Vai usar o proxy para redirecionar para https://maxse.websiteseguro.com/api
-	private REMOTE_SERVER:string = "/dev/api"; // enganando o celular para ele acessar a base local.
+	private REMOTE_SERVER:string = "http:/www.acasamax.com.br/maxse/api";
+	// private REMOTE_SERVER:string = "/prod/api"; // Vai usar o proxy para redirecionar para https://maxse.websiteseguro.com/api
+	// private REMOTE_SERVER:string = "/dev/api"; // enganando o celular para ele acessar a base local.
 
 	constructor(
 		private device:Device
