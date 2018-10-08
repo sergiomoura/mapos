@@ -30,6 +30,7 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { IonicImageViewerModule } from 'ionic-img-viewer';
 import { AgmCoreModule } from '@agm/core';
 import { SsesMapaPage } from '../pages/sses-mapa/sses-mapa';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
 	declarations: [
@@ -78,7 +79,8 @@ import { SsesMapaPage } from '../pages/sses-mapa/sses-mapa';
 		Urls,
 		SsesProvider,
 		GeralProvider,
-		TarefasProvider
+		TarefasProvider,
+		Geolocation
 	]
 })
 export class AppModule {}

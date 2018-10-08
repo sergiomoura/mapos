@@ -6,6 +6,8 @@ import { Tarefa } from '../../_models/tarefa';
 import { TarefaTabsPage } from '../tarefa-tabs/tarefa-tabs';
 import { TarefasPage } from '../tarefas/tarefas';
 import { AgmInfoWindow } from '@agm/core';
+import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
+import { Subscription } from 'rxjs';
 
 @Component({
 	selector: 'page-sses-mapa',
@@ -17,12 +19,13 @@ export class SsesMapaPage {
 	lat_inicial:number = -22.916405805627686;
 	lng_inicial:number = -47.067499388564215;
 	initial_zoom:number = 11;
-	mylat:number;
-	mylng:number;
 	markerAtual:any;
 	public tarefas: Tarefa[];
 	private tmpTarefas: any[];
 	infoWindowAtual:AgmInfoWindow;
+	locationWatcherSubscription:Subscription;
+	myLat:number;
+	myLng:number;
 
 	constructor(
 		public navCtrl: NavController,
@@ -32,33 +35,37 @@ export class SsesMapaPage {
 		private loadingConttroller: LoadingController,
 		private alertController:AlertController,
 		private storage:Storage,
-		public events:Events
+		public events:Events,
+		private geolocation:Geolocation
 	) {
 	}
 
 
 	ionViewDidLoad() {
-		// let opt:GeolocationOptions;
-		// opt = {
-		// 	enableHighAccuracy:true,
-		// 	maximumAge:5000,
-		// 	timeout:Infinity
-		// }
-
-		// this.geo.getCurrentPosition(opt).then(
-		// 	(pos:Geoposition) => {
-		// 		this.mylat = pos.coords.latitude;
-		// 		this.mylng = pos.coords.longitude;
-		// 	},
-		// 	(reason:any) => {
-		// 		console.log(reason);
-		// 	}
-		// )
 	}
 
 	ionViewWillEnter(){
 		this.getTarefas();
 		this.storage.remove('tarefaAtual');
+
+		let opt:GeolocationOptions;
+		opt = {
+			enableHighAccuracy:true,
+			maximumAge: 5000
+		}
+		
+		let watch = this.geolocation.watchPosition(opt);
+		this.locationWatcherSubscription = watch.subscribe(
+			(data) => {
+				// data can be a set of coordinates, or an error (if an error occurred).
+				this.myLat = data.coords.latitude;
+				this.myLng = data.coords.longitude;
+			}
+		);
+	}
+
+	ionViewWillLeave(){
+		this.locationWatcherSubscription.unsubscribe();
 	}
 
 	getTarefas(){

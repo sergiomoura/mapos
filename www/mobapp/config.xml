@@ -3,7 +3,7 @@
     <name>MAXSe</name>
     <description>Aplicativo de gestão e execução de ordens de serviço da CASAMAX.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content original-src="index.html" src="http://192.168.1.4:8100" />
+    <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -15,10 +15,13 @@
     <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
+    <preference name="AutoHideSplashScreen" value="false" />
+    <preference name="FadeSplashScreen" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
+    <preference name="ShowSplashScreen" value="true" />
     <preference name="SplashShowOnlyFirstTime" value="false" />
     <preference name="SplashScreen" value="screen" />
-    <preference name="SplashScreenDelay" value="3000" />
+    <preference name="SplashScreenDelay" value="30000" />
     <platform name="android">
         <preference name="loadUrlTimeoutValue" value="700000" />
         <allow-intent href="market:*" />
