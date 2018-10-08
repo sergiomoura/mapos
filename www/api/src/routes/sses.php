@@ -121,6 +121,7 @@
 							',
 							valor_prev,
 							valor_real,
+							valor_libe,
 							cmo,
 							cmp';
 			} else {
@@ -128,6 +129,7 @@
 							',
 							null as valor_prev,
 							null as valor_real,
+							null as valor_libe,
 							null as cmo,
 							null as cmp';
 			}
@@ -223,90 +225,60 @@
 		}
 
 		// Para cada SSE, recuperando as medidas de área previstas
-		$sql = 'SELECT
-					l,c
-				FROM
-					maxse_medidas_area
-				WHERE
-					id_sse=:id_sse AND tipo="p"';
+		$sql = 'SELECT l,c FROM	maxse_medidas_area WHERE id_sse=:id_sse AND tipo=:tipo';
 		$stmt = $this->db->prepare($sql);
 
 		foreach ($sses as $sse) {
+
 			$sse->medidas_area = new stdClass();
-			$stmt->execute(array(':id_sse' => $sse->id));
+
+			$stmt->execute(array(':id_sse' => $sse->id,':tipo'=>'p'));
 			$sse->medidas_area->prev = $stmt->fetchAll();
-		}
 
-		// Para cada SSE, recuperando as medidas de área realizadas
-		$sql = 'SELECT
-					l,c
-				FROM
-					maxse_medidas_area
-				WHERE
-					id_sse=:id_sse AND tipo="r"';
-		$stmt = $this->db->prepare($sql);
-
-		foreach ($sses as $sse) {
-			$stmt->execute(array(':id_sse' => $sse->id));
+			$stmt->execute(array(':id_sse' => $sse->id,':tipo'=>'r'));
 			$sse->medidas_area->real = $stmt->fetchAll();
+
+			$stmt->execute(array(':id_sse' => $sse->id,':tipo'=>'l'));
+			$sse->medidas_area->libe = $stmt->fetchAll();
+
 		}
 
 		// Para cada SSE, recuperando as medidas lineares previstas
-		$sql = 'SELECT
-					v
-				FROM
-					maxse_medidas_linear
-				WHERE
-					id_sse=:id_sse AND tipo="p"';
+		$sql = 'SELECT v FROM maxse_medidas_linear WHERE id_sse=:id_sse AND tipo=:tipo';
 		$stmt = $this->db->prepare($sql);
 
 		foreach ($sses as $sse) {
+
 			$sse->medidas_linear = new stdClass();
-			$stmt->execute(array(':id_sse' => $sse->id));
+
+			$stmt->execute(array(':id_sse' => $sse->id,':tipo'=>'p'));
 			$sse->medidas_linear->prev = $stmt->fetchAll();
-		}
 
-		// Para cada SSE, recuperando as medidas lineares realizadas
-		$sql = 'SELECT
-					v
-				FROM
-					maxse_medidas_linear
-				WHERE
-					id_sse=:id_sse AND tipo="r"';
-		$stmt = $this->db->prepare($sql);
-
-		foreach ($sses as $sse) {
-			$stmt->execute(array(':id_sse' => $sse->id));
+			$stmt->execute(array(':id_sse' => $sse->id,':tipo'=>'r'));
 			$sse->medidas_linear->real = $stmt->fetchAll();
+
+			$stmt->execute(array(':id_sse' => $sse->id,':tipo'=>'l'));
+			$sse->medidas_linear->libe = $stmt->fetchAll();
+
 		}
 
 		// Para cada SSE, recuperando as medidas unitarias previstas
-		$sql = 'SELECT
-					n
-				FROM
-					maxse_medidas_unidades
-				WHERE
-					id_sse=:id_sse AND tipo="p"';
+		$sql = 'SELECT n FROM maxse_medidas_unidades WHERE id_sse=:id_sse AND tipo=:tipo';
 		$stmt = $this->db->prepare($sql);
 
 		foreach ($sses as $sse) {
+
 			$sse->medidas_unidades = new stdClass();
-			$stmt->execute(array(':id_sse' => $sse->id));
+			
+			$stmt->execute(array(':id_sse' => $sse->id, ':tipo' => 'p'));
 			$sse->medidas_unidades->prev = $stmt->fetchAll();
-		}
 
-		// Para cada SSE, recuperando as medidas unitarias realizadas
-		$sql = 'SELECT
-					n
-				FROM
-					maxse_medidas_unidades
-				WHERE
-					id_sse=:id_sse AND tipo="r"';
-		$stmt = $this->db->prepare($sql);
-
-		foreach ($sses as $sse) {
-			$stmt->execute(array(':id_sse' => $sse->id));
+			$stmt->execute(array(':id_sse' => $sse->id, ':tipo' => 'r'));
 			$sse->medidas_unidades->real = $stmt->fetchAll();
+
+			$stmt->execute(array(':id_sse' => $sse->id, ':tipo' => 'l'));
+			$sse->medidas_unidades->libe = $stmt->fetchAll();
+
 		}
 
 		// Retornando resposta para usuário
@@ -437,6 +409,7 @@
 							',
 							valor_prev,
 							valor_real,
+							valor_libe,
 							cmo,
 							cmp';
 			} else {
@@ -444,6 +417,7 @@
 							',
 							null as valor_prev,
 							null as valor_real,
+							null as valor_libe,
 							null as cmo,
 							null as cmp';
 			}
@@ -1178,7 +1152,7 @@
 		$valor_total = $stmt->fetch()->valor_total;
 
 		// Atualizando o valor previsto e real da sse
-		$sql = 'UPDATE maxse_sses SET valor_prev=:valor, valor_real=:valor WHERE id=:id_sse ';
+		$sql = 'UPDATE maxse_sses SET valor_prev=:valor, valor_real=:valor, valor_libe=:valor WHERE id=:id_sse ';
 		$stmt = $this->db->prepare($sql);
 		
 		try {
@@ -1495,7 +1469,7 @@
 		$valor_total = $stmt->fetch()->valor_total;
 
 		// Atualizando o valor previsto e real da sse
-		$sql = 'UPDATE maxse_sses SET valor_prev=:valor, valor_real=:valor WHERE id=:id_sse ';
+		$sql = 'UPDATE maxse_sses SET valor_prev=:valor, valor_real=:valor, valor_libe=:valor WHERE id=:id_sse ';
 		$stmt = $this->db->prepare($sql);
 
 		try {
@@ -1528,7 +1502,7 @@
 		// Interpretando os dados enviados
 		$finalizacaoTotal = ($dados->tipo == 'parcial'? false : true);
 		$data_devolucao = $dados->data_devolucao;
-		$motivo_parcial = $dados->motivo_parcial;
+		$motivo_parcial = isset($dados->motivo_parcial) ? $dados->motivo_parcial : null;
 
 		// Recuperando dados da SSE
 		$sql = 'SELECT 
@@ -1662,6 +1636,7 @@
 				SET
 					status=sseStatus("FINALIZADA"),
 					valor_real=:vr,
+					valor_libe=:vr,
 					data_devolucao=:data_devolucao,
 					finalizacao_parcial=:finalizacao_parcial,
 					motivo_finalizacao_parcial=:motivo_parcial,
@@ -2154,4 +2129,89 @@
 		->withHeader('Content-Type','application/json')
 		->write('{"novoStatus":"'.$status.'"}');
 	
+	});
+
+	$app->patch($api_root.'/sses/{id_sse}/alterarMedidaLiberada', function(Request $req, Response $res, $args = []){
+		
+		// Lendo o id da sse
+		$id_sse = 1*$args['id_sse'];
+
+		// Lendo a nova medida
+		$novaMedida = 1*$req->getBody()->getContents();
+
+		// Determinando o tipo de medida da sse
+		$sql = 'SELECT finalizacao_parcial,medida FROM maxse_sses a INNER JOIN maxse_tipos_de_servico b ON a.id_tipo_de_servico=b.id WHERE a.id=:id_sse';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $id_sse));
+		$rs = $stmt->fetch();
+		$medida = $rs->medida;
+		$finalizacaoParcial = ($rs->finalizacao_parcial == 1);
+		
+		// Iniciando transação
+		$this->db->beginTransaction();
+
+		// Preparando consulta para remover medidas liberadas antigas
+		switch ($medida) {
+
+			case 'a':
+				$sql = 'DELETE FROM maxse_medidas_area WHERE id_sse=:id_sse and tipo="l"';
+				$insert_sql = 'INSERT INTO maxse_medidas_area (l, c, id_sse,tipo) VALUES (:valor,1,:id_sse,"l")';
+				break;
+
+			case 'l':
+				$sql = 'DELETE FROM maxse_medidas_linear WHERE id_sse=:id_sse and tipo="l"';
+				$insert_sql = 'INSERT INTO maxse_medidas_linear (v, id_sse,tipo) VALUES (:valor,:id_sse,"l")';
+				break;
+
+			case 'u':
+				$sql = 'DELETE FROM maxse_medidas_unidades WHERE id_sse=:id_sse and tipo="l"';
+				$insert_sql = 'INSERT INTO maxse_medidas_unidades (n, id_sse,tipo) VALUES (:valor,:id_sse,"l")';
+				break;
+			
+		}
+		// Executando consulta para remover medidas
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':id_sse' => $id_sse));
+
+		// Executando consulta para inserir nova medida liberada
+		$stmt = $this->db->prepare($insert_sql);
+		$stmt->execute(
+			array(
+				':id_sse' => $id_sse,
+				':valor' => $novaMedida
+			)
+		);
+
+		// Determinando o trabalho executado levando em conta se foi finalização parcial ou não
+		$trabalho = $finalizacaoParcial ? $this->maxse['percentual_pago_por_finalizacao_parcial'] * $novaMedida : $novaMedida;
+		
+		// Determinando o valor do trabalho para a faixa na qual esta medida liberada se encontra
+		$sql = 'SELECT
+					c.valor
+				FROM
+					maxse_sses a
+					INNER JOIN maxse_tipos_de_servico b ON a.id_tipo_de_servico=b.id
+					INNER JOIN maxse_faixas_de_tipos_de_servicos c ON b.id=c.id_tipo_de_servico
+				WHERE
+					a.id=:id_sse AND
+					c.li < :novaMedida AND
+					c.ls >= :novaMedida';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(
+			array(
+				':id_sse' => $id_sse,
+				':novaMedida' => $trabalho
+			)
+		);
+		$valorUnitario = $stmt->fetch()->valor;
+		$novoValorLiberado = $valorUnitario * $trabalho;
+
+		// Atualizando o valor liberado
+		$sql = 'UPDATE maxse_sses SET valor_libe=:valor_liberado';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute(array(':valor_liberado' => $novoValorLiberado));
+
+		// Comitando
+		$this->db->commit();
+		
 	});

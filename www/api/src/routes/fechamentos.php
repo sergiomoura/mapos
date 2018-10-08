@@ -32,7 +32,11 @@
 		$n_sses = ($stmt->fetch()->n_sses);
 		
 		// Calculando o valor de cmo
-		$cmo = round($total_salarios/$n_sses,2);
+		if($n_sses > 0){
+			$cmo = round($total_salarios/$n_sses,2);
+		} else {
+			$cmo = INF;
+		}
 
 		// Atualizando o cmo de todas as outras sses deste período de fechamento
 		$sql = 'UPDATE maxse_sses SET cmo=:cmo WHERE id_fechamento=:id_fechamento';
@@ -81,8 +85,8 @@
 		
 		// Levantando soma de valores reais e soma de valores previstos das sses do fechamento
 		$sql = 'SELECT
-					ifnull(sum(valor_prev),0) as tot_prev,
-					ifnull(sum(valor_real),0) as tot_real
+					ifnull(sum(valor_prev),0) as total_prev,
+					ifnull(sum(valor_real),0) as total_real
 				FROM maxse_sses
 				WHERE id_fechamento=:id_fechamento;';
 

@@ -38,10 +38,12 @@
 				<td>Número</td>
 				<td>Medida Prev</td>
 				<td>Medida Real</td>
+				<td>Medida Lib.</td>
 				<td>TDS Prev</td>
 				<td>TDS Real</td>
 				<td>Valor Prev</td>
 				<td>Valor Real</td>
+				<td>Valor Lib.</td>
 				<td>CMO</td>
 				<td>CMP</td>
 				<td>Data Devolução</td>
@@ -55,10 +57,21 @@
 				<td>{{ sse.numero }}</td>
 				<td>{{ sse.totalPrev.toString() }}</td>
 				<td>{{ sse.totalReal.toString() }}</td>
+				<td>
+					<a
+						*ngIf="fechamentoSelecionado?.aberto"
+						title="Clique para alterar medida liberada"
+						(click)="onChangeMedidaLibaradaClick($event,sse.id,sse.totalLibe.valor)">{{ sse.totalLibe.toString() }}
+					</a>
+					<span
+						title="Impossível alterar medida liberada. Abra o fechamento."
+						*ngIf="!(fechamentoSelecionado?.aberto)">{{ sse.totalLibe.toString() }}</span>
+				</td>
 				<td>RG{{ sse.tipoDeServicoPrev.codigo }}</td>
 				<td>RG{{ sse.tipoDeServicoReal.codigo }}</td>
 				<td>{{ sse.valor_prev | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
 				<td>{{ sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
+				<td>{{ sse.valor_libe | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
 				<td>{{ sse.cmo | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
 				<td>{{ sse.cmp | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
 				<td>{{ sse.data_devolucao | date:'dd/MM/yyyy' }}</td>

@@ -9,6 +9,7 @@ import { TipoDeServico } from '../../_models/tipoDeServico';
 import { SSE } from '../../_models/sse';
 import { ReturnStatement } from '@angular/compiler';
 import { Router } from '@angular/router';
+import { SsesService } from '../../_services/sses.service';
 
 
 class xSSE extends SSE{
@@ -35,7 +36,8 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 		private evtService:EventsService,
 		private snackBar:MatSnackBar,
 		private tdsService:TiposDeServicoService,
-		private router:Router
+		private router:Router,
+		private sseService:SsesService
 	) { }
 
 	ngOnInit() {
@@ -352,4 +354,63 @@ export class FechamentoComponent implements OnInit, OnDestroy {
 		)
 	}
 
+	onChangeMedidaLibaradaClick(evt:MouseEvent,id_sse:number,novaMedida:number):void{
+
+		// Parando a propagação do click
+		evt.stopPropagation();
+		
+		// 
+		let input:string = window.prompt("Qual o nova medida liberada?", novaMedida.toString());
+		if(input){
+			input = input.replace(',','.');
+		}
+		
+		let medidaLiberada:number = Number(input);
+		if(isNaN(medidaLiberada)){
+			// Exibindo snackbar de erro
+			this.snackBar
+			.open(
+				'Valor inválido para nova medida.',
+				'Fechar',
+				{
+					duration:0,
+					horizontalPosition:'left',
+					verticalPosition:'bottom',
+					panelClass: ['snackbar-error'],
+				}
+			);
+		} else {
+			this.sseService.alteraMedidaLiberada(id_sse, medidaLiberada).subscribe(
+				() => {
+					// Exibindo snackbar de sucesso
+					this.snackBar.open(
+						'Medida liberada alterada com sucesso!',
+						undefined,
+						{
+							panelClass: ['snackbar-ok'],
+						});
+					
+					// Recarregando sses do fechamento
+					this.getSSes(this.fechamentoSelecionado.id);
+				},
+				(err) => {
+					// Exibindo snackbar de erro
+					this.snackBar
+					.open(
+						'Falha ao alterar medida liberada. Confira o valor da medida inserida.',
+						'Fechar',
+						{
+							duration:0,
+							horizontalPosition:'left',
+							verticalPosition:'bottom',
+							panelClass: ['snackbar-error'],
+						}
+					);
+
+					// Imprimindo erro no console
+					console.error(err);
+				}
+			)
+		}
+	}
 }

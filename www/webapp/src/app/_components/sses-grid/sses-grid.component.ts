@@ -42,8 +42,8 @@ export class SsesGridComponent implements OnInit {
 	){}
 
 	ngOnInit() {
-		// this.getSses();
-		// this.getTiposDeServico();
+
+		// Carregando Equipes e Bairros
 		this.getEquipes();
 		this.getBairros();
 
@@ -55,6 +55,13 @@ export class SsesGridComponent implements OnInit {
 				}
 			)
 		)
+	}
+
+	ngOnDestroy(){
+		// Unsubscribing from all subscriptions
+		for (let i = 0; i < this.subscriptions.length; i++) {
+			this.subscriptions[i].unsubscribe();
+		}
 	}
 
 	onBuscarClick(){
@@ -132,224 +139,6 @@ export class SsesGridComponent implements OnInit {
 	}
 
 	private parseSses(){
-		
-		/*
-		if(this.tmpSses && this.tdss && this.equipes && this.bairros){
-			
-			for (let i = 0; i < this.tmpSses.length; i++) {
-
-				// Lendo sse da vez
-				const sse = this.tmpSses[i];
-
-				// Parsing escalares
-				sse.dh_registrado = new Date(sse.dh_registrado);
-				sse.dh_recebido = new Date(sse.dh_recebido);
-				sse.inicio_p = sse.inicio_p ? new Date(sse.inicio_p) : null;
-				sse.final_p = sse.final_p ? new Date(sse.final_p) : null;
-				sse.inicio_r = sse.inicio_r ? new Date(sse.inicio_r) : null;
-				sse.final_r = sse.final_r ? new Date(sse.final_r) : null;
-				
-				// Parsing tipo de serviço previsto
-				sse.tipoDeServicoPrev = this.tdss.find(
-					(tds) => {
-						return +tds.id == +sse.id_tds_p;
-					}
-				)
-				delete sse.id_tds_p;
-
-				// Parsing tipo de serviço real
-				sse.tipoDeServicoReal = this.tdss.find(
-					(tds) => {
-						return +tds.id == +sse.id_tds_r;
-					}
-				)
-				delete sse.id_tds_r;
-				// Pargsing bairro
-				sse.bairro = this.bairros.find(
-					(bairro) => {
-						return +bairro.id == +sse.id_bairro;
-					}
-				)
-				delete sse.id_bairro;
-
-				// Determinando o prazo final
-				sse.prazoFinal = new Date(sse.prazo_final+'T00:00:00');
-				
-				// Calculando o total das medidas previstas
-				sse.total_prev = 0;
-				sse.unid_prev = '';
-				switch (sse.tipoDeServicoPrev.medida) {
-					case 'a':
-						for (let i = 0; i < sse.medidas_area.prev.length; i++) {
-							const m = sse.medidas_area.prev[i];
-							sse.total_prev += m.l * m.c;
-						}
-						sse.unid_prev = 'm²';
-						break;
-					
-					case 'l':
-						for (let i = 0; i < sse.medidas_linear.prev.length; i++) {
-							const m = sse.medidas_linear.prev[i];
-							sse.total_prev += (1*m.v);
-						}
-						sse.unid_prev = 'm';
-						break;
-					
-					case 'u':
-						for (let i = 0; i < sse.medidas_unidades.prev.length; i++) {
-							const m = sse.medidas_unidades.prev[i];
-							sse.total_prev += (1*m.n);
-						}
-						sse.unid_prev = 'unid';
-						break;
-
-					default:
-						break;
-				}
-
-				// Calculando o total das medidas reais
-				if(sse.tipoDeServicoReal) {
-					sse.total_real = 0;
-					sse.unid_real = '';
-					switch (sse.tipoDeServicoReal.medida) {
-						case 'a':
-							for (let i = 0; i < sse.medidas_area.real.length; i++) {
-								const m = sse.medidas_area.real[i];
-								sse.total_real += m.l * m.c;
-							}
-							sse.unid_real = 'm²';
-							break;
-						
-						case 'l':
-							for (let i = 0; i < sse.medidas_linear.real.length; i++) {
-								const m = sse.medidas_linear.real[i];
-								sse.total_real += (1*m.v);
-							}
-							sse.unid_real = 'm';
-							break;
-						
-						case 'u':
-							for (let i = 0; i < sse.medidas_unidades.real.length; i++) {
-								const m = sse.medidas_unidades.real[i];
-								sse.total_real += (1*m.n);
-							}
-							sse.unid_real = 'unid';
-							break;
-	
-						default:
-							break;
-					}
-				} else {
-					sse.total_real = '';
-					sse.unid_real = '';
-				}
-
-				// Calculando dif_medidas
-				sse.dif_medidas = sse.total_real == '' ? '' : (Math.round( (sse.total_prev - sse.total_real) *10000)/10000);
-
-				// Calculando se label divergencia
-				if(sse.dif_medidas === ''){
-					sse.label_divergencia = '';
-				} else if (+sse.dif_medidas === 0){
-					sse.label_divergencia = 'Não';
-				} else {
-					sse.label_divergencia = 'Sim';
-				}
-
-				// Calculando label dif tipo de servico
-				if (!sse.tipoDeServicoReal) {
-					sse.label_dif_tds = ''
-				} else if(sse.tipoDeServicoReal.id != sse.tipoDeServicoPrev.id) {
-					sse.label_dif_tds = 'Sim'
-				} else {
-					sse.label_dif_tds = 'Não'
-				}
-
-				// Calculando label urgencia
-				sse.label_urgencia = (sse.urgencia == 0 ? 'Normal' : (sse.urgencia == 1 ? 'Prioridade' : 'Urgência'));
-
-				// Calculando a data da devolução e label_data_devolução				
-				if(sse.data_devolucao){
-					sse.dataDevolucao = new Date(sse.data_devolucao+'T00:00:00');
-					sse.label_data_devolucao = format(sse.dataDevolucao,'DD/MM/YYYY');
-				} else {
-					sse.dataDevolucao = null;
-					sse.label_data_devolucao = '' 
-				}
-
-				// Calculando data limite de garantia
-				if(sse.dataDevolucao){
-					sse.dlGarantia = addYears(sse.dataDevolucao,1);
-					sse.label_dl_garantia = format(sse.dlGarantia,'DD/MM/YYYY');
-					sse.label_em_garantia = isBefore(new Date(),sse.dlGarantia) ? 'Sim' : 'Não';
-				} else {
-					sse.dlGarantia = null;
-					sse.label_dl_garantia = '';
-					sse.label_em_garantia = '';
-				}
-
-				// Calculando cálculo de execução dataDevolucao - prazoFinal
-				if(sse.dataDevolucao){
-					sse.calc_exec = differenceInDays(sse.dataDevolucao,sse.prazoFinal);
-				} else {
-					sse.calc_exec = '';
-				}
-
-				// Calculando faixa de tipo de trabalho que esta sse se encontra (prev)
-				sse.faixaPrev = sse.tipoDeServicoPrev.faixas.find(
-					(f) => {
-						return sse.total_prev <= f.ls && sse.total_prev > f.li;
-					}
-				)
-
-				// Calculando faixa de tipo de trabalho que esta sse se encontra (real)
-				if(sse.tipoDeServicoReal) {
-					sse.faixaReal = sse.tipoDeServicoReal.faixas.find(
-						(f) => {
-							return sse.total_real <= f.ls && sse.total_real > f.li;
-						}
-					)
-					sse.faixa_real_label =
-						sse.faixaReal.label + ' (' +
-						(sse.faixaReal.ls == this.infinito ? sse.faixaReal.li + ' < X' : sse.faixaReal.li + ' < X ≤ ' + sse.faixaReal.ls) +
-						')'
-				} else {
-					sse.faixaReal = null;
-					sse.faixa_real_label = '';
-				}
-				
-					
-				// parsing equipes e apoios das tarefas 
-				for (let i = 0; i < sse.tarefas.length; i++) {
-					
-					// Separando tarefa a tratar
-					const tarefa = sse.tarefas[i];
-					
-					// Parsing equipe encarregada pela tarefa
-					tarefa.equipe = this.equipes.find(
-						(e) => {
-							return e.id == tarefa.id_equipe;
-						}
-					)
-					delete tarefa.id_equipe;
-
-					// Parsing apoio encarregado pela tarefa
-					tarefa.apoio = this.equipes.find(
-						(e) => {
-							return e.id == tarefa.id_apoio;
-						}
-					)
-					delete tarefa.id_apoio;
-
-					// Parsing dates
-					tarefa.inicio_p = new Date(tarefa.inicio_p);
-					tarefa.final_p = new Date(tarefa.final_p);
-					tarefa.inicio_r = (tarefa.inicio_r == null ? null : new Date(tarefa.inicio_r));
-					tarefa.final_r = (tarefa.final_r == null ? null : new Date(tarefa.final_r));
-				}
-			}
-		}
-		*/
 		this.sses = <SSE[]>this.tmpSses;
 	}
 	

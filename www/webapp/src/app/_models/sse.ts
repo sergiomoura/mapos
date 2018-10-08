@@ -51,14 +51,17 @@ export class SSE{
 	medidas_area:{
 		'prev':any[];
 		'real':any[];
+		'libe':any[];
 	};	
 	medidas_linear:{
 		'prev':any[];
 		'real':any[];
+		'libe':any[];
 	};
 	medidas_unidades:{
 		'prev':any[];
 		'real':any[];
+		'libe':any[];
 	};
 	foto:SafeUrl;
 	lat:number;
@@ -74,13 +77,15 @@ export class SSE{
 	private _cmp:number;
 	private _valor_real:number;
 	private _valor_prev:number;
+	private _valor_libe:number;
 	private _total_prev:Medida;
 	private _total_real:Medida;
+	private _total_libe:Medida;
 	private _faixa_prev:FaixaDeTDS;
 	private _faixa_real:FaixaDeTDS;
+	private _faixa_libe:FaixaDeTDS;
 
 	constructor(sseData:any, private tdss:TipoDeServico[]){
-		
 		if(sseData == undefined){
 			this.id = 0;
 			this.endereco = '';
@@ -92,9 +97,9 @@ export class SSE{
 			this.dh_recebido = new Date(); this.dh_recebido.setHours(10); this.dh_recebido.setMinutes(0);
 			this.obs = '';
 			this.urgencia = NiveisDeUrgencia.normal,
-			this.medidas_area = {prev:[],real:[]};
-			this.medidas_linear = {prev:[],real:[]};
-			this.medidas_unidades = {prev:[],real:[]};
+			this.medidas_area = {prev:[],real:[],libe:[]};
+			this.medidas_linear = {prev:[],real:[],libe:[]};
+			this.medidas_unidades = {prev:[],real:[],libe:[]};
 			this.foto = '';
 			this.lat = undefined;
 			this.lng = undefined;
@@ -143,10 +148,13 @@ export class SSE{
 			this.setTipoDeServicoReal(this.tdss);
 			this._total_prev = this.calcTotalPrev();
 			this._total_real = this.calcTotalReal();
+			this._total_libe = this.calcTotalLibe();
 			this._faixa_prev = this.calcFaixaDeTDS_prev();
 			this._faixa_real = this.calcFaixaDeTDS_real();
+			this._faixa_libe = this.calcFaixaDeTDS_libe();
 			this._valor_real = +sseData.valor_real;
 			this._valor_prev = +sseData.valor_prev;
+			this._valor_libe = +sseData.valor_libe;
 		}
 	}
 
@@ -222,6 +230,44 @@ export class SSE{
 			return undefined;
 		}
 	}
+
+	private calcTotalLibe():Medida{
+		if(this.tipoDeServicoReal){
+			let medida:Medida = new Medida(0,'');
+			switch (this.tipoDeServicoReal.medida) {
+				case 'a':
+					for (let i = 0; i < this.medidas_area.libe.length; i++) {
+						const m = this.medidas_area.libe[i];
+						medida.valor += m.l * m.c;
+					}
+					medida.unidade = 'm²';
+					break;
+				
+				case 'l':
+					for (let i = 0; i < this.medidas_linear.libe.length; i++) {
+						const m = this.medidas_linear.libe[i];
+						medida.valor += (1*m.v);
+					}
+					medida.unidade = 'm';
+					break;
+				
+				case 'u':
+					for (let i = 0; i < this.medidas_unidades.libe.length; i++) {
+						const m = this.medidas_unidades.libe[i];
+						medida.valor += (1*m.n);
+					}
+					medida.unidade = 'unid';
+					break;
+	
+				default:
+					break;
+			}
+			medida.valor = Math.round(medida.valor * 100)/100;
+			return medida;
+		} else {
+			return undefined;
+		}
+	}
 	
 	public get totalPrev() : Medida {
 		return this._total_prev;
@@ -229,6 +275,10 @@ export class SSE{
 
 	public get totalReal() : Medida{
 		return this._total_real;
+	}
+
+	public get totalLibe() : Medida{
+		return this._total_libe;
 	}
 
 	public get faixaPrev(): FaixaDeTDS{
@@ -402,6 +452,24 @@ export class SSE{
 		}
 	}
 
+	private calcFaixaDeTDS_libe():FaixaDeTDS{
+		if(this.tipoDeServicoReal){
+			let faixa:FaixaDeTDS = new FaixaDeTDS();
+			let total:Medida = this.totalLibe;
+			
+			// Calculando faixa de tipo de trabalho que esta sse se encontra (prev)
+			faixa = <FaixaDeTDS>this.tipoDeServicoPrev.faixas.find(
+				(f) => {
+					return total.valor <= f.ls && total.valor > f.li;
+				}
+			);
+			
+			return faixa;
+		} else {
+			return undefined;
+		}
+	}
+
 	public get label_urgencia():string{
 		if(this.urgencia == NiveisDeUrgencia.normal) {
 			return "Normal";
@@ -480,6 +548,10 @@ export class SSE{
 
 	public get valor_real() : number {
 		return this._valor_real;
+	}
+
+	public get valor_libe() : number {
+		return this._valor_libe;
 	}
 
 	public get valor_prev() : number {
