@@ -179,16 +179,28 @@
 				$sheet_dados->setCellValue('AD'.($i + 2),$sse->tarefas[0]->nome_apoio);
 				$sheet_dados->setCellValue('AE'.($i + 2),$inicio_p->format('d/m/Y'));
 				$sheet_dados->setCellValue('AF'.($i + 2),$inicio_p->format('G:i'));
-				$sheet_dados->setCellValue('AG'.($i + 2),$str_inicio_r_data);
-				$sheet_dados->setCellValue('AH'.($i + 2),$str_inicio_r_hora);
-				$sheet_dados->setCellValue('AI'.($i + 2),$str_final_r_data);
-				$sheet_dados->setCellValue('AJ'.($i + 2),$str_final_r_hora);
+				$sheet_dados->setCellValue('AG'.($i + 2),isset($str_inicio_r_data) ? $str_inicio_r_data : '');
+				$sheet_dados->setCellValue('AH'.($i + 2),isset($str_inicio_r_hora) ? $str_inicio_r_hora : '');
+				$sheet_dados->setCellValue('AI'.($i + 2),isset($str_final_r_data) ? $str_inicio_r_data : '');
+				$sheet_dados->setCellValue('AJ'.($i + 2),isset($str_final_r_hora) ? $str_inicio_r_hora : '');
+				
 				if(sizeof($sse->tarefas[0]->consumos) > 0){
+					// Se ela tem algum consumo realizado, que ponha agora
 					$sheet_dados->setCellValue('AK'.($i + 2),$sse->tarefas[0]->consumos[0]->nome);
 					$sheet_dados->setCellValue('AL'.($i + 2),$sse->tarefas[0]->consumos[0]->qtde);
 					$sheet_dados->setCellValue('AM'.($i + 2),$sse->tarefas[0]->consumos[0]->unidade);
+				} elseif (sizeof($sse->consumos_prev) > 0) {
+					// Se não tem consumo realizado mas tem previsto, que ponha agora (Bica Corrida)!
+					$sheet_dados->setCellValue('AK'.($i + 2),$sse->consumos_prev[0]->nome);
+					$sheet_dados->setCellValue('AL'.($i + 2),$sse->consumos_prev[0]->qtde);
+					$sheet_dados->setCellValue('AM'.($i + 2),$sse->consumos_prev[0]->unidade);
 				}
-			}			
+			} elseif (sizeof($sse->consumos_prev) > 0) {
+				// Se não tem consumo realizado mas tem previsto, que ponha agora (Bica Corrida)!
+				$sheet_dados->setCellValue('AK'.($i + 2),$sse->consumos_prev[0]->nome);
+				$sheet_dados->setCellValue('AL'.($i + 2),$sse->consumos_prev[0]->qtde);
+				$sheet_dados->setCellValue('AM'.($i + 2),$sse->consumos_prev[0]->unidade);
+			}		
 			
 			// Dados da tarefa 2 = = =
 			if(sizeof($sse->tarefas)>1){
@@ -209,19 +221,30 @@
 					$str_final_r_hora = $final_r->format('G:i');
 				}
 
-				$sheet_dados->setCellValue('AC'.($i + 2),$sse->tarefas[1]->nome_equipe);
-				$sheet_dados->setCellValue('AD'.($i + 2),$sse->tarefas[1]->nome_apoio);
-				$sheet_dados->setCellValue('AE'.($i + 2),$inicio_p->format('d/m/Y'));
-				$sheet_dados->setCellValue('AF'.($i + 2),$inicio_p->format('G:i'));
-				$sheet_dados->setCellValue('AG'.($i + 2),$str_inicio_r_data);
-				$sheet_dados->setCellValue('AH'.($i + 2),$str_inicio_r_hora);
-				$sheet_dados->setCellValue('AI'.($i + 2),$str_final_r_data);
-				$sheet_dados->setCellValue('AJ'.($i + 2),$str_final_r_hora);
+				$sheet_dados->setCellValue('AN'.($i + 2),$sse->tarefas[1]->nome_equipe);
+				$sheet_dados->setCellValue('A0'.($i + 2),$sse->tarefas[1]->nome_apoio);
+				$sheet_dados->setCellValue('AP'.($i + 2),$inicio_p->format('d/m/Y'));
+				$sheet_dados->setCellValue('AQ'.($i + 2),$inicio_p->format('G:i'));
+				$sheet_dados->setCellValue('AR'.($i + 2),$str_inicio_r_data);
+				$sheet_dados->setCellValue('AS'.($i + 2),$str_inicio_r_hora);
+				$sheet_dados->setCellValue('AT'.($i + 2),$str_final_r_data);
+				$sheet_dados->setCellValue('AU'.($i + 2),$str_final_r_hora);
 				if(sizeof($sse->tarefas[1]->consumos) > 0){
-					$sheet_dados->setCellValue('AK'.($i + 2),$sse->tarefas[1]->consumos[1]->nome);
-					$sheet_dados->setCellValue('AL'.($i + 2),$sse->tarefas[1]->consumos[1]->qtde);
-					$sheet_dados->setCellValue('AM'.($i + 2),$sse->tarefas[1]->consumos[1]->unidade);
+					// Se ela tem algum consumo realizado, que ponha agora
+					$sheet_dados->setCellValue('AV'.($i + 2),$sse->tarefas[1]->consumos[1]->nome);
+					$sheet_dados->setCellValue('AW'.($i + 2),$sse->tarefas[1]->consumos[1]->qtde);
+					$sheet_dados->setCellValue('AX'.($i + 2),$sse->tarefas[1]->consumos[1]->unidade);
+				} elseif (sizeof($sse->consumos_prev) > 1) {
+					// Se não tem consumo realizado mas tem previsto, que ponha agora (Bica Corrida)!
+					$sheet_dados->setCellValue('AV'.($i + 2),$sse->consumos_prev[1]->nome);
+					$sheet_dados->setCellValue('AW'.($i + 2),$sse->consumos_prev[1]->qtde);
+					$sheet_dados->setCellValue('AX'.($i + 2),$sse->consumos_prev[1]->unidade);
 				}
+			} elseif (sizeof($sse->consumos_prev) > 1) {
+				// Se não tem consumo realizado mas tem previsto, que ponha agora (Bica Corrida)!
+				$sheet_dados->setCellValue('AV'.($i + 2),$sse->consumos_prev[1]->nome);
+				$sheet_dados->setCellValue('AW'.($i + 2),$sse->consumos_prev[1]->qtde);
+				$sheet_dados->setCellValue('AX'.($i + 2),$sse->consumos_prev[1]->unidade);
 			}
 		}
 

@@ -503,7 +503,9 @@
 
 		// Para cada sse, levanta o consumo de cada uma de suas tarefas
 		foreach ($sses as $sse) {
+			
 			foreach ($sse->tarefas as $tarefa) {
+				
 				$sql = 'SELECT
 							round(a.qtde,2) as qtde,
 							b.nome,
@@ -517,7 +519,9 @@
 				$stmt = $this->db->prepare($sql);
 				$stmt->execute(array(':id_tarefa' => $tarefa->id));
 				$tarefa->consumos = $stmt->fetchAll();
+				
 			}
+
 		}
 
 		// Para cada SSE, recuperando as medidas de área previstas
@@ -643,6 +647,49 @@
 			}
 		}
 
+		
+		// Calculando o consumo previsto de uma sse
+		foreach ($sses as $sse) {
+			
+			// Calculando o total das medidas previstas
+			$mTotal = 0;
+			switch ($sse->medida_tds_p) {
+				
+				case 'a':
+					$mTotal = $sse->medidas_area->prev;
+					break;
+				
+				case 'l':
+					$mTotal = $sse->medidas_linear->prev;
+					break;
+				
+				case 'u':
+					$mTotal = $sse->medidas_unidades->prev;
+					break;
+			}
+			
+			// Levantando o gasto com matéria prima
+			$sql = 'SELECT
+						b.id as id_produto,
+						b.nome,
+						b.unidade,
+						round(qtde_por_unidade_de_trab * :mTotal,2) as qtde
+					FROM
+						maxse_tipos_de_servico_x_produtos a
+						INNER JOIN estoque_produtos b ON a.id_produto=b.id
+					WHERE id_tipo=:id_tipo';
+	
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute(
+				array(
+					':id_tipo' => $sse->id_tds_p,
+					':mTotal' => $mTotal
+				)
+			);
+			$sse->consumos_prev = $stmt->fetchAll();
+
+		}
+		
 		// Para cada sse, determinando a faixa de cobrança na qual ela se encontra
 		foreach ($sses as $sse) {
 			$sql = 'SELECT label, li, ls from maxse_faixas_de_tipos_de_servicos where :v<=ls and :v>li and id_tipo_de_servico=:id_tds';
@@ -664,7 +711,6 @@
 			);
 			$sse->faixa_r = $stmt->fetch();
 		}
-		
 		
 		// Incluindo o gerador de xls
 		include(__DIR__ . '/../includes/GeradorDeXls.php');
