@@ -11,7 +11,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser';
 import { AlertController } from 'ionic-angular';
 import { Bairro } from '../../_models/bairro';
-import { format } from "date-fns";
+import { format, addHours } from "date-fns";
 import { SsesPage } from '../sses/sses';
 
 @Component({
@@ -98,10 +98,13 @@ export class SsePage {
 							dismissOnPageChange:true
 						});
 						toast.present();
+					} else {
+						
+						// Parsing response
+						this.sse = this.parseSseResponse(res);
+
 					}
 
-					// Parsing response
-					this.sse = this.parseSseResponse(res);
 
 				},
 				err => {
@@ -125,8 +128,8 @@ export class SsePage {
 	parseSseResponse(res:any):SSE{
 
 		// Parsing escalares
-		res.dh_recebido = (new Date(res.dh_recebido)).toISOString();
-		res.dh_registrado = (new Date(res.dh_registrado)).toISOString();
+		res.dh_recebido = format((new Date(res.dh_recebido)),'YYYY-MM-DDTHH:mm:ss');
+		res.dh_registrado = format((new Date(res.dh_registrado)),'YYYY-MM-DDTHH:mm:ss');
 		res.id *= 1;
 		res.urgencia *= 1;
 		
@@ -271,9 +274,15 @@ export class SsePage {
 		// Criando e mostrando loading
 		let loading = this.loadingConttroller.create();
 		loading.setContent('Aguarde...').present();
+		
+		// Clonando a SSE para envio dela alterada
+		let sseClone:SSE = Object.assign({},this.sse);
+
+		// Transformando dh_recebida em objeto Date
+		sseClone.dh_recebido = addHours(sseClone.dh_recebido,0).toISOString();
 
 		// Fazendo requisição para atualizar sse
-		this.sseProvider.update(this.sse)
+		this.sseProvider.update(sseClone)
 		.subscribe(
 			res => {
 				loading.dismiss();
@@ -313,8 +322,14 @@ export class SsePage {
 		let loading = this.loadingConttroller.create();
 		loading.setContent('Aguarde...').present();
 
+		// Clonando a SSE para envio dela alterada
+		let sseClone:SSE = Object.assign({},this.sse);
+
+		// Transformando dh_recebida em objeto Date
+		sseClone.dh_recebido = addHours(sseClone.dh_recebido,0).toISOString();
+
 		// Fazendo requisição para atualizar sse
-		this.sseProvider.insert(this.sse)
+		this.sseProvider.insert(sseClone)
 		.subscribe(
 			res => {
 				// Escondendo o carregando

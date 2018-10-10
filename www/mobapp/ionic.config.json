@@ -11,7 +11,7 @@
     },
     {
       "path": "/prod/api",
-      "proxyUrl": "https://maxse.websiteseguro.com/api"
+      "proxyUrl": "http://www.acasamax.com.br/maxse/api"
     }
   ]
 }

@@ -1060,7 +1060,11 @@
 			$caminho = $this->maxse['caminho_para_fotos_sse'].$sse->id.'.jpg';
 
 			// Separando os dados relevantes
-			$data = $sse->foto->changingThisBreaksApplicationSecurity;
+			if(isset($sse->foto->changingThisBreaksApplicationSecurity)) {
+				$data = $sse->foto->changingThisBreaksApplicationSecurity;
+			} else {
+				$data = $sse->foto;
+			}
 			$data = str_replace('data:image/jpeg;base64,','',$data);
 			$data = base64_decode($data);
 
