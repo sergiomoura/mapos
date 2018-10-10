@@ -2151,8 +2151,12 @@
 
 			}
 
-			// Alterando o status da sse para "AGENDADA"
-			$sql = 'UPDATE maxse_sses SET status=sseStatus("AGENDADA"), id_tipo_de_servico_r=null WHERE id=:id_sse';
+			// Alterando o status da sse para "AGENDADA" e, caso seja a primeira tarefa, anula o campo trd real
+			if($primeira_tarefa){
+				$sql = 'UPDATE maxse_sses SET status=sseStatus("AGENDADA"),id_tipo_de_servico_r=null WHERE id=:id_sse';
+			} else {
+				$sql = 'UPDATE maxse_sses SET status=sseStatus("AGENDADA") WHERE id=:id_sse';
+			}
 			$stmt = $this->db->prepare($sql);
 			try {
 				$stmt->execute(array(':id_sse' => $id_sse));
