@@ -9,7 +9,7 @@ import { MatSnackBar, MatDialog } from '@angular/material';
 import { TipoDeServico } from '../../_models/tipoDeServico';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Bairro } from '../../_models/bairro';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormControl } from '@angular/forms';
 import { format } from "date-fns";
 import { GaleriaComponent } from '../galeria/galeria.component';
 import { FotoModalComponent } from "../foto-modal/foto-modal.component";
@@ -318,6 +318,7 @@ export class SseComponent implements OnInit,OnDestroy {
 
 	setHora(s:number){
 		this.timestring = s + ':00';
+		this.form.form.markAsDirty();
 	}
 
 	parseSse() {
