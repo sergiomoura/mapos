@@ -43,6 +43,7 @@ import { MatDatepickerModule, MatNativeDateModule, DateAdapter } from '@angular/
 import { PtBrDateAdapter } from './_helpers/pt-br.date-adapter';
 import { FechamentoComponent } from './_components/fechamento/fechamento.component';
 import { ImageViewerModule } from 'ngx-image-viewer';
+import { PtDateDirective } from './_directives/pt-date.directive';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -73,7 +74,8 @@ import { ImageViewerModule } from 'ngx-image-viewer';
 		BuscadorComponent,
 		ListaFiltravelComponent,
 		FotoModalComponent,
-		FechamentoComponent
+		FechamentoComponent,
+		PtDateDirective
 	],
 	imports: [
 		BrowserModule,

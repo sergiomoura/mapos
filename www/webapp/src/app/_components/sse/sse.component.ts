@@ -60,19 +60,6 @@ export class SseComponent implements OnInit,OnDestroy {
 	private subscriptions:Subscription[] = [];
 	private _temMedidaVazia:boolean;
 
-	onDateKeyup(evt){
-		
-		let txt:string = evt.target.value;
-		txt = txt.replace( /\//g,'');
-		if(txt.length > 2 && txt.length < 5){
-			txt = txt.slice(0,2) + '/' + txt.slice(2);
-		} else if(txt.length >= 5) {
-			txt = txt.slice(0,2) + '/' + txt.slice(2,4) + '/' + txt.slice(4);
-		}
-		evt.target.value = txt;
-		
-	}
-
 	ngOnInit() {
 		this.getDomasas();
 		this.getTiposDeServico();
