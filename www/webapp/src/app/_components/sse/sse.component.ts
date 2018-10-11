@@ -5,7 +5,7 @@ import { Domasa } from "../../_models/domasa";
 import { SsesService } from '../../_services/sses.service';
 import { DomasasService } from "../../_services/domasas.service";
 import { TiposDeServicoService } from "../../_services/tipos-de-servico.service";
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialog, MatDatepickerInputEvent, MatDatepicker } from '@angular/material';
 import { TipoDeServico } from '../../_models/tipoDeServico';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { Bairro } from '../../_models/bairro';
@@ -58,7 +58,20 @@ export class SseComponent implements OnInit,OnDestroy {
 	public selectedImage:File = null;
 	public inputImageFile:string;
 	private subscriptions:Subscription[] = [];
-	private _temMedidaVazia:boolean; 
+	private _temMedidaVazia:boolean;
+
+	onDateKeyup(evt){
+		
+		let txt:string = evt.target.value;
+		txt = txt.replace( /\//g,'');
+		if(txt.length > 2 && txt.length < 5){
+			txt = txt.slice(0,2) + '/' + txt.slice(2);
+		} else if(txt.length >= 5) {
+			txt = txt.slice(0,2) + '/' + txt.slice(2,4) + '/' + txt.slice(4);
+		}
+		evt.target.value = txt;
+		
+	}
 
 	ngOnInit() {
 		this.getDomasas();

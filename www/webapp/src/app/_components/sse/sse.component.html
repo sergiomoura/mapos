@@ -26,9 +26,16 @@
 							Se o nível de prioridade desta SSE não for URGENTE, digite o número desta SSE.
 						</mat-error>
 				</mat-form-field>
-		
+			
 				<mat-form-field>
-					<input placeholder="Data de Recebimento" required name="dh_recebido_dia" [(ngModel)]="sse.dh_recebido" matInput [matDatepicker]="dpRecebimento" [disabled]="camposDeCadstroTravados">
+					<input
+						matInput
+						(keyup) = onDateKeyup($event)
+						[matDatepicker]="dpRecebimento"
+						placeholder="Data de Recebimento"
+						required name="dh_recebido_dia"
+						[(ngModel)]="sse.dh_recebido"
+						[disabled]="camposDeCadstroTravados">
 					<mat-datepicker-toggle matSuffix [for]="dpRecebimento"></mat-datepicker-toggle>
 					<mat-datepicker #dpRecebimento></mat-datepicker>
 					<mat-error>
