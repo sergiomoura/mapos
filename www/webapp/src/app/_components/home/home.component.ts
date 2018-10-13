@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ProdutosService } from "../../_services/produtos.service";
 import { MatSidenav } from "@angular/material";
 import { AuthService } from "../../_services/auth.service";
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { EventsService } from '../../_services/events.service';
 import { Subscription } from 'rxjs';
 
@@ -24,17 +24,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 	private IDCE:number = 1 * 60 * 1000; // Intervalo de Checagem do Estoque (1 MINUTOS)
 	private subscriptions:Subscription[] = [];
 	public carregando:boolean = false;
+	public buscaDisponivel:boolean;
 
 	constructor(
 		private authService:AuthService,
 		private prodService:ProdutosService,
 		private router:Router,
 		private evtService:EventsService
-
 	) {	}
 
 	ngOnInit() {
-		
+
 		// Iniciando o timer que atualiza o token a cada IRDT microsegundos
 		this.timerId = window.setInterval(()=>{this.authService.refresh();},this.IRDT);
 
@@ -83,6 +83,20 @@ export class HomeComponent implements OnInit, OnDestroy {
 				}
 			)
 		);
+
+		// Escutando evento de final de navegação
+		this.subscriptions.push(
+			this.router.events.subscribe(
+				(e) => {
+					if(e instanceof NavigationEnd){
+						this.checaBotoes();
+					}
+				}
+			)
+		);
+
+		// Verificando os botões que devem ficar disponíveis
+		this.checaBotoes();
 	}
 
 	ngOnDestroy(): void {
@@ -95,6 +109,18 @@ export class HomeComponent implements OnInit, OnDestroy {
 		// Saindo de todas as subscrições
 		for (let i = 0; i < this.subscriptions.length; i++) {
 			this.subscriptions[i].unsubscribe;
+		}
+	}
+
+	checaBotoes(){
+		// Configurando disponibilidade de botões a partir da url
+		if (
+			this.router.url == '/home/sses/map' ||
+			this.router.url == '/home/sses/grid'
+		) {
+			this.buscaDisponivel = true;
+		} else {
+			this.buscaDisponivel = false;
 		}
 	}
 
@@ -113,7 +139,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	checkStock(produtos){
 		
 		let alertar = false;
-		let verEstoque;
 
 		for (let i = 0; i < produtos.length; i++) {
 			alertar = (alertar || produtos[i].qtde < produtos[i].qtde_min);
@@ -139,12 +164,12 @@ export class HomeComponent implements OnInit, OnDestroy {
 		this.router.navigateByUrl('home/sses/grid')
 	}
 
-	onFiltrarClick(){
-		this.evtService.filterClicked();
-	}
-
 	onMapButtonClick(){
 		this.router.navigateByUrl('home/sses/map');
+	}
+
+	onBuscarClick(){
+		
 	}
 
 }

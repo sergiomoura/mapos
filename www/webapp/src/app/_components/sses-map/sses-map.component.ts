@@ -78,14 +78,6 @@ export class SsesMapComponent implements OnInit,OnDestroy {
 			)
 		)
 
-		// Subscrevendo ao observavel de evento filter clicked
-		this.subscriptions.push(
-			this.evtService.filterClicked$.subscribe(
-				() => {
-					this.sidenav.toggle();
-				}
-			)
-		)
 	}
 
 	ngOnDestroy() {

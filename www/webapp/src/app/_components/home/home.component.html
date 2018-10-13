@@ -4,6 +4,10 @@
 		
 		<span class="spacer"></span>
 
+		<button mat-icon-button matTooltip="Buscar SSE" (click)="onBuscarClick()" *ngIf="buscaDisponivel">
+			<mat-icon>search</mat-icon>
+		</button>
+
 		<button mat-icon-button matTooltip="Atualizar" (click)="onAtualizarClick()">
 			<mat-icon>replay</mat-icon>
 		</button>
@@ -18,10 +22,6 @@
 
 		<button mat-icon-button matTooltip="Grid" (click)="onGridButtonClick()">
 			<mat-icon>view_list</mat-icon>
-		</button>
-
-		<button mat-icon-button matTooltip="Filtrar SSEs Exibidas" (click)="onFiltrarClick()">
-			<mat-icon>filter_list</mat-icon>
 		</button>
 
 		<button mat-icon-button [matMenuTriggerFor]="menu">
