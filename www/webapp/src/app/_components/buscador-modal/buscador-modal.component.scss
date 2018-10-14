@@ -1,0 +1,87 @@
+:host(){
+	display: grid;
+	grid-template-columns: repeat(12,60px);
+	grid-template-rows: repeat(27,20px);
+	grid-column-gap: 20px;
+
+	.container {
+		position: relative;
+		background-color: #F0F0F0;
+		padding: 10px;
+		border: 1px solid #D0D0D0;
+
+		.title {
+			font-weight: bold;
+    		margin-bottom: 10px;
+		}
+		
+		.mt {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+
+		.dmt {
+			position: absolute;
+			top: 0;
+			right: 30px;
+		}
+
+		.lista{
+			mat-checkbox {
+				display: block;
+			}
+		}
+	}
+
+	.equipes{
+		grid-column: 1 / 5;
+		grid-row: 1 / 28;
+	}
+
+	.status{
+		grid-column: 5 / 9;
+		grid-row: 1 / 14;
+	}
+
+	.prioridades{
+		grid-column: 9 / 13;
+		grid-row: 1 / 14;
+	}
+
+	.agendadas_de {
+		grid-column: 5 / 9;
+		grid-row: 15 / 17;
+	}
+
+	.agendadas_ate {
+		grid-column: 9 / 13;
+		grid-row: 15 / 17;
+	}
+
+	.realizadas_de {
+		grid-column: 5 / 9;
+		grid-row: 18 / 20;
+	}
+
+	.realizadas_ate{
+		grid-column: 9 / 13;
+		grid-row: 18 / 20;
+	}
+
+	.bt-reset {
+		grid-column: 5 / 7;
+		grid-row: 26 / 28;
+	}
+
+	.bt-exportar {
+		grid-column: 8 / 11;
+		grid-row: 26 / 28;
+	}
+
+	.bt-buscar {
+		grid-column: 11 / 13;
+		grid-row: 26 / 28;
+	}
+	
+}

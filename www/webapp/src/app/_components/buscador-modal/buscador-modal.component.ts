@@ -18,6 +18,17 @@ export class BuscadorModalComponent implements OnInit {
 	public bairros:Bairro[];
 	public tdss:TipoDeServico[];
 	public equipes:Equipe[];
+	public status:string[] = [
+		'CANCELADA',
+		'RETRABALHO',
+		'DIVERGENTE',
+		'CADASTRADA',
+		'AGENDADA',
+		'EXECUTANDO',
+		'PENDENTE',
+		'FINALIZADA'
+	];
+
 	public busca:Busca = {
 		equipes : [],
 		status : ['RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE'],

@@ -166,4 +166,5 @@ export class SsesService {
 	alteraMedidaLiberada(id_sse:number,novaMedida:number){
 		return this.http.patch(this.url_updateSses + '/' + id_sse + '/alterarMedidaLiberada', novaMedida);
 	}
+
 }

@@ -5,7 +5,6 @@ import { AuthService } from "../../_services/auth.service";
 import { Router, NavigationEnd } from '@angular/router';
 import { EventsService } from '../../_services/events.service';
 import { Subscription } from 'rxjs';
-import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
 import { BuscadorModalComponent } from '../buscador-modal/buscador-modal.component';
 
 @Component({
@@ -173,8 +172,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
 	onBuscarClick(){
 		let dialogRef = this.dialog.open(BuscadorModalComponent, {
-			height: '400px',
-			width: '600px',
+			height: '600px',
+			width: '990px',
 		});
 	}
 
