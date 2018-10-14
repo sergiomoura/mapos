@@ -4,6 +4,7 @@ import { TipoDeEquipe } from "../_models/tipoDeEquipe";
 import { Equipe } from "../_models/equipe";
 import { Observable, of, Subscription } from 'rxjs';
 import { TipoDeMembroDeEquipe } from '../_models/tipoDeMembroDeEquipe';
+import { map } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -39,19 +40,13 @@ export class EquipesService {
 		} else {
 
 			// Criando observável
-			let obs:Observable<TipoDeEquipe[]> = this.http.get<TipoDeEquipe[]>(this.url_getTipos);
-
-			// Subscrevendo
-			let s:Subscription = obs.subscribe(
-				(res) => {
-					
-					// Guardando a resposta no localStorage
-					localStorage.setItem(chave,JSON.stringify(res));
-
-					// Unsubscribing
-					s.unsubscribe();
-
-				}
+			let obs:Observable<TipoDeEquipe[]> = this.http.get<TipoDeEquipe[]>(this.url_getTipos).pipe(
+				map(
+					v => {
+						localStorage.setItem(chave,JSON.stringify(v));
+						return v;
+					}
+				)
 			)
 
 			// Retornando observável
@@ -62,26 +57,45 @@ export class EquipesService {
 
 	// Métoto que carrega todos os tipos de membros
 	getTiposDeMembro():Observable<TipoDeMembroDeEquipe[]>{
-		return this.http.get<TipoDeMembroDeEquipe[]>(this.url_getTiposDeMembro);
+
+		// Definindo chave onde armazenar tipos de membro no localStorage
+		let chave:string = "tiposDeMembro";
+
+		// Tentando recuperar tipos de membro do localStorage
+		let str = localStorage.getItem(chave);
+
+		// Verificando se conseguiu levantar dados no localStorage
+		if(str){
+
+			// Recuperou do localstorage; retornando o observável
+			return of<TipoDeMembroDeEquipe[]>(JSON.parse(str));
+
+		} else {
+
+			// Não conseguiu recuperar da localstorage
+			// Retornando o observável e registrando o resultado da requisição no localStorage
+			return this.http.get<TipoDeMembroDeEquipe[]>(this.url_getTiposDeMembro).pipe(
+				map(
+					v => {
+						localStorage.setItem(chave,JSON.stringify(v));
+						return v;
+					}
+				)
+			)
+		}
 	}
 
 	// Recupera equipes do servidor
 	private getEquipesFromServer():Observable<Equipe[]>{
 		
 		// Criando observável
-		let obs:Observable<Equipe[]> = this.http.get<Equipe[]>(this.url_getEquipes);
-
-		// Criando subscription
-		let s:Subscription = obs.subscribe(
-			(res) => {
-
-				// Setando equipes na localStorage
-				localStorage.setItem('equipes',JSON.stringify(res));
-
-				// Unsubscribing
-				s.unsubscribe();
-
-			}
+		let obs:Observable<Equipe[]> = this.http.get<Equipe[]>(this.url_getEquipes).pipe(
+			map(
+				v => {
+					localStorage.setItem('equipes',JSON.stringify(v));
+					return v;
+				}
+			)
 		)
 
 		// Retornando o observável

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { Observable, of, Subscription } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { TipoDeServico } from '../_models/tipoDeServico';
+import { map } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -26,19 +27,17 @@ export class TiposDeServicoService {
 		if(str){
 			return of<TipoDeServico[]>(JSON.parse(str));
 		} else {
+			
 			// Definindo observável
-			let obs:Observable<TipoDeServico[]> = this.http.get<TipoDeServico[]>(this.getUrl);
-
-			// Fazendo subscription
-			let s:Subscription = obs.subscribe(
-				(res) => {
-					// Guardar res no localStorage
-					localStorage.setItem(chave,JSON.stringify(res));
-
-					// Unsubscribing
-					s.unsubscribe();
-				}
-			)
+			let obs:Observable<TipoDeServico[]> = this.http.get<TipoDeServico[]>(this.getUrl).pipe(
+				map(
+					v => {
+						// Guardar res no localStorage
+				 		localStorage.setItem(chave,JSON.stringify(v));
+						return v;
+					}
+				)
+			);
 
 			// Retornando o observável
 			return obs;
