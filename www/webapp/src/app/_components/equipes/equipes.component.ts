@@ -64,7 +64,7 @@ export class EquipesComponent implements OnInit {
 	}
 
 	getEquipes():void{
-		this.equipesService.getEquipes().subscribe(
+		this.equipesService.getEquipes(true).subscribe(
 			res=>{
 
 				// Verificando se tipos de equipe já foi carregado

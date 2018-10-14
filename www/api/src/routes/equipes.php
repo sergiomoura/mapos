@@ -117,7 +117,7 @@
 		}
 		
 		// Se lider não mudou e a senha está vazia, salvar senha anterior
-		if(!$liderMudou && $lider->senha == ''){
+		if(!$liderMudou && (!isset($lider->senha) || $lider->senha == '')){
 			// Salvando senha
 			$sql = 'SELECT password FROM maxse_membros a INNER JOIN maxse_usuarios b ON a.id_pessoa=b.id_pessoa AND a.id=:id_membro';
 			$stmt = $this->db->prepare($sql);
@@ -126,7 +126,7 @@
 			));
 			$lider->hash = ($stmt->fetch())->password;
 		} else {
-			$lider->hash = crypt($lider->senha);
+			$lider->hash = @crypt($lider->senha);
 		}
 
 		// Removendo antigos membros da equipe
@@ -269,7 +269,7 @@
 		$stmt->execute(array(
 			':id_pessoa'	=> $lider->id_pessoa,
 			':username'		=> $lider->username,
-			':password'		=> crypt($lider->password)
+			':password'		=> @crypt($lider->senha)
 		));
 		
 		// Criando equipe

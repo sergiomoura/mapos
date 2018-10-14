@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { TipoDeEquipe } from "../_models/tipoDeEquipe";
 import { Equipe } from "../_models/equipe";
-import { Observable } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { TipoDeMembroDeEquipe } from '../_models/tipoDeMembroDeEquipe';
 
 @Injectable({
@@ -31,9 +31,56 @@ export class EquipesService {
 		return this.http.get<TipoDeMembroDeEquipe[]>(this.url_getTiposDeMembro);
 	}
 
+	// Recupera equipes do servidor
+	private getEquipesFromServer():Observable<Equipe[]>{
+
+		// Criando observável
+		let obs:Observable<Equipe[]> = this.http.get<Equipe[]>(this.url_getEquipes);
+
+		// Criando subscription
+		let s:Subscription = obs.subscribe(
+			(res) => {
+
+				// Setando equipes na localStorage
+				localStorage.setItem('equipes',JSON.stringify(res));
+
+				// Unsubscribing
+				s.unsubscribe();
+
+			}
+		)
+
+		// Retornando o observável
+		return obs;
+	}
+
 	// Método que carrega todas as equipes
-	getEquipes():Observable<Equipe[]> {
-		return this.http.get<Equipe[]>(this.url_getEquipes);
+	getEquipes(force?:boolean):Observable<Equipe[]> {
+
+		// Verificando se force é true
+		if(force) {
+
+			return this.getEquipesFromServer();
+
+		} else {
+
+			// Tentando levantar as equipes no localStorage
+			let str:string = localStorage.getItem('equipes');
+
+			if(str){
+
+				// Retornando observável de objeto
+				return of<Equipe[]>(JSON.parse(str));
+
+			} else {
+				
+				// Retornando o observável de requisição do servidor
+				return this.getEquipesFromServer();
+
+			}
+
+		}
+		
 	}
 
 	// Método que carrega uma equipe pelo id
