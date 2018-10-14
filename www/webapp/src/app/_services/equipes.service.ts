@@ -23,7 +23,41 @@ export class EquipesService {
 	
 	// Métoto que carrega todos os tipos de equipe
 	getTiposDeEquipe():Observable<TipoDeEquipe[]> {
-		return this.http.get<TipoDeEquipe[]>(this.url_getTipos);
+
+		// Definindo chave de tipos de equipe na localStorage
+		let chave:string = 'tiposDeEquipe';
+
+		// Tentando carregar tipo de equipe do localStorage
+		let str:string = localStorage.getItem(chave);
+
+		// Verificando se consegui pegar do localStorage
+		if(str){
+
+			// conseguiu pegar do localStorage retornando observável
+			return of<TipoDeEquipe[]>(JSON.parse(str));
+
+		} else {
+
+			// Criando observável
+			let obs:Observable<TipoDeEquipe[]> = this.http.get<TipoDeEquipe[]>(this.url_getTipos);
+
+			// Subscrevendo
+			let s:Subscription = obs.subscribe(
+				(res) => {
+					
+					// Guardando a resposta no localStorage
+					localStorage.setItem(chave,JSON.stringify(res));
+
+					// Unsubscribing
+					s.unsubscribe();
+
+				}
+			)
+
+			// Retornando observável
+			return obs;
+		}
+		
 	}
 
 	// Métoto que carrega todos os tipos de membros
@@ -33,7 +67,7 @@ export class EquipesService {
 
 	// Recupera equipes do servidor
 	private getEquipesFromServer():Observable<Equipe[]>{
-
+		
 		// Criando observável
 		let obs:Observable<Equipe[]> = this.http.get<Equipe[]>(this.url_getEquipes);
 
