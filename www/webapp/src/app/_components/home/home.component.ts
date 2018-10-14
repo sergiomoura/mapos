@@ -1,10 +1,12 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ProdutosService } from "../../_services/produtos.service";
-import { MatSidenav } from "@angular/material";
+import { MatSidenav, MatDialog, MatDialogRef } from "@angular/material";
 import { AuthService } from "../../_services/auth.service";
 import { Router, NavigationEnd } from '@angular/router';
 import { EventsService } from '../../_services/events.service';
 import { Subscription } from 'rxjs';
+import { NovaTarefaComponent } from '../nova-tarefa/nova-tarefa.component';
+import { BuscadorModalComponent } from '../buscador-modal/buscador-modal.component';
 
 @Component({
 	selector: 'app-home',
@@ -30,7 +32,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 		private authService:AuthService,
 		private prodService:ProdutosService,
 		private router:Router,
-		private evtService:EventsService
+		private evtService:EventsService,
+		private dialog:MatDialog
 	) {	}
 
 	ngOnInit() {
@@ -169,7 +172,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 	}
 
 	onBuscarClick(){
-		
+		let dialogRef = this.dialog.open(BuscadorModalComponent, {
+			height: '400px',
+			width: '600px',
+		});
 	}
 
 }

@@ -44,6 +44,7 @@ import { PtBrDateAdapter } from './_helpers/pt-br.date-adapter';
 import { FechamentoComponent } from './_components/fechamento/fechamento.component';
 import { ImageViewerModule } from 'ngx-image-viewer';
 import { PtDateDirective } from './_directives/pt-date.directive';
+import { BuscadorModalComponent } from './_components/buscador-modal/buscador-modal.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -75,7 +76,8 @@ import { PtDateDirective } from './_directives/pt-date.directive';
 		ListaFiltravelComponent,
 		FotoModalComponent,
 		FechamentoComponent,
-		PtDateDirective
+		PtDateDirective,
+		BuscadorModalComponent
 	],
 	imports: [
 		BrowserModule,
@@ -98,7 +100,8 @@ import { PtDateDirective } from './_directives/pt-date.directive';
 		EditMovimentoComponent,
 		FinalizarSseComponent,
 		GaleriaComponent,
-		FotoModalComponent
+		FotoModalComponent,
+		BuscadorModalComponent
 	],
 	providers: [
 		{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
