@@ -55,6 +55,17 @@ export class SsesGridComponent implements OnInit {
 				}
 			)
 		)
+
+		// Subscrevendo ao observavel de evento sses carregadas
+		this.subscriptions.push(
+			this.evtService.ssesCarregadas$.subscribe(
+				(sses) => {
+					console.log("PEGUEI!");
+					console.dir(sses);
+					this.sses = <SSE[]>sses;
+				}
+			)
+		)
 	}
 
 	ngOnDestroy(){

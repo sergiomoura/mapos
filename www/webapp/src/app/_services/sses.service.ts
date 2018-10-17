@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { SSE } from '../_models/sse';
 import { Busca } from "../_models/busca";
 import { format } from "date-fns";
+import { EventsService } from './events.service';
+import { map } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
@@ -11,7 +13,8 @@ import { format } from "date-fns";
 export class SsesService {
 
 	constructor(
-		private http:HttpClient
+		private http:HttpClient,
+		private evtService:EventsService
 	) {}
 	
 	// Definições de urls
@@ -29,25 +32,39 @@ export class SsesService {
 
 		if(busca){
 			
-			// Pegando só os ids das equipes
-			let ideqs:number[] = busca.equipes.map(
-				(equipe) => {
-					return equipe.id;
-				}
-			)
-	
 			// Definindo partes da queryString
 			let parts:string[] = [];
-			for (const key in busca) {
-				if (busca.hasOwnProperty(key)) {
-					if(busca[key] instanceof Date){
-						parts.push(key + "=" + format(busca[key], 'YYYY-MM-DD'));
-					} else if(key == "equipes"){
-						parts.push("equipes=" + ideqs.toString());
-					} else if(busca[key]!= undefined){
-						parts.push(key + "=" + busca[key].toString());
+			if(busca.agendadas_de){
+				parts.push('agendadas_de=' + format(busca.agendadas_de, 'YYYY-MM-DD'));
+			}
+
+			if(busca.agendadas_ate){
+				parts.push('agendadas_ate=' + format(busca.agendadas_ate, 'YYYY-MM-DD'));
+			}
+
+			if(busca.realizadas_de){
+				parts.push('realizadas_de=' + format(busca.realizadas_de, 'YYYY-MM-DD'));
+			}
+
+			if(busca.realizadas_ate){
+				parts.push('realizadas_ate=' + format(busca.realizadas_ate, 'YYYY-MM-DD'));
+			}
+
+			if(busca.equipes){
+				let ideqs:string = busca.equipes.map(
+					(equipe) => {
+						return +equipe.id;
 					}
-				}
+				).join(',');
+				parts.push("equipes=" + ideqs);
+			}
+
+			if(busca.prioridades){
+				parts.push("prioridades=" + busca.prioridades.join(','));
+			}
+
+			if(busca.status){
+				parts.push('status=' + busca.status.join(','));
 			}
 
 			// Juntando partes da queryString
@@ -55,6 +72,7 @@ export class SsesService {
 		}
 
 		return this.http.get<SSE[]>(this.url_getSses + queryString);
+		
 	}
 
 	// Retorna SSEs pendentes

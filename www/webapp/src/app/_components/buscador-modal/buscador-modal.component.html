@@ -3,11 +3,11 @@
 	<button mat-icon-button class="mt" matTooltip="Marcar todos" (click)="onMTEquipesClick()">
 		<mat-icon>done_all</mat-icon>
 	</button>
-	<button mat-icon-button class="dmt" matTooltip="Desmarcar todos" (click)="onMTEquipesClick()">
+	<button mat-icon-button class="dmt" matTooltip="Desmarcar todos" (click)="onDMTEquipesClick()">
 		<mat-icon>clear</mat-icon>
 	</button>
 	<div class="lista">
-		<mat-checkbox *ngFor="let equipe of equipes">{{equipe.nome}}</mat-checkbox>
+		<mat-checkbox color="primary" [(ngModel)]="equipe.selecionado"  *ngFor="let equipe of busca?.equipesSelecionaveis">{{equipe.elemento.nome}}</mat-checkbox>
 	</div>
 </div>
 
@@ -20,7 +20,7 @@
 		<mat-icon>clear</mat-icon>
 	</button>
 	<div class="lista">
-		<mat-checkbox *ngFor="let s of status">{{s}}</mat-checkbox>
+		<mat-checkbox [(ngModel)]="s.selecionado" color="primary" *ngFor="let s of busca.statusSelecionaveis">{{s.elemento}}</mat-checkbox>
 	</div>
 </div>
 
@@ -33,14 +33,12 @@
 		<mat-icon>clear</mat-icon>
 	</button>
 	<div class="lista">
-		<mat-checkbox>Normal</mat-checkbox>
-		<mat-checkbox>Prioridade</mat-checkbox>
-		<mat-checkbox>Urgente</mat-checkbox>
+		<mat-checkbox [(ngModel)]="p.selecionado" color="primary" *ngFor="let p of busca.prioridadesSelecionaveis">{{p.elemento == '0' ? 'Normal': (p.elemento == '1' ? 'Prioridade' : 'Urgente')}}</mat-checkbox>
 	</div>
 </div>
 
 <mat-form-field class="agendadas_de">
-	<input matInput [max]="busca.agendadas_ate" [(ngModel)]="busca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
+	<input matInput [max]="busca?.agendadas_ate" [(ngModel)]="busca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
 	<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
 	<mat-datepicker #picker1></mat-datepicker>
 </mat-form-field>
@@ -66,4 +64,7 @@
 
 <button class="bt-reset" mat-raised-button color="accent" (click)="onResetCamposClick()">Resetar</button>
 <button class="bt-exportar" mat-raised-button color="primary" (click)="onExportarClick()">Exportar resultado (Excel)</button>
-<button cdk-focus-start class="bt-buscar" mat-raised-button color="primary" (click)="onBuscarClick()">Buscar</button>
+<button [disabled]="buscando" cdkFocusRegionstart class="bt-buscar" mat-raised-button color="primary" (click)="onBuscarClick()">
+	<span *ngIf="!buscando">Buscar</span>
+	<mat-spinner *ngIf="buscando" diameter="16"></mat-spinner>
+</button>
