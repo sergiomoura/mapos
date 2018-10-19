@@ -220,12 +220,9 @@ export class BuscadorModalComponent implements OnInit {
 
 		// Fazendo requisição
 		this.ssesService.getAll(this.busca).subscribe(
-			res => {
+			sses => {
 				// esconde carregando
 				this.buscando = false;
-
-				// Parsing sses
-				let sses:SSE[] = this.parseSses(res);
 
 				// emitindo evento de sses carregadas
 				this.evtService.ssesCarregadas(sses);
@@ -253,59 +250,4 @@ export class BuscadorModalComponent implements OnInit {
 		)
 	}
 
-	private parseSses(tmpSses):SSE[]{
-
-		if(this.tdss && this.equipes){
-
-			// Resetando o vetor de sses;
-			let sses:SSE[] = [];
-			
-			for (let i = 0; i < tmpSses.length; i++) {
-
-				// Lendo sse da vez
-				let sse:SSE = new SSE(tmpSses[i], this.tdss);
-				
-				// Parsing bairros se bairros estiver setado
-				if(this.bairros){
-					sse.setBairro(this.bairros)
-				}
-
-				// parsing equipes e apoios das tarefas 
-				for (let i = 0; i < sse.tarefas.length; i++) {
-					
-					// Separando tarefa a tratar
-					const tarefa = sse.tarefas[i];
-					
-					// Parsing equipe encarregada pela tarefa
-					tarefa.equipe = this.equipes.find(
-						(e) => {
-							return e.id == tarefa.id_equipe;
-						}
-					)
-					delete tarefa.id_equipe;
-
-					// Parsing apoio encarregado pela tarefa
-					tarefa.apoio = this.equipes.find(
-						(e) => {
-							return e.id == tarefa.id_apoio;
-						}
-					)
-					delete tarefa.id_apoio;
-
-					// Parsing dates
-					tarefa.inicio_p = new Date(tarefa.inicio_p);
-					tarefa.final_p = new Date(tarefa.final_p);
-					tarefa.inicio_r = (tarefa.inicio_r == null ? null : new Date(tarefa.inicio_r));
-					tarefa.final_r = (tarefa.final_r == null ? null : new Date(tarefa.final_r));
-				}
-
-				// Pondo no vetor de sses;
-				sses.push(sse);
-			}
-
-			return sses;
-		} else {
-			return null;
-		}
-	}
 }

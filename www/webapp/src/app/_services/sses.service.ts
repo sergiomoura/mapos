@@ -6,16 +6,23 @@ import { Busca } from "../_models/busca";
 import { format } from "date-fns";
 import { EventsService } from './events.service';
 import { map } from 'rxjs/operators';
+import { EquipesService } from './equipes.service';
+import { TiposDeServicoService } from './tipos-de-servico.service';
+import { Equipe } from '../_models/equipe';
+import { TipoDeServico } from '../_models/tipoDeServico';
+import { DomasasService } from './domasas.service';
+import { Bairro } from '../_models/bairro';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class SsesService {
 
-	constructor(
-		private http:HttpClient,
-		private evtService:EventsService
-	) {}
+	// Definindo propriedades privadas
+	private equipes:Equipe[];
+	private tdss:TipoDeServico[];
+	private bairros:Bairro[];
+
 	
 	// Definições de urls
 	private url_getSses:string = '/maxse/api/sses';
@@ -23,6 +30,36 @@ export class SsesService {
 	private url_updateSses:string = '/maxse/api/sses';
 	private url_createSses:string = '/maxse/api/sses';
 	private url_getSsesXls:string = '/maxse/api/sses/xls';
+
+	constructor(
+		private http:HttpClient,
+		private evtService:EventsService,
+		private equipesService:EquipesService,
+		private tdsService:TiposDeServicoService,
+		private domasaService:DomasasService
+	) {
+
+		// Carregando equipes
+		this.equipesService.getEquipes().subscribe(
+			(equipes:Equipe[]) =>{
+				this.equipes = equipes;
+			}
+		)
+
+		// Carregando tipos de servicos
+		this.tdsService.get().subscribe(
+			(tdss:TipoDeServico[]) => {
+				this.tdss = tdss;
+			}
+		)
+
+		// Carregando bairros
+		this.domasaService.getFlat().subscribe(
+			(bairros:Bairro[]) => {
+				this.bairros = bairros;
+			}
+		)
+	}
 	
 	// Método que carrega todas as SSEs
 	getAll(busca?:Busca):Observable<SSE[]>{
@@ -71,7 +108,14 @@ export class SsesService {
 			queryString = '?' + parts.join('&');
 		}
 
-		return this.http.get<SSE[]>(this.url_getSses + queryString);
+		return this.http.get<SSE[]>(this.url_getSses + queryString)
+			.pipe(
+				map(
+					(sses:SSE[]) => {
+						return this.parseSses(sses)
+					}
+				)
+			);
 		
 	}
 
@@ -183,6 +227,67 @@ export class SsesService {
 	// Altera medida Liberada
 	alteraMedidaLiberada(id_sse:number,novaMedida:number){
 		return this.http.patch(this.url_updateSses + '/' + id_sse + '/alterarMedidaLiberada', novaMedida);
+	}
+
+	private parseSses(tmpSses:any):SSE[]{
+
+		// Definindo vetor de sses para resposta
+
+		if(tmpSses && this.tdss && this.equipes){
+
+			// Resetando o vetor de sses;
+			let sses:SSE[] = [];
+			for (let i = 0; i < tmpSses.length; i++) {
+
+				// Lendo sse da vez
+				let sse:SSE = new SSE(tmpSses[i], this.tdss);
+				
+				// Parsing bairros se bairros estiver setado
+				if(this.bairros){
+					sse.setBairro(this.bairros)
+				}
+
+				// parsing equipes e apoios das tarefas 
+				for (let i = 0; i < sse.tarefas.length; i++) {
+					
+					// Separando tarefa a tratar
+					const tarefa = sse.tarefas[i];
+					
+					// Parsing equipe encarregada pela tarefa
+					tarefa.equipe = this.equipes.find(
+						(e) => {
+							return e.id == tarefa.id_equipe;
+						}
+					)
+					delete tarefa.id_equipe;
+
+					// Parsing apoio encarregado pela tarefa
+					tarefa.apoio = this.equipes.find(
+						(e) => {
+							return e.id == tarefa.id_apoio;
+						}
+					)
+					delete tarefa.id_apoio;
+
+					// Parsing dates
+					tarefa.inicio_p = new Date(tarefa.inicio_p);
+					tarefa.final_p = new Date(tarefa.final_p);
+					tarefa.inicio_r = (tarefa.inicio_r == null ? null : new Date(tarefa.inicio_r));
+					tarefa.final_r = (tarefa.final_r == null ? null : new Date(tarefa.final_r));
+				}
+
+				// Pondo no vetor de sses;
+				sses.push(sse);
+			}
+			
+			return sses;
+
+		} else {
+
+			return [];
+
+		}
+		
 	}
 
 }

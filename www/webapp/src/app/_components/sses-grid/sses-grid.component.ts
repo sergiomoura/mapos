@@ -60,8 +60,6 @@ export class SsesGridComponent implements OnInit {
 		this.subscriptions.push(
 			this.evtService.ssesCarregadas$.subscribe(
 				(sses) => {
-					console.log("PEGUEI!");
-					console.dir(sses);
 					this.sses = <SSE[]>sses;
 				}
 			)
@@ -74,13 +72,9 @@ export class SsesGridComponent implements OnInit {
 			this.subscriptions[i].unsubscribe();
 		}
 	}
-
-	onBuscarClick(){
-		this.getSses();
-	}
 	
 	getSses(){
-		this.buscador.onBuscarClick();
+		console.log('recarregando sses');
 	}
 
 	getTiposDeServico(){
