@@ -581,5 +581,49 @@ export class SSE{
 			return this._valor_prev - this._cmp - this._cmo;
 		}
 	}
+
+	public get difMedida() : string{
+		let mPrev:Medida = this.totalPrev;
+		let mReal:Medida = this.totalReal;
+
+		if(mReal){
+			if(mPrev.unidade == mReal.unidade){
+				return (mPrev.valor - mReal.valor) + ' ' + mPrev.unidade;
+			} else {
+				return 'Unidades Diferem';
+			}
+		} else {
+			return '';
+		}
+	}
+
+	public get divergencia() : string {
+		let mPrev:Medida = this.totalPrev;
+		let mReal:Medida = this.totalReal;
+
+		if(mReal){
+			if(Math.round((mPrev.valor - mReal.valor)*100)/100 == 0){
+				return 'Não';
+			} else {
+				return 'Sim';
+			}
+		} else {
+			return '';
+		}
+	}
+
+	public get difTds() : string {
+		if(this.tipoDeServicoReal) {
+			if(this.tipoDeServicoPrev.codigo == this.tipoDeServicoReal.codigo){
+				return 'Não'
+			} else {
+				return 'Sim'
+			}
+		} else {
+			return ''
+		}
+	}
+	
+	
 	
 }

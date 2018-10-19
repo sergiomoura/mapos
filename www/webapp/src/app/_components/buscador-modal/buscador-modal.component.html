@@ -62,7 +62,7 @@
 </mat-form-field>
 
 
-<button class="bt-reset" mat-raised-button color="accent" (click)="onResetCamposClick()">Resetar</button>
+<button class="bt-cancelar" mat-raised-button color="accent" (click)="onCancelarClick()">Cancelar</button>
 <button class="bt-exportar" mat-raised-button color="primary" (click)="onExportarClick()">Exportar resultado (Excel)</button>
 <button [disabled]="buscando" cdkFocusRegionstart class="bt-buscar" mat-raised-button color="primary" (click)="onBuscarClick()">
 	<span *ngIf="!buscando">Buscar</span>

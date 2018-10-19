@@ -213,6 +213,10 @@ export class BuscadorModalComponent implements OnInit {
 		this.buscar();
 	}
 
+	onCancelarClick(){
+		this.dialogRef.close(1);
+	}
+
 	private buscar():void{
 
 		// Mostrar carregando
@@ -224,8 +228,8 @@ export class BuscadorModalComponent implements OnInit {
 				// esconde carregando
 				this.buscando = false;
 
-				// emitindo evento de sses carregadas
-				this.evtService.ssesCarregadas(sses);
+				// Fechando o diálogo
+				this.dialogRef.close(0);
 			},
 			err => {
 				// esconde carregando
@@ -234,7 +238,7 @@ export class BuscadorModalComponent implements OnInit {
 				// Exibindo snackbar de erro
 				this.snackBar
 				.open(
-					'Falha ao carregar SSEs',
+					'Falha ao carregar SSEs.',
 					'Fechar',
 					{
 						duration:0,

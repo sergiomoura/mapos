@@ -112,7 +112,13 @@ export class SsesService {
 			.pipe(
 				map(
 					(sses:SSE[]) => {
-						return this.parseSses(sses)
+						let parsed:SSE[] = this.parseSses(sses);
+
+						// Emitindo evento de SSEs carregadas
+						this.evtService.ssesCarregadas(parsed);
+
+						// Retornando as SSEs parseadas
+						return parsed;
 					}
 				)
 			);
