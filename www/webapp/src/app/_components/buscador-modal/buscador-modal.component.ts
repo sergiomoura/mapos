@@ -240,6 +240,10 @@ export class BuscadorModalComponent implements OnInit {
 		this.dialogRef.close(1);
 	}
 
+	onExportarClick(){
+		this.ssesService.getExcel(this.parametrosDeBusca.busca);
+	}
+
 	private buscar():void{
 
 		// Mostrar carregando

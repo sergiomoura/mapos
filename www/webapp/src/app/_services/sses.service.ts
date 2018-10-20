@@ -213,7 +213,7 @@ export class SsesService {
 		// Transformando busca em querystring para passar pela url
 		let agendadas_de:string = 'ag_de=' + (busca.agendadas_de ? busca.agendadas_de.toISOString() : '');
 		let agendadas_ate:string = 'ag_ate=' + (busca.agendadas_ate ? busca.agendadas_ate.toISOString() : '');
-		let equipes:string = 'equipes=' + busca.equipes.join(',');
+		let equipes:string = 'equipes=' + busca.equipes.map(e=>{return e.id}).join(',');
 		let prioridades:string = 'prioridades=' + busca.prioridades.join(',');
 		let realizadas_de:string = 'real_de=' + (busca.realizadas_de ? busca.realizadas_de.toISOString() : '');
 		let realizadas_ate:string = 'real_ate=' + (busca.realizadas_ate ? busca.realizadas_ate.toISOString() : '');
