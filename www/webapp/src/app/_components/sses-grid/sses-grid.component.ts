@@ -1,12 +1,13 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SSE } from '../../_models/sse';
 import { Router } from '@angular/router';
-import { Bairro } from "../../_models/bairro";
-import { TipoDeServico } from "../../_models/tipoDeServico";
-import { Equipe } from "../../_models/equipe";
 import { Subscription } from 'rxjs';
 import { EventsService } from '../../_services/events.service';
-import { BuscadorComponent } from '../buscador/buscador.component';
+import { SsesService } from 'src/app/_services/sses.service';
+import { Busca } from 'src/app/_models/busca';
+import { ChavesDeBusca } from 'src/app/_models/chavesDeBusca';
+import { EquipesService } from 'src/app/_services/equipes.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
 	selector: 'app-sses',
@@ -15,17 +16,15 @@ import { BuscadorComponent } from '../buscador/buscador.component';
 })
 export class SsesGridComponent implements OnInit {
 	sses:SSE[];
-	tmpSses:any[];
-	tdss:TipoDeServico[];
-	equipes:Equipe[];
-	bairros:Bairro[];
 	infinito:number = 2000000000;
-	subscriptions:Subscription[] = [];
-	@ViewChild('buscador') buscador:BuscadorComponent;
+	private subscriptions:Subscription[] = [];
 
 	constructor(
 		private router:Router,
-		private evtService:EventsService
+		private evtService:EventsService,
+		private ssesService:SsesService,
+		private equipesService: EquipesService,
+		private snackBar: MatSnackBar
 	){}
 
 	ngOnInit() {
@@ -47,6 +46,10 @@ export class SsesGridComponent implements OnInit {
 				}
 			)
 		)
+
+		// Carregando sses
+		this.getSses();
+
 	}
 
 	ngOnDestroy(){
@@ -57,7 +60,53 @@ export class SsesGridComponent implements OnInit {
 	}
 	
 	getSses(){
-		console.log('recarregando sses');
+		// Carregando busca do localStorage
+		let strBusca:string = localStorage.getItem(ChavesDeBusca.GRID);
+
+		// Definindo busca
+		let busca:Busca;
+		if(strBusca){
+			busca = JSON.parse(strBusca);
+		} else {
+			busca = {
+				agendadas_ate: null,
+				agendadas_de: null,
+				realizadas_ate: null,
+				realizadas_de: null,
+				prioridades: [0,1,2],
+				status: ['CANCELADA','RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE','FINALIZADA'],
+				id_fechamento: null
+			}
+
+			this.equipesService.getEquipes().subscribe(
+				(equipes) => {
+					busca.equipes = equipes;
+				}
+			)
+		}
+		this.ssesService.getAll(busca).subscribe(
+			(sses) => {
+				this.sses = sses;
+			},
+			(err) => {
+				
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar carregar sses',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+
+				// Imprimindo erro no console
+				console.warn(err)
+			}
+		)
 	}
 	
 	onSseButtonClick(id){

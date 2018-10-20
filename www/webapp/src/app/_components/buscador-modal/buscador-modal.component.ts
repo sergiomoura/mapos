@@ -1,22 +1,11 @@
 import { Component, OnInit, Injectable } from '@angular/core';
 import { MatDialogRef, MatSnackBar } from '@angular/material';
-import { DomasasService } from 'src/app/_services/domasas.service';
-import { Bairro } from 'src/app/_models/bairro';
-import { TipoDeServico } from 'src/app/_models/tipoDeServico';
 import { Equipe } from 'src/app/_models/equipe';
-import { TiposDeServicoService } from 'src/app/_services/tipos-de-servico.service';
 import { EquipesService } from 'src/app/_services/equipes.service';
 import { Busca } from 'src/app/_models/busca';
-import { EventsService } from 'src/app/_services/events.service';
 import { SsesService } from 'src/app/_services/sses.service';
-import { SSE } from 'src/app/_models/sse';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-
-enum ChavesDeBusca {
-	MAPA = 'busca_mapa',
-	GRID = 'busca_grid'
-}
+import { ChavesDeBusca } from "src/app/_models/chavesDeBusca";
 
 enum enum_prioridade {
 	NORMAL = '0',
