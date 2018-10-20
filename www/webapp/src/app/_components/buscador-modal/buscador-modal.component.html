@@ -7,7 +7,7 @@
 		<mat-icon>clear</mat-icon>
 	</button>
 	<div class="lista">
-		<mat-checkbox color="primary" [(ngModel)]="equipe.selecionado"  *ngFor="let equipe of busca?.equipesSelecionaveis">{{equipe.elemento.nome}}</mat-checkbox>
+		<mat-checkbox color="primary" [(ngModel)]="equipe.selecionado"  *ngFor="let equipe of parametrosDeBusca?.equipesSelecionaveis">{{equipe.elemento.nome}}</mat-checkbox>
 	</div>
 </div>
 
@@ -20,7 +20,7 @@
 		<mat-icon>clear</mat-icon>
 	</button>
 	<div class="lista">
-		<mat-checkbox [(ngModel)]="s.selecionado" color="primary" *ngFor="let s of busca.statusSelecionaveis">{{s.elemento}}</mat-checkbox>
+		<mat-checkbox [(ngModel)]="s.selecionado" color="primary" *ngFor="let s of parametrosDeBusca?.statusSelecionaveis">{{s.elemento}}</mat-checkbox>
 	</div>
 </div>
 
@@ -33,30 +33,33 @@
 		<mat-icon>clear</mat-icon>
 	</button>
 	<div class="lista">
-		<mat-checkbox [(ngModel)]="p.selecionado" color="primary" *ngFor="let p of busca.prioridadesSelecionaveis">{{p.elemento == '0' ? 'Normal': (p.elemento == '1' ? 'Prioridade' : 'Urgente')}}</mat-checkbox>
+		<mat-checkbox [(ngModel)]="p.selecionado" color="primary" *ngFor="let p of parametrosDeBusca?.prioridadesSelecionaveis">{{p.elemento == '0' ? 'Normal': (p.elemento == '1' ? 'Prioridade' : 'Urgente')}}</mat-checkbox>
 	</div>
 </div>
 
 <mat-form-field class="agendadas_de">
-	<input matInput [max]="busca?.agendadas_ate" [(ngModel)]="busca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
+	<input
+		matInput
+		[max]="parametrosDeBusca?.agendadas_ate"
+		[(ngModel)]="parametrosDeBusca.agendadas_de" [matDatepicker]="picker1" placeholder="Agendados de">
 	<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
 	<mat-datepicker #picker1></mat-datepicker>
 </mat-form-field>
 
 <mat-form-field class="agendadas_ate">
-	<input matInput [min]="busca.agendadas_de" [(ngModel)]="busca.agendadas_ate" [matDatepicker]="picker2" placeholder="Agendados até">
+	<input matInput [min]="parametrosDeBusca?.agendadas_de" [(ngModel)]="parametrosDeBusca.agendadas_ate" [matDatepicker]="picker2" placeholder="Agendados até">
 	<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
 	<mat-datepicker #picker2></mat-datepicker>
 </mat-form-field>
 
 <mat-form-field class="realizadas_de">
-	<input matInput [max]="busca.realizadas_ate" [(ngModel)]="busca.realizadas_de" [matDatepicker]="picker3" placeholder="Realizados de">
+	<input matInput [max]="parametrosDeBusca?.realizadas_ate" [(ngModel)]="parametrosDeBusca.realizadas_de" [matDatepicker]="picker3" placeholder="Realizados de">
 	<mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
 	<mat-datepicker #picker3></mat-datepicker>
 </mat-form-field>
 
 <mat-form-field class="realizadas_ate">
-	<input matInput [min]="busca.realizadas_de" [(ngModel)]="busca.realizadas_ate" [matDatepicker]="picker4" placeholder="Realizados até">
+	<input matInput [min]="parametrosDeBusca?.realizadas_de" [(ngModel)]="parametrosDeBusca.realizadas_ate" [matDatepicker]="picker4" placeholder="Realizados até">
 	<mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
 	<mat-datepicker #picker4></mat-datepicker>
 </mat-form-field>
