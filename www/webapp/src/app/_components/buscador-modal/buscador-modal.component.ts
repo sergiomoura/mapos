@@ -241,7 +241,13 @@ export class BuscadorModalComponent implements OnInit {
 	}
 
 	onExportarClick(){
+
+		// Fazendo requisição para baixar excel
 		this.ssesService.getExcel(this.parametrosDeBusca.busca);
+
+		// Fechando dialogo
+		this.dialogRef.close(0);
+		
 	}
 
 	private buscar():void{
