@@ -1,111 +1,113 @@
-<table class="tb-resultados">
-	<thead>
-		<tr>
-			<td colspan="28">Dados da SSE</td>
-			<td colspan="5">Dados do 1º Serviço</td>
-			<td colspan="5">Dados do 2º Serviço</td>
-		</tr>
-		<tr>
-			<td>ID</td>
-			<td>Status</td>
-			<td>Nº SSE</td>
-			<td>Data Recebimento SSE</td>
-			<td>Nº Domasa</td>
-			<td>Endereço</td>
-			<td>ID Bairro</td>
-			<td>Nome Bairro</td>
-			<td>Obs</td>
-			<td>Tot Medidas Prev</td>
-			<td>Tot Medidas Real</td>
-			<td>Dif. Medidas</td>
-			<td>Divergência?</td>
-			<td>TDS Prev</td>
-			<td>TDS Real</td>
-			<td>Dif. TDS</td>
-			<td>Classificação</td>
-			<td>Classificação (Alteração)</td>
-			<td>Prioridade</td>
-			<td>DL Execução</td>
-			<td>Data Devolução</td>
-			<td>DL Garantia</td>
-			<td>Em Garantia?</td>
-			<td>Cálculo Execução</td>
-			<td>Valor da SSE</td>
-			<td>Custo MO</td>
-			<td>Custo MP</td>
-			<td>Lucro</td>
-			<!-- Header Primeira tarefa -->
-			<td>Equipe</td>
-			<td>Apoio</td>
-			<td>Agendado para</td>
-			<td>Data da Execução</td>
-			<td>Consumo</td>
-			<!-- Header Segunda tarefa -->
-			<td>Equipe</td>
-			<td>Apoio</td>
-			<td>Agendado para</td>
-			<td>Data da Execução</td>
-			<td>Consumo</td>
-		</tr>
-	</thead>
-	<tbody *ngFor="let sse of sses">
-		<tr>
-			<td>{{sse.id}}</td>
-			<td>{{sse.label_status}}</td>
-			<td>{{sse.numero}}</td>
-			<td>{{sse.dh_recebido | date:"dd/MM/yyyy"}}</td>
-			<td>{{sse.bairro.domasa}}</td>
-			<td>{{sse.endereco}}</td>
-			<td>{{sse.bairro?.codigo}}</td>
-			<td>{{sse.bairro?.nome}}</td>
-			<td>{{sse.obs}}</td>
-			<td>{{ sse.totalPrev.toString()}}</td>
-			<td>{{ sse.totalReal?.toString()}}</td>
-			<td>{{ sse.difMedida }}</td>
-			<td>{{ sse.divergencia }}</td>
-			<td>{{ sse.tipoDeServicoPrev?.codigo}}</td>
-			<td>{{ sse.tipoDeServicoReal?.codigo}}</td>
-			<td>{{ sse.difTds }}</td>
-			<td>{{ sse.faixaPrev?.label}} ({{sse.faixaPrev?.li}} < X {{ +sse.faixaPrev?.ls == infinito ? '' : '≤ ' + sse.faixaPrev?.ls}})</td>
-			<td>{{ sse.faixaReal?.label }}</td>
-			<td>{{ sse.label_urgencia }}</td>
-			<td>{{ sse.prazoFinal | date:'dd/MM/yyyy'}}</td>
-			<td>{{ sse.data_devolucao | date:'dd/MM/yyyy' }}</td>
-			<td>{{ sse.data_garantia | date:'dd/MM/yyyy' }}</td>
-			<td>{{ sse.emGarantia ? 'Sim' : (sse.emGarantia === false ? 'Não' : '') }}</td>
-			<td>{{ sse.calculoExecucao!=undefined ? sse.calculoExecucao : ''}}</td>
-			<td>{{ sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
-			<td>{{ sse.cmo | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
-			<td>{{ sse.cmp | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
-			<td>{{ sse.lucro_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+<div class="container">
+	<table class="tb-resultados">
+		<thead>
+			<tr>
+				<td colspan="28">Dados da SSE</td>
+				<td colspan="5">Dados do 1º Serviço</td>
+				<td colspan="5">Dados do 2º Serviço</td>
+			</tr>
+			<tr>
+				<td>ID</td>
+				<td>Status</td>
+				<td>Nº SSE</td>
+				<td>Data Recebimento SSE</td>
+				<td>Nº Domasa</td>
+				<td>Endereço</td>
+				<td>ID Bairro</td>
+				<td>Nome Bairro</td>
+				<td>Obs</td>
+				<td>Tot Medidas Prev</td>
+				<td>Tot Medidas Real</td>
+				<td>Dif. Medidas</td>
+				<td>Divergência?</td>
+				<td>TDS Prev</td>
+				<td>TDS Real</td>
+				<td>Dif. TDS</td>
+				<td>Classificação</td>
+				<td>Classificação (Alteração)</td>
+				<td>Prioridade</td>
+				<td>DL Execução</td>
+				<td>Data Devolução</td>
+				<td>DL Garantia</td>
+				<td>Em Garantia?</td>
+				<td>Cálculo Execução</td>
+				<td>Valor da SSE</td>
+				<td>Custo MO</td>
+				<td>Custo MP</td>
+				<td>Lucro</td>
+				<!-- Header Primeira tarefa -->
+				<td>Equipe</td>
+				<td>Apoio</td>
+				<td>Agendado para</td>
+				<td>Data da Execução</td>
+				<td>Consumo</td>
+				<!-- Header Segunda tarefa -->
+				<td>Equipe</td>
+				<td>Apoio</td>
+				<td>Agendado para</td>
+				<td>Data da Execução</td>
+				<td>Consumo</td>
+			</tr>
+		</thead>
+		<tbody *ngFor="let sse of sses">
+			<tr>
+				<td>{{sse.id}}</td>
+				<td>{{sse.label_status}}</td>
+				<td>{{sse.numero}}</td>
+				<td>{{sse.dh_recebido | date:"dd/MM/yyyy"}}</td>
+				<td>{{sse.bairro.domasa}}</td>
+				<td>{{sse.endereco}}</td>
+				<td>{{sse.bairro?.codigo}}</td>
+				<td>{{sse.bairro?.nome}}</td>
+				<td>{{sse.obs}}</td>
+				<td>{{ sse.totalPrev.toString()}}</td>
+				<td>{{ sse.totalReal?.toString()}}</td>
+				<td>{{ sse.difMedida }}</td>
+				<td>{{ sse.divergencia }}</td>
+				<td>{{ sse.tipoDeServicoPrev?.codigo}}</td>
+				<td>{{ sse.tipoDeServicoReal?.codigo}}</td>
+				<td>{{ sse.difTds }}</td>
+				<td>{{ sse.faixaPrev?.label}} ({{sse.faixaPrev?.li}} < X {{ +sse.faixaPrev?.ls == infinito ? '' : '≤ ' + sse.faixaPrev?.ls}})</td>
+				<td>{{ sse.faixaReal?.label }}</td>
+				<td>{{ sse.label_urgencia }}</td>
+				<td>{{ sse.prazoFinal | date:'dd/MM/yyyy'}}</td>
+				<td>{{ sse.data_devolucao | date:'dd/MM/yyyy' }}</td>
+				<td>{{ sse.data_garantia | date:'dd/MM/yyyy' }}</td>
+				<td>{{ sse.emGarantia ? 'Sim' : (sse.emGarantia === false ? 'Não' : '') }}</td>
+				<td>{{ sse.calculoExecucao!=undefined ? sse.calculoExecucao : ''}}</td>
+				<td>{{ sse.valor_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil }}</td>
+				<td>{{ sse.cmo | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+				<td>{{ sse.cmp | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
+				<td>{{ sse.lucro_real | currency:'BRL':symbol:'1.2-2' | moedaBrasil}}</td>
 
-			<!-- INÍCIO DE EXIBIÇÃO DE TAREFA 1-->
-			<td>{{sse.tarefas.length > 0 && sse.tarefas[0].equipe ? sse.tarefas[0].equipe.nome : ''}}</td>
-			<td>{{sse.tarefas.length > 0 && sse.tarefas[0].apoio ? sse.tarefas[0].apoio.nome : ''}}</td>
-			<td>{{sse.tarefas.length > 0 && sse.tarefas[0].inicio_p ? (sse.tarefas[0].inicio_p|date:'dd/MM/yyyy') : ''}}</td>
-			<td>{{sse.tarefas.length > 0 && sse.tarefas[0].final_r ? (sse.tarefas[0].final_r|date:'dd/MM/yyyy') : ''}}</td>
-			<td>
-				<ul *ngIf="sse.tarefas.length > 0 && sse.tarefas[0].consumos.length > 0">
-					<li *ngFor="let c of sse.tarefas[0].consumos">
-						{{c.nome}} : {{c.qtde}} {{c.unidade}}
-					</li>
-				</ul>
-			</td>
-			<!-- FINAL DE EXIBIÇÃO DE TAREFA 1 -->
+				<!-- INÍCIO DE EXIBIÇÃO DE TAREFA 1-->
+				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].equipe ? sse.tarefas[0].equipe.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].apoio ? sse.tarefas[0].apoio.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].inicio_p ? (sse.tarefas[0].inicio_p|date:'dd/MM/yyyy') : ''}}</td>
+				<td>{{sse.tarefas.length > 0 && sse.tarefas[0].final_r ? (sse.tarefas[0].final_r|date:'dd/MM/yyyy') : ''}}</td>
+				<td>
+					<ul *ngIf="sse.tarefas.length > 0 && sse.tarefas[0].consumos.length > 0">
+						<li *ngFor="let c of sse.tarefas[0].consumos">
+							{{c.nome}} : {{c.qtde}} {{c.unidade}}
+						</li>
+					</ul>
+				</td>
+				<!-- FINAL DE EXIBIÇÃO DE TAREFA 1 -->
 
-			<!-- INÍCIO DE EXIBIÇÃO DE TAREFA 2-->
-			<td>{{sse.tarefas.length > 1 && sse.tarefas[1].equipe ? sse.tarefas[1].equipe.nome : ''}}</td>
-			<td>{{sse.tarefas.length > 1 && sse.tarefas[1].apoio ? sse.tarefas[1].apoio.nome : ''}}</td>
-			<td>{{sse.tarefas.length > 1 && sse.tarefas[1].inicio_p ? (sse.tarefas[1].inicio_p|date:'dd/MM/yyyy') : ''}}</td>
-			<td>{{sse.tarefas.length > 1 && sse.tarefas[1].final_r ? (sse.tarefas[1].final_r|date:'dd/MM/yyyy') : ''}}</td>
-			<td>
-				<ul *ngIf="sse.tarefas.length > 1 && sse.tarefas[1].consumos.length > 1">
-					<li *ngFor="let c of sse.tarefas[1].consumos">
-						{{c.nome}} : {{c.qtde}} {{c.unidade}}
-					</li>
-				</ul>
-			</td>
-			<!-- FINAL DE EXIBIÇÃO DE TAREFA 2 -->
-		</tr>
-	</tbody>
-</table>
+				<!-- INÍCIO DE EXIBIÇÃO DE TAREFA 2-->
+				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].equipe ? sse.tarefas[1].equipe.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].apoio ? sse.tarefas[1].apoio.nome : ''}}</td>
+				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].inicio_p ? (sse.tarefas[1].inicio_p|date:'dd/MM/yyyy') : ''}}</td>
+				<td>{{sse.tarefas.length > 1 && sse.tarefas[1].final_r ? (sse.tarefas[1].final_r|date:'dd/MM/yyyy') : ''}}</td>
+				<td>
+					<ul *ngIf="sse.tarefas.length > 1 && sse.tarefas[1].consumos.length > 1">
+						<li *ngFor="let c of sse.tarefas[1].consumos">
+							{{c.nome}} : {{c.qtde}} {{c.unidade}}
+						</li>
+					</ul>
+				</td>
+				<!-- FINAL DE EXIBIÇÃO DE TAREFA 2 -->
+			</tr>
+		</tbody>
+	</table>
+</div>
