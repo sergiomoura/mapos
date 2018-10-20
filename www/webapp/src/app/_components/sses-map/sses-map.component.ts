@@ -10,10 +10,11 @@ import { TarefaService } from '../../_services/tarefa.service';
 import { FinalizarSseComponent } from "../../_components/finalizar-sse/finalizar-sse.component";
 import { EventsService } from '../../_services/events.service';
 import { Subscription } from 'rxjs';
-import { BuscadorComponent } from '../buscador/buscador.component';
 import { ListaFiltravelComponent } from '../lista-filtravel/lista-filtravel.component';
 import { AgmMarker, AgmMap, AgmInfoWindow } from '@agm/core';
 import { EquipesService } from '../../_services/equipes.service';
+import { ChavesDeBusca } from 'src/app/_models/chavesDeBusca';
+import { Busca, BuscaPadrao } from 'src/app/_models/busca';
 
 @Component({
 	selector: 'app-sses-map',
@@ -23,22 +24,23 @@ import { EquipesService } from '../../_services/equipes.service';
 export class SsesMapComponent implements OnInit,OnDestroy {
 
 	// ELEMENTOS DO TEMPLATE = = = = = = = = = = = = =
-	@ViewChild('buscador') buscador:BuscadorComponent;
 	@ViewChild('lista') lista:ListaFiltravelComponent;
 	@ViewChild('sidenav') sidenav:MatSidenav;
 	@ViewChild('mapa') mapa:AgmMap;
 	@ViewChildren(AgmMarker) markers:QueryList<AgmMarker>;
 
-	// PROPRIEDADES LOCAIS = = = = = = = = = = = = = =
-	sses:SSE[];
-	equipes:Equipe[];
-	initial_lat:number = -22.966;
-	initial_lng:number = -47.067;
-	initial_zoom:number = 12;
-	infoWindowAtual:AgmInfoWindow;
-	IRSSE:number = 300000; // Intervalo para recarregar sses: 5min
-	reload_sses_interval:number;
-	subscriptions:Subscription[] = [];
+	// PROPRIEDADES PRIVADAS = = = = = = = = = = = = = =
+	private equipes:Equipe[];
+	private IRSSE:number = 300000; // Intervalo para recarregar sses: 5min
+	private reload_sses_interval:number;
+	private subscriptions:Subscription[] = [];
+	
+	// PROPRIEDADES PUBLICAS = = = = = = = = = = = = = =
+	public sses:SSE[];
+	public infoWindowAtual:AgmInfoWindow;
+	public initial_lat:number = -22.966;
+	public initial_lng:number = -47.067;
+	public initial_zoom:number = 12;
 
 	// CONSTRUCTOR = = = = = = = = = = = = = = = = =
 	constructor(
@@ -52,9 +54,6 @@ export class SsesMapComponent implements OnInit,OnDestroy {
 	) {}
 
 	ngOnInit() {
-		
-		// Carregando equipes
-		this.getEquipes();
 		
 		// Iniciando o interval que recarrega sses
 		this.reload_sses_interval = window.setInterval(
@@ -78,6 +77,21 @@ export class SsesMapComponent implements OnInit,OnDestroy {
 			)
 		)
 
+		// Subscrevendo ao observavel de evento sses carregadas
+		this.subscriptions.push(
+			this.evtService.ssesCarregadas$.subscribe(
+				(sses) => {
+					this.onSsesCarregadas(<SSE[]>sses);
+				}
+			)
+		)
+
+		// Carregando sses;
+		this.getSses();
+
+		// Carregando equipes
+		this.getEquipes();
+
 	}
 
 	ngOnDestroy() {
@@ -91,42 +105,17 @@ export class SsesMapComponent implements OnInit,OnDestroy {
 	}
 
 	reloadSses(){
-		this.buscador.onBuscarClick();
+		console.log('tentando recarregar sses');
 	}
 
-	private getEquipes(){
-		this.equipesService.getEquipes().subscribe(
-			res => {
-				this.equipes = <Equipe[]>res;
-			},
-			err => {
-				// Exibindo snackbar de erro
-				this.snackBar
-				.open(
-					'Falha ao carregar Equipes',
-					'Fechar',
-					{
-						duration:0,
-						horizontalPosition:'left',
-						verticalPosition:'bottom',
-						panelClass: ['snackbar-error'],
-					}
-				);
-
-				// Imprimindo erro no console
-				console.warn(err);
-			}
-		)
-	}
-
-	onSsesCarregadas(evt:SSE[]){
+	onSsesCarregadas(sses:SSE[]){
 
 		// A infoWindow atual some e não fica undefined.
 		// Indefinindo na marra
 		this.infoWindowAtual = undefined;
 
 		// Passando as sses para atributo interno
-		this.sses = evt;
+		this.sses = sses;
 
 		// Passando as sses para a lista de sses
 		this.lista.sses = this.sses;
@@ -224,7 +213,7 @@ export class SsesMapComponent implements OnInit,OnDestroy {
 	onCancelarInicioClick(id_sse){
 		this.ssesService.cancelarInicio(id_sse).subscribe(
 			(res) => {
-				this.buscador.onBuscarClick();
+				this.reloadSses();
 			},
 			(err) => {
 				// Exibindo snackbar de erro
@@ -460,6 +449,74 @@ export class SsesMapComponent implements OnInit,OnDestroy {
 				}
 			}
 		);
+	}
+
+	private getSses(){
+		// Carregando busca do localStorage
+		let strBusca:string = localStorage.getItem(ChavesDeBusca.MAPA);
+
+		// Definindo busca
+		let busca:Busca;
+		if(strBusca){
+			busca = JSON.parse(strBusca);
+		} else {
+			busca = new BuscaPadrao();
+
+			this.equipesService.getEquipes().subscribe(
+				(equipes) => {
+					busca.equipes = equipes;
+				}
+			)
+		}
+
+		this.ssesService.getAll(busca).subscribe(
+			(sses) => {
+				this.sses = sses;
+			},
+			(err) => {
+				
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao tentar carregar sses',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+
+				// Imprimindo erro no console
+				console.warn(err)
+			}
+		)
+	}
+
+	private getEquipes(){
+		this.equipesService.getEquipes().subscribe(
+			(equipes) => {
+				this.equipes = equipes;
+			},
+			(err) => {
+				// Exibindo snackbar de erro
+				this.snackBar
+				.open(
+					'Falha ao carregar equipes',
+					'Fechar',
+					{
+						duration:0,
+						horizontalPosition:'left',
+						verticalPosition:'bottom',
+						panelClass: ['snackbar-error'],
+					}
+				);
+
+				// Imprimindo erro no console
+				console.warn(err);
+			}
+		)
 	}
 
 }

@@ -10,3 +10,13 @@ export interface Busca {
 	realizadas_ate? : Date,
 	id_fechamento?:number
 }
+
+export class BuscaPadrao implements Busca{
+	agendadas_ate: null;
+	agendadas_de: null;
+	realizadas_ate: null;
+	realizadas_de: null;
+	prioridades: [0,1,2];
+	status: ['CANCELADA','RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE','FINALIZADA'];
+	id_fechamento: null;
+}

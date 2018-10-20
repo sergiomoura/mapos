@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { EventsService } from '../../_services/events.service';
 import { SsesService } from 'src/app/_services/sses.service';
-import { Busca } from 'src/app/_models/busca';
+import { Busca, BuscaPadrao } from 'src/app/_models/busca';
 import { ChavesDeBusca } from 'src/app/_models/chavesDeBusca';
 import { EquipesService } from 'src/app/_services/equipes.service';
 import { MatSnackBar } from '@angular/material';
@@ -59,7 +59,7 @@ export class SsesGridComponent implements OnInit {
 		}
 	}
 	
-	getSses(){
+	private getSses(){
 		// Carregando busca do localStorage
 		let strBusca:string = localStorage.getItem(ChavesDeBusca.GRID);
 
@@ -68,15 +68,7 @@ export class SsesGridComponent implements OnInit {
 		if(strBusca){
 			busca = JSON.parse(strBusca);
 		} else {
-			busca = {
-				agendadas_ate: null,
-				agendadas_de: null,
-				realizadas_ate: null,
-				realizadas_de: null,
-				prioridades: [0,1,2],
-				status: ['CANCELADA','RETRABALHO','DIVERGENTE','CADASTRADA','AGENDADA','EXECUTANDO','PENDENTE','FINALIZADA'],
-				id_fechamento: null
-			}
+			busca = new BuscaPadrao();
 
 			this.equipesService.getEquipes().subscribe(
 				(equipes) => {
