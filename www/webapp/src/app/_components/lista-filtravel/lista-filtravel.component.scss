@@ -1,14 +1,12 @@
 .container{
-
-	padding: 5px;
-	border-top: 1px solid #DEDEDE;
-	margin-top: 5px;
-	height: calc(100% - 430px);
+	height: calc(100% - 25px);
 	input {
-		width: calc(100% - 11px);
+		width: calc(100% - 10px);
 		padding: 5px;
+		margin: 10px 0 0 0;
 		font-size: 16px;
-		border: 1px solid #DEDEDE;
+		border: none;
+		border-bottom:	1px solid #DEDEDE;
 		&:focus {
 			outline: none;
 		}
@@ -34,8 +32,7 @@
 			}
 
 			.numero{
-				font-size: 24px;
-				font-weight: bold;
+				font-size: 16px;
 				display: block;
 			}
 
