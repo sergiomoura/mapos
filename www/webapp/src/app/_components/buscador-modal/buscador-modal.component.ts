@@ -32,7 +32,7 @@ class ElementoSelecionavel {
 @Injectable({
 	providedIn: 'root'
 })
-class ParametrosDeBusca {
+export class ParametrosDeBusca {
 	
 	public equipesSelecionaveis:ElementoSelecionavel[] = [];
 	public prioridadesSelecionaveis:ElementoSelecionavel[] = [];
@@ -62,8 +62,6 @@ class ParametrosDeBusca {
 		if(strBusca) {
 			busca = <Busca>JSON.parse(strBusca);
 		}
-
-		
 
 		// Criando vetor de prioridades selecionaveis
 		for (let i in enum_prioridade) {
@@ -202,7 +200,7 @@ export class BuscadorModalComponent implements OnInit {
 		public dialogRef: MatDialogRef<BuscadorModalComponent>,
 		private ssesService:SsesService,
 		private snackBar:MatSnackBar,
-		private parametrosDeBusca:ParametrosDeBusca,
+		public parametrosDeBusca:ParametrosDeBusca,
 		private router:Router
 	) { }
 

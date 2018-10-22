@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { SSE } from '../_models/sse';
 import { Busca } from "../_models/busca";
 import { format } from "date-fns";
