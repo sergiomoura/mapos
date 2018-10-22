@@ -46,9 +46,26 @@
 		}
 		// Determinando condição sobre equipes requeridas
 		if(sizeof($equipes_requeridas) == 0) {
+
 			$cndEquipes = 'TRUE';
+
 		} else {
-			$cndEquipes = 'id_equipe=' . implode($equipes_requeridas, ' OR id_equipe=');
+			
+			$cndEquipes = 
+				implode(
+					array_map(
+						function($a){
+							if($a == 0) {
+								return 'id_equipe is null';
+							} else {
+								return 'id_equipe='.$a;
+							}
+						},
+						$equipes_requeridas
+					),
+					' OR '
+			);
+
 		}
 
 		// DETERMINANDO CONDIÇÕES DE PRIORIDADES = = = = = = = = = = = = = = = = = =
@@ -173,7 +190,6 @@
 			$sse->status *= 1;
 			$sse->urgencia *= 1;
 			$sse->finalizacao_parcial = ($sse->finalizacao_parcial === '1');
-
 		}
 
 		// Para cada SSE, recuperando as tarefas dela

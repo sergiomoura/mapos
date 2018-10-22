@@ -112,9 +112,22 @@ class ParametrosDeBusca {
 		}
 
 		// Criando vetor de equipes selecionáveis
-		equipesService.getEquipes().subscribe(
+		this.equipesService.getEquipes().subscribe(
 			(equipes) => {
-				
+				equipes.unshift(
+					{
+						id: 0,
+						ativa: true,
+						nome: 'Sem Agendamentos',
+						membros: [],
+						sigla: '',
+						tipo: {
+							id:0,
+							nome:''
+						},
+						lider:null
+					}
+				)
 				for (let i = 0; i < equipes.length; i++) {
 
 					let selecionado:boolean;
@@ -247,7 +260,7 @@ export class BuscadorModalComponent implements OnInit {
 
 		// Fechando dialogo
 		this.dialogRef.close(0);
-		
+
 	}
 
 	private buscar():void{
