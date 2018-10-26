@@ -17,6 +17,7 @@ import { EstoqueComponent } from "../_components/estoque/estoque.component";
 import { ProdutosComponent } from "../_components/produtos/produtos.component";
 import { MovimentosComponent } from '../_components/movimentos/movimentos.component';
 import { FechamentoComponent } from '../_components/fechamento/fechamento.component';
+import { ImportacaoComponent } from "../_components/importacao/importacao.component";
 
 const routes:Routes = [
 	{
@@ -39,6 +40,10 @@ const routes:Routes = [
 			{
 				path: 'fechamento',
 				component: FechamentoComponent,
+			},
+			{
+				path: 'importacao',
+				component: ImportacaoComponent
 			},
 			{
 				path: 'usuarios/:id',

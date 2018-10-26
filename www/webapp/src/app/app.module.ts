@@ -45,6 +45,7 @@ import { FechamentoComponent } from './_components/fechamento/fechamento.compone
 import { ImageViewerModule } from 'ngx-image-viewer';
 import { PtDateDirective } from './_directives/pt-date.directive';
 import { BuscadorModalComponent } from './_components/buscador-modal/buscador-modal.component';
+import { ImportacaoComponent } from './_components/importacao/importacao.component';
 @NgModule({
 	declarations: [
 		AppComponent,
@@ -77,7 +78,8 @@ import { BuscadorModalComponent } from './_components/buscador-modal/buscador-mo
 		FotoModalComponent,
 		FechamentoComponent,
 		PtDateDirective,
-		BuscadorModalComponent
+		BuscadorModalComponent,
+		ImportacaoComponent
 	],
 	imports: [
 		BrowserModule,
