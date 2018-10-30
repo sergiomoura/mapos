@@ -2,6 +2,8 @@
 
 	use Slim\Http\Request;
 	use Slim\Http\Response;
+	use PhpOffice\PhpSpreadsheet\Spreadsheet;
+	use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 	$app->get($api_root.'/sses',function(Request $req, Response $res, $args = []){
 		
@@ -2287,3 +2289,42 @@
 		$this->db->commit();
 		
 	});
+
+	$app->post($api_root.'/sses/importar', function(Request $req, Response $res, $args = []){
+		
+		// verificando se o arquivo veio
+		if(sizeof($_FILES) > 0){
+
+			// Lendo dados do arquivo
+			$arquivo = $_FILES['uploadFile']['tmp_name'];
+			$tipo = $_FILES['uploadFile']['type'];
+			$tamanho = $_FILES['uploadFile']['size'];
+			$nome = $_FILES['uploadFile']['name'];
+			$erro = $_FILES['uploadFile']['error'];
+
+			// Incluindo o leitor de xls
+			include(__DIR__ . '/../includes/LeitorDeXlsx.php');
+
+			// Criando o leitor
+			$leitor = new LeitorDeXls($arquivo);
+
+			// Lendo Sses do arquivo
+			$sses = $leitor->lerArquivoDeSses($arquivo);
+			
+			// Retornando resposta para usuário
+			return $res
+			->withStatus(200)
+			->withHeader('Content-Type','application/json')
+			->write(json_encode($sses));
+			
+		} else {
+
+			// Retornando erro para usuário
+			return $res
+			->withStatus(400)
+			->write('Arquivo não enviado ou com tamanho indevido.');
+
+		}
+				
+	});
+

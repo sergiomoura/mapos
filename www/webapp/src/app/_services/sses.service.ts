@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SSE } from '../_models/sse';
 import { Busca } from "../_models/busca";
@@ -12,6 +12,12 @@ import { Equipe } from '../_models/equipe';
 import { TipoDeServico } from '../_models/tipoDeServico';
 import { DomasasService } from './domasas.service';
 import { Bairro } from '../_models/bairro';
+
+interface ImportarResponse {
+	linha:number;
+	numero:number;
+	desc:string;
+}
 
 @Injectable({
 	providedIn: 'root'
@@ -30,6 +36,7 @@ export class SsesService {
 	private url_updateSses:string = '/maxse/api/sses';
 	private url_createSses:string = '/maxse/api/sses';
 	private url_getSsesXls:string = '/maxse/api/sses/xls';
+	private url_importar:string = '/maxse/api/sses/importar';
 
 	constructor(
 		private http:HttpClient,
@@ -294,6 +301,16 @@ export class SsesService {
 
 		}
 		
+	}
+
+	importar(file:File):Observable<ImportarResponse[]>{
+		let formData:FormData = new FormData();
+		formData.append('uploadFile', file, file.name);
+		let headers = new HttpHeaders();
+		headers.append('Content-Type', 'multipart/form-data');
+		headers.append('Accept', 'application/json');
+		return this.http.post<ImportarResponse[]>(`${this.url_importar}`, formData, { headers: headers })
+			
 	}
 
 }

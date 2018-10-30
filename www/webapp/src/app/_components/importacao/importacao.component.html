@@ -1,8 +1,8 @@
 <div class="form-container">
 	<div class="title">Importação de Arquivo (.xlsx)</div>
-	<input #inputFile type="file" name="file" id="file">
-	<button class="selecionar" mat-raised-button color="primary">Selecionar Arquivo</button>
-	<button class="enviar"     mat-raised-button color="accent">Enviar</button>
+	<input #inputFile type="file" name="file" id="file" (change)="fileChange($event)">
+	<button class="selecionar" (click)="inputFile.click()" mat-raised-button color="primary">Selecionar Arquivo</button>
+	<button class="enviar"      mat-raised-button color="accent">Enviar</button>
 </div>
 
 <table>
