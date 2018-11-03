@@ -2308,14 +2308,24 @@
 			// Criando o leitor
 			$leitor = new LeitorDeXls($arquivo);
 
-			// Lendo Sses do arquivo
-			$sses = $leitor->lerArquivoDeSses($arquivo);
+			// Lendo resultados de leitura do arquivo
+			$resultados = $leitor->lerArquivoDeSses($arquivo);
 			
+			// Tratando resultado para enviar resposta para usuário
+			$resposta = array_map(function($r){
+				$o = new stdClass();
+				$o->linha = $r->linha;
+				$o->msgs = $r->msgs;
+				$o->numero = ($r->sse ? $r->sse->numero : null);
+
+				return $o;
+			},$resultados);
+
 			// Retornando resposta para usuário
 			return $res
 			->withStatus(200)
 			->withHeader('Content-Type','application/json')
-			->write(json_encode($sses));
+			->write(json_encode($resposta));
 			
 		} else {
 
