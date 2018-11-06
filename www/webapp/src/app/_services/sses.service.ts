@@ -13,10 +13,10 @@ import { TipoDeServico } from '../_models/tipoDeServico';
 import { DomasasService } from './domasas.service';
 import { Bairro } from '../_models/bairro';
 
-interface ImportarResponse {
+export interface ImportarResponse {
 	linha:number;
-	numero:number;
-	desc:string;
+	numero?:number;
+	msgs:string[];
 }
 
 @Injectable({

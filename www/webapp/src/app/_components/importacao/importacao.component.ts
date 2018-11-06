@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SsesService } from 'src/app/_services/sses.service';
+import { ImportarResponse, SsesService } from 'src/app/_services/sses.service';
 
 @Component({
 	selector: 'app-importacao',
@@ -10,9 +9,8 @@ import { SsesService } from 'src/app/_services/sses.service';
 export class ImportacaoComponent implements OnInit {
 	
 	// Publicas
-	filename:string = undefined;
-	filesize:number = undefined;
-	apiEndpoint:string = 'teste';
+	file:File;
+	resultados:ImportarResponse[];
 	constructor(
 		private ssesService:SsesService
 	) { }
@@ -23,10 +21,23 @@ export class ImportacaoComponent implements OnInit {
 	fileChange(evt:any) {
 		let fileList: FileList = evt.target.files;
 		if(fileList.length > 0) {
-			let file: File = fileList[0];
-			this.ssesService.importar(file).subscribe(
-				data => console.log(data),
-				error => console.log(error)
+			this.file = fileList[0];
+		}
+	}
+
+	onEnviarClick(){
+		this.sendFile();
+	}
+
+	private sendFile(){
+		if(this.file){
+			this.ssesService.importar(this.file).subscribe(
+				(data) => {
+					this.resultados = data;
+				},
+				(error) => {
+					console.log(error)
+				}
 			)
 		}
 	}

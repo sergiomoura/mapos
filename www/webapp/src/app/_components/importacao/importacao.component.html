@@ -2,10 +2,10 @@
 	<div class="title">Importação de Arquivo (.xlsx)</div>
 	<input #inputFile type="file" name="file" id="file" (change)="fileChange($event)">
 	<button class="selecionar" (click)="inputFile.click()" mat-raised-button color="primary">Selecionar Arquivo</button>
-	<button class="enviar"      mat-raised-button color="accent">Enviar</button>
+	<button class="enviar"     (click)="onEnviarClick()" mat-raised-button color="accent" [disabled]="!file">Enviar</button>
 </div>
-
-<table>
+<div class="file">Arquivo selecionado: {{file ? file.name : 'Nenhum'}}</div>
+<table *ngIf="resultados">
 	<thead>
 		<tr>
 			<td>Linha</td>
@@ -14,40 +14,19 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
-		</tr>
-		<tr>
-			<td>1</td>
-			<td>2</td>
-			<td>3</td>
+		<tr *ngFor="let r of resultados">
+			<td>{{r.linha}}</td>
+			<td>{{r.numero}}</td>
+			<td>
+				<ul *ngIf="r.msgs.length > 0">
+					<li *ngFor="let m of r.msgs">
+						{{m}}
+					</li>
+				</ul>
+				<ul *ngIf="r.msgs.length == 0">
+					<li>Ok</li>
+				</ul>
+			</td>
 		</tr>
 	</tbody>
 </table>
