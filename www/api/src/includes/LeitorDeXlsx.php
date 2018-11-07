@@ -292,4 +292,8 @@ class LeitorDeXls {
 
 	}
 
+	public function salvarSSEs($sses){
+
+	}
+
 }
