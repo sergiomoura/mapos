@@ -2304,12 +2304,28 @@
 
 			// Incluindo o leitor de xls
 			include(__DIR__ . '/../includes/LeitorDeXlsx.php');
+			include(__DIR__ . '/../includes/SSE.php');
 
 			// Criando o leitor
 			$leitor = new LeitorDeXls($arquivo);
 
 			// Lendo resultados de leitura do arquivo
 			$resultados = $leitor->lerArquivoDeSses($arquivo);
+
+			// Salvando resultados na base
+			foreach ($resultados as $r) {
+				if($r->sse){
+					$sse = new SSE($r->sse);
+					try{
+						$sse->salvar($this->db);
+					} catch(Exception $e) {
+						$m = 'Falha ao tentar salvar a SSE da linha ';
+						$m .= $r->linha.' na base: ';
+						$m .= $e->getMessage();
+						array_push($r->msgs,$m); 
+					}
+				}
+			}
 			
 			// Tratando resultado para enviar resposta para usuário
 			$resposta = array_map(function($r){

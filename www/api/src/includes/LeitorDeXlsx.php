@@ -17,7 +17,9 @@ class LeitorDeXls {
 	private $col_prioridade = 'N';
 	private $hora_recebimento = 10;
 	private $sheet;
-	private $tdss = array('37','4B','52','54','56','58','88','FR','NV');
+	private $tdss;
+	private	$bairros;
+	private $db;
 
 	public function __construct($arquivo){
 
@@ -26,6 +28,39 @@ class LeitorDeXls {
 		
 		// Carregando planilha do workbook
 		$this->sheet = $spreadsheet->getActiveSheet();
+
+		// Criando conexão com banco de dados para levantar informações
+		if($_SERVER['SERVER_NAME'] == 'localhost'){
+			$db_settings = [
+				'host' => 'localhost',
+            	'user' => 'root',
+            	'dbname' => 'maxse000',
+				'pass' => 'vaiplaneta'
+			];
+		} else {
+			$db_settings = [
+				'host' => 'mysql01-farm61.uni5.net',
+				'user' => 'acasamax01',
+				'dbname' => 'acasamax01',
+				'pass' => 'cax10201520'
+			];
+		}
+		
+		$this->db = new PDO('mysql:host=' . $db_settings['host'] . ';dbname=' . $db_settings['dbname'] . ';charset=utf8', $db_settings['user'], $db_settings['pass']);
+		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+
+		// Construindo vetor de tdss;
+		$sql = 'SELECT id,codigo FROM maxse_tipos_de_servico';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		$this->tdss = $stmt->fetchAll();
+
+		// Construindo vetor de tdss;
+		$sql = 'SELECT id,codigo FROM maxse_bairros';
+		$stmt = $this->db->prepare($sql);
+		$stmt->execute();
+		$this->bairros = $stmt->fetchAll();
 
 	}
 
@@ -81,18 +116,29 @@ class LeitorDeXls {
 
 	}
 
-	private function lerIdBairro(int $linha){
+	private function lerBairro(int $linha){
 		
 		// Levantando conteúdo da célula
-		$id_bairro = $this->cell($this->col_id_bairro.$linha)->getValue();
+		$cod_bairro = $this->cell($this->col_id_bairro.$linha)->getValue();
 
 		// Validando conteúdo da célula
-		if(!is_numeric($id_bairro)) {
+		if(!is_numeric($cod_bairro)) {
 			throw new Exception("Falha ao ler campo ID Bairro na linha $linha", 1);
 		}
 
-		// Retornando o id do bairro
-		return 1*$id_bairro;
+		// Verificando se é um tds válido
+		$ok = false;
+		$i = 0;
+		while(!$ok && $i < sizeof($this->bairros)){
+			$ok = ($this->bairros[$i]->codigo == $cod_bairro);
+			$i++;
+		}
+		if (!$ok) {
+			throw new Exception("Bairro inexistente na SSE da linha $linha", 1);
+		} else {
+			return $this->bairros[$i - 1];
+		}
+
 	}
 
 	private function lerObs(int $linha){
@@ -110,17 +156,23 @@ class LeitorDeXls {
 		// Levantando conteúdo da célula
 		$tds = $this->cell($this->col_tds.$linha)->getValue();
 
-		// Validando o tds lifo da planilha
+		// Validando o tds lido da planilha
 		if($tds == '' || is_null($tds)) {
 			throw new Exception("Falha ao tratar campo de Tipo de Serviço da linha $linha", 1);
 		}
 
-		if (!in_array($tds, $this->tdss)) {
-			throw new Exception("Tipo de Serviço inválido da linha $linha", 1);
+		// Verificando se é um tds válido
+		$ok = false;
+		$i = 0;
+		while(!$ok && $i < sizeof($this->tdss)){
+			$ok = ($this->tdss[$i]->codigo == $tds);
+			$i++;
 		}
-
-		// Retornando o tds
-		return $tds;
+		if (!$ok) {
+			throw new Exception("Tipo de Serviço inválido da linha $linha", 1);
+		} else {
+			return $this->tdss[$i - 1];
+		}
 
 	}
 
@@ -217,7 +269,7 @@ class LeitorDeXls {
 
 			// Gravando id do Bairro  - - - - - - - - - - 
 			try {
-				$sse->id_bairro = $this->lerIdBairro($linha);
+				$sse->bairro = $this->lerBairro($linha);
 			} catch(Exception $e) {
 				array_push($resultado->msgs,$e->getMessage());
 			}
