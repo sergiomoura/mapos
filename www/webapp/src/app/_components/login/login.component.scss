@@ -1,13 +1,13 @@
 @import '~@angular/material/theming';
 @import '../../../custom.scss';
 
-$warn: map-get($maxse-theme, warn);
+$warn: map-get($mapos-theme, warn);
 
 :host(){
 
     @include mat-elevation(2);
     display: block;
-    width: 360px;
+    width: 210px;
     height: 270px;
     padding: 40px 40px 100px 40px;
     background-color: #FFF;
@@ -21,18 +21,13 @@ $warn: map-get($maxse-theme, warn);
     }
 
     .entrar{
-        position: absolute;
-        right: 40px;
-        bottom: 40px;
-        width: 160px;
+        width: 100%;
     }
 
     .esqueci{
-        position: absolute;
-        left: 40px;
-        bottom: 40px;
         font-size: 12px;
-        width: 160px;
+        width: 100%;
+        margin: 10px 0 0 0;
     }
 
     img {

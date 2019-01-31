@@ -1,9 +1,9 @@
 @import '~@angular/material/theming';
 @import './custom.scss';
 
-$warn: map-get($maxse-theme, warn);
-$primary: map-get($maxse-theme, primary);
-$accent: map-get($maxse-theme, accent);
+$warn: map-get($mapos-theme, warn);
+$primary: map-get($mapos-theme, primary);
+$accent: map-get($mapos-theme, accent);
 
 * {font-family: 'Poppins', sans-serif}
 
